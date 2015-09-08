@@ -1,0 +1,30 @@
+name: envy
+description: Graphics.
+version: 0.1.0
+environment:
+  sdk: ">=1.12.0 <=2.0.0"
+dependencies:
+  browser: "^0.10.0"
+  collection: "^1.1.2"
+  core_elements: "^0.7.0"
+  paper_elements: "^0.7.0"
+  polymer: "^0.16.0"
+  quantity:
+   path: ../quantity
+  vector_math: "^1.4.3"
+dev_dependencies:
+  test: "^0.12.4"
+transformers:
+- polymer:
+    entry_points:
+    - web/envy.html
+    - test/html/test_annular_section2d.html
+    - test/html/test_circle2d.html
+    - test/html/test_div_node.html
+    - test/html/test_html_node_population.html
+    - test/html/test_image2d.html
+    - test/html/test_rect2d.html
+    - test/html/test_path2d.html
+    - test/html/test_star2d.html
+    - test/html/test_text2d.html
+    - test/html/test_triangle2d.html

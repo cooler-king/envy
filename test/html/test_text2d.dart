@@ -1,0 +1,257 @@
+import 'dart:async';
+import 'dart:html';
+import 'package:polymer/polymer.dart';
+import 'package:envy/envy.dart';
+import 'package:quantity/quantity.dart';
+
+void main() {
+  initPolymer().then((Zone zone) {
+    zone.run(() {
+      Polymer.onReady.then((_) {
+        // Code that executes after elements have been upgraded.
+        _init();
+      });
+    });
+  });
+}
+
+void _init() {
+  testBasic();
+  testFontVariations();
+  testRotation();
+  testAnchors();
+  testLifecycle();
+  testHit();
+}
+
+void testBasic() {
+  EnvyDiv e = querySelector("#text2d-basic") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 100);
+  esg.attachToRoot(canvas);
+
+  // Text
+  Text2d s = new Text2d();
+  canvas.attach(s);
+
+  s.text.enter = new StringConstant.array(["abc", "def", "xyz"]);
+  s.x.enter = new NumberConstant.array([75, 225, 375]);
+  s.y.enter = new NumberConstant.array([55]);
+  s.font.enter = new FontConstant(new Font(
+      family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(16)), weight: FontWeight.bold));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+
+  esg.updateGraph();
+}
+
+void testFontVariations() {
+  EnvyDiv e = querySelector("#text2d-fonts") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 100);
+  esg.attachToRoot(canvas);
+
+  // Text
+  Text2d s = new Text2d();
+  canvas.attach(s);
+
+  s.text.enter = new StringConstant("Abcd");
+  s.x.enter = new NumberConstant.array([75, 225, 375, 525, 675, 825]);
+  s.y.enter = new NumberConstant.array([55]);
+  s.font.enter = new FontConstant.array([
+    new Font(family: FontFamily.sansSerif, size: new FontSize.px(20), weight: FontWeight.bold, style: FontStyle.normal),
+    new Font(family: FontFamily.serif, size: new FontSize.px(12), weight: FontWeight.normal, style: FontStyle.italic),
+    new Font(
+        family: FontFamily.monospace, size: new FontSize.px(14), weight: FontWeight.normal, style: FontStyle.normal),
+    new Font(family: FontFamily.cursive, size: new FontSize.px(14), weight: FontWeight.bolder, style: FontStyle.normal),
+    new Font(
+        family: new FontFamily.custom("Ubuntu Mono"),
+        size: new FontSize.px(28),
+        weight: FontWeight.bold,
+        style: FontStyle.normal),
+    new Font(family: FontFamily.fantasy, size: new FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique)
+  ]);
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+
+  esg.updateGraph();
+}
+
+void testRotation() {
+  EnvyDiv e = querySelector("#text2d-rotation") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 100);
+  esg.attachToRoot(canvas);
+
+  // Text
+  Text2d s = new Text2d();
+  canvas.attach(s);
+
+  s.text.enter = new StringConstant("12345");
+  s.x.enter = new NumberConstant.array([50, 100, 150, 200, 250]);
+  s.y.enter = new NumberConstant(50);
+  s.rotation.enter = new AngleConstant.array(
+      [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+
+  esg.updateGraph();
+}
+
+void testAnchors() {
+  EnvyDiv e = querySelector("#text2d-anchors") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 200);
+  esg.attachToRoot(canvas);
+
+  Text2d s = new Text2d();
+  canvas.attach(s);
+
+  List<num> xList = [50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+
+  s.text.enter = new StringConstant("yXy");
+  s.x.enter = new NumberConstant.array(xList);
+  s.y.enter = new NumberConstant(100);
+  s.font.enter = new FontConstant(new Font(
+      family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(14)), weight: FontWeight.bold));
+  s.lineWidth.enter = new NumberConstant(1);
+  s.rotation.enter = new AngleConstant(new Angle(deg: 0));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.anchor.enter = new Anchor2dConstant.array([
+    new Anchor2d(mode: AnchorMode2d.DEFAULT),
+    new Anchor2d(mode: AnchorMode2d.CENTER),
+    new Anchor2d(mode: AnchorMode2d.BOTTOM),
+    new Anchor2d(mode: AnchorMode2d.BOTTOM_LEFT),
+    new Anchor2d(mode: AnchorMode2d.BOTTOM_RIGHT),
+    new Anchor2d(mode: AnchorMode2d.LEFT),
+    new Anchor2d(mode: AnchorMode2d.RIGHT),
+    new Anchor2d(mode: AnchorMode2d.TOP),
+    new Anchor2d(mode: AnchorMode2d.TOP_LEFT),
+    new Anchor2d(mode: AnchorMode2d.TOP_RIGHT)
+  ]);
+
+  // Circles to mark the anchors
+  Circle2d c = new Circle2d();
+  canvas.attach(c);
+  c.x.enter = new NumberConstant.array(xList);
+  c.y.enter = new NumberConstant(100);
+  c.radius.enter = new NumberConstant(2);
+  c.lineWidth.enter = new NumberConstant(1);
+  c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+  c.stroke.enter = new BooleanConstant(false);
+
+  esg.updateGraph();
+}
+
+void testLifecycle() {
+  EnvyDiv e = querySelector("#lifecycle") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode();
+  esg.attachToRoot(canvas);
+  Text2d t = new Text2d();
+  canvas.attach(t);
+
+  ButtonElement enterButton = querySelector("#enter-button");
+  enterButton.onClick.listen((_) {
+    t.text.enter = new StringConstant("qwerty");
+    t.x.enter = new NumberConstant.array([75]);
+    t.y.enter = new NumberConstant.array([55]);
+    t.font.enter = new FontConstant(new Font(
+        family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(16)), weight: FontWeight.bold));
+    t.rotation.enter = new AngleConstant(new Angle(deg: 0));
+    t.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+    t.opacity.enter = new NumberConstant(0.3);
+
+    t.text.update = null;
+    t.x.update = null;
+    t.y.update = null;
+    t.font.update = null;
+    t.rotation.update = null;
+    t.fillStyle.update = null;
+    t.opacity.update = null;
+
+    esg.updateGraph();
+  });
+
+  ButtonElement updateButton = querySelector("#update-button");
+  updateButton.onClick.listen((_) {
+    t.text.enter = new StringConstant("qwerty");
+    t.x.enter = new NumberConstant(50);
+    t.y.enter = new NumberConstant(50);
+    t.font.enter = new FontConstant(new Font(
+        family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(12)), weight: FontWeight.normal));
+    t.rotation.enter = new AngleConstant(new Angle(deg: 0));
+    t.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+    t.opacity.enter = new NumberConstant(1);
+
+    t.text.update = new StringConstant("qwerty2");
+    t.x.update = new NumberConstant(200);
+    t.y.update = new NumberConstant(100);
+    t.font.update = new FontConstant(new Font(
+        family: FontFamily.cursive, size: new FontSize.cssLength(new CssLength.pt(20)), weight: FontWeight.bold));
+    t.rotation.update = new AngleConstant(new Angle(deg: 720));
+    t.fillStyle.update = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+    t.opacity.update = new NumberConstant(1);
+    esg.updateGraph();
+  });
+
+  ButtonElement exitButton = querySelector("#exit-button");
+  exitButton.onClick.listen((_) {
+    t.text.exit = new StringConstant("qwertybye");
+    t.x.exit = new NumberConstant(400);
+    t.y.exit = new NumberConstant(10);
+    t.rotation.exit = new AngleConstant(new Angle(deg: 0));
+    t.fillStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GRAY_555));
+    t.opacity.exit = new NumberConstant(0);
+
+    t.text.enter = null;
+    t.x.enter = null;
+    t.y.enter = null;
+    t.rotation.enter = null;
+    t.font.enter = null;
+    t.fillStyle.enter = null;
+    t.opacity.enter = null;
+
+    t.text.update = null;
+    t.x.update = null;
+    t.y.update = null;
+    t.rotation.update = null;
+    t.font.update = null;
+    t.fillStyle.update = null;
+    t.opacity.update = null;
+
+    esg.updateGraph();
+  });
+}
+
+void testHit() {
+  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 500);
+  esg.attachToRoot(canvas);
+
+  Text2d s = new Text2d();
+  canvas.attach(s);
+
+  s.x.enter = new NumberConstant.array([50, 150, 250, 350, 360]);
+  s.y.enter = new NumberConstant(50);
+  s.text.enter = new StringConstant.array(["abc", "def", "xyz", "pdq", "omg"]);
+  s.font.enter = new FontConstant(new Font(
+      family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(16)), weight: FontWeight.bold));
+  s.rotation.enter = new AngleConstant.array(
+      [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+  s.fill.enter = BooleanConstant.TRUE;
+  s.fillStyle.enter = new DrawingStyle2dConstant.array([
+    new DrawingStyle2d(color: Color.BLUE),
+    new DrawingStyle2d(color: Color.BLUE),
+    new DrawingStyle2d(color: Color.BLUE),
+    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.RED)
+  ]);
+
+  s.onClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
+  s.onDoubleClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
+  s.onMouseOut.listen((g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+
+  esg.updateGraph();
+}
