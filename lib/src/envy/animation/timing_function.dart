@@ -25,12 +25,12 @@ class CubicBezierCurve extends TimingFunction {
   static final CubicBezierCurve easeOut = new CubicBezierCurve(0, 0, 0.58, 1);
   static final CubicBezierCurve easeInOut = new CubicBezierCurve(0.42, 0, 0.58, 1);
 
-  final num p1;
-  final num p2;
-  final num p3;
-  final num p4;
+  final num cpx1;
+  final num cpy1;
+  final num cpx2;
+  final num cpy2;
 
-  CubicBezierCurve(this.p1, this.p2, this.p3, this.p4);
+  CubicBezierCurve(this.cpx1, this.cpy1, this.cpx2, this.cpy2);
 
   num output(num input) {
     num inputSquared = input * input;
@@ -39,10 +39,16 @@ class CubicBezierCurve extends TimingFunction {
     num oneMinusInputSquared = oneMinusInput * oneMinusInput;
     num oneMinusInputCubed = oneMinusInputSquared * oneMinusInput;
 
-    return p1 * oneMinusInputCubed +
-        3 * p2 * oneMinusInputSquared * input +
-        3 * p3 * oneMinusInput * inputSquared +
-        p4 * inputCubed;
+    num c = 3 * cpy1;
+    num b = 3 * (cpy2 - cpy1) - c;
+    num a = 1 - c - b;
+
+    return a * inputCubed + b * inputSquared + c * input;
+
+    //return p1 * oneMinusInputCubed +
+    //    3 * c1 * oneMinusInputSquared * input +
+    //    3 * c2 * oneMinusInput * inputSquared +
+    //    p2 * inputCubed;
   }
 }
 

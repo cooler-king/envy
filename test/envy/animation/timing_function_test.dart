@@ -78,5 +78,16 @@ main() {
         expect(steps.output(1), 1);
       });
     });
+
+    group('Cubic Bezier Functions', () {
+      test('end', () {
+        CubicBezierCurve curve = CubicBezierCurve.easeInOut;
+        expect(curve.output(0), 0);
+        expect(curve.output(0.25) < 0.25, true);
+        expect(curve.output(0.5), 0.5);
+        expect(curve.output(0.75) > 0.75, true);
+        expect(curve.output(1), 1);
+      });
+    });
   });
 }
