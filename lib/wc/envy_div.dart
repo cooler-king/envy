@@ -8,7 +8,7 @@ import 'package:envy/envy.dart';
 class EnvyDiv extends PolymerElement {
   String spec;
 
-  EnvySceneGraph sceneGraph = new EnvySceneGraph();
+  final EnvySceneGraph _sceneGraph = new EnvySceneGraph();
 
   EnvyDiv.created() : super.created() {
     //print("Envy div CREATED");
@@ -27,4 +27,6 @@ class EnvyDiv extends PolymerElement {
     super.detached();
     //print("Envy div DETACHED");
   }
+
+  EnvySceneGraph get sceneGraph => _sceneGraph;
 }
