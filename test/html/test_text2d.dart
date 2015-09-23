@@ -55,7 +55,7 @@ void testFontVariations() {
   canvas.attach(s);
 
   s.text.enter = new StringConstant("Abcd");
-  s.x.enter = new NumberConstant.array([75, 225, 375, 525, 675, 825]);
+  s.x.enter = new NumberConstant.array([75, 225, 375, 525, 675, 825, 975]);
   s.y.enter = new NumberConstant.array([55]);
   s.font.enter = new FontConstant.array([
     new Font(family: FontFamily.sansSerif, size: new FontSize.px(20), weight: FontWeight.bold, style: FontStyle.normal),
@@ -68,7 +68,9 @@ void testFontVariations() {
         size: new FontSize.px(28),
         weight: FontWeight.bold,
         style: FontStyle.normal),
-    new Font(family: FontFamily.fantasy, size: new FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique)
+    new Font(
+        family: FontFamily.fantasy, size: new FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique),
+    new Font(size: new FontSize.px(30), weight: FontWeight.bold, style: FontStyle.oblique)
   ]);
   s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
 

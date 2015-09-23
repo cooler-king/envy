@@ -37,6 +37,9 @@ class Font implements CssAdapter {
       } else {
         buf.write(family.css);
       }
+    } else {
+      // default to sans-serif
+      buf.write("sans-serif");
     }
     return buf.toString();
   }
