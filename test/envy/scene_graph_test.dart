@@ -41,7 +41,8 @@ main() {
       EnvySceneGraph esg = new EnvySceneGraph();
       CanvasNode canvas = new CanvasNode();
       esg.attachToRoot(canvas);
-      expect(esg.root.children.first, canvas);
+      expect(esg.root.children.first is AnimationGroup, true);
+      expect((esg.root.children.first as AnimationGroup).children.first, canvas);
       Rect2d rect = new Rect2d();
       canvas.attach(rect);
       expect((esg.root.rootAnimation.children.first as GroupNode).children.first, rect);

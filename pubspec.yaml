@@ -1,16 +1,18 @@
 name: envy
 description: Graphics.
-version: 0.1.0
+version: 0.0.1
+author: Rob Bishop (cooler-king)
+homepage: https://github.com/cooler-king/envy
+documentation: https://github.com/cooler-king/envy/wiki
 environment:
   sdk: ">=1.12.0 <=2.0.0"
 dependencies:
   browser: "^0.10.0"
-  collection: "^1.1.2"
+  collection: "^1.1.3"
   core_elements: "^0.7.0"
   paper_elements: "^0.7.0"
   polymer: "^0.16.0"
-  quantity:
-   path: ../quantity
+  quantity: "^0.1.0"
   vector_math: "^1.4.3"
 dev_dependencies:
   test: "^0.12.4"
