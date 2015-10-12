@@ -3,15 +3,9 @@ import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
 
-void main() {
-  initPolymer().then((Zone zone) {
-    zone.run(() {
-      Polymer.onReady.then((_) {
-        // Code that executes after elements have been upgraded.
-        _init();
-      });
-    });
-  });
+main() async {
+  await initPolymer();
+  _init();
 }
 
 void _init() {

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="envy.css">
     
     <!-- Polymer -->
-    <link rel="import" href="packages/polymer/polymer.html">
+    <script src="packages/web_components/webcomponents-lite.min.js"></script>
     
     <!-- Import the Envy div element -->
     <link rel="import" href="packages/envy/wc/envy_div.html">
@@ -18,9 +18,10 @@
     <p>Test Envy Visualization!</p>
     
     <div id="vis-container" style="height:500px;">
-      <envy-div id="envy"  style="height:500px;"></envy-div>
+      <envy-div id="envy"  style="width:500px; height:500px;"></envy-div>
     </div>
 
-    <script type="application/dart" src="envy.dart"></script>
+    <script type="application/dart">export 'package:polymer/init.dart';</script>
+    <script src="packages/browser/dart.js"></script>
   </body>
 </html>

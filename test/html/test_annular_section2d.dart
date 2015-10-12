@@ -2,8 +2,10 @@ import 'dart:async';
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
+import 'package:envy/wc/envy_div.dart';
 import 'package:quantity/quantity.dart';
 
+/*
 void main() {
   initPolymer().then((Zone zone) {
     zone.run(() {
@@ -13,9 +15,17 @@ void main() {
       });
     });
   });
+}*/
+
+main() async {
+  print("initializing Polymer");
+  await initPolymer();
+  print("Polymer initialized");
+  Timer.run(() => _init());
 }
 
 void _init() {
+  print("annular section _init()");
   testBasic();
   testRotation();
   testCircle();
@@ -26,7 +36,7 @@ void _init() {
 }
 
 void testBasic() {
-  EnvyDiv e = querySelector("#basic") as EnvyDiv;
+  EnvyDiv e = document.querySelector("#basic") as EnvyDiv;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);

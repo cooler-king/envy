@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <!-- The parent element of an envy-div should have a relative or absolute position 
      and manage its own height -->
-<polymer-element name="envy-div">
+<dom-module id="envy-div">
+  <style>
+    :host {
+      position: relative;
+      display: flex;
+      flex-grow: 1;
+    }
+  </style>
   <template>
-    <style>
-      :host {
-        position: relative;
-        display: flex;
-        flex-grow: 1;
-      }
-    </style>
     <content></content>
   </template>
-</polymer-element>
+</dom-module>
  

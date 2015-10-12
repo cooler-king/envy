@@ -5,7 +5,6 @@ import 'dart:html';
 import 'dart:collection';
 import 'dart:math' as Math;
 import 'package:logging/logging.dart';
-import 'package:observe/observe.dart';
 import 'package:quantity/quantity.dart';
 import 'package:quantity/quantity_ext.dart' show angle0, angle90, angle180, angle270;
 import 'package:quantity/quantity_range.dart';

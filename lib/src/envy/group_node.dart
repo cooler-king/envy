@@ -4,10 +4,14 @@ part of envy;
 /// no other state and no rendered component.
 ///
 class GroupNode extends EnvyNode {
-  @observable
-  final ObservableList<EnvyNode> children = new ObservableList.from([]);
+  //@observable
+  //final ObservableList<EnvyNode> children = new ObservableList.from([]);
+
+  // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
+  final List<EnvyNode> children = new List.from([]);
 
   GroupNode() {
+    /*
     // Listen for changes to list of children and manage parent references
     children.listChanges.listen((List<ListChangeRecord> changes) {
       //print("GroupNode received children changes...");
@@ -39,7 +43,7 @@ class GroupNode extends EnvyNode {
           }
         }
       }
-    });
+    });*/
   }
 
   /// Subclasses must override to execute any updates prior to child updates
@@ -116,6 +120,8 @@ class GroupNode extends EnvyNode {
     } else {
       children.insert(index, node);
     }
+    node.parent = this;
+    node._prepareForAnimation();
     return true;
   }
 
@@ -125,5 +131,10 @@ class GroupNode extends EnvyNode {
   /// nodes that are not in the current child list cannot be removed and
   /// return false.
   ///
-  bool detach(EnvyNode node) => (node == null) ? false : children.remove(node);
+  bool detach(EnvyNode node) {
+    if (node == null) return false;
+    bool tf = children.remove(node);
+    node.parent = null;
+    return tf;
+  }
 }

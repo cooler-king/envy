@@ -2,9 +2,10 @@
 library envy_element;
 
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart' show HtmlImport;
 import 'package:envy/envy.dart';
 
-@CustomTag("envy-div")
+@PolymerRegister("envy-div")
 class EnvyDiv extends PolymerElement {
   String spec;
 

@@ -3,6 +3,7 @@ library envy_resize_detector_lib;
 
 import 'dart:html';
 import 'package:polymer/polymer.dart';
+import 'package:web_components/web_components.dart' show HtmlImport;
 
 List<EnvyResizeDetector> _detectors = [];
 
@@ -13,7 +14,7 @@ void _processFrame() {
     _looping = false;
     return;
   }
-  for (EnvyResizeDetector detector in _detectors) {
+  for (var detector in _detectors) {
     if (detector.clientWidth != detector._prevWidth || detector.clientHeight != detector._prevHeight) {
       detector._prevWidth = detector.clientWidth;
       detector._prevHeight = detector.clientHeight;
@@ -31,7 +32,7 @@ void _processFrame() {
 /// The parent element must have a position attribute set (e.g., relative
 /// or absolute).
 ///
-@CustomTag('envy-resize-detector')
+@PolymerRegister('envy-resize-detector')
 class EnvyResizeDetector extends PolymerElement {
   num _prevWidth = 0;
   num _prevHeight = 0;
@@ -40,8 +41,6 @@ class EnvyResizeDetector extends PolymerElement {
 
   EnvyResizeDetector.created() : super.created();
 
-  ShadowRoot get shroot => this.shadowRoots['envy-resize-detector'];
-
   num get width => _prevWidth;
 
   num get height => _prevHeight;
@@ -49,18 +48,11 @@ class EnvyResizeDetector extends PolymerElement {
   @override
   void attached() {
     super.attached();
-  }
 
-  @override
-  void domReady() {
-    super.domReady();
-
-    _detectors.add(this);
+    if (!_detectors.contains(this)) _detectors.add(this);
 
     // Make sure animation loop is going
-    if (!_looping) {
-      window.requestAnimationFrame((_) => _processFrame());
-    }
+    if (!_looping) window.requestAnimationFrame((_) => _processFrame());
   }
 
   @override

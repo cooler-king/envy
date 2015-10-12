@@ -1,5 +1,5 @@
 name: envy
-description: Graphics.
+description: An experimental information visualization framework.
 version: 0.0.1
 author: Rob Bishop (cooler-king)
 homepage: https://github.com/cooler-king/envy
@@ -9,24 +9,38 @@ environment:
 dependencies:
   browser: "^0.10.0"
   collection: "^1.1.3"
-  core_elements: "^0.7.0"
-  paper_elements: "^0.7.0"
-  polymer: "^0.16.0"
+  polymer: "1.0.0-rc.2"
+  polymer_elements: "1.0.0-rc.2"
   quantity: "^0.1.0"
+  reflectable: "^0.3.2"
   vector_math: "^1.4.3"
+  web_components: "^0.12.0"
 dev_dependencies:
   test: "^0.12.4"
 transformers:
-- polymer:
+- web_components:
     entry_points:
     - web/envy.html
     - test/html/test_annular_section2d.html
-    - test/html/test_circle2d.html
-    - test/html/test_div_node.html
-    - test/html/test_html_node_population.html
-    - test/html/test_image2d.html
-    - test/html/test_rect2d.html
-    - test/html/test_path2d.html
-    - test/html/test_star2d.html
-    - test/html/test_text2d.html
-    - test/html/test_triangle2d.html
+    #- test/html/test_circle2d.html
+    #- test/html/test_div_node.html
+    #- test/html/test_html_node_population.html
+    #- test/html/test_image2d.html
+    #- test/html/test_rect2d.html
+    #- test/html/test_path2d.html
+    #- test/html/test_star2d.html
+    #- test/html/test_text2d.html
+    #- test/html/test_triangle2d.html
+- reflectable:
+    entry_points:
+    - web/envy.dart
+    - test/html/test_annular_section2d.dart
+    #- test/html/test_circle2d.html
+    #- test/html/test_div_node.html
+    #- test/html/test_html_node_population.html
+    #- test/html/test_image2d.html
+    #- test/html/test_rect2d.html
+    #- test/html/test_path2d.html
+    #- test/html/test_star2d.html
+    #- test/html/test_text2d.html
+    #- test/html/test_triangle2d.html

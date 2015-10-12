@@ -3,7 +3,6 @@ part of envy;
 /// TimingGroup is the base class for specialzed timing groups.
 ///
 class TimingGroup extends TimedItemGroup {
-
   //final ObservableList<TimedItemGroup> children = new ObservableList();
 
 }
@@ -15,11 +14,26 @@ class TimingGroup extends TimedItemGroup {
 ///
 class SequenceTimingGroup extends TimingGroup {
   SequenceTimingGroup() {
+    /*
     // Listen for changes to children
     ObservableList<TimedItemGroup> obsChildren = toObservable(children);
     obsChildren.changes.listen((List<ChangeRecord> change) {
       _calcStartTimes();
-    });
+    });*/
+  }
+
+  @override
+  bool attach(EnvyNode node, [int index]) {
+    bool tf = super.attach(node, index);
+    _calcStartTimes();
+    return tf;
+  }
+
+  @override
+  bool detach(EnvyNode node) {
+    bool tf = super.detach(node);
+    _calcStartTimes();
+    return tf;
   }
 
   /// Calculate the start times of the group children.
