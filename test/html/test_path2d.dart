@@ -1,23 +1,18 @@
+import 'dart:math' as Math;
 import 'dart:async';
 import 'dart:html';
-import 'dart:math' as Math;
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
+import 'package:envy/wc/envy_div.dart';
 import 'package:quantity/quantity.dart';
+
+main() async {
+  await initPolymer();
+  _init();
+}
 
 var pointData = new PointList(
     [new Point(1, 5), new Point(20, 20), new Point(40, 10), new Point(60, 40), new Point(80, 5), new Point(100, 60)]);
-
-void main() {
-  initPolymer().then((Zone zone) {
-    zone.run(() {
-      Polymer.onReady.then((_) {
-        // Code that executes after elements have been upgraded.
-        _init();
-      });
-    });
-  });
-}
 
 void _init() {
   testBasic();

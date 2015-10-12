@@ -20,27 +20,25 @@ dev_dependencies:
 transformers:
 - web_components:
     entry_points:
-    - web/envy.html
     - test/html/test_annular_section2d.html
-    #- test/html/test_circle2d.html
-    #- test/html/test_div_node.html
-    #- test/html/test_html_node_population.html
-    #- test/html/test_image2d.html
-    #- test/html/test_rect2d.html
-    #- test/html/test_path2d.html
-    #- test/html/test_star2d.html
-    #- test/html/test_text2d.html
-    #- test/html/test_triangle2d.html
+    - test/html/test_circle2d.html
+    - test/html/test_div_node.html
+    - test/html/test_html_node_population.html
+    - test/html/test_image2d.html
+    - test/html/test_rect2d.html
+    - test/html/test_path2d.html
+    - test/html/test_star2d.html
+    - test/html/test_text2d.html
+    - test/html/test_triangle2d.html
 - reflectable:
     entry_points:
-    - web/envy.dart
     - test/html/test_annular_section2d.dart
-    #- test/html/test_circle2d.html
-    #- test/html/test_div_node.html
-    #- test/html/test_html_node_population.html
-    #- test/html/test_image2d.html
-    #- test/html/test_rect2d.html
-    #- test/html/test_path2d.html
-    #- test/html/test_star2d.html
-    #- test/html/test_text2d.html
-    #- test/html/test_triangle2d.html
+    - test/html/test_circle2d.dart
+    - test/html/test_div_node.dart
+    - test/html/test_html_node_population.dart
+    - test/html/test_image2d.dart
+    - test/html/test_rect2d.dart
+    - test/html/test_path2d.dart
+    - test/html/test_star2d.dart
+    - test/html/test_text2d.dart
+    - test/html/test_triangle2d.dart

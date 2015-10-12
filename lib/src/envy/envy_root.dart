@@ -11,7 +11,6 @@ class EnvyRoot extends HtmlNode {
   final AnimationGroup rootAnimation = new AnimationGroup();
 
   EnvyRoot() {
-
     // Root only ever has a single DivElement DOM node; create it here
     DomNodeCoupling c = new DomNodeCoupling(parentIndex: 0, propIndex: 0);
     _domNodesMap[c] = generateNode();
@@ -21,7 +20,11 @@ class EnvyRoot extends HtmlNode {
 
   Node generateNode() => new Element.div()
     ..id = "envy-root-${hashCode}"
-    ..attributes["fit"] = "";
+    ..style.position = "absolute"
+    ..style.top = "0"
+    ..style.left = "0"
+    ..style.bottom = "0"
+    ..style.right = "0";
 
   void _initAnimationNode() {
     attach(rootAnimation);
