@@ -5,7 +5,6 @@ part of envy;
 /// Data sources provide an array of values of a specific type.
 ///
 abstract class DataSource<T> {
-
   //final List<T> values;
 
   /// How to fill in missing values at end of array
@@ -37,13 +36,11 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   /// The unextrapolated size of the values list
   int get rawSize => values.length;
 
-  T valueAt(int i) => i < values.length
-      ? values[i]
-      : (extrapolation != null ? extrapolation.valueAt(i, values) : (values.isNotEmpty ? values.last : null));
+  T valueAt(int i) =>
+      i < values.length ? values[i] : extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null);
 }
 
 class NullDataSource extends ArrayDataSource<dynamic> {
-
   /// Fixed, empty list
   static final List emptyList = new List(0);
 

@@ -84,7 +84,7 @@ void testAnchors() {
   s.y.enter = new NumberConstant(100);
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
   s.stroke.enter = new BooleanConstant(true);
   s.anchor.enter = new Anchor2dConstant.array([
     new Anchor2d(mode: AnchorMode2d.DEFAULT),
@@ -128,7 +128,7 @@ void testLifecycle() {
     s.y.enter = new NumberConstant(50);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.x.update = null;
@@ -148,7 +148,7 @@ void testLifecycle() {
     s.y.enter = new NumberConstant(50);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.points.update = new PointListData("points", canvas);
@@ -205,7 +205,7 @@ void testDataDriven() {
   s.y.enter = new NumberConstant(50);
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.CYAN));
+  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.cyan));
   s.opacity.enter = new NumberConstant(1);
 
   canvas.attach(s);
@@ -251,7 +251,7 @@ void testInterpolation() {
   s.y.enter = new NumberConstant(10);
   s.lineWidth.enter = new NumberConstant(3);
   s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
-  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.MAGENTA));
+  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.magenta));
   s.stroke.enter = BooleanConstant.TRUE;
   s.fill.enter = BooleanConstant.TRUE;
 
@@ -277,7 +277,7 @@ void testHit() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.black),
     new DrawingStyle2d(color: Color.RED)
   ]);
 

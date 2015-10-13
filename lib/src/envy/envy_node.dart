@@ -55,9 +55,7 @@ abstract class EnvyNode {
   ///
   void addDataset(String name, {List list, Map map, String text, num number, bool boolean}) {
     if (_datasetMap == null) _datasetMap = new HashMap<String, dynamic>();
-    _datasetMap[name] = list != null
-        ? list
-        : map != null ? map : text != null ? text : number != null ? number : boolean != null ? boolean : null;
+    _datasetMap[name] = list ?? map ?? text ?? number ?? boolean ?? null;
   }
 
   /// Removes the [name]d dataset from this node.
@@ -65,10 +63,7 @@ abstract class EnvyNode {
   /// If the dataset does not exist, null is returned.  Otherwise
   /// the dataset is returned.
   ///
-  Object removeDataset(String name) {
-    if (_datasetMap != null) return _datasetMap.remove(name);
-    return null;
-  }
+  Object removeDataset(String name) => _datasetMap?.remove(name);
 
   /// Gets a [name]d dataset from this node, or if this node does not contain
   /// a dataset by that name then from the closest ancestor to contain such a dataset.

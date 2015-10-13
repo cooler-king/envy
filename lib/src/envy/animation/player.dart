@@ -4,7 +4,6 @@ part of envy;
 /// time on a specific [Timeline].
 ///
 class Player {
-
   /// A dynamic list of TimedItemGroups to update
   final List<TimedItemGroup> _registered = [];
 
@@ -41,7 +40,6 @@ class Player {
   /// [startTime], in seconds, on that timeline.
   ///
   Player(this.timeline, this.startTime) {
-
     //print("player construction startTime = ${startTime}");
 
     //TODO add delay for start time
@@ -65,7 +63,7 @@ class Player {
   ///
   num get effectiveCurrentTime {
     num current = currentTime;
-    return current != null ? current : 0;
+    return current ?? 0;
   }
 
   num get effectiveTimelineTime => timeline.effectiveTime;
@@ -136,7 +134,6 @@ class Player {
 
   void _registerTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (!_registered.contains(timedItemGroup)) {
-      //print("PLAYER registering timed item group ${timedItemGroup}, timer = ${timer}");
       _registered.add(timedItemGroup);
       if (timer != null) timedItemGroup._prepareForAnimation();
     }
@@ -153,20 +150,16 @@ class Player {
   bool _deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (_registered.contains(timedItemGroup)) {
       _registered.remove(timedItemGroup);
-      //timedItemGroup._finishAnimation();
-
       if (_registered.isEmpty && timer != null) {
         try {
           timer.cancel();
           timer = null;
         } catch (e) {
-          _LOG.warning("Problem cancelling timer:  ${e}");
+          _LOG.warning("Problem canceling timer:  ${e}");
         }
       }
-
       return true;
     }
-
     return false;
   }
 
@@ -191,7 +184,6 @@ class Player {
   }
 
   void _prepareForAnimation() {
-    //print("PLAYER preparing for ANIMATION");
     _registered.forEach((TimedItemGroup tig) {
       tig._prepareForAnimation();
     });
@@ -200,18 +192,15 @@ class Player {
   void _updateRegisteredGroups() {
     for (TimedItemGroup group in _registered) {
       try {
-        //print("updating registered timed item group: ${group.timeFraction}");
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);
       } catch (e, s) {
         _LOG.severe("Problem updating registered timed item group: ${e}", e, s);
       }
 
-      //print("effective current time >? group.endTime.... ${effectiveCurrentTime} >? ${group.endTime}");
-
       // Is this group finished animating? (deregisters group from player)
       if (effectiveCurrentTime >= group.endTime) {
-        // schedule the group to finish when the updating is complete
+        // Schedule the group to finish when the updating is complete
         Timer.run(() => group._finishAnimation(context: true));
       }
     }

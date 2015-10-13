@@ -30,7 +30,7 @@ class Rect2d extends Graphic2dNode {
     //print("x, y, width, height... ${_x}, ${_y}, ${_width}, ${_height}");
 
     // Adjust for anchor (default origin is upper left)
-    List<num> adj = _anchor != null ? _anchor.calcAdjustments(0, _width, _height, 0) : [0, 0];
+    List<num> adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? [0, 0];
     _x = adj[0];
     _y = adj[1];
 

@@ -203,7 +203,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     if (value != null) ctx.strokeStyle = value.style(ctx);
 
     value = globalAlpha.valueAt(index);
-    ctx.globalAlpha = value != null ? value : 1;
+    ctx.globalAlpha = value ?? 1;
 
     value = globalCompositeOperation.valueAt(index);
     if (value != null) ctx.globalCompositeOperation = value;
@@ -248,8 +248,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     _scale = scale.valueAt(i);
     _skew = skew.valueAt(i);
     if (scale != vec2one || skew != vec2zero) {
-      ctx.transform(_scale != null ? _scale.x : 1, _skew != null ? _skew.x : 0, _skew != null ? _skew.y : 0,
-          _scale != null ? _scale.y : 1, x.valueAt(i), y.valueAt(i));
+      ctx.transform(_scale?.x ?? 1, _skew?.x ?? 0, _skew?.y ?? 0, _scale?.y ?? 1, x.valueAt(i), y.valueAt(i));
     }
 
     _rotation = rotation.valueAt(i);

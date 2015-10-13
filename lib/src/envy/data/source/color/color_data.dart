@@ -71,9 +71,9 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
 
     if (d is String) {
       if (d.startsWith("#")) return new Color.hex(d);
-      return Color.BLACK.fromCss(d);
+      return Color.black.fromCss(d);
     }
 
-    return Color.BLACK;
+    return Color.black;
   }
 }

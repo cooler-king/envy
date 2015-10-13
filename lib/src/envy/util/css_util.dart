@@ -135,7 +135,7 @@ class CssUtil {
       // WebKit won't convert percentages for top, bottom, left, right, margin and text-indent
       if (prop.contains(rvpos)) {
         // Top and bottom require measuring the innerHeight of the parent.
-        Element parent = elem.parentNode != null ? elem.parentNode : elem;
+        Element parent = elem.parentNode ?? elem;
         innerHeight = parent.offsetHeight;
         //while (i--) {
         for (int i = outerProp.length - 1; i >= 0; i--) {

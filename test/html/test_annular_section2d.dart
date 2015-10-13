@@ -84,7 +84,7 @@ void testCircle() {
   s.startAngle.enter = new AngleConstant(new Angle(deg: 0));
   s.endAngle.enter = new AngleConstant(new Angle(deg: 360));
   s.lineWidth.enter = new NumberConstant(2);
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GRAY_CCC));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.grayCCC));
   s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GREEN));
   s.fill.enter = new BooleanConstant.array([true, true, false]);
   s.stroke.enter = new BooleanConstant.array([true, false, true]);
@@ -111,7 +111,7 @@ void testAnchors() {
   s.endAngle.enter = new AngleConstant(new Angle(deg: 45));
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
   s.stroke.enter = new BooleanConstant(false);
   s.anchor.enter = new Anchor2dConstant.array([
     new Anchor2d(mode: AnchorMode2d.DEFAULT),
@@ -157,7 +157,7 @@ void testLifecycle() {
     s.endAngle.enter = new AngleConstant(new Angle(deg: 45));
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GRAY_999));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GREEN));
     s.stroke.enter = new BooleanConstant(true);
 
@@ -184,7 +184,7 @@ void testLifecycle() {
     s.endAngle.enter = new AngleConstant(new Angle(deg: 45));
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GREEN));
     s.stroke.enter = new BooleanConstant(true);
 
@@ -197,7 +197,7 @@ void testLifecycle() {
     s.lineWidth.update = new NumberConstant(3);
     s.rotation.update = new AngleConstant(new Angle(deg: 720));
     s.fillStyle.update = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.CYAN));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.cyan));
     s.stroke.enter = new BooleanConstant(true);
     esg.updateGraph();
   });
@@ -265,7 +265,7 @@ void testHit() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.black),
     new DrawingStyle2d(color: Color.RED)
   ]);
 
@@ -313,15 +313,15 @@ void testFill() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(
         gradient: new LinearGradient2d(x0: -20, x1: 40, y0: -20, y1: 40)
-          ..addColorStop(0, Color.GRAY_777)
+          ..addColorStop(0, Color.gray777)
           ..addColorStop(0.5, Color.BLUE)
-          ..addColorStop(1, Color.CYAN)),
+          ..addColorStop(1, Color.cyan)),
     new DrawingStyle2d(
         gradient: new RadialGradient2d(x0: 0, y0: 0, r0: 5, x1: 0, y1: 0, r1: 35)
           ..addColorStop(0, Color.GREEN)
           ..addColorStop(0.3, Color.BLUE)
           ..addColorStop(0.7, Color.RED)
-          ..addColorStop(1, Color.BLACK)),
+          ..addColorStop(1, Color.black)),
     new DrawingStyle2d(
         pattern: new ImagePattern2d(image,
             patternWidth: 80,

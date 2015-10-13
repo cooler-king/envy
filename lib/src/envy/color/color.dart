@@ -1,60 +1,57 @@
 part of envy;
 
 class Color implements CssAdapter {
-  static const Color WHITE = const Color(1.0, 1.0, 1.0);
-  static const Color BLACK = const Color(0.0, 0.0, 0.0);
-  static const Color GRAY = const Color(0.5, 0.5, 0.5);
+  static const Color white = const Color(1.0, 1.0, 1.0);
+  static const Color black = const Color(0.0, 0.0, 0.0);
+  static const Color gray = const Color(0.5, 0.5, 0.5);
   static const Color RED = const Color(1.0, 0.0, 0.0);
   static const Color GREEN = const Color(0.0, 1.0, 0.0);
   static const Color BLUE = const Color(0.0, 0.0, 1.0);
-  static const Color YELLOW = const Color(1.0, 1.0, 0.0);
-  static const Color CYAN = const Color(0.0, 1.0, 1.0);
-  static const Color MAGENTA = const Color(1.0, 0.0, 1.0);
+  static const Color yellow = const Color(1.0, 1.0, 0.0);
+  static const Color cyan = const Color(0.0, 1.0, 1.0);
+  static const Color magenta = const Color(1.0, 0.0, 1.0);
 
-  static const Color GRAY_EEE = const Color(0.9375, 0.9375, 0.9375);
-  static const Color GRAY_DDD = const Color(0.875, 0.875, 0.875);
-  static const Color GRAY_CCC = const Color(0.8125, 0.8125, 0.8125);
-  static const Color GRAY_BBB = const Color(0.75, 0.75, 0.75);
-  static const Color GRAY_AAA = const Color(0.6875, 0.6875, 0.6875);
-  static const Color GRAY_999 = const Color(0.625, 0.625, 0.625);
-  static const Color GRAY_888 = const Color(0.5625, 0.5625, 0.5625);
-  static const Color GRAY_777 = const Color(0.5, 0.5, 0.5);
-  static const Color GRAY_666 = const Color(0.4375, 0.4375, 0.4375);
-  static const Color GRAY_555 = const Color(0.375, 0.375, 0.375);
-  static const Color GRAY_444 = const Color(0.3125, 0.3125, 0.3125);
-  static const Color GRAY_333 = const Color(0.25, 0.25, 0.25);
-  static const Color GRAY_222 = const Color(0.1875, 0.1875, 0.1875);
-  static const Color GRAY_111 = const Color(0.0625, 0.0625, 0.0625);
+  static const Color grayEEE = const Color(0.9375, 0.9375, 0.9375);
+  static const Color grayDDD = const Color(0.875, 0.875, 0.875);
+  static const Color grayCCC = const Color(0.8125, 0.8125, 0.8125);
+  static const Color grayBBB = const Color(0.75, 0.75, 0.75);
+  static const Color grayAAA = const Color(0.6875, 0.6875, 0.6875);
+  static const Color gray999 = const Color(0.625, 0.625, 0.625);
+  static const Color gray888 = const Color(0.5625, 0.5625, 0.5625);
+  static const Color gray777 = const Color(0.5, 0.5, 0.5);
+  static const Color gray666 = const Color(0.4375, 0.4375, 0.4375);
+  static const Color gray555 = const Color(0.375, 0.375, 0.375);
+  static const Color gray444 = const Color(0.3125, 0.3125, 0.3125);
+  static const Color gray333 = const Color(0.25, 0.25, 0.25);
+  static const Color gray222 = const Color(0.1875, 0.1875, 0.1875);
+  static const Color gray111 = const Color(0.0625, 0.0625, 0.0625);
 
   static const Color TRANSPARENT_BLACK = const Color(0.0, 0.0, 0.0, 0.0);
 
-  // none is not a valid css color
-  //static const Color NONE = const Color("none");
-
   static const VALUES = const <Color>[
-    WHITE,
-    BLACK,
-    GRAY,
+    white,
+    black,
+    gray,
     RED,
     GREEN,
     BLUE,
-    YELLOW,
-    CYAN,
-    MAGENTA,
-    GRAY_EEE,
-    GRAY_DDD,
-    GRAY_CCC,
-    GRAY_BBB,
-    GRAY_AAA,
-    GRAY_999,
-    GRAY_888,
-    GRAY_777,
-    GRAY_666,
-    GRAY_555,
-    GRAY_444,
-    GRAY_333,
-    GRAY_222,
-    GRAY_111
+    yellow,
+    cyan,
+    magenta,
+    grayEEE,
+    grayDDD,
+    grayCCC,
+    grayBBB,
+    grayAAA,
+    gray999,
+    gray888,
+    gray777,
+    gray666,
+    gray555,
+    gray444,
+    gray333,
+    gray222,
+    gray111
   ];
 
   // RGB values 0.0 - 1.0 (for alpha, 1 means opaque)
@@ -101,8 +98,8 @@ class Color implements CssAdapter {
   ///
   Color derive({double brightness, double saturation}) {
     List<double> hueSatBr = hsb;
-    double s = (saturation != null) ? saturation : hueSatBr[1];
-    double b = (brightness != null) ? brightness : hueSatBr[2];
+    double s = saturation ?? hueSatBr[1];
+    double b = brightness ?? hueSatBr[2];
 
     List<double> rgb = hsbToRgb(hueSatBr[0], s, b);
     return new Color.rgb(rgb[0], rgb[1], rgb[2]);
@@ -139,41 +136,30 @@ class Color implements CssAdapter {
     return [hue, saturation, brightness];
   }
 
-  //Color.hexStr(String value) : super(value);
-
-  /*
-  static Color forValue(String str) {
-    for(Color a in VALUES) {
-      if(a.value == str) return a;      
-    }
-    return null;
-  }*/
-
   /// Returns a [light] or [dark] color, whichever is easiest to see when
   /// superimposed on this color, based on its perceptive luminance.
   ///
   /// The [threshold] determines the level of perceptive luminince at which
   /// the auto text color switches over from light to dark (default is 0.5).
   ///
-  Color autoTextColor({Color light: Color.WHITE, Color dark: Color.BLACK, double threshold: 0.5}) {
+  Color autoTextColor({Color light: Color.white, Color dark: Color.black, double threshold: 0.5}) {
     if (perceptiveLuminance > threshold) return dark;
     else return light;
   }
 
   /// Get the value for the red component as an integer in the range 0-255.
-  //int get red256 => int.parse(redHex, radix:16);
   int get red256 => (255 * red).round();
 
   /**
    * Returns the hexagonal value of the red component.
-   * 
+   *
    * The String will not have any leading '#' or '0x'.
    *
   String get redHex {
     if(value == null) return "00";
     if(value.length == 4) return "${value[1]}${value[1]}";
     if(value.length == 7) return "${value[1]}${value[2]}";
-    
+
     _LOG.warning("Malformed color value: ${value}");
     return "00";
   }*/
@@ -184,14 +170,14 @@ class Color implements CssAdapter {
 
   /**
    * Returns the hexagonal value of the green component.
-   * 
+   *
    * The String will not have any leading '#' or '0x'.
    *
   String get greenHex {
     if(value == null) return "00";
     if(value.length == 4) return "${value[2]}${value[2]}";
     if(value.length == 7) return "${value[3]}${value[4]}";
-    
+
     _LOG.warning("Malformed color value: ${value}");
     return "00";
   }*/
@@ -202,14 +188,14 @@ class Color implements CssAdapter {
 
   /**
    * Returns the hexagonal value of the green component.
-   * 
+   *
    * The String will not have any leading '#' or '0x'.
    *
   String get blueHex {
     if(value == null) return "00";
     if(value.length == 4) return "${value[3]}${value[3]}";
     if(value.length == 7) return "${value[5]}${value[6]}";
-    
+
     _LOG.warning("Malformed color value: ${value}");
     return "00";
   }*/
@@ -302,7 +288,7 @@ class Color implements CssAdapter {
 
   dynamic fromCss(String css) {
     try {
-      if (css == null || css.isEmpty) return Color.BLACK;
+      if (css == null || css.isEmpty) return Color.black;
       if (css.startsWith("#")) return new Color.hex(css);
       if (css.startsWith("rgba(")) {
         int comma1 = css.indexOf(",", 5);
@@ -328,12 +314,12 @@ class Color implements CssAdapter {
       //TODO handle all predeined CSS color names too
       // see http://www.w3schools.com/cssref/css_colornames.asp
 
-      // give up
+      // Give up
       _LOG.warning("Envy doesn't know how to parse this CSS color value (${css}):  returning black");
-      return Color.BLACK;
+      return Color.black;
     } catch (e) {
       _LOG.warning("Problem parsing CSS color value (${css}):  ${e}");
-      return Color.BLACK;
+      return Color.black;
     }
   }
 

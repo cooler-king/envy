@@ -10,8 +10,8 @@ class DrawingStyle2d {
   Gradient2d gradient;
   Pattern2d pattern;
 
-  static final DrawingStyle2d black = new DrawingStyle2d(color: Color.BLACK);
-  static final DrawingStyle2d white = new DrawingStyle2d(color: Color.WHITE);
+  static final DrawingStyle2d black = new DrawingStyle2d(color: Color.black);
+  static final DrawingStyle2d white = new DrawingStyle2d(color: Color.white);
 
   DrawingStyle2d({this.color, this.gradient, this.pattern});
 

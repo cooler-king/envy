@@ -45,8 +45,7 @@ class Path2d extends Graphic2dNode {
     bool _stroke = stroke.valueAt(i);
 
     // Adjust based on anchor (default origin is x1, y1)
-    List<num> adj =
-        _anchor != null ? _anchor.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) : zeroZero;
+    List<num> adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
 
     Path2D p = new Path2D();
     paths.add(p);

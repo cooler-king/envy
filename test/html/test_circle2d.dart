@@ -29,9 +29,9 @@ void _init() {
   c.radius.enter = new NumberConstant.array([100, 5]);
   c.lineWidth.enter = new NumberConstant.array([5, 1]);
   c.fillStyle.enter = new DrawingStyle2dConstant.array(
-      [new DrawingStyle2d(color: Color.BLUE), new DrawingStyle2d(color: Color.YELLOW)]);
+      [new DrawingStyle2d(color: Color.BLUE), new DrawingStyle2d(color: Color.yellow)]);
   c.strokeStyle.enter =
-      new DrawingStyle2dConstant.array([new DrawingStyle2d(color: Color.CYAN), new DrawingStyle2d(color: Color.BLACK)]);
+      new DrawingStyle2dConstant.array([new DrawingStyle2d(color: Color.cyan), new DrawingStyle2d(color: Color.black)]);
 
   esg.updateGraph();
 }

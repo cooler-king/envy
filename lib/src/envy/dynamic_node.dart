@@ -5,7 +5,6 @@ part of envy;
 /// This class is meant to be used as a Mixin.
 ///
 class DynamicNode {
-
   // Properties -- self-optimizing
   final HashMap<String, EnvyProperty> properties = new HashMap<String, EnvyProperty>();
 
@@ -30,10 +29,9 @@ class DynamicNode {
       //print("dynamic update properties prop = ${prop} DONE");
     }
     //print("dynamic update properties LEAVING");
-
   }
 
-  Multiplicity get multiplicity => _multiplicity != null ? _multiplicity : Multiplicity.defaultMultiplicity;
+  Multiplicity get multiplicity => _multiplicity ?? Multiplicity.defaultMultiplicity;
 
   void set multiplicity(Multiplicity m) {
     _multiplicity = m;

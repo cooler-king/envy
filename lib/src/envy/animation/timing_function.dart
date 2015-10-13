@@ -10,7 +10,7 @@ abstract class TimingFunction {
 class LinearFunction extends TimingFunction {
   static LinearFunction _instance;
 
-  factory LinearFunction() => _instance != null ? _instance : new LinearFunction._internal();
+  factory LinearFunction() => _instance ?? new LinearFunction._internal();
 
   LinearFunction._internal() {
     _instance = this;
@@ -37,18 +37,12 @@ class CubicBezierCurve extends TimingFunction {
     num inputCubed = inputSquared * input;
     num oneMinusInput = 1 - input;
     num oneMinusInputSquared = oneMinusInput * oneMinusInput;
-    num oneMinusInputCubed = oneMinusInputSquared * oneMinusInput;
 
     num c = 3 * cpy1;
     num b = 3 * (cpy2 - cpy1) - c;
     num a = 1 - c - b;
 
     return a * inputCubed + b * inputSquared + c * input;
-
-    //return p1 * oneMinusInputCubed +
-    //    3 * c1 * oneMinusInputSquared * input +
-    //    3 * c2 * oneMinusInput * inputSquared +
-    //    p2 * inputCubed;
   }
 }
 

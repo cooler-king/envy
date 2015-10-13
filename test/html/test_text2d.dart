@@ -67,7 +67,7 @@ void testFontVariations() {
         family: FontFamily.fantasy, size: new FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique),
     new Font(size: new FontSize.px(30), weight: FontWeight.bold, style: FontStyle.oblique)
   ]);
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
 
   esg.updateGraph();
 }
@@ -109,7 +109,7 @@ void testAnchors() {
       family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.pt(14)), weight: FontWeight.bold));
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
   s.anchor.enter = new Anchor2dConstant.array([
     new Anchor2d(mode: AnchorMode2d.DEFAULT),
     new Anchor2d(mode: AnchorMode2d.CENTER),
@@ -194,7 +194,7 @@ void testLifecycle() {
     t.x.exit = new NumberConstant(400);
     t.y.exit = new NumberConstant(10);
     t.rotation.exit = new AngleConstant(new Angle(deg: 0));
-    t.fillStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GRAY_555));
+    t.fillStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray555));
     t.opacity.exit = new NumberConstant(0);
 
     t.text.enter = null;
@@ -238,7 +238,7 @@ void testHit() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.black),
     new DrawingStyle2d(color: Color.RED)
   ]);
 

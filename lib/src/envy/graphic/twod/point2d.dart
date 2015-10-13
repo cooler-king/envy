@@ -26,7 +26,7 @@ class Point2d extends Graphic2dNode {
     // Adjust based on anchor (default origin is x, y)
     _x = 0;
     _y = 0;
-    List<num> adj = _anchor != null ? _anchor.calcAdjustments(0, 0, 0, 0) : [0, 0];
+    List<num> adj = _anchor?.calcAdjustments(0, 0, 0, 0) ?? [0, 0];
 
     //TODO pixelSize, markers not implemented yet
 

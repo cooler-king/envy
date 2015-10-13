@@ -81,7 +81,7 @@ void testAnchors() {
   s.height.enter = new NumberConstant(10);
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
   s.stroke.enter = new BooleanConstant(false);
   s.anchor.enter = new Anchor2dConstant.array([
     new Anchor2d(mode: AnchorMode2d.DEFAULT),
@@ -125,7 +125,7 @@ void testLifecycle() {
     s.height.enter = new NumberConstant(30);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.x.update = null;
@@ -148,7 +148,7 @@ void testLifecycle() {
     s.height.enter = new NumberConstant(30);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.x.update = new NumberConstant(200);
@@ -254,7 +254,7 @@ void testHit() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.black),
     new DrawingStyle2d(color: Color.RED)
   ]);
   s.data.enter = new NumberConstant.array([10, 20, 30, 40, 50]);
@@ -297,15 +297,15 @@ void testFill() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(
         gradient: new LinearGradient2d(x0: 5, x1: 50, y0: 0, y1: 40)
-          ..addColorStop(0, Color.GRAY_777)
+          ..addColorStop(0, Color.gray777)
           ..addColorStop(0.5, Color.BLUE)
-          ..addColorStop(1, Color.CYAN)),
+          ..addColorStop(1, Color.cyan)),
     new DrawingStyle2d(
         gradient: new RadialGradient2d(x0: 30, y0: 20, r0: 5, x1: 30, y1: 20, r1: 35)
           ..addColorStop(0, Color.GREEN)
           ..addColorStop(0.3, Color.BLUE)
           ..addColorStop(0.7, Color.RED)
-          ..addColorStop(1, Color.BLACK)),
+          ..addColorStop(1, Color.black)),
     new DrawingStyle2d(pattern: new ImagePattern2d(image, patternWidth: 30, patternHeight: 20)),
     new DrawingStyle2d(color: Color.TRANSPARENT_BLACK)
   ]);

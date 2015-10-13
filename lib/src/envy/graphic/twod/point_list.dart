@@ -1,7 +1,7 @@
 part of envy;
 
 class PointList extends DelegatingList<Math.Point> {
-  PointList([Iterable<Math.Point> points]) : super(new List<Math.Point>.from(points != null ? points : []));
+  PointList([Iterable<Math.Point> points]) : super(new List<Math.Point>.from(points ?? []));
 
   void addPoint(Math.Point value) => add(value);
 

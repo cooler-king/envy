@@ -15,7 +15,7 @@ Timing defaultTiming = new Timing();
 /// }
 ///
 class Timing {
-  static const num AUTO = double.INFINITY;
+  static const num auto = double.INFINITY;
 
   Timing();
 
@@ -24,7 +24,7 @@ class Timing {
   /// The number of seconds from a timed item's start time to the start of the active interval.
   num startDelay = 0;
 
-  FillMode fillMode = FillMode.BOTH;
+  FillMode fillMode = FillMode.both;
 
   /// Offset into the series of iterations at which the timed item should begin.
   /// The iteration start is a finite real number greater than or equal to zero.
@@ -47,7 +47,7 @@ class Timing {
 
   /// The length of its active interval.
   ///
-  num activeDuration = Timing.AUTO;
+  num activeDuration = Timing.auto;
 
   /// This is a multiplier applied to the local time potentially causing the item to run at a
   /// different rate to its natural speed.

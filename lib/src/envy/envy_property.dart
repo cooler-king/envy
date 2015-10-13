@@ -122,8 +122,8 @@ abstract class EnvyProperty<T> {
     if (_size > _currentValues.length) {
       // Size greater than number of current values... some will be entering
       for (_i = _currentValues.length; _i < _size; _i++) {
-        _value = _enter != null ? enter.valueAt(_i) : null;
-        if ((_value == null || _value == dataNotAvailable) && _update != null) _value = _update.valueAt(_i);
+        _value = enter?.valueAt(_i);
+        if (_value == null || _value == dataNotAvailable) _value = _update?.valueAt(_i);
         if (_value == null || _value == dataNotAvailable) _value = defaultValue;
 
         // Debug
@@ -142,17 +142,16 @@ abstract class EnvyProperty<T> {
   void _updateTargetValues() {
     _targetValues.clear();
     for (_i = 0; _i < _size; _i++) {
-      _value = _update != null ? _update.valueAt(_i) : null;
-      if (_value == null && _enter != null) _value = _enter.valueAt(_i);
+      _value = _update?.valueAt(_i) ?? _enter?.valueAt(_i);
       if (_value == null) _value = defaultValue;
 
       // If the value (of a keyed property) is no longer available, use exit value
       if (_value == dataNotAvailable) {
-        if (_exit != null) _value = _exit.valueAt(_i);
+        _value = _exit?.valueAt(_i);
         if (_value == null || _value == dataNotAvailable) {
           // No exit value, use first acceptable of update, enter or default
-          _value = _update != null ? _update.valueAt(_i) : null;
-          if ((_value == null || _value == dataNotAvailable) && _enter != null) _value = _enter.valueAt(_i);
+          _value = _update?.valueAt(_i);
+          if (_value == null || _value == dataNotAvailable) _value = _enter?.valueAt(_i);
           if (_value == null || _value == dataNotAvailable) _value = defaultValue;
         }
       }
@@ -179,24 +178,11 @@ abstract class EnvyProperty<T> {
   /// the timing [fraction] and the interpolator.
   ///
   void updateValues(num fraction, {bool finish: false}) {
-    //print("envy property updat values ${fraction}");
-    //print("envy property update values interp  = ${interp}");
     EnvyInterpolator<T> interp = interpolator;
     _currentValues.clear();
-    //print("envy property update values cleared current values");
-    //for(int i=0; i<size; i++) {
-    //int updateSize = finish ? _size : _targetValues.length;
     for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
-      //print("envy property update values interpolating index ${i}");
-      //print("envy property update values interpolating START ${_startValues[i]}");
-      //print("envy property update values interpolating TARGET ${_targetValues[i]}");
       _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
-      //print("envy property update values interpolating = calculated ${_currentValues[i]}");
-
     }
-
-    // Inform
-    if (finish) {}
   }
 
   void _refreshDataSources() {
@@ -227,7 +213,7 @@ class BooleanProperty extends EnvyProperty<bool> {
 }
 
 class ColorProperty extends EnvyProperty<Color> {
-  ColorProperty({Color defaultValue: Color.BLACK}) : super(Color.BLACK);
+  ColorProperty({Color defaultValue: Color.black}) : super(Color.black);
   EnvyInterpolator<Color> get defaultInterpolator => new RgbaInterpolator();
 }
 

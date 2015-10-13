@@ -6,5 +6,5 @@ abstract class Enumeration<T> {
   const Enumeration(this.value);
 
   @override
-  String toString() => value != null ? value.toString() : null;
+  String toString() => value?.toString();
 }

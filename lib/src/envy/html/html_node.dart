@@ -3,7 +3,6 @@ part of envy;
 /// Common base for all Envy nodes that are rendered in normal HTML.
 ///
 abstract class HtmlNode extends GroupNode with DynamicNode {
-
   //ObservableList<EnvyNode> _observableChildren;
 
   // The HTML nodes that render the contents of this Envy node
@@ -83,7 +82,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
     //TODO
     /*
-    // Add the DOM node to the new parent's 
+    // Add the DOM node to the new parent's
     HtmlNode target = domParent;
     if(target != null) {
       target.domNode.append(_domNode);
@@ -109,7 +108,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     //if(newSize != _prevSize || parentDomNodesChanged || _populationStrategyChanged) {
     if (newDomSize != _prevDomSize || _populationStrategyChanged) {
       HtmlNode parentHtml = htmlParent;
-      int parentDomCount = parentHtml != null ? parentHtml._domNodesMap.length : 0;
+      int parentDomCount = parentHtml?._domNodesMap.length ?? 0;
 
       // Create/attach, remove/destroy nodes as necesary
       _manageDomNodes(parentDomCount, newDomSize);
@@ -142,18 +141,18 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
   /*
   /// Determines whether any parent DOM nodes have changed since the last DOM update.
-  /// 
+  ///
   bool get parentDomNodesChanged {
     HtmlNode parentHtml = htmlParent;
     if(parentHtml == null) return false;
-    
+
     if(_prevDomNodesMap.length != _domNodesMap.length) return true;
-    
+
     // Each one must be identical
     for(DomNodeCoupling dnc in _domNodesMap.keys) {
       if(!identical(_prevDomNodesMap[dnc], _domNodesMap[dnc])) return true;
     }
-    
+
     return false;
   }*/
 
@@ -171,7 +170,6 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   /// are distributed among the parent DOM nodes.
   ///
   void _manageDomNodes(int parentDomNodeCount, int childCount) {
-
     //print("MANAGING DOM NODES ${this}");
     List<DomNodeCoupling> couplingList = [];
     if (populationStrategy == null) populationStrategy = new IndependentPopulationStrategy();
@@ -180,7 +178,6 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     List<DomNodeCoupling> remainingCouplings = new List.from(_domNodesMap.keys);
 
     for (DomNodeCoupling dnc in coupling) {
-
       // Create new nodes as necessary
       if (!_domNodesMap.containsKey(dnc)) {
         Node newNode = this.generateNode();

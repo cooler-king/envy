@@ -32,7 +32,7 @@ class Bar2d extends Graphic2dNode {
     num _x = 0;
     num _y = 0;
     num halfWidth = _width / 2.0;
-    List<num> adj = _anchor != null ? _anchor.calcAdjustments(-_height, halfWidth, 0, -halfWidth) : [0, 0];
+    List<num> adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? [0, 0];
     _x += adj[0];
     _y += adj[1];
 

@@ -7,7 +7,7 @@ class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
   ColorInterpolator _colorInterpolator = new RgbaInterpolator();
 
   Gradient2dInterpolator({ColorInterpolator colorInterpolator}) {
-    _colorInterpolator = colorInterpolator != null ? colorInterpolator : new RgbaInterpolator();
+    _colorInterpolator = colorInterpolator ?? new RgbaInterpolator();
   }
 
   /// Returns a Gradient2d value between [a] and [b] based on the time [fraction].
@@ -52,8 +52,8 @@ class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
       stopB = i < bStops.length ? bStops[i] : 1.0;
       stop = _numberInterpolator.interpolate(stopA, stopB, fraction);
 
-      colorA = i < aStops.length ? a.stops[stopA] : aStops.isNotEmpty ? a.stops[aStops.last] : Color.BLACK;
-      colorB = i < bStops.length ? b.stops[stopB] : bStops.isNotEmpty ? b.stops[bStops.last] : Color.BLACK;
+      colorA = i < aStops.length ? a.stops[stopA] : aStops.isNotEmpty ? a.stops[aStops.last] : Color.black;
+      colorB = i < bStops.length ? b.stops[stopB] : bStops.isNotEmpty ? b.stops[bStops.last] : Color.black;
       ;
       color = _colorInterpolator.interpolate(colorA, colorB, fraction);
 

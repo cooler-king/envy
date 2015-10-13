@@ -78,7 +78,7 @@ void testAnchors() {
   s.height.enter = new NumberConstant(40);
   s.lineWidth.enter = new NumberConstant(1);
   s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
   s.stroke.enter = new BooleanConstant(false);
   s.anchor.enter = new Anchor2dConstant.array([
     new Anchor2d(mode: AnchorMode2d.DEFAULT),
@@ -122,7 +122,7 @@ void testLifecycle() {
     s.height.enter = new NumberConstant(40);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.x.update = null;
@@ -145,7 +145,7 @@ void testLifecycle() {
     s.height.enter = new NumberConstant(40);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLACK));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.opacity.enter = new NumberConstant(1);
 
     s.x.update = new NumberConstant(200);
@@ -207,7 +207,7 @@ void testHit() {
   s.base.enter = new NumberConstant(40);
   s.height.enter = new NumberConstant(40);
   s.lineWidth.enter = new NumberConstant(5);
-  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.GRAY));
+  s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray));
   s.rotation.enter = new AngleConstant.array(
       [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
   s.fill.enter = BooleanConstant.TRUE;
@@ -215,7 +215,7 @@ void testHit() {
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
     new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.BLACK),
+    new DrawingStyle2d(color: Color.black),
     new DrawingStyle2d(color: Color.RED)
   ]);
 

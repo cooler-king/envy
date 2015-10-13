@@ -57,7 +57,7 @@ class CssLengthInterpolator extends EnvyInterpolator<CssLength> {
       // convert both to pixels
       num aPixels = CssUtil.toPixels(null, a.css);
       num bPixels = CssUtil.toPixels(null, b.css);
-      return new CssLength(_numberInterpolator.interpolate(aPixels, bPixels, fraction), CssLengthUnits.PX);
+      return new CssLength(_numberInterpolator.interpolate(aPixels, bPixels, fraction), CssLengthUnits.px);
     }
   }
 }
