@@ -7,7 +7,7 @@ class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
   ColorInterpolator _colorInterpolator = new RgbaInterpolator();
 
   Gradient2dInterpolator({ColorInterpolator colorInterpolator}) {
-    _colorInterpolator = colorInterpolator ?? new RgbaInterpolator();
+    _colorInterpolator = colorInterpolator ?? (new RgbaInterpolator());
   }
 
   /// Returns a Gradient2d value between [a] and [b] based on the time [fraction].

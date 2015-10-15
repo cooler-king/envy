@@ -37,7 +37,7 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   int get rawSize => values.length;
 
   T valueAt(int i) =>
-      i < values.length ? values[i] : extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null);
+      (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 
 class NullDataSource extends ArrayDataSource<dynamic> {

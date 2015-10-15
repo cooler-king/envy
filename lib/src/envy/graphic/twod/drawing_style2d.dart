@@ -16,9 +16,9 @@ class DrawingStyle2d {
   DrawingStyle2d({this.color, this.gradient, this.pattern});
 
   dynamic style(CanvasRenderingContext2D ctx) =>
-      pattern?.asCanvasPattern(ctx) ?? gradient?.asCanvasGradient(ctx) ?? color?.css ?? null;
+      pattern?.asCanvasPattern(ctx) ?? (gradient?.asCanvasGradient(ctx) ?? (color?.css ?? null));
 
-  dynamic get styleObj => pattern ?? gradient ?? color ?? null;
+  dynamic get styleObj => pattern ?? (gradient ?? (color ?? null));
 }
 
 /// A synonym class for better readability.

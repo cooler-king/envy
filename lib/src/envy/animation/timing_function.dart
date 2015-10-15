@@ -10,7 +10,7 @@ abstract class TimingFunction {
 class LinearFunction extends TimingFunction {
   static LinearFunction _instance;
 
-  factory LinearFunction() => _instance ?? new LinearFunction._internal();
+  factory LinearFunction() => _instance ?? (new LinearFunction._internal());
 
   LinearFunction._internal() {
     _instance = this;

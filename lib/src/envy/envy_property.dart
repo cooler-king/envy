@@ -142,7 +142,7 @@ abstract class EnvyProperty<T> {
   void _updateTargetValues() {
     _targetValues.clear();
     for (_i = 0; _i < _size; _i++) {
-      _value = _update?.valueAt(_i) ?? _enter?.valueAt(_i);
+      _value = _update?.valueAt(_i) ?? (_enter?.valueAt(_i));
       if (_value == null) _value = defaultValue;
 
       // If the value (of a keyed property) is no longer available, use exit value

@@ -29,8 +29,8 @@ class ImagePattern2d extends Pattern2d {
       _canvasPattern = ctx.createPatternFromImage(imageObj, repeatStr);
     } else {
       // Scale down the image onto an auxiliary canvas and use that for the pattern
-      int width = patternWidth ?? imageObj.width;
-      int height = patternHeight ?? imageObj.height;
+      int width = patternWidth ?? (imageObj.width);
+      int height = patternHeight ?? (imageObj.height);
       CanvasElement patternCanvas = new CanvasElement(width: width, height: height);
 
       patternCanvas.context2D.drawImageScaled(imageObj, 0, 0, width, height);

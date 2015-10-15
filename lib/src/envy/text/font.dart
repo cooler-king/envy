@@ -130,7 +130,7 @@ class FontSize implements CssAdapter {
       : sizeStr = null,
         length = new CssLength.pt(points);
 
-  String get css => length?.css ?? (sizeStr != null && sizeStr != "medium") ? sizeStr : "";
+  String get css => length?.css ?? ((sizeStr != null && sizeStr != "medium") ? sizeStr : "");
 }
 
 /// *|initial|inherit

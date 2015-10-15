@@ -31,7 +31,7 @@ class DynamicNode {
     //print("dynamic update properties LEAVING");
   }
 
-  Multiplicity get multiplicity => _multiplicity ?? Multiplicity.defaultMultiplicity;
+  Multiplicity get multiplicity => _multiplicity ?? (Multiplicity.defaultMultiplicity);
 
   void set multiplicity(Multiplicity m) {
     _multiplicity = m;

@@ -55,7 +55,7 @@ abstract class EnvyNode {
   ///
   void addDataset(String name, {List list, Map map, String text, num number, bool boolean}) {
     if (_datasetMap == null) _datasetMap = new HashMap<String, dynamic>();
-    _datasetMap[name] = list ?? map ?? text ?? number ?? boolean ?? null;
+    _datasetMap[name] = list ?? (map ?? (text ?? (number ?? (boolean ?? null))));
   }
 
   /// Removes the [name]d dataset from this node.
