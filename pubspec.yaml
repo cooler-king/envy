@@ -1,6 +1,6 @@
 name: envy
 description: An experimental information visualization framework.
-version: 0.0.3
+version: 0.0.4
 author: Rob Bishop (cooler-king)
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
@@ -9,8 +9,8 @@ environment:
 dependencies:
   browser: "^0.10.0"
   collection: "^1.1.3"
-  polymer: "1.0.0-rc.2"
-  polymer_elements: "1.0.0-rc.2"
+  polymer: "^1.0.0-rc.4"
+  polymer_elements: "^1.0.0-rc.2"
   quantity: "^0.1.0"
   reflectable: "^0.3.2"
   vector_math: "^1.4.3"

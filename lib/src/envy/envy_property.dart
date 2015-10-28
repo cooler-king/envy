@@ -181,20 +181,23 @@ abstract class EnvyProperty<T> {
     EnvyInterpolator<T> interp = interpolator;
     _currentValues.clear();
     for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
-      _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
+      // For finish values, only include available update or enter data
+      if (!finish || ((_update?.valueAt(_i) ?? _enter?.valueAt(_i)) != dataNotAvailable)) {
+        _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
+      }
     }
   }
 
   void _refreshDataSources() {
-    if (_enter != null) _enter.refresh();
-    if (_update != null) _update.refresh();
-    if (_exit != null) _exit.refresh();
+    _enter?.refresh();
+    _update?.refresh();
+    _exit?.refresh();
   }
 }
 
 class GenericProperty extends EnvyProperty<dynamic> {
-  GenericProperty({num defaultValue: 0}) : super(defaultValue);
-  EnvyInterpolator<num> get defaultInterpolator => new BinaryInterpolator();
+  GenericProperty({dynamic defaultValue: 0}) : super(defaultValue);
+  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator();
 }
 
 class NumberProperty extends EnvyProperty<num> {
@@ -295,4 +298,34 @@ class Skew2Property extends EnvyProperty<Vector2> {
 class PathInterpolation2dProperty extends EnvyProperty<PathInterpolation2d> {
   PathInterpolation2dProperty() : super(PathInterpolation2d.LINEAR);
   EnvyInterpolator<PathInterpolation2d> get defaultInterpolator => new BinaryInterpolator<PathInterpolation2d>();
+}
+
+/// A generic EnvyProperty that exposes its internals.
+///
+/// This facilitates testing private methods and may have other potential uses
+/// in situations where direct manipulation of values is desired.
+///
+class NakedProperty extends EnvyProperty<dynamic> {
+  NakedProperty({dynamic defaultValue: 0}) : super(defaultValue);
+  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator();
+
+  List get currentValues => _currentValues;
+  List get startValues => _startValues;
+  List get targetValues => _targetValues;
+
+  void refreshDataSources() {
+    refreshDataSources();
+  }
+
+  void preparePropertyForAnimation(int size) {
+    _preparePropertyForAnimation(size);
+  }
+
+  void updateStartValues() {
+    updateStartValues();
+  }
+
+  void updateTargetValues() {
+    updateTargetValues();
+  }
 }

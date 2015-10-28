@@ -7,7 +7,6 @@ part of envy;
 /// a multi-step accessor.
 ///
 class DataAccessor {
-
   /// A list of [Indices] and/or Strings, where ints indicate an index into
   /// an array and String indicate a property in a map.
   final List steps = [];
@@ -93,9 +92,9 @@ class DataAccessor {
     if (accessPath == null) return;
     try {
       List<String> accessSteps = accessPath.split(".");
-      for (String step in accessSteps) {
+      for (var step in accessSteps) {
         if (step.startsWith("[") && step.endsWith("]")) {
-          Indices ind = new Indices.parse(step.substring(1, step.length - 1));
+          var ind = new Indices.parse(step.substring(1, step.length - 1));
           if (ind != null) steps.add(ind);
         } else {
           int slashIndex = step.indexOf("/");
@@ -150,9 +149,7 @@ class DataAccessor {
               // Populate the values in the data list using previous order
               //TODO create this list as class variable and grow as necessary
               dataList = new List.generate(keyValueIndexMap.length, (i) => dataNotAvailable, growable: true);
-              //print(dataList);
               int index;
-              //var value;
               for (Map m in dataCursor) {
                 var keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
@@ -209,17 +206,15 @@ class DataAccessor {
   ///
   void cullUnavailableData() {
     if (propOrderingMap.isEmpty) return;
+    List keysToRemove = [];
     for (var propKey in propOrderingMap.keys) {
       Map m = propOrderingMap[propKey];
 
       // Remove dataNotAvailable entries
-      //bool sparse = false;
-      List keysToRemove = [];
+      keysToRemove.clear();
       for (var key in m.keys) {
         if (_lastData[m[key]] == dataNotAvailable) {
-          //m.remove(key);
           keysToRemove.add(key);
-          //sparse = true;
         }
       }
 
@@ -230,7 +225,7 @@ class DataAccessor {
       }
 
       // Sort keys by index
-      List list = new List.from(m.keys);
+      var list = new List.from(m.keys);
       list.sort((a, b) => m[a].compareTo(m[b]));
 
       // Change indices to consecutive positive integers

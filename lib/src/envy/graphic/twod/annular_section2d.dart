@@ -42,17 +42,10 @@ class AnnularSection2d extends Graphic2dNode {
     if (_anchor?.isNotDefault ?? false) {
       num outerRadius = _outerRadius > _innerRadius ? _outerRadius : _innerRadius;
 
-      Angle northernmost = range.angleClosestTo(angle0);
-      num minY = -outerRadius * northernmost.cosine();
-
-      Angle southernmost = range.angleClosestTo(angle180);
-      num maxY = outerRadius * southernmost.cosine();
-
-      Angle westernmost = range.angleClosestTo(angle270);
-      num minX = outerRadius * westernmost.sine();
-
-      Angle easternmost = range.angleClosestTo(angle90);
-      num maxX = outerRadius * easternmost.sine();
+      num minY = -outerRadius * range.angleClosestTo(angle0).cosine();
+      num maxY = outerRadius * range.angleClosestTo(angle180).cosine();
+      num minX = outerRadius * range.angleClosestTo(angle270).sine();
+      num maxX = outerRadius * range.angleClosestTo(angle90).sine();
 
       List<num> adj = _anchor.calcAdjustments(minY, maxX, maxY, minX);
       _x += adj[0];
