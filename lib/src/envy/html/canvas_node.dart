@@ -26,6 +26,9 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
   Stream onMouseEnter;
   StreamController<MouseEvent> _onMouseEnterController;
 
+  Stream onMouseLeave;
+  StreamController<MouseEvent> _onMouseLeaveController;
+
   Stream onMouseOver;
   StreamController<MouseEvent> _onMouseOverController;
 
@@ -37,6 +40,16 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
 
   Stream onMouseUp;
   StreamController<MouseEvent> _onMouseUpController;
+
+  Stream onMouseMove;
+  StreamController<MouseEvent> _onMouseMoveController;
+
+  final List<Graphic2dIntersection> _prevHits = [];
+  final List<Graphic2dIntersection> _newHits = [];
+
+  final List<Graphic2dIntersection> outs = [];
+  final List<Graphic2dIntersection> overs = [];
+
 
   CanvasNode([this.initialWidth = 500, this.initialHeight = 400]) {
     _initStreams();
@@ -69,6 +82,9 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     _onMouseEnterController = new StreamController<MouseEvent>.broadcast();
     onMouseEnter = _onMouseEnterController.stream;
 
+    _onMouseLeaveController = new StreamController<MouseEvent>.broadcast();
+    onMouseLeave = _onMouseLeaveController.stream;
+
     _onMouseOverController = new StreamController<MouseEvent>.broadcast();
     onMouseOver = _onMouseOverController.stream;
 
@@ -80,6 +96,9 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
 
     _onMouseUpController = new StreamController<MouseEvent>.broadcast();
     onMouseUp = _onMouseUpController.stream;
+
+    _onMouseMoveController = new StreamController<MouseEvent>.broadcast();
+    onMouseMove = _onMouseMoveController.stream;
   }
 
   CanvasElement elementAt(int index) {
@@ -91,7 +110,6 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
   ///
   @override
   void update(num timeFraction, {dynamic context, finish: false}) {
-    //print("canvas update fraction = ${timeFraction}");
     // Clear canvases and store 2D contexts before draw anything new
     _currentContext2DList.clear();
     _transform2DStackList.clear();
@@ -136,25 +154,102 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     _lastG2di = g2d;
   }
 
+  /// Handles detection of mouse movement on the canvas.
+  ///
+  /// Fires enter events on any newly intersected graphics,
+  /// regardless of intersection depth.
+  ///
+  /// Fires leave events on any previously intersected graphics
+  /// that are no longer intersected, regardless of intersection
+  /// depth.
+  ///
+  /// Fires an out event on any previously intersected graphics
+  /// that are no longer intersected, regardless of intersection
+  /// depth (same as leave) but also on any graphic that is still
+  /// intersected for which one or more of the superimposed graphics
+  /// is no longer intersected (that is, the mouse has moved out
+  /// of a graphic on top of it but is still over it.)  This is
+  /// analogous to the browser's mouseout events that fire when
+  /// the mouse moves out of child DOM nodes.
+  ///
+  /// Fires over events on any newly intersected graphics,
+  /// regardless of intersection depth (same as enter) but also
+  /// on any graphic that was previously intersected for which
+  /// there are new intersections above it (that is, the mouse has
+  /// moved over a new graphic on top of it while still over it as
+  /// well).  This is analogous to the browser's mouseover events
+  /// that fire when the mouse moves over child DOM nodes.
+  ///
+  /// Fires a move event on the topmost intersected graphic
+  /// or on this canvas itself if there are no intersections.
+  ///
   void handleMouseMove(CanvasElement canvas, MouseEvent e) {
-    Graphic2dIntersection g2d = graphic2dAtEvent(e, canvas);
-    if (g2d != _lastG2di) {
-      // Over
-      if (_lastG2di != null) {
-        _lastG2di.graphic2d.fireMouseOutEvent(_lastG2di..event = e);
+    _prevHits.clear();
+    _prevHits.addAll(_newHits);
+    _newHits.clear();
+
+    allGraphic2dsAtEvent(e, canvas, addToList: _newHits);
+
+    if (_newHits.isEmpty) {
+      if (_prevHits.isNotEmpty) {
+        // Leave and out events for all previous
+        for (var hit in _prevHits) {
+          hit.event = e;
+          hit.graphic2d
+            ..fireMouseLeaveEvent(hit)
+            ..fireMouseOutEvent(hit);
+        }
       }
 
-      if (g2d != null && g2d.graphic2d != null) {
-        g2d.graphic2d.fireMouseEnterEvent(g2d..event = e);
-      }
-    }
+      // Pass along move event to canvas if no graphic intersected.
+      _onMouseMoveController.add(e);
 
-    _lastG2di = g2d;
-    if (g2d == null) {
-      _onMouseOverController.add(e);
       return;
     }
-    g2d.graphic2d.fireMouseOverEvent(g2d..event = e);
+
+    // There are new hits if get this far.
+
+    // Compare prev to new hit list, firing leave and out events
+    // as appropriate
+    outs.clear();
+    for (var prevHit in _prevHits) {
+      if (!_newHits.contains(prevHit)) {
+        prevHit.graphic2d.fireMouseLeaveEvent(prevHit..event = e);
+
+        // Previous hit and all remaining hits underneath it get an out event
+        outs.add(prevHit);
+        prevHit.graphic2d.fireMouseOutEvent(prevHit..event = e);
+      } else {
+        if(outs.isNotEmpty) {
+          for(var out in outs) {
+            prevHit.graphic2d.fireMouseOutEvent(out..event = e);
+          }
+        }
+      }
+    }
+
+    // Compare new to previous hit list, firing enter and over events
+    // as appropriate
+    overs.clear();
+    for (var newHit in _newHits) {
+      if (!_prevHits.contains(newHit)) {
+        newHit.graphic2d.fireMouseEnterEvent(newHit..event = e);
+
+        // New hit and all remaining hits underneath it get an over event
+        overs.add(newHit);
+        newHit.graphic2d.fireMouseOverEvent(newHit..event = e);
+      } else {
+        if(overs.isNotEmpty) {
+          for(var over in overs) {
+            newHit.graphic2d.fireMouseOverEvent(over..event = e);
+          }
+        }
+      }
+    }
+
+    // Move event
+    var topHit = _newHits.first;
+    topHit.graphic2d.fireMouseMoveEvent(topHit..event = e);
   }
 
   void handleMouseUp(CanvasElement canvas, MouseEvent e) {
@@ -190,24 +285,18 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     var pt = new Point(e.client.x - canvasRect.left, e.client.y - canvasRect.top);
 
     return graphic2dAtPointInGroup(pt, this, canvas.context2D);
-/*    // Go backwards
-    int numChildren = children.length;
-    EnvyNode child;
-    for (int i = numChildren - 1; i > -1; i--) {
-      child = children[i];
-      if (child is Graphic2dNode) {
-        //todo transform point to local coords
-        int intersectionIndex = child.indexContainingPoint(pt.x, pt.y, ctx);
-        if (intersectionIndex != null) return new Graphic2dIntersection(child, intersectionIndex);
-      }
+  }
 
-      if (child is GroupNode) {
-        Graphic2dIntersection g2di = graphic2dAtPointInGroup(pt, child, ctx);
-        if(g2di != null) return g2di;
-      }
-    }
+  /// Returns a list of all the graphics that intersect the point,
+  /// with the topmost intersection as the first entry (index 0).
+  ///
+  /// Returns null if no 2d graphic intersects [pt].
+  ///
+  List<Graphic2dIntersection> allGraphic2dsAtEvent(MouseEvent e, CanvasElement canvas, {List addToList}) {
+    var canvasRect = canvas.getBoundingClientRect();
+    var pt = new Point(e.client.x - canvasRect.left, e.client.y - canvasRect.top);
 
-    return null;*/
+    return allGraphic2dsAtPointInGroup(pt, this, canvas.context2D, addToList: addToList);
   }
 
   Graphic2dIntersection graphic2dAtPointInGroup(Point pt, GroupNode grp, CanvasRenderingContext2D ctx) {
@@ -230,12 +319,28 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     return null;
   }
 
-  /*
-  int indexForCanvas(CanvasElement canvas) {
-    for(int index = 0; i<_domNodesMap.length; i++) {
-      if(identical(canvas, _domNodesMap))
+  List<Graphic2dIntersection> allGraphic2dsAtPointInGroup(Point pt, GroupNode grp, CanvasRenderingContext2D ctx,
+      {List addToList}) {
+    // Go backwards
+    EnvyNode child;
+    List<int> intersectionIndices = [];
+    List list = addToList ?? [];
+    for (int i = grp.children.length - 1; i > -1; i--) {
+      child = grp.children[i];
+
+      if (child is Graphic2dNode) {
+        child.allIndicesContainingPoint(pt.x, pt.y, ctx, listToUse: intersectionIndices);
+        for(int z in intersectionIndices) {
+          list.add(new Graphic2dIntersection(child, z));
+        }
+      }
+
+      if (child is GroupNode) {
+        allGraphic2dsAtPointInGroup(pt, child, ctx, addToList: list);
+      }
     }
-  }*/
+    return list.isNotEmpty ? list : null;
+  }
 }
 
 class Graphic2dIntersection {
@@ -254,5 +359,5 @@ class Graphic2dIntersection {
   }
 
   String toString() =>
-      "Intersection at index ${index} of ${graphic2d.runtimeType}; event = ${event.type} (${event.client.x}, ${event.client.y})";
+      "Intersection at index ${index} of ${graphic2d?.runtimeType}; event = ${event?.type} (${event?.client?.x}, ${event?.client?.y})";
 }

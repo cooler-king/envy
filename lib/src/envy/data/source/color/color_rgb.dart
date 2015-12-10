@@ -15,7 +15,7 @@ class ColorRgb extends ColorSource {
     //TODO check for nulls?
     return new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
 
-    //TODO even need values array?  or shoudl that be for constants?
+    //TODO even need values array?  or should that be for constants?
     //values[i] = new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
     //return super.valueAt(i);
   }

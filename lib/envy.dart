@@ -89,16 +89,24 @@ part 'src/envy/data/source/extrapolate/random_sample.dart';
 part 'src/envy/data/source/font/font_data.dart';
 part 'src/envy/data/source/font/font_source.dart';
 
+// Data - Sources - Geo
+part 'src/envy/data/source/geo/projection_source.dart';
+
 // Data - Sources - Number
 part 'src/envy/data/source/number/number_data.dart';
+part 'src/envy/data/source/number/number_ops.dart';
 part 'src/envy/data/source/number/number_source.dart';
 part 'src/envy/data/source/number/random_number.dart';
+
+// Data - Sources - Number List
+part 'src/envy/data/source/number_list/number_list_source.dart';
 
 // Data - Sources - Drawing Style
 part 'src/envy/data/source/path_interpolation2d/path_interpolation2d_data.dart';
 part 'src/envy/data/source/path_interpolation2d/path_interpolation2d_source.dart';
 
 // Data - Sources - PointList
+part 'src/envy/data/source/point_list/geo_point_list.dart';
 part 'src/envy/data/source/point_list/point_list_data.dart';
 part 'src/envy/data/source/point_list/point_list_source.dart';
 
@@ -113,6 +121,10 @@ part 'src/envy/data/source/text_align2d/text_align2d_source.dart';
 // Data - Sources - Text Baseline 2D
 part 'src/envy/data/source/text_baseline2d/text_baseline2d_data.dart';
 part 'src/envy/data/source/text_baseline2d/text_baseline2d_source.dart';
+
+// Geo
+part 'src/envy/geo/geocoord.dart';
+part 'src/envy/geo/projections.dart';
 
 // Graphics
 part 'src/envy/graphic/graphic_node.dart';
@@ -130,6 +142,7 @@ part 'src/envy/graphic/twod/gradient2d.dart';
 part 'src/envy/graphic/twod/graphic2d_node.dart';
 part 'src/envy/graphic/twod/image2d.dart';
 part 'src/envy/graphic/twod/line2d.dart';
+part 'src/envy/graphic/twod/number_list.dart';
 part 'src/envy/graphic/twod/path2d.dart';
 part 'src/envy/graphic/twod/pattern2d.dart';
 part 'src/envy/graphic/twod/point2d.dart';
@@ -182,6 +195,7 @@ part 'src/envy/interpolate/envy_interpolator.dart';
 part 'src/envy/interpolate/font_interpolator.dart';
 part 'src/envy/interpolate/gradient2d_interpolator.dart';
 part 'src/envy/interpolate/number_interpolator.dart';
+part 'src/envy/interpolate/number_list_interpolator.dart';
 part 'src/envy/interpolate/pattern2d_interpolator.dart';
 part 'src/envy/interpolate/point_interpolator.dart';
 part 'src/envy/interpolate/point_list_interpolator.dart';

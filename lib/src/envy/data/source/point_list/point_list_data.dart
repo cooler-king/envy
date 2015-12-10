@@ -12,7 +12,7 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
   /// dataset.
   ///
   /// If [prop] is provided instead of [accessor] then a property DataAccessor
-  /// will be constructured and used.
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///

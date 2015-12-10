@@ -1,6 +1,6 @@
 name: envy
 description: An experimental information visualization framework.
-version: 0.0.4
+version: 0.0.5
 author: Rob Bishop (cooler-king)
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
@@ -9,10 +9,10 @@ environment:
 dependencies:
   browser: "^0.10.0"
   collection: "^1.1.3"
-  polymer: "^1.0.0-rc.4"
-  polymer_elements: "^1.0.0-rc.2"
+  polymer: "^1.0.0-rc.9"
+  polymer_elements: "^1.0.0-rc.5"
   quantity: "^0.1.0"
-  reflectable: "^0.3.2"
+  reflectable: "^0.4.0"
   vector_math: "^1.4.3"
   web_components: "^0.12.0"
 dev_dependencies:
@@ -20,6 +20,7 @@ dev_dependencies:
 transformers:
 - web_components:
     entry_points:
+    - example/circle2d/test_circle2d.html
     - test/html/test_annular_section2d.html
     - test/html/test_circle2d.html
     - test/html/test_div_node.html
@@ -32,6 +33,7 @@ transformers:
     - test/html/test_triangle2d.html
 - reflectable:
     entry_points:
+    - example/circle2d/test_circle2d.dart
     - test/html/test_annular_section2d.dart
     - test/html/test_circle2d.dart
     - test/html/test_div_node.dart

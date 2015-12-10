@@ -12,8 +12,8 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -53,7 +53,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
     } else if (data is Angle) {
       this.values.add(data);
     } else {
-      // warn and do best to convert to number
+      // Warn and do best to convert to number
       _LOG.warning("Unexpected data type for AngleData: ${data}");
       if (data is List) {
         // try to parse entires as numbers; assume degrees
@@ -70,7 +70,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
     if (d is Angle) return d;
 
     if (d is num) {
-      // assume degress
+      // Assume degrees
       return new Angle(deg: d);
     } else {
       try {

@@ -180,10 +180,16 @@ abstract class EnvyProperty<T> {
   void updateValues(num fraction, {bool finish: false}) {
     EnvyInterpolator<T> interp = interpolator;
     _currentValues.clear();
-    for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
-      // For finish values, only include available update or enter data
-      if (!finish || ((_update?.valueAt(_i) ?? _enter?.valueAt(_i)) != dataNotAvailable)) {
+    if (!finish) {
+      for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
         _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
+      }
+    } else {
+      for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
+        // For finish values, only include available update or enter data
+        if ((_update?.valueAt(_i) ?? _enter?.valueAt(_i)) != dataNotAvailable) {
+          _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
+        }
       }
     }
   }
@@ -268,6 +274,11 @@ class PointProperty extends EnvyProperty<Math.Point> {
 class PointListProperty extends EnvyProperty<PointList> {
   PointListProperty() : super(new PointList());
   EnvyInterpolator<PointList> get defaultInterpolator => new PointListInterpolator();
+}
+
+class NumberListProperty extends EnvyProperty<NumberList> {
+  NumberListProperty() : super(new NumberList());
+  EnvyInterpolator<NumberList> get defaultInterpolator => new NumberListInterpolator();
 }
 
 class CssStyleProperty extends EnvyProperty<CssStyle> {

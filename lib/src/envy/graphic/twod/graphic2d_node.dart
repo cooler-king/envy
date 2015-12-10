@@ -17,8 +17,14 @@ abstract class Graphic2dNode extends GraphicLeaf {
   Stream onMouseOver;
   StreamController<Graphic2dIntersection> _onMouseOverController;
 
+  Stream onMouseMove;
+  StreamController<Graphic2dIntersection> _onMouseMoveController;
+
   Stream onMouseOut;
   StreamController<Graphic2dIntersection> _onMouseOutController;
+
+  Stream onMouseLeave;
+  StreamController<Graphic2dIntersection> _onMouseLeaveController;
 
   Stream onMouseDown;
   StreamController<Graphic2dIntersection> _onMouseDownController;
@@ -59,6 +65,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
     properties["lineJoin"] = new LineJoin2dProperty();
     properties["miterLimit"] = new NumberProperty(defaultValue: 10); //..enter = new NumberConstant(10);
     properties["lineDashOffset"] = new NumberProperty(); //..enter = NumberConstant.zero;
+
+    properties["lineDash"] = new NumberListProperty();
 
     // Text properties
     properties["font"] = new FontProperty();
@@ -108,6 +116,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
   NumberProperty get lineWidth => properties["lineWidth"] as NumberProperty;
   LineCap2dProperty get lineCap => properties["lineCap"] as LineCap2dProperty;
   LineJoin2dProperty get lineJoin => properties["lineJoin"] as LineJoin2dProperty;
+
+  NumberListProperty get lineDash => properties["lineDash"] as NumberListProperty;
 
   TextAlign2dProperty get textAlign => properties["textAlign"] as TextAlign2dProperty;
   TextBaseline2dProperty get textBaseline => properties["textBaseline"] as TextBaseline2dProperty;
@@ -217,17 +227,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
     value = lineJoin.valueAt(index);
     if (value != null) ctx.lineJoin = value.value;
 
-    /*
-    value = textAlign.valueAt(index);
-    if (value != null) ctx.textAlign = value.value;
-
-    value = textBaseline.valueAt(index);
-    if (value != null) ctx.textBaseline = value.value;
-
-    value = font.valueAt(index);
-    if (value != null) ctx.font = value.css;
-    *
-     */
+    value = lineDash.valueAt(index);
+    if (value != null) ctx.setLineDash(value);
 
     value = shadowBlur.valueAt(index);
     if (value != null) ctx.shadowBlur = value;
@@ -269,7 +270,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
 */
 
-  /// Hit testing of the path in reverse order, where x and y
+  /// Hit testing of the path in reverse order (returning only the first index hit), where x and y
   /// are coordinates in the local coordinate system of the graphic.
   ///
   /// Returns null if none of the stored Path2Ds for this graphic contain the
@@ -297,6 +298,34 @@ abstract class Graphic2dNode extends GraphicLeaf {
     return null;
   }
 
+  /// Hit testing of the path in reverse order (returning all indices hit), where x and y
+  /// are coordinates in the local coordinate system of the graphic.
+  ///
+  /// Returns null if none of the stored Path2Ds for this graphic contain the
+  /// point described by x, y.
+  ///
+  /// The indices will be appended to [listToUse], if provided.
+  ///
+  List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
+    List<int> hitIndices = listToUse ?? [];
+    for (_i = paths.length - 1; _i >= 0; _i--) {
+      ctx.save();
+      _applyTransform(_i, ctx);
+      if (fill.valueAt(_i)) {
+        if (ctx.isPointInPath(paths[_i], x, y)) {
+          hitIndices.add(_i);
+        } else if (stroke.valueAt(_i)) {
+          ctx.lineWidth = lineWidth.valueAt(_i);
+          if (ctx.isPointInStroke(paths[_i], x, y)) {
+            hitIndices.add(_i);
+          }
+        }
+      }
+      ctx.restore();
+    }
+    return hitIndices;
+  }
+
   void _initStreams() {
     _onClickController = new StreamController<Graphic2dIntersection>.broadcast();
     onClick = _onClickController.stream;
@@ -310,8 +339,14 @@ abstract class Graphic2dNode extends GraphicLeaf {
     _onMouseOverController = new StreamController<Graphic2dIntersection>.broadcast();
     onMouseOver = _onMouseOverController.stream;
 
+    _onMouseMoveController = new StreamController<Graphic2dIntersection>.broadcast();
+    onMouseMove = _onMouseMoveController.stream;
+
     _onMouseOutController = new StreamController<Graphic2dIntersection>.broadcast();
     onMouseOut = _onMouseOutController.stream;
+
+    _onMouseLeaveController = new StreamController<Graphic2dIntersection>.broadcast();
+    onMouseLeave = _onMouseLeaveController.stream;
 
     _onMouseDownController = new StreamController<Graphic2dIntersection>.broadcast();
     onMouseDown = _onMouseDownController.stream;
@@ -336,8 +371,16 @@ abstract class Graphic2dNode extends GraphicLeaf {
     _onMouseOutController.add(g2di);
   }
 
+  void fireMouseLeaveEvent(Graphic2dIntersection g2di) {
+    _onMouseLeaveController.add(g2di);
+  }
+
   void fireMouseOverEvent(Graphic2dIntersection g2di) {
     _onMouseOverController.add(g2di);
+  }
+
+  void fireMouseMoveEvent(Graphic2dIntersection g2di) {
+    _onMouseMoveController.add(g2di);
   }
 
   void fireMouseDownEvent(Graphic2dIntersection g2di) {
