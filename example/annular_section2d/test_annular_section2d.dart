@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';

@@ -4,65 +4,56 @@
   <head>
     <meta charset="utf-8">
     <title>Envy Test App</title>
-    <link rel="stylesheet" href="common.css">
+    <link rel="stylesheet" href="../common.css">
     
     <!-- Polymer -->
     <script src="packages/web_components/webcomponents-lite.min.js"></script>
     <script src="packages/web_components/dart_support.js"></script>
   </head>
   <body>
-    <h1>Envy 2D Rect</h1>
+    <h1>Envy 2D Triangle</h1>
     
     <div id="vis-container" style="height:500px;">
       <h3>Basic</h3>
       <div style='display: flex; height: 100px;'>
-        <envy-div id="rect2d-basic"></envy-div>
+        <envy-div id="basic"></envy-div>
       </div>
       <hr>
       <h3>Rotation</h3>
       <i>0, 30, 45, 60, 90</i>
       <div style='display: flex; height: 100px;'>
-        <envy-div id="rect2d-rotation"></envy-div>
+        <envy-div id="rotation"></envy-div>
       </div>
       <hr>
       <h3>Anchors</h3>
       <i>Default, Center, Bottom, Bottom-Left, Bottom-Right, Left, Right, Top, Top-Left, Top-Right</i> 
       <div style='display: flex; height: 200px;'>
-        <envy-div id="rect2d-anchors"></envy-div>
+        <envy-div id="anchors"></envy-div>
       </div>
       <hr>
       <h3>Lifecycle</h3>
-      <button id='rect2d-enter-button'>Enter</button>
-      <button id='rect2d-update-button'>Update</button>
-      <button id='rect2d-exit-button'>Exit</button>
+      <button id='enter-button'>Enter</button>
+      <button id='update-button'>Update</button>
+      <button id='exit-button'>Exit</button>
       <div style="display: flex; min-height:400px;">
-        <envy-div id="rect2d-lifecycle"></envy-div>
-      </div>
-      <hr>
-      <h3>Data-driven</h3>
-      <button id='rect2d-data-button'>Update Data</button>
-      <div style="display: flex; min-height:400px;">
-        <envy-div id="rect2d-data"></envy-div>
+        <envy-div id="lifecycle"></envy-div>
       </div>
       <hr>
       <h3>Hit Testing</h3>
       <div id='hit-feedback'>========================</div>
+      <div id='hit-feedback-enter'>========================</div>
+      <div id='hit-feedback-leave'>========================</div>
       <div id='hit-feedback-over'>========================</div>
+      <div id='hit-feedback-out'>========================</div>
       <div id='hit-feedback-downup'>========================</div>
+      <div id='hit-feedback-move'>========================</div>
       <p>
       <div style='display: flex; height: 300px;'>
         <envy-div id="hit"></envy-div>
       </div>
-      <hr>
-      <h3>Fill Styles</h3>
-      <i>Color, Linear Gradient, Radial Gradient, Image, Transparent</i>
-      <div style='display: flex; height: 150px; background: goldenrod;'>
-        <envy-div id="rect2d-fill"></envy-div>
-      </div>
-      
       <p>
     </div>
 
-    <script type="application/dart" src="test_rect2d.dart"></script>
+    <script type="application/dart" src="test_triangle2d.dart"></script>
   </body>
 </html>
