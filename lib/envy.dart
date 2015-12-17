@@ -1,6 +1,7 @@
 library envy;
 
 import 'dart:async';
+import 'dart:convert';
 import 'dart:html';
 import 'dart:collection';
 import 'dart:math' as Math;
@@ -124,6 +125,7 @@ part 'src/envy/data/source/text_baseline2d/text_baseline2d_source.dart';
 
 // Geo
 part 'src/envy/geo/geocoord.dart';
+part 'src/envy/geo/geojson.dart';
 part 'src/envy/geo/projections.dart';
 
 // Graphics

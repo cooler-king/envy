@@ -1,7 +1,7 @@
 part of envy;
 
 abstract class Projection {
-  Point<num> toPoint({Angle lat, Angle long, this.scale: 1});
+  Point<num> toPoint({Angle lat, Angle long, num scale: 1});
 
   GeoCoord toGeo(Point<num> pt);
 }

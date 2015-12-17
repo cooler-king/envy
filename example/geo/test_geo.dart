@@ -24,7 +24,7 @@ void testBasic() {
 
   // Path
   Path2d s = new Path2d();
-  canvas.addDataset("coords", list: angleData);
+  //canvas.addDataset("coords", list: angleData);
   canvas.attach(s);
 
   var projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45)));

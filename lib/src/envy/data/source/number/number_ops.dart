@@ -8,9 +8,6 @@ abstract class UnaryOp extends NumberSource {
   UnaryOp(this.ns);
 
   int get rawSize => ns.rawSize;
-
-  // No-op refresh
-  void refresh();
 }
 
 /// Binary operations take two number sources.
@@ -50,14 +47,16 @@ abstract class MultipleOp extends NumberSource {
   }
 
   // No-op refresh
-  void refresh();
+  void refresh() {
+    // Do nothing by default
+  }
 }
 
 /// Supplies the negative of [ns].
 ///
 class Neg extends UnaryOp {
 
-  Neg(this.ns) : super(ns);
+  Neg(NumberSource ns) : super(ns);
 
   num valueAt(int i) => -(ns.valueAt(i));
 }
@@ -66,7 +65,7 @@ class Neg extends UnaryOp {
 ///
 class Abs extends UnaryOp {
 
-  Abs(this.ns) : super(ns);
+  Abs(NumberSource ns) : super(ns);
 
   num valueAt(int i) => ns.valueAt(i).abs();
 }
@@ -75,7 +74,7 @@ class Abs extends UnaryOp {
 ///
 class Ceil extends UnaryOp {
 
-  Ceil(this.ns) : super(ns);
+  Ceil(NumberSource ns) : super(ns);
 
   num valueAt(int i) => ns.valueAt(i).ceil();
 }
@@ -84,7 +83,7 @@ class Ceil extends UnaryOp {
 ///
 class Floor extends UnaryOp {
 
-  Floor(this.ns) : super(ns);
+  Floor(NumberSource ns) : super(ns);
 
   num valueAt(int i) => ns.valueAt(i).floor();
 }
@@ -93,7 +92,7 @@ class Floor extends UnaryOp {
 ///
 class Exp extends UnaryOp {
 
-  Exp(this.ns) : super(ns);
+  Exp(NumberSource ns) : super(ns);
 
   num valueAt(int i) => Math.exp(ns.valueAt(i));
 }
@@ -102,7 +101,7 @@ class Exp extends UnaryOp {
 ///
 class Log extends UnaryOp {
 
-  Log(this.ns) : super(ns);
+  Log(NumberSource ns) : super(ns);
 
   num valueAt(int i) => Math.log(ns.valueAt(i));
 }
@@ -113,7 +112,7 @@ class Log extends UnaryOp {
 ///
 class Round extends UnaryOp {
 
-  Round(this.ns) : super(ns);
+  Round(NumberSource ns) : super(ns);
 
   num valueAt(int i) => ns.valueAt(i).round();
 }
@@ -122,7 +121,7 @@ class Round extends UnaryOp {
 ///
 class Sqrt extends UnaryOp {
 
-  Sqrt(this.ns) : super(ns);
+  Sqrt(NumberSource ns) : super(ns);
 
   num valueAt(int i) => Math.sqrt(ns.valueAt(i));
 }
@@ -131,7 +130,7 @@ class Sqrt extends UnaryOp {
 ///
 class Truncate extends UnaryOp {
 
-  Truncate(this.ns) : super(ns);
+  Truncate(NumberSource ns) : super(ns);
 
   num valueAt(int i) => ns.valueAt(i).truncate();
 }
@@ -157,7 +156,7 @@ class Sum extends MultipleOp {
 ///
 class Diff extends BinaryOp {
 
-  Diff(this.ns1, this.ns2) : super(ns1, ns2);
+  Diff(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => ns1.valueAt(i) - ns2.valueAt(i);
 }
@@ -183,7 +182,7 @@ class Product extends MultipleOp {
 ///
 class Quotient extends BinaryOp {
 
-  Quotient(this.ns1, this.ns2) : super(ns1, ns2);
+  Quotient(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => ns1.valueAt(i) / ns2.valueAt(i);
 }
@@ -192,7 +191,7 @@ class Quotient extends BinaryOp {
 ///
 class Remainder extends BinaryOp {
 
-  Remainder(this.ns1, this.ns2) : super(ns1, ns2);
+  Remainder(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => ns1.valueAt(i).remainder(ns2.valueAt(i));
 }
@@ -201,7 +200,7 @@ class Remainder extends BinaryOp {
 ///
 class Pow extends BinaryOp {
 
-  Pow(this.ns1, this.ns2) : super(ns1, ns2);
+  Pow(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => Math.pow(ns1.valueAt(i), ns2.valueAt(i));
 }
@@ -246,7 +245,7 @@ class Max extends MultipleOp {
 ///
 class Modulo extends BinaryOp {
 
-  Modulo(this.ns1, this.ns2) : super(ns1, ns2);
+  Modulo(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => ns1.valueAt(i) % ns2.valueAt(i);
 }
@@ -255,7 +254,7 @@ class Modulo extends BinaryOp {
 ///
 class TruncDiv extends BinaryOp {
 
-  TruncDiv(this.ns1, this.ns2) : super(ns1, ns2);
+  TruncDiv(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   num valueAt(int i) => ns1.valueAt(i) ~/ ns2.valueAt(i);
 }
@@ -273,9 +272,9 @@ class Clamp extends NumberSource {
 
   num valueAt(int i) => ns1.valueAt(i).clamp(ns2.valueAt(i), ns3.valueAt(i));
 
-  int get rawSize => Math.max(ns1.rawSize, ns2.rawSize, ns3.rawSize);
+  int get rawSize => Math.max(ns1.rawSize, Math.max(ns2.rawSize, ns3.rawSize));
 
   // No-op refresh
-  void refresh();
+  void refresh() {}
 
 }

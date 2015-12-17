@@ -1,3 +1,6 @@
+### 0.0.6
+  * Added a default line dash value
+
 ### 0.0.5
   * Optimization of `EnvyProperty.updateValues`
   * Refined `CanvasNode` support for mouse enter, leave, over, out and move

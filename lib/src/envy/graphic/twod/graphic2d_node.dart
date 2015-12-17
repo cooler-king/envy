@@ -38,6 +38,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
   Vector2 _scale = vec2one;
   Vector2 _skew = vec2zero;
 
+  static const List<int> defaultLineDash = const [1, 0];
+
   Graphic2dNode(Node htmlNode, [String id]) {
     _initContextProperties();
     _initBaseProperties();
@@ -228,16 +230,20 @@ abstract class Graphic2dNode extends GraphicLeaf {
     if (value != null) ctx.lineJoin = value.value;
 
     value = lineDash.valueAt(index);
-    if (value != null) ctx.setLineDash(value);
+    if (value != null) {
+      if(value.isEmpty) value = defaultLineDash;
+      ctx.setLineDash(value);
+    }
 
-    value = shadowBlur.valueAt(index);
-    if (value != null) ctx.shadowBlur = value;
+      value = shadowBlur.valueAt(index);
+      if (value != null) ctx.shadowBlur = value;
 
-    value = shadowColor.valueAt(index);
-    if (value != null) ctx.shadowColor = value.css;
+      value = shadowColor.valueAt(index);
+      if (value != null) ctx.shadowColor = value.css;
 
-    _applyTransform(index, ctx);
-  }
+      _applyTransform(index, ctx);
+    }
+
 
   /// First rotate about the anchor point and then apply the
   /// translation, scale and skew with the transform method.
