@@ -8,6 +8,10 @@ abstract class UnaryOp extends NumberSource {
   UnaryOp(this.ns);
 
   int get rawSize => ns.rawSize;
+
+  void refresh() {
+    // Do nothing by default
+  }
 }
 
 /// Binary operations take two number sources.
@@ -21,8 +25,9 @@ abstract class BinaryOp extends NumberSource {
   int get rawSize => Math.max(ns1.rawSize, ns2.rawSize);
 
   // No-op refresh
-  void refresh();
-}
+  void refresh() {
+    // Do nothing by default
+  }}
 
 
 /// Multiple operations take an arbitrary number of number sources.

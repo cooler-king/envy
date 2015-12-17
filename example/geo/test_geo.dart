@@ -31,6 +31,7 @@ void testBasic() {
   var latSource = new NumberData("coords", canvas, prop: "lat");
   var longSource = new NumberData("coords", canvas, prop: "long");
 
+  /* TODO
   s.points.enter = new GeoPointListDegrees(projSource, latSource, longSource);
   s.x.enter = new NumberConstant.array([50, 250, 450]);
   s.y.enter = new NumberConstant(10);
@@ -39,7 +40,7 @@ void testBasic() {
   s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.white));
   s.fill.enter = new BooleanConstant.array([true, true, false]);
   s.stroke.enter = new BooleanConstant.array([true, false, true]);
-
+*/
   esg.updateGraph();
 }
 

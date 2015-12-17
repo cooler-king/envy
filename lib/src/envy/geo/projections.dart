@@ -14,10 +14,15 @@ abstract class Projection {
 class Equirectangular extends Projection {
   final num cosParallel;
 
-  Equirectangular(Angle standardParallels) : cosParallel = standardParallel.cos();
+  Equirectangular(Angle standardParallel) : cosParallel = standardParallel.cosine();
 
   Point<num> toPoint({Angle lat, Angle long, num scale: 1}) {
     return new Point<num>(long.valueSI.toDouble() * cosParallel * scale, lat.valueSI.toDouble() * scale);
+  }
+
+  GeoCoord toGeo(Point<num> pt) {
+    //TODO toGeo
+    return null;
   }
 }
 

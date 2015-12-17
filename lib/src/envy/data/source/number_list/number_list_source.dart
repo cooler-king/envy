@@ -8,7 +8,7 @@ class NumberListConstant extends ArrayDataSource<NumberList> implements NumberLi
   }
 
   NumberListConstant.array(List<NumberList> numberLists) {
-    this.values.addAll(numbers);
+    this.values.addAll(numberLists);
   }
 
   // No-op refresh

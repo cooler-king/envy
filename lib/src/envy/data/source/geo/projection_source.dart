@@ -12,5 +12,7 @@ class ProjectionConstant extends ArrayDataSource<Projection> implements Projecti
   }
 
   // No-op refresh
-  void refresh();
+  void refresh(){
+    // No-op
+  }
 }
