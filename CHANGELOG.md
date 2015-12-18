@@ -1,5 +1,6 @@
 ### 0.0.6
   * Added a default line dash value
+  * Added `GeoJson` support
 
 ### 0.0.5
   * Optimization of `EnvyProperty.updateValues`
