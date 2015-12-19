@@ -110,35 +110,52 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   // Context properties
   DrawingStyle2dProperty get fillStyle => properties["fillStyle"] as DrawingStyle2dProperty;
+
   DrawingStyle2dProperty get strokeStyle => properties["strokeStyle"] as DrawingStyle2dProperty;
 
   NumberProperty get globalAlpha => properties["globalAlpha"] as NumberProperty;
+
   StringProperty get globalCompositeOperation => properties["globalCompositeOperation"] as StringProperty;
 
   NumberProperty get lineWidth => properties["lineWidth"] as NumberProperty;
+
   LineCap2dProperty get lineCap => properties["lineCap"] as LineCap2dProperty;
+
   LineJoin2dProperty get lineJoin => properties["lineJoin"] as LineJoin2dProperty;
 
   NumberListProperty get lineDash => properties["lineDash"] as NumberListProperty;
 
   TextAlign2dProperty get textAlign => properties["textAlign"] as TextAlign2dProperty;
+
   TextBaseline2dProperty get textBaseline => properties["textBaseline"] as TextBaseline2dProperty;
+
   FontProperty get font => properties["font"] as FontProperty;
 
   NumberProperty get shadowBlur => properties["shadowBlur"] as NumberProperty;
+
   NumberProperty get shadowOffsetX => properties["shadowOffsetX"] as NumberProperty;
+
   NumberProperty get shadowOffsetY => properties["shadowOffsetY"] as NumberProperty;
+
   ColorProperty get shadowColor => properties["shadowColor"] as ColorProperty;
 
   // Base properties
   Anchor2dProperty get anchor => properties["anchor"] as Anchor2dProperty;
+
   BooleanProperty get fill => properties["fill"] as BooleanProperty;
+
   BooleanProperty get stroke => properties["stroke"] as BooleanProperty;
+
   NumberProperty get x => properties["x"] as NumberProperty;
+
   NumberProperty get y => properties["y"] as NumberProperty;
+
   AngleProperty get rotation => properties["rotation"] as AngleProperty;
+
   Scale2Property get scale => properties["scale"] as Scale2Property;
+
   Skew2Property get skew => properties["skew"] as Skew2Property;
+
   GenericProperty get data => properties["data"] as GenericProperty;
 
   // Synonym properties
@@ -231,18 +248,21 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
     value = lineDash.valueAt(index);
     if (value != null) {
-      if(value.isEmpty) value = defaultLineDash;
-      ctx.setLineDash(value);
+      if (value.isEmpty) {
+        if (ctx.getLineDash()?.isNotEmpty ?? false) value = defaultLineDash;
+      } else {
+        ctx.setLineDash(value);
+      }
     }
 
-      value = shadowBlur.valueAt(index);
-      if (value != null) ctx.shadowBlur = value;
+    value = shadowBlur.valueAt(index);
+    if (value != null) ctx.shadowBlur = value;
 
-      value = shadowColor.valueAt(index);
-      if (value != null) ctx.shadowColor = value.css;
+    value = shadowColor.valueAt(index);
+    if (value != null) ctx.shadowColor = value.css;
 
-      _applyTransform(index, ctx);
-    }
+    _applyTransform(index, ctx);
+  }
 
 
   /// First rotate about the anchor point and then apply the
