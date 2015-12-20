@@ -27,7 +27,6 @@ class SequenceTimingGroup extends TimingGroup {
   /// Calculate the start times of the group children.
   ///
   void _calcStartTimes() {
-    TimedItemGroup prev = null;
     num prevEnd = 0;
     for (var child in children) {
       if (child is TimedItemGroup) {

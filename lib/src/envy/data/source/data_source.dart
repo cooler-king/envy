@@ -18,7 +18,7 @@ abstract class DataSource<T> {
   /// The "preferred" array size of the data source
   int get rawSize;
 
-  /// Refesh values (called when a dynamic node is preparing for animation)
+  /// Refresh values (called when a dynamic node is preparing for animation)
   void refresh();
 }
 

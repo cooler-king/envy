@@ -16,7 +16,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
   // Keep track of last Graphic2d to intersect with mouse event
   Graphic2dIntersection _lastG2di;
 
-  // Mouse event streams for events that fall through to the background (no interstion with graphic)
+  // Mouse event streams for events that fall through to the background (no intersection with graphic)
   Stream onClick;
   StreamController<MouseEvent> _onClickController;
 

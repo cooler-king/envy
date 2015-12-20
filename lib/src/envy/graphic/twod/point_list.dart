@@ -44,4 +44,14 @@ class PointList extends DelegatingList<Math.Point> {
     }
     return max;
   }
+
+  String toString() {
+    var buf = new StringBuffer();
+    buf.writeln("[");
+    for(int i=0; i<this.length; i++) {
+      buf.writeln("  [$i]  ${this[i]}");
+    }
+    buf.writeln("]");
+    return buf.toString();
+  }
 }

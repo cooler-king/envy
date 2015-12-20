@@ -49,8 +49,6 @@ class EnvySceneGraph {
   /// based on animation time fractions.
   ///
   void updateGraph() {
-    int now = new DateTime.now().millisecondsSinceEpoch;
-
     // Create a new Player having current time (plus a little bit) as start time
     // This starts the update loop.
     Player player = masterTimeline.play();

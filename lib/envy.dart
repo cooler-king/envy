@@ -7,7 +7,7 @@ import 'dart:collection';
 import 'dart:math' as Math;
 import 'package:logging/logging.dart';
 import 'package:quantity/quantity.dart';
-import 'package:quantity/quantity_ext.dart' show angle0, angle90, angle180, angle270;
+import 'package:quantity/quantity_ext.dart' show angle0, angle90, angle180, angle270, deg2rad;
 import 'package:quantity/quantity_range.dart';
 import 'package:vector_math/vector_math.dart';
 import 'package:collection/wrappers.dart';
@@ -100,6 +100,7 @@ part 'src/envy/data/source/number/number_source.dart';
 part 'src/envy/data/source/number/random_number.dart';
 
 // Data - Sources - Number List
+part 'src/envy/data/source/number_list/number_list_data.dart';
 part 'src/envy/data/source/number_list/number_list_source.dart';
 
 // Data - Sources - Drawing Style

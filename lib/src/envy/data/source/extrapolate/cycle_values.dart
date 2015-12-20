@@ -1,8 +1,6 @@
 part of envy;
 
 class CycleValues<T> extends Extrapolation<T> {
-  int _index;
-
   final bool oneWay;
 
   CycleValues(this.oneWay) : super("cycle", "Cycle through existing values");

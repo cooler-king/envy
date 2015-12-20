@@ -35,8 +35,6 @@ class CubicBezierCurve extends TimingFunction {
   num output(num input) {
     num inputSquared = input * input;
     num inputCubed = inputSquared * input;
-    num oneMinusInput = 1 - input;
-    num oneMinusInputSquared = oneMinusInput * oneMinusInput;
 
     num c = 3 * cpy1;
     num b = 3 * (cpy2 - cpy1) - c;

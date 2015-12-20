@@ -7,8 +7,8 @@ class ProjectionConstant extends ArrayDataSource<Projection> implements Projecti
     this.values.add(proj);
   }
 
-  ProjectionConstant.array(List<Projection> proj) {
-    this.values.addAll(proj);
+  ProjectionConstant.array(List<Projection> projList) {
+    this.values.addAll(projList);
   }
 
   // No-op refresh

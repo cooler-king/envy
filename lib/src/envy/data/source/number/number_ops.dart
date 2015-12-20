@@ -49,6 +49,7 @@ abstract class MultipleOp extends NumberSource {
     for (var ns in _list) {
       max = Math.max(max, ns.rawSize);
     }
+    return max;
   }
 
   // No-op refresh

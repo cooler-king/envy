@@ -22,13 +22,41 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
   void refresh();
 
 }
-
+*/
 
 class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointListSource {
   ProjectionSource projSource;
-  NumberSource latSource;
-  NumberSource longSource;
+  NumberListSource latListSource;
+  NumberListSource longListSource;
 
-  GeoPointListDegrees(this.projSource, this.latSource, this.longSource );
+  GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource} );
+
+  PointList valueAt(int i) {
+    var pts = new PointList();
+    var proj = projSource.valueAt(i);
+    var lats = latListSource.valueAt(i);
+    var longs = longListSource.valueAt(i);
+
+    // Only create points for which both lat and long are available
+    int numPoints = lats?.length ?? 0;
+    if(numPoints > 0 && numPoints != longs.length) {
+      numPoints = Math.min(lats.length, longs.length);
+    }
+    for(int p=0; p<numPoints; p++) {
+      pts.addPoint(proj.degreesToPoint(latDeg: lats[p], longDeg: longs[p]));
+    }
+
+    print(pts);
+    return pts;
+  }
+
+
+  /// Refreshes the member sources.
+  ///
+  void refresh() {
+    projSource.refresh();
+    latListSource.refresh();
+    longListSource.refresh();
+  }
+
 }
-*/

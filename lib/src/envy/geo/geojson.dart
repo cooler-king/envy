@@ -36,6 +36,7 @@ class GeoJson {
     if (featureCollection != null) return featureCollection.toJson();
     if (feature != null) return feature.toJson();
     if (geometry != null) return geometry.toJson();
+    return null;
   }
 
 }

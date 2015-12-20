@@ -1,8 +1,25 @@
 part of envy;
 
 abstract class Projection {
-  Point<num> toPoint({Angle lat, Angle long, num scale: 1});
+  /// Concrete implementations need to provide this method that converts
+  /// a latitude and longitude, provided in radians, to a Point.
+  ///
+  Point<num> toPoint({num latRad, num longRad, num scale: 1});
 
+  Point<num> anglesToPoint({Angle lat, Angle long, num scale: 1}) =>
+    toPoint(latRad: lat.valueSI.toDouble(), longRad: long.valueSI.toDouble(), scale: scale);
+
+
+  Point<num> degreesToPoint({num latDeg, num longDeg, num scale: 1}) =>
+    toPoint(latRad: degToRad(latDeg.toDouble()), longRad: degToRad(longDeg.toDouble()), scale: scale);
+
+
+  Point<num> geocoordToPoint(GeoCoord geoCoord, {num scale: 1}) =>
+    toPoint(latRad: geoCoord.latRad, longRad: geoCoord.longRad, scale: scale);
+
+  /// Concrete implementations need to provide this method that converts
+  /// a projected Point back to a geocoordinate.
+  ///
   GeoCoord toGeo(Point<num> pt);
 }
 
@@ -16,8 +33,9 @@ class Equirectangular extends Projection {
 
   Equirectangular(Angle standardParallel) : cosParallel = standardParallel.cosine();
 
-  Point<num> toPoint({Angle lat, Angle long, num scale: 1}) {
-    return new Point<num>(long.valueSI.toDouble() * cosParallel * scale, lat.valueSI.toDouble() * scale);
+  Point<num> toPoint({num latRad, num longRad, num scale: 1}) {
+    scale = 120; // test
+    return new Point<num>(longRad * cosParallel * scale, -latRad * scale);
   }
 
   GeoCoord toGeo(Point<num> pt) {
@@ -28,7 +46,7 @@ class Equirectangular extends Projection {
 
 
 /// PlateCarree is the special case of an Equirectangular projection where the equator is
-/// used as teh standard parallel.
+/// used as the standard parallel.
 ///
 class PlateCarree extends Equirectangular {
   PlateCarree() : super(new Angle(rad: 0));
