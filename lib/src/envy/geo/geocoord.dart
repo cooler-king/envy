@@ -24,4 +24,14 @@ class GeoCoord {
   num get degreesLongitude => (new Angle(rad: longRad)).valueInUnits(Angle.degrees).toDouble();
 
   num get radiansLongitude => longRad;
+
+  String toString() {
+    var buf = new StringBuffer();
+    buf.write(degreesLatitude);
+    buf.write(degreesLatitude < 0 ? "S" : "N");
+    buf.write(", ");
+    buf.write(degreesLongitude);
+    buf.write(degreesLongitude < 0 ? "W" : "E");
+    return buf.toString();
+  }
 }

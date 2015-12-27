@@ -64,6 +64,8 @@ void testGeoJson() {
 
   var geoJson = new GeoJson.map(nevada);
 
+
+
   var coordData = [];
   for (var feature in geoJson.featureCollection.features) {
     if (feature.geometry is GeoJsonPolygon) {
@@ -75,11 +77,11 @@ void testGeoJson() {
         for (var coord in ring.coordinates) {
           longitudes.add(coord.longitude);
           latitudes.add(coord.latitude);
-          coordData.add({
-            "lats": latitudes,
-            "longs": longitudes
-          });
         }
+        coordData.add({
+          "lats": latitudes,
+          "longs": longitudes
+        });
       }
     }
   }
@@ -89,14 +91,22 @@ void testGeoJson() {
   canvas.addDataset("coords", list: coordData);
   canvas.attach(s);
 
-  var projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45)));
+  AngleRange longRange = geoJson.longitudeRange;
+  num factor = 360 / longRange.span.valueInUnits(Angle.degrees).toDouble();
+
+  GeoCoord center = geoJson.center;
+
+  var projSource = new ProjectionConstant(
+      new Equirectangular(new Angle(deg: 45), width: 100 * factor, anchor: new GeoCoord.degrees(latDeg: center.degreesLatitude,
+          longDeg: center.degreesLongitude)));
   var latSource = new NumberListData("coords", canvas, prop: "lats");
   var longSource = new NumberListData("coords", canvas, prop: "longs");
+
 
   s.points.enter = new GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
   s.x.enter = new NumberConstant(200);
   s.y.enter = new NumberConstant(100);
-  s.lineWidth.enter = new NumberConstant(3);
+  s.lineWidth.enter = new NumberConstant(1);
   s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
   s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
   s.fill.enter = BooleanConstant.TRUE;

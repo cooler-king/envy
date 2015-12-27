@@ -14,6 +14,8 @@ class GeoJson {
   GeoJsonFeature feature;
   GeoJsonGeometry geometry;
 
+  GeoJsonBoundingBox _bbox;
+
   factory GeoJson.string(String str) => new GeoJson.map(JSON.decode(str));
 
   GeoJson.map(Map m) {
@@ -39,6 +41,43 @@ class GeoJson {
     return null;
   }
 
+  /// Returns the bounding box for the geometry, calculating it if necessary.
+  ///
+  GeoJsonBoundingBox get boundingBox {
+    if (_bbox == null) _calculateBoundingBox();
+    return _bbox;
+  }
+
+  void _calculateBoundingBox() {
+    if (featureCollection != null) {
+      _bbox = featureCollection.boundingBox;
+    } else if (feature != null) {
+      _bbox = feature.boundingBox;
+    } else if (geometry != null) {
+      _bbox = geometry.boundingBox;
+    } else {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+    }
+  }
+
+  AngleRange get latitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+  }
+
+  AngleRange get longitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+  }
+
+  GeoCoord get center {
+    var box = this.boundingBox;
+    return new GeoCoord.degrees(
+        latDeg: (box.maxLatitude + box.minLatitude) / 2,
+        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+  }
 }
 
 class GeoJsonCoordinate {
@@ -61,9 +100,24 @@ class GeoJsonBoundingBox {
   num maxLongitude;
   num maxLatitude;
 
-  GeoJsonBoundingBox([this.minLongitude, this.minLatitude, this.maxLongitude, this.maxLatitude]);
+  /// Angles are in degrees.
+  ///
+  GeoJsonBoundingBox(
+      [this.minLongitude, this.minLatitude, this.maxLongitude, this.maxLatitude]);
 
   List toJson() => [minLongitude, minLatitude, maxLongitude, maxLatitude];
+
+  /// Combine two bounding boxes such that returned bounding box contains them both.
+  ///
+  static GeoJsonBoundingBox merge(GeoJsonBoundingBox box1,
+      GeoJsonBoundingBox box2) {
+    num minLatDeg = Math.min(box1.minLatitude, box2.minLatitude);
+    num minLongDeg = Math.min(box1.minLongitude, box2.minLongitude);
+    num maxLatDeg = Math.max(box1.maxLatitude, box2.maxLatitude);
+    num maxLongDeg = Math.max(box1.maxLongitude, box2.maxLongitude);
+    return new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+  }
+
 }
 
 
@@ -71,7 +125,8 @@ class GeoJsonFeatureCollection {
 
   final List<GeoJsonFeature> features = [];
 
-  GeoJsonBoundingBox bbox;
+  GeoJsonBoundingBox _bbox;
+
 
   GeoJsonFeatureCollection.fromJson(Map m) {
     if (m == null) return;
@@ -81,7 +136,8 @@ class GeoJsonFeatureCollection {
         features.add(new GeoJsonFeature.fromJson(x));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
   Map toJson() {
@@ -91,9 +147,28 @@ class GeoJsonFeatureCollection {
       list.add(f.toJson());
     }
     m["features"] = list;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
   }
+
+  GeoJsonBoundingBox get boundingBox {
+    if (_bbox == null) _calculateBoundingBox();
+    return _bbox;
+  }
+
+  void _calculateBoundingBox() {
+    if (features.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+    GeoJsonBoundingBox box;
+    for (var f in features) {
+      box = box == null ? f.boundingBox : GeoJsonBoundingBox.merge(
+          box, f.boundingBox);
+    }
+    _bbox = box;
+  }
+
 
 }
 
@@ -103,7 +178,7 @@ class GeoJsonFeature {
 
   Map properties;
 
-  GeoJsonBoundingBox bbox;
+  GeoJsonBoundingBox _bbox;
 
   GeoJsonFeature([this.geometry, this.properties]);
 
@@ -113,24 +188,53 @@ class GeoJsonFeature {
 
   void applyMap(Map m) {
     if (m == null) return;
-    if (m["geometry"] is Map) geometry = new GeoJsonGeometry.fromJson(m["geometry"]);
+    if (m["geometry"] is Map)
+      geometry = new GeoJsonGeometry.fromJson(m["geometry"]);
     if (m["properties"] is Map) properties = m["properties"];
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
   Map toJson() {
     Map m = {"type":"Feature", "geometry": geometry?.toJson()};
     if (properties != null) m["properties"] = properties;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
   }
 
+  /// Returns the bounding box for the geometry, calculating it if necessary.
+  ///
+  GeoJsonBoundingBox get boundingBox {
+    if (_bbox == null)
+      _bbox = geometry?.boundingBox ?? new GeoJsonBoundingBox(0, 0, 0, 0);
+    return _bbox;
+  }
+
+
+  AngleRange get latitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+  }
+
+  AngleRange get longitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+  }
+
+  GeoCoord get center {
+    var box = this.boundingBox;
+    return new GeoCoord.degrees(
+        latDeg: (box.maxLatitude + box.minLatitude) / 2,
+        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+  }
 }
 
 
 abstract class GeoJsonGeometry {
 
-  GeoJsonBoundingBox bbox;
+  GeoJsonBoundingBox _bbox;
 
   GeoJsonGeometry();
 
@@ -139,14 +243,44 @@ abstract class GeoJsonGeometry {
     if (type == "Point") return new GeoJsonPoint.fromJson(m);
     if (type == "MultiPoint") return new GeoJsonMultiPoint.fromJson(m);
     if (type == "LineString") return new GeoJsonLineString.fromJson(m);
-    if (type == "MultiLineString") return new GeoJsonMultiLineString.fromJson(m);
+    if (type == "MultiLineString") return new GeoJsonMultiLineString.fromJson(
+        m);
     if (type == "Polygon") return new GeoJsonPolygon.fromJson(m);
     if (type == "MultiPolygon") return new GeoJsonMultiPolygon.fromJson(m);
-    if (type == "GeometryCollection") return new GeoJsonGeometryCollection.fromJson(m);
+    if (type == "GeometryCollection") return new GeoJsonGeometryCollection
+        .fromJson(m);
     return null;
   }
 
   dynamic toJson();
+
+  /// Returns the bounding box for the geometry, calculating it if necessary.
+  ///
+  GeoJsonBoundingBox get boundingBox {
+    if (_bbox == null) _calculateBoundingBox();
+    return _bbox;
+  }
+
+  void _calculateBoundingBox();
+
+  AngleRange get latitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+  }
+
+  AngleRange get longitudeRange {
+    var box = this.boundingBox;
+    return new AngleRange(
+        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+  }
+
+  GeoCoord get center {
+    var box = this.boundingBox;
+    return new GeoCoord.degrees(
+        latDeg: (box.maxLatitude + box.minLatitude) / 2,
+        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+  }
 }
 
 
@@ -157,18 +291,29 @@ class GeoJsonPoint extends GeoJsonGeometry {
 
   GeoJsonPoint.fromJson(Map m) {
     if (m["coordinates"] is List) {
-      coordinate = new GeoJsonCoordinate(m["coordinates"][0], m["coordinates"][1]);
+      coordinate =
+      new GeoJsonCoordinate(m["coordinates"][0], m["coordinates"][1]);
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
-  GeoJsonPoint.longLat(List<num> array) : coordinate = new GeoJsonCoordinate(array[0], array[1]);
+  GeoJsonPoint.longLat(List<num> array)
+      : coordinate = new GeoJsonCoordinate(array[0], array[1]);
 
   Map toJson() {
     var m = {"type": "Point", "coordinates": coordinate.toJson()};
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
   }
+
+  void _calculateBoundingBox() {
+    _bbox =
+    new GeoJsonBoundingBox(
+        coordinate.latitude, coordinate.longitude, coordinate.latitude,
+        coordinate.longitude);
+  }
+
 }
 
 class GeoJsonMultiPoint extends GeoJsonGeometry {
@@ -179,10 +324,12 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
   GeoJsonMultiPoint.fromJson(Map m) {
     if (m["coordinates"] is List) {
       for (var c in m["coordinates"]) {
-        if (c is List && c.length > 1) coordinates.add(new GeoJsonCoordinate(c[0], c[1]));
+        if (c is List && c.length > 1) coordinates.add(
+            new GeoJsonCoordinate(c[0], c[1]));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
 
@@ -195,9 +342,30 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
       coordJson.add(coord.toJson());
     }
     m["coordinates"] = coordJson;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
   }
+
+  void _calculateBoundingBox() {
+    if (coordinates.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+
+    num minLatDeg = 1000;
+    num minLongDeg = 1000;
+    num maxLatDeg = -1000;
+    num maxLongDeg = -1000;
+    for (var c in coordinates) {
+      minLongDeg = Math.min(minLongDeg, c.longitude);
+      minLatDeg = Math.min(minLatDeg, c.latitude);
+      maxLongDeg = Math.max(maxLongDeg, c.longitude);
+      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+    }
+    _bbox =
+    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+  }
+
 }
 
 class GeoJsonLineString extends GeoJsonGeometry {
@@ -208,10 +376,12 @@ class GeoJsonLineString extends GeoJsonGeometry {
   GeoJsonLineString.fromJson(Map m) {
     if (m["coordinates"] is List) {
       for (var c in m["coordinates"]) {
-        if (c is List && c.length > 1) coordinates.add(new GeoJsonCoordinate(c[0], c[1]));
+        if (c is List && c.length > 1) coordinates.add(
+            new GeoJsonCoordinate(c[0], c[1]));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
 
@@ -224,8 +394,28 @@ class GeoJsonLineString extends GeoJsonGeometry {
       coordJson.add(coord.toJson());
     }
     m["coordinates"] = coordJson;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
+  }
+
+  void _calculateBoundingBox() {
+    if (coordinates.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+
+    num minLatDeg = 1000;
+    num minLongDeg = 1000;
+    num maxLatDeg = -1000;
+    num maxLongDeg = -1000;
+    for (var c in coordinates) {
+      minLongDeg = Math.min(minLongDeg, c.longitude);
+      minLatDeg = Math.min(minLatDeg, c.latitude);
+      maxLongDeg = Math.max(maxLongDeg, c.longitude);
+      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+    }
+    _bbox =
+    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
 }
 
@@ -247,7 +437,8 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
         }
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
 
@@ -264,8 +455,22 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
       coordJson.add(list);
     }
     m["coordinates"] = coordJson;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
+  }
+
+  void _calculateBoundingBox() {
+    if (lineStrings.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+
+    GeoJsonBoundingBox box;
+    for (var ls in lineStrings) {
+      box = (box == null) ? ls.boundingBox : GeoJsonBoundingBox.merge(
+          box, ls.boundingBox);
+    }
+    _bbox = box;
   }
 }
 
@@ -274,7 +479,7 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
 /// is not explicitly represented as a GeoJSON geometry type, it is referred to in
 /// the Polygon geometry type definition.
 ///
-class GeoJsonLinearRing {
+class GeoJsonLinearRing extends GeoJsonGeometry {
   final List<GeoJsonCoordinate> coordinates = [];
 
   GeoJsonLinearRing();
@@ -282,7 +487,8 @@ class GeoJsonLinearRing {
   GeoJsonLinearRing.fromJson(List jsonList) {
     if (jsonList == null) return;
     for (var x in jsonList) {
-      if (x is List && x.length > 1) coordinates.add(new GeoJsonCoordinate(x[0], x[1]));
+      if (x is List && x.length > 1) coordinates.add(
+          new GeoJsonCoordinate(x[0], x[1]));
     }
   }
 
@@ -294,6 +500,25 @@ class GeoJsonLinearRing {
     return list;
   }
 
+  void _calculateBoundingBox() {
+    if (coordinates.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+
+    num minLatDeg = 1000;
+    num minLongDeg = 1000;
+    num maxLatDeg = -1000;
+    num maxLongDeg = -1000;
+    for (var c in coordinates) {
+      minLongDeg = Math.min(minLongDeg, c.longitude);
+      minLatDeg = Math.min(minLatDeg, c.latitude);
+      maxLongDeg = Math.max(maxLongDeg, c.longitude);
+      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+    }
+    _bbox =
+    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+  }
 }
 
 
@@ -319,7 +544,8 @@ class GeoJsonPolygon extends GeoJsonGeometry {
         interiorRings.add(new GeoJsonLinearRing.fromJson(rings[i]));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
   Map toJson() {
@@ -332,8 +558,18 @@ class GeoJsonPolygon extends GeoJsonGeometry {
       rings.add(hole.toJson());
     }
     m["coordinates"] = rings;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
+  }
+
+  void _calculateBoundingBox() {
+    GeoJsonBoundingBox box = exteriorRing != null
+        ? exteriorRing.boundingBox
+        : new GeoJsonBoundingBox(0, 0, 0, 0);
+    for (var ir in interiorRings) {
+      box = GeoJsonBoundingBox.merge(box, ir.boundingBox);
+    }
+    _bbox = box;
   }
 }
 
@@ -351,7 +587,9 @@ class GeoJsonMultiPolygon extends GeoJsonGeometry {
       List polys = m["coordinates"];
       if (polys.isEmpty) return;
       for (var poly in polys) {
-        var holes = poly.length > 1 ? poly.where((ring) => ring != poly.first) : [];
+        var holes = poly.length > 1
+            ? poly.where((ring) => ring != poly.first)
+            : [];
         var exterior = new GeoJsonLinearRing();
         for (var c in poly.first) {
           exterior.coordinates.add(new GeoJsonCoordinate(c[0], c[1]));
@@ -367,7 +605,8 @@ class GeoJsonMultiPolygon extends GeoJsonGeometry {
         polygons.add(new GeoJsonPolygon(exterior, interior));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
   Map toJson() {
@@ -380,35 +619,62 @@ class GeoJsonMultiPolygon extends GeoJsonGeometry {
       list.add(polyJson["coordinates"]);
     }
     m["coordinates"] = list;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
+  }
+
+  void _calculateBoundingBox() {
+    if (polygons.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+    GeoJsonBoundingBox box;
+    for (var p in polygons) {
+      box = box == null ? p.boundingBox : GeoJsonBoundingBox.merge(
+          box, p.boundingBox);
+    }
+    _bbox = box;
   }
 }
 
+
 class GeoJsonGeometryCollection extends GeoJsonGeometry {
-  GeoJsonBoundingBox bbox;
 
   final List<GeoJsonGeometry> geometries = [];
 
   GeoJsonGeometryCollection();
 
   GeoJsonGeometryCollection.fromJson(Map m) {
-    if(m["geometries"] is List) {
-      for(var g in m["geometries"]) {
+    if (m["geometries"] is List) {
+      for (var g in m["geometries"]) {
         geometries.add(new GeoJsonGeometry.fromJson(g));
       }
     }
-    if (m["bbox"] is List) bbox = new GeoJsonBoundingBox(m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
+    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
+        m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
   Map toJson() {
     var m = {"type": "GeometryCollection"};
     List list = [];
-    for(var g in geometries) {
+    for (var g in geometries) {
       list.add(g.toJson());
     }
     m["geometries"] = list;
-    if (bbox != null) m["bbox"] = bbox.toJson();
+    if (_bbox != null) m["bbox"] = _bbox.toJson();
     return m;
+  }
+
+  void _calculateBoundingBox() {
+    if (geometries.isEmpty) {
+      _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
+      return;
+    }
+    GeoJsonBoundingBox box;
+    for (var g in geometries) {
+      box = box == null ? g.boundingBox : GeoJsonBoundingBox.merge(
+          box, g.boundingBox);
+    }
+    _bbox = box;
   }
 }

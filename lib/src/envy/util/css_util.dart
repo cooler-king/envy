@@ -61,7 +61,6 @@ class CssUtil {
       elem = (unit == 'rem') ? docElement : (prop == 'font-size') ? (elem.parent != null ? elem.parent : elem) : elem;
 
       // use fontSize of the element for rem and em
-      String fontSize = CssUtil.curCSS(elem, 'font-size');
       conversion = _parsePixels(CssUtil.curCSS(elem, 'font-size'));
 
       // multiply the value by the conversion
@@ -114,12 +113,10 @@ class CssUtil {
   /// Return the computed value of a CSS [prop]erty.
   ///
   static String curCSS(Element elem, String prop) {
-    var pixel;
     var unit;
     String rvpos = r"/^top|bottom/";
     List<String> outerProp = ["paddingTop", "paddingBottom", "borderTop", "borderBottom"];
     var innerHeight;
-    var parent;
     //int i = 4; // outerProp.length
 
     // Init computedValuesBug flag if first time

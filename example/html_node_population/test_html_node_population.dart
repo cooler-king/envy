@@ -1,9 +1,7 @@
-import 'dart:async';
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/wc/envy_div.dart';
-import 'package:quantity/quantity.dart';
 
 main() async {
   await initPolymer();

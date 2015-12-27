@@ -1,14 +1,13 @@
-import 'dart:async';
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/wc/envy_div.dart';
-import 'package:quantity/quantity.dart';
 
 main() async {
   await initPolymer();
   _init();
   testAnchors();
+  testHit();
 }
 
 void _init() {
@@ -76,6 +75,39 @@ void testAnchors() {
   c.lineWidth.enter = new NumberConstant(1);
   c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
   c.stroke.enter = new BooleanConstant(false);
+
+  esg.updateGraph();
+}
+
+
+void testHit() {
+  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvySceneGraph esg = e.sceneGraph;
+  CanvasNode canvas = new CanvasNode(1000, 400);
+  esg.attachToRoot(canvas);
+
+  // Annular Section
+  var s = new Circle2d();
+  canvas.attach(s);
+
+  s.x.enter = new NumberConstant(150);
+  s.y.enter = new NumberConstant(150);
+  s.radius.enter = new NumberConstant.array([120, 60, 30]);
+  s.lineWidth.update = new NumberConstant(5);
+  s.fillStyle.update = new DrawingStyle2dConstant.array([
+    new DrawingStyle2d(color: Color.BLUE),
+    new DrawingStyle2d(color: Color.GREEN),
+    new DrawingStyle2d(color: Color.cyan),
+  ]);
+
+  s.onClick.listen((g2di) => querySelector("#hit-click").innerHtml = "CLICKED ${g2di}");
+  s.onDoubleClick.listen((g2di) => querySelector("#hit-click").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((g2di) => querySelector("#hit-enter").innerHtml = "ENTER ${g2di}");
+  s.onMouseLeave.listen((g2di) => querySelector("#hit-leave").innerHtml = "LEAVE ${g2di}");
+  s.onMouseOut.listen((g2di) => querySelector("#hit-out").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((g2di) => querySelector("#hit-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((g2di) => querySelector("#hit-down-up").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((g2di) => querySelector("#hit-down-up").innerHtml = "UP ${g2di}");
 
   esg.updateGraph();
 }

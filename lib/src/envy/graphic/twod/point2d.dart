@@ -16,9 +16,9 @@ class Point2d extends Graphic2dNode {
   NumberProperty get pixelSize => properties["pixelSize"] as NumberProperty;
 
   void _renderIndex(int i, CanvasRenderingContext2D ctx) {
-    num _x, _y, _pixelSize;
+    num _x, _y;
     Anchor2d _anchor = anchor.valueAt(i);
-    _pixelSize = pixelSize.valueAt(i);
+    num _pixelSize = pixelSize.valueAt(i);
     _y = y.valueAt(i);
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);

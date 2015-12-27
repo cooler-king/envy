@@ -27,7 +27,6 @@ class Image2d extends Graphic2dNode {
   }
 
   void _renderIndex(int i, CanvasRenderingContext2D ctx) {
-    CanvasImageSourceNode _source;
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
     _sourceX = sourceX.valueAt(i);
     _sourceY = sourceY.valueAt(i);

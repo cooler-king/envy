@@ -101,23 +101,20 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     onMouseMove = _onMouseMoveController.stream;
   }
 
-  CanvasElement elementAt(int index) {
-    List list = new List.from(_domNodesMap.values);
-    return list[index % _domNodesMap.length] as CanvasElement;
-  }
+  CanvasElement elementAt(int index) => _domNodesMap.values.elementAt(index % _domNodesMap.length);
 
   /// Clear the canvas and then update all children.
   ///
   @override
   void update(num timeFraction, {dynamic context, finish: false}) {
-    // Clear canvases and store 2D contexts before draw anything new
+    // Clear canvases and store 2D contexts before drawing anything new
     _currentContext2DList.clear();
     _transform2DStackList.clear();
     for (Node n in _domNodesMap.values) {
       if (n is CanvasElement) {
         // Make sure canvas fills its parent
         if (n.parent != null) {
-          Rectangle rect = n.parent.getBoundingClientRect();
+          var rect = n.parent.getBoundingClientRect();
           if (n.width != rect.width) n.width = rect.width.toInt();
           if (n.height != rect.height) n.height = rect.height.toInt();
         }
@@ -125,8 +122,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
         n.context2D.clearRect(0, 0, n.width, n.height);
         _currentContext2DList.add(n.context2D);
 
-        ListQueue<Matrix3> transform2DStack = new ListQueue<Matrix3>();
-        transform2DStack.add(new Matrix3.identity());
+        var transform2DStack = new ListQueue<Matrix3>()..add(new Matrix3.identity());
         _transform2DStackList.add(transform2DStack);
       }
     }

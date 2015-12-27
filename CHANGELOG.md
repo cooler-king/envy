@@ -1,3 +1,7 @@
+### 0.0.7
+  * 
+  * Upgraded to `polymer 1.0.0-rc.14`, `polymer-elements 1.0.0-rc.7` and `reflectable 0.5.1`
+
 ### 0.0.6
   * Added a default line dash value
   * Added `GeoJson` support
