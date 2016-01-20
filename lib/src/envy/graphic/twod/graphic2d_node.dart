@@ -382,38 +382,38 @@ abstract class Graphic2dNode extends GraphicLeaf {
   }
 
   void fireClickEvent(Graphic2dIntersection g2di) {
-    _onClickController.add(g2di);
+    if(_onClickController.hasListener) _onClickController.add(g2di);
   }
 
   void fireDoubleClickEvent(Graphic2dIntersection g2di) {
-    _onDoubleClickController.add(g2di);
+    if(_onDoubleClickController.hasListener) _onDoubleClickController.add(g2di);
   }
 
   void fireMouseEnterEvent(Graphic2dIntersection g2di) {
-    _onMouseEnterController.add(g2di);
+    if(_onMouseEnterController.hasListener) _onMouseEnterController.add(g2di);
   }
 
   void fireMouseOutEvent(Graphic2dIntersection g2di) {
-    _onMouseOutController.add(g2di);
+    if(_onMouseOutController.hasListener) _onMouseOutController.add(g2di);
   }
 
   void fireMouseLeaveEvent(Graphic2dIntersection g2di) {
-    _onMouseLeaveController.add(g2di);
+    if(_onMouseLeaveController.hasListener) _onMouseLeaveController.add(g2di);
   }
 
   void fireMouseOverEvent(Graphic2dIntersection g2di) {
-    _onMouseOverController.add(g2di);
+    if(_onMouseOverController.hasListener) _onMouseOverController.add(g2di);
   }
 
   void fireMouseMoveEvent(Graphic2dIntersection g2di) {
-    _onMouseMoveController.add(g2di);
+    if(_onMouseMoveController.hasListener) _onMouseMoveController.add(g2di);
   }
 
   void fireMouseDownEvent(Graphic2dIntersection g2di) {
-    _onMouseDownController.add(g2di);
+    if(_onMouseDownController.hasListener) _onMouseDownController.add(g2di);
   }
 
   void fireMouseUpEvent(Graphic2dIntersection g2di) {
-    _onMouseUpController.add(g2di);
+    if(_onMouseUpController.hasListener) _onMouseUpController.add(g2di);
   }
 }

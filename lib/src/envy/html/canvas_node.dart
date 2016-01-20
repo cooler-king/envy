@@ -50,6 +50,9 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
   final List<Graphic2dIntersection> outs = [];
   final List<Graphic2dIntersection> overs = [];
 
+  final List<int> _intersectionIndices = [];
+
+
 
   CanvasNode([this.initialWidth = 500, this.initialHeight = 400]) {
     _initStreams();
@@ -292,7 +295,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     var canvasRect = canvas.getBoundingClientRect();
     var pt = new Point(e.client.x - canvasRect.left, e.client.y - canvasRect.top);
 
-    return allGraphic2dsAtPointInGroup(pt, this, canvas.context2D, addToList: addToList);
+    return allGraphic2dsAtPointInGroup(pt, this, canvas.context2D, addToList: addToList ?? []);
   }
 
   Graphic2dIntersection graphic2dAtPointInGroup(Point pt, GroupNode grp, CanvasRenderingContext2D ctx) {
@@ -319,14 +322,14 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       {List addToList}) {
     // Go backwards
     EnvyNode child;
-    List<int> intersectionIndices = [];
     List list = addToList ?? [];
     for (int i = grp.children.length - 1; i > -1; i--) {
       child = grp.children[i];
 
       if (child is Graphic2dNode) {
-        child.allIndicesContainingPoint(pt.x, pt.y, ctx, listToUse: intersectionIndices);
-        for(int z in intersectionIndices) {
+        _intersectionIndices.clear();
+        child.allIndicesContainingPoint(pt.x, pt.y, ctx, listToUse: _intersectionIndices);
+        for(int z in _intersectionIndices) {
           list.add(new Graphic2dIntersection(child, z));
         }
       }
