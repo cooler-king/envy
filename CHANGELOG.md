@@ -1,3 +1,6 @@
+### 0.0.8
+  * Upgraded dependencies; removed explicit dependencies on `reflectable` and `web_components`.
+
 ### 0.0.7
   * Only update line dash value when necessary
   * Upgraded to `polymer 1.0.0-rc.14`, `polymer-elements 1.0.0-rc.7` and `reflectable 0.5.1`

@@ -14,8 +14,8 @@ class Bar2d extends Graphic2dNode {
   }
 
   void _initProperties() {
-    properties["width"] = new NumberProperty();
-    properties["height"] = new NumberProperty();
+    properties["width"] = new NumberProperty(optional: true)..payload = "bar width";
+    properties["height"] = new NumberProperty(optional: true)..payload = "bar height";
   }
 
   NumberProperty get width => properties["width"] as NumberProperty;

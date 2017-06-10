@@ -52,9 +52,9 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
         Matrix3 myTransform =
             new Matrix3(sx * cosTheta, sy * sinTheta, 0.0, -sx * sinTheta, sy * cosTheta, 0.0, tx, ty, 1.0);
 
-        Matrix3 t = myTransform.multiply(currentTransform);
-        transform2DStack.addFirst(t);
-        _replaceTransform(t, ctx);
+        myTransform.multiply(currentTransform);
+        transform2DStack.addFirst(myTransform);
+        _replaceTransform(myTransform, ctx);
       }
       //} else {
       //  _LOG.warning("Expected CanvasRenderingContext2D for context, not ${context}");

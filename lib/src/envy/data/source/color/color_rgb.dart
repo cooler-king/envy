@@ -10,7 +10,7 @@ class ColorRgb extends ColorSource {
   ColorRgb(this.red, this.green, this.blue);
 
   //TODO -- array length considerations???
-  Color valueAt(int i) {
+  dynamic valueAt(int i) {
 
     //TODO check for nulls?
     return new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));

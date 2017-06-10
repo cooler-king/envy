@@ -7,10 +7,10 @@ import 'dart:collection';
 import 'dart:math' as Math;
 import 'package:logging/logging.dart';
 import 'package:quantity/quantity.dart';
-import 'package:quantity/quantity_ext.dart' show angle0, angle90, angle180, angle270, deg2rad;
+import 'package:quantity/quantity_ext.dart' show angle0, angle90, angle180, angle270, degToRad;
 import 'package:quantity/quantity_range.dart';
 import 'package:vector_math/vector_math.dart';
-import 'package:collection/wrappers.dart';
+import 'package:collection/collection.dart';
 
 // Make components available
 export 'wc/envy_div.dart';

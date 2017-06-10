@@ -43,25 +43,43 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
     this.values.clear();
 
     Object data = _node.getDataset(_datasetName);
+    print(data);
+    //if(data == null || (data is List && data.isEmpty) || (data is Map && data.isEmpty)) return;
+
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
     }
 
+    if (data == null) return;
+
     if (data is List<num>) {
       this.values.addAll(data);
     } else if (data is num) {
+      if(data == 4) {
+        print("ADDING 4 to DATA");
+      }
       this.values.add(data);
     } else {
       // warn and do best to convert to number
       _LOG.warning("Unexpected data type for NumberData: ${data}");
       if (data is List) {
         this.values.add(data.length);
+        if(data.length == 4) {
+          print("ADDING 4 to DATA *** LENGTH");
+        }
       } else if (data is Map) {
+        if(data.length == 4) {
+          print("ADDING 4 to DATA *** MAP LENGTH");
+        }
         this.values.add(data.length);
       } else if (data is bool) {
         this.values.add(data ? 1 : 0);
       } else {
+        if(data.toString().length == 4) {
+          print("ADDING 4 to DATA *** STRING LENGTH ${data.toString()}");
+        }
+
         this.values.add(data.toString().length);
       }
     }

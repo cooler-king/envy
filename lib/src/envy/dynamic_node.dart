@@ -31,7 +31,7 @@ class DynamicNode {
     //print("dynamic update properties LEAVING");
   }
 
-  Multiplicity get multiplicity => _multiplicity ?? (Multiplicity.defaultMultiplicity);
+  Multiplicity get multiplicity => _multiplicity ?? Multiplicity.defaultMultiplicity;
 
   void set multiplicity(Multiplicity m) {
     _multiplicity = m;
@@ -50,7 +50,7 @@ class DynamicNode {
   void _updateSize() {
     _prevSize = _size;
     _size = multiplicity.sizeOf(properties.values);
-    //print("${this} SIZE/PREV... ${_size}/${_prevSize}");
+    print("${this} SIZE/PREV... ${_size}/${_prevSize}");
   }
 
   void _preparePropertiesForAnimation() {

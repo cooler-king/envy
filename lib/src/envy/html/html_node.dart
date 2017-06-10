@@ -108,7 +108,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     //if(newSize != _prevSize || parentDomNodesChanged || _populationStrategyChanged) {
     if (newDomSize != _prevDomSize || _populationStrategyChanged) {
       HtmlNode parentHtml = htmlParent;
-      int parentDomCount = parentHtml?._domNodesMap.length ?? 0;
+      int parentDomCount = parentHtml?._domNodesMap?.length ?? 0;
 
       // Create/attach, remove/destroy nodes as necesary
       _manageDomNodes(parentDomCount, newDomSize);

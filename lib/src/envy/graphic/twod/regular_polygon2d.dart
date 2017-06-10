@@ -28,6 +28,8 @@ class RegularPolygon2d extends Graphic2dNode {
     _radius = radius.valueAt(i);
 
     // Adjust for anchor (default is center of RegularPolygon)
+    _x = 0;
+    _y = 0;
     Anchor2d _anchor = anchor.valueAt(i);
     if (_anchor != null) {
       List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
@@ -45,7 +47,7 @@ class RegularPolygon2d extends Graphic2dNode {
     Path2D p = new Path2D();
     paths.add(p);
     //ctx.beginPath();
-    p.moveTo(Math.sin(preAngleRad) * _radius, Math.cos(preAngleRad) * _radius);
+    p.moveTo(_x + Math.sin(preAngleRad) * _radius, _y + Math.cos(preAngleRad) * _radius);
     for (int i = 0; i < _pointCount; i++) {
       p.lineTo(Math.sin(postAngleRad) * _radius, Math.cos(postAngleRad) * _radius);
 

@@ -12,8 +12,8 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///

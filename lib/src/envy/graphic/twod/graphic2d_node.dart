@@ -53,36 +53,36 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // DON'T GIVE THESE INITIAL ENTER VALUES (causes exit properties to have rawSize of 1 unless manually cleared)
     // Use property default values in constructors
 
-    properties["fillStyle"] = new DrawingStyle2dProperty(); //..enter = DrawingStyle2dConstant.black;
-    properties["strokeStyle"] = new DrawingStyle2dProperty(); //..enter = DrawingStyle2dConstant.black;
+    properties["fillStyle"] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
+    properties["strokeStyle"] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
 
-    properties["globalAlpha"] = new NumberProperty(defaultValue: 1); //..enter = NumberConstant.one;
-    properties["globalCompositeOperation"] = new StringProperty(); //..enter =
+    properties["globalAlpha"] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
+    properties["globalCompositeOperation"] = new StringProperty(optional: true); //..enter =
     //new StringConstant.enumerationValue(CompositeOperation2d.SOURCE_OVER);
 
     // Line properties
-    properties["lineWidth"] = new NumberProperty(defaultValue: 1); //..enter = NumberConstant.one;
+    properties["lineWidth"] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
 
-    properties["lineCap"] = new LineCap2dProperty();
-    properties["lineJoin"] = new LineJoin2dProperty();
-    properties["miterLimit"] = new NumberProperty(defaultValue: 10); //..enter = new NumberConstant(10);
-    properties["lineDashOffset"] = new NumberProperty(); //..enter = NumberConstant.zero;
+    properties["lineCap"] = new LineCap2dProperty(optional: true);
+    properties["lineJoin"] = new LineJoin2dProperty(optional: true);
+    properties["miterLimit"] = new NumberProperty(defaultValue: 10, optional: true); //..enter = new NumberConstant(10);
+    properties["lineDashOffset"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
 
-    properties["lineDash"] = new NumberListProperty();
+    properties["lineDash"] = new NumberListProperty(optional: true);
 
     // Text properties
-    properties["font"] = new FontProperty();
-    properties["textAlign"] = new TextAlign2dProperty();
-    properties["textBaseline"] = new TextBaseline2dProperty();
+    properties["font"] = new FontProperty(optional: true);
+    properties["textAlign"] = new TextAlign2dProperty(optional: true);
+    properties["textBaseline"] = new TextBaseline2dProperty(optional: true);
 
     // Image Properties
     properties["imageSmoothingEnabled"] = new BooleanProperty(); //..enter = BooleanConstant.TRUE;
 
     // Shadow properties
-    properties["shadowBlur"] = new NumberProperty(); //..enter = NumberConstant.zero;
-    properties["shadowOffsetX"] = new NumberProperty(); //..enter = NumberConstant.zero;
-    properties["shadowOffsetY"] = new NumberProperty(); //..enter = NumberConstant.zero;
-    properties["shadowColor"] = new ColorProperty(); //..enter = ColorConstant.transparentBlack;
+    properties["shadowBlur"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties["shadowOffsetX"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties["shadowOffsetY"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties["shadowColor"] = new ColorProperty(optional: true); //..enter = ColorConstant.transparentBlack;
   }
 
   /// Initialize the set of base properties that every Graphic2d includes.
@@ -95,14 +95,14 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// rotation: the rotation about the anchor
   ///
   void _initBaseProperties() {
-    properties["anchor"] = new Anchor2dProperty();
-    properties["fill"] = new BooleanProperty(defaultValue: true);
-    properties["stroke"] = new BooleanProperty(defaultValue: true);
-    properties["x"] = new NumberProperty();
-    properties["y"] = new NumberProperty();
-    properties["rotation"] = new AngleProperty();
-    properties["scale"] = new Scale2Property();
-    properties["skew"] = new Skew2Property();
+    properties["anchor"] = new Anchor2dProperty(optional: true);
+    properties["fill"] = new BooleanProperty(defaultValue: true, optional: true);
+    properties["stroke"] = new BooleanProperty(defaultValue: true, optional: true);
+    properties["x"] = new NumberProperty()..payload = "x";
+    properties["y"] = new NumberProperty()..payload = "y";
+    properties["rotation"] = new AngleProperty(optional: true);
+    properties["scale"] = new Scale2Property(optional: true);
+    properties["skew"] = new Skew2Property(optional: true);
 
     // Arbitrary data payload
     properties["data"] = new GenericProperty();

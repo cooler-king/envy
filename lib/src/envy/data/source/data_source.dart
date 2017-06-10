@@ -13,7 +13,9 @@ abstract class DataSource<T> {
   static final NullDataSource nullDataSource = new NullDataSource();
 
   /// DataSources must provide values as a function of index
-  T valueAt(int index);
+  //T valueAt(int index);
+  /// dynamic return type to support dataNotAvailable
+  dynamic valueAt(int index);
 
   /// The "preferred" array size of the data source
   int get rawSize;
@@ -33,10 +35,12 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   /// Constructs a data source with a custom values list.
   ArrayDataSource._internal(this.values);
 
-  /// The unextrapolated size of the values list
+  /// The unextrapolated size of the values list.
   int get rawSize => values.length;
 
-  T valueAt(int i) =>
+  /// dynamic return type to support dataNotAvailable
+  //T valueAt(int i) =>
+  dynamic valueAt(int i) =>
       (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 
