@@ -7,6 +7,7 @@ documentation: https://github.com/cooler-king/envy/wiki
 environment:
   sdk: ">=1.12.0 <=2.0.0"
 dependencies:
+  angular2: "^3.1.0"
   browser: "^0.10.0"
   collection: ">=1.13.0"
   polymer: "^1.0.0-rc.18"
@@ -21,7 +22,7 @@ dependency_overrides:
 transformers:
 - polymer:
     entry_points:
-    - example/annular_section2d/test_annular_section2d.html
+    #- example/annular_section2d/test_annular_section2d.html
     - example/circle2d/test_circle2d.html
     - example/div_node/test_div_node.html
     - example/geo/test_geo.html
@@ -32,3 +33,12 @@ transformers:
     - example/star2d/test_star2d.html
     - example/text2d/test_text2d.html
     - example/triangle2d/test_triangle2d.html
+- angular2:
+    platform_directives:
+    - 'package:angular2/common.dart#COMMON_DIRECTIVES'
+    platform_pipes:
+    - 'package:angular2/common.dart#COMMON_PIPES'
+    entry_points:
+    - example/annular_section2d/test_annular_section2d.html
+    resolved_identifiers:
+            BrowserClient: 'package:http/browser_client.dart'

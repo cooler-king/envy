@@ -137,7 +137,7 @@ abstract class EnvyProperty<T> {
         // Debug
         assert(_value != dataNotAvailable);
 
-        print("_updateStartValues... adding value ${_value}");
+        //print("_updateStartValues... adding value ${_value}");
         _startValues.add(_value);
       }
     }

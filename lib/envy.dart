@@ -13,7 +13,7 @@ import 'package:vector_math/vector_math.dart';
 import 'package:collection/collection.dart';
 
 // Make components available
-export 'wc/envy_div.dart';
+export 'ng/envy_scene.dart';
 
 part 'src/envy/envy_scene_graph.dart';
 part 'src/envy/dynamic_node.dart';

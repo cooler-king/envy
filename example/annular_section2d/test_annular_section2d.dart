@@ -1,7 +1,7 @@
 import 'dart:html';
 import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
 main() async {
@@ -20,7 +20,7 @@ void _init() {
 }
 
 void testBasic() {
-  EnvyDiv e = document.querySelector("#basic") as EnvyDiv;
+  EnvyScene e = document.querySelector("#basic") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -45,7 +45,7 @@ void testBasic() {
 }
 
 void testRotation() {
-  EnvyDiv e = querySelector("#rotation") as EnvyDiv;
+  EnvyScene e = querySelector("#rotation") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -67,7 +67,7 @@ void testRotation() {
 }
 
 void testCircle() {
-  EnvyDiv e = querySelector("#circle") as EnvyDiv;
+  EnvyScene e = querySelector("#circle") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -92,7 +92,7 @@ void testCircle() {
 }
 
 void testAnchors() {
-  EnvyDiv e = querySelector("#anchors") as EnvyDiv;
+  EnvyScene e = querySelector("#anchors") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 200);
   esg.attachToRoot(canvas);
@@ -139,7 +139,7 @@ void testAnchors() {
 }
 
 void testLifecycle() {
-  EnvyDiv e = querySelector("#lifecycle") as EnvyDiv;
+  EnvyScene e = querySelector("#lifecycle") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 500);
   esg.attachToRoot(canvas);
@@ -244,7 +244,7 @@ void testLifecycle() {
 }
 
 void testHit() {
-  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvyScene e = querySelector("#hit") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 200);
   esg.attachToRoot(canvas);
@@ -282,7 +282,7 @@ void testHit() {
 }
 
 void testFill() {
-  EnvyDiv e = querySelector("#fill") as EnvyDiv;
+  EnvyScene e = querySelector("#fill") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);

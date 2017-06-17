@@ -50,7 +50,7 @@ class DynamicNode {
   void _updateSize() {
     _prevSize = _size;
     _size = multiplicity.sizeOf(properties.values);
-    print("${this} SIZE/PREV... ${_size}/${_prevSize}");
+    //print("${this} SIZE/PREV... ${_size}/${_prevSize}");
   }
 
   void _preparePropertiesForAnimation() {

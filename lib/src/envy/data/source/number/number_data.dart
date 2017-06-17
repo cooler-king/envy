@@ -43,7 +43,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
     this.values.clear();
 
     Object data = _node.getDataset(_datasetName);
-    print(data);
+    //print(data);
     //if(data == null || (data is List && data.isEmpty) || (data is Map && data.isEmpty)) return;
 
     if (accessor != null) {
