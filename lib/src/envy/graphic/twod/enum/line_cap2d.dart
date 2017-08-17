@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// Type of endings on the end of lines. Possible values: butt (default), round,
 /// and square.

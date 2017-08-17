@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Scene Graph', () {
     test('Contructors', () {
       EnvySceneGraph esg = new EnvySceneGraph();

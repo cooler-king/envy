@@ -1,4 +1,6 @@
-part of envy;
+import 'binary_interpolator.dart';
+import 'envy_interpolator.dart';
+import '../text/font.dart';
 
 class FontInterpolator extends EnvyInterpolator<Font> {
   EnvyInterpolator styleInterpolator;

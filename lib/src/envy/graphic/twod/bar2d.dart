@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
 
 /// A 2-dimensional bar (rectangle) to be drawn on an HTML canvas.
 ///
@@ -21,7 +24,7 @@ class Bar2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _width = width.valueAt(i);
     num _height = height.valueAt(i);
     Anchor2d _anchor = anchor.valueAt(i);

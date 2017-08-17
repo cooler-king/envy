@@ -1,4 +1,10 @@
-part of envy;
+import 'package:quantity/quantity.dart' show Quantity;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'boolean_source.dart';
 
 /// Retrieves boolean data (a list of bools or a single bool)
 /// from a named dataset.
@@ -54,7 +60,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       this.values.add(data);
     } else {
       // warn and do best to convert to bool
-      _LOG.warning("Unexpected data type for BooleanData: ${data}");
+      logger.warning("Unexpected data type for BooleanData: ${data}");
       if (data is List) {
         for (var d in data) {
           this.values.add(_anythingToBool(d));

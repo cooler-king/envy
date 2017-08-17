@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:collection';
+import 'package:collection/collection.dart';
+import 'css_property.dart';
 
 Map<String, CssProperty> defaultProps = {"opacity": new CssNumber(1)};
 

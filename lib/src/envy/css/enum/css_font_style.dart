@@ -1,4 +1,4 @@
-part of envy;
+import '../../util/enumeration.dart';
 
 class CssFontStyle extends Enumeration<String> {
   static const CssFontStyle normal = const CssFontStyle("normal");

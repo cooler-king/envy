@@ -1,4 +1,4 @@
-part of envy;
+import 'extrapolation.dart';
 
 class CycleValues<T> extends Extrapolation<T> {
   final bool oneWay;

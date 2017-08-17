@@ -1,4 +1,4 @@
-part of envy;
+import 'extrapolate/extrapolation.dart';
 
 /// The base class for all data source classes.
 ///

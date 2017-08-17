@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:async';
+import 'timed_item_group.dart';
+import 'timeline.dart';
+import '../util/logger.dart';
+
 
 /// Players provide an elapsed time relative to a specific
 /// time on a specific [Timeline].
@@ -132,10 +136,10 @@ class Player {
     }
   }
 
-  void _registerTimedItemGroup(TimedItemGroup timedItemGroup) {
+  void registerTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (!_registered.contains(timedItemGroup)) {
       _registered.add(timedItemGroup);
-      if (timer != null) timedItemGroup._prepareForAnimation();
+      if (timer != null) timedItemGroup.prepareForAnimation();
     }
   }
 
@@ -147,7 +151,7 @@ class Player {
   /// Returns true if the timedItemGroup was found and removed; false
   /// if it could not be found.
   ///
-  bool _deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
+  bool deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (_registered.contains(timedItemGroup)) {
       _registered.remove(timedItemGroup);
       if (_registered.isEmpty && timer != null) {
@@ -155,7 +159,7 @@ class Player {
           timer.cancel();
           timer = null;
         } catch (e) {
-          _LOG.warning("Problem canceling timer:  ${e}");
+          logger.warning("Problem canceling timer:  ${e}");
         }
       }
       return true;
@@ -174,7 +178,7 @@ class Player {
       });
     } else {
       // Wait before creating animation timer
-      new Timer(new Duration(milliseconds: delayMillis), () {
+      new Timer(new Duration(milliseconds: delayMillis.round()), () {
         _prepareForAnimation();
         timer = new Timer.periodic(new Duration(milliseconds: 15), (Timer t) {
           _updateRegisteredGroups();
@@ -185,7 +189,7 @@ class Player {
 
   void _prepareForAnimation() {
     _registered.forEach((TimedItemGroup tig) {
-      tig._prepareForAnimation();
+      tig.prepareForAnimation();
     });
   }
 
@@ -195,13 +199,13 @@ class Player {
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);
       } catch (e, s) {
-        _LOG.severe("Problem updating registered timed item group: ${e}", e, s);
+        logger.severe("Problem updating registered timed item group: ${e}", e, s);
       }
 
       // Is this group finished animating? (deregisters group from player)
       if (effectiveCurrentTime >= group.endTime) {
         // Schedule the group to finish when the updating is complete
-        Timer.run(() => group._finishAnimation(context: true));
+        Timer.run(() => group.finishAnimation(context: true));
       }
     }
   }

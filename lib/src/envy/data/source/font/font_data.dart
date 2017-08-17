@@ -1,4 +1,10 @@
-part of envy;
+import 'font_source.dart';
+import '../data_source.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../../../envy_node.dart';
+import '../../../text/font.dart';
+import '../../../util/logger.dart';
 
 /// Retrieves font data (a list of font or a single font)
 /// from a named dataset.
@@ -12,8 +18,8 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -54,7 +60,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
       this.values.add(data);
     } else {
       //TODO do some font parsing?
-      _LOG.warning("Unexpected data type for FontData: ${data}");
+      logger.warning("Unexpected data type for FontData: ${data}");
       this.values.add(new Font());
     }
   }

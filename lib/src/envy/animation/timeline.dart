@@ -1,4 +1,4 @@
-part of envy;
+import 'player.dart';
 
 /// A [Timeline] has a zero point on the global system clock and
 /// is not scaled; it's seconds are equal to wall-clock seconds.

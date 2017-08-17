@@ -1,4 +1,9 @@
-part of envy;
+import '../css/css_style.dart';
+import '../css/enum/css_length_units.dart';
+import '../css/css_property.dart';
+import 'envy_interpolator.dart';
+import 'number_interpolator.dart';
+import '../util/css_util.dart';
 
 /// Interpolates between two [CssStyle]s.
 ///

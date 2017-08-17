@@ -1,5 +1,4 @@
-part of envy;
-
+import 'envy_interpolator.dart';
 /// Interpolates between two numbers.
 ///
 /// By default, time fractions outside the normal range (0-1) may return values outside the

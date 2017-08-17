@@ -1,4 +1,11 @@
-part of envy;
+import 'dart:math' show min, max;
+import '../number_list/number_list_source.dart';
+import 'point_list_source.dart';
+import '../geo/projection_source.dart';
+import '../data_source.dart';
+import '../../../graphic/twod/number_list.dart';
+import '../../../graphic/twod/point_list.dart';
+import '../../../geo/projections.dart';
 
 /*
 class GeoPointListAngles extends ArrayDataSource<PointList> implements PointListSource {
@@ -61,17 +68,17 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
     longListSource.refresh();
 
     values.clear();
-    int size = Math.max(projSource.rawSize, Math.max(latListSource.rawSize, longListSource.rawSize));
+    int size = max(projSource.rawSize, max(latListSource.rawSize, longListSource.rawSize));
     for(int i = 0; i< size; i++) {
       var pts = new PointList();
-      var proj = projSource.valueAt(i);
-      var lats = latListSource.valueAt(i);
-      var longs = longListSource.valueAt(i);
+      Projection proj = projSource.valueAt(i) as Projection;
+      NumberList lats = latListSource.valueAt(i) as NumberList;
+      NumberList longs = longListSource.valueAt(i) as NumberList;
 
       // Only create points for which both lat and long are available
       int numPoints = lats?.length ?? 0;
       if(numPoints > 0 && numPoints != longs.length) {
-        numPoints = Math.min(lats.length, longs.length);
+        numPoints = min(lats.length, longs.length);
       }
       for(int p=0; p<numPoints; p++) {
         pts.addPoint(proj.degreesToPoint(latDeg: lats[p], longDeg: longs[p]));

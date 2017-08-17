@@ -1,4 +1,6 @@
-part of envy;
+import 'timing_function.dart';
+import 'playback_direction.dart';
+import 'fill_mode.dart';
 
 Timing defaultTiming = new Timing();
 

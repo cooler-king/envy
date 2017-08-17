@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:math' show Point;
+import 'package:quantity/quantity.dart';
+import 'geocoord.dart';
 
 abstract class Projection {
 

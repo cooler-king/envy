@@ -1,4 +1,10 @@
-part of envy;
+import 'point_list_source.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import '../../../graphic/twod/point_list.dart';
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
 
 /// Retrieves PointList data from a named dataset.
 ///
@@ -53,7 +59,7 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
       this.values.add(data);
     } else {
       // warn and return empty PointList
-      _LOG.warning("Unexpected data type for PointListData: ${data}");
+      logger.warning("Unexpected data type for PointListData: ${data}");
       this.values.add(new PointList());
     }
   }

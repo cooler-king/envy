@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/enum/text_align2d.dart';
 
 abstract class TextAlign2dSource extends DataSource<TextAlign2d> {}
 

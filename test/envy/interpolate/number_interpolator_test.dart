@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Number Interpolation', () {
     test('Fraction of 0', () {
       NumberInterpolator ni = new NumberInterpolator();

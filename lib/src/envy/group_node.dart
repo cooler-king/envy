@@ -1,4 +1,6 @@
-part of envy;
+import 'dynamic_node.dart';
+import 'envy_node.dart';
+
 
 /// A generic group nodes holds any number of child nodes but has
 /// no other state and no rendered component.
@@ -8,7 +10,7 @@ class GroupNode extends EnvyNode {
   //final ObservableList<EnvyNode> children = new ObservableList.from([]);
 
   // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List.from([]);
+  final List<EnvyNode> children = new List.from(<EnvyNode>[]);
 
   GroupNode() {
     /*
@@ -62,9 +64,9 @@ class GroupNode extends EnvyNode {
 
   /// Set start and target values for an animation update for each property.
   ///
-  void _prepareForAnimation() {
+  void prepareForAnimation() {
     //print("Timed item group preparing for animation");
-    if (this is DynamicNode) (this as DynamicNode)._preparePropertiesForAnimation();
+    if (this is DynamicNode) (this as DynamicNode).preparePropertiesForAnimation();
     /*
     children.where((EnvyNode child) => child is DynamicNode).forEach((child) {
       //print("timed item group preparing child dynamic node for animation");
@@ -72,8 +74,8 @@ class GroupNode extends EnvyNode {
     });*/
 
     for (var child in children) {
-      if (child is DynamicNode) (child as DynamicNode)._preparePropertiesForAnimation();
-      if (child is GroupNode) child._prepareForAnimation();
+      if (child is DynamicNode) (child as DynamicNode).preparePropertiesForAnimation();
+      if (child is GroupNode) child.prepareForAnimation();
     }
   }
 
@@ -121,7 +123,7 @@ class GroupNode extends EnvyNode {
       children.insert(index, node);
     }
     node.parent = this;
-    node._prepareForAnimation();
+    node.prepareForAnimation();
     return true;
   }
 

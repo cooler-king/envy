@@ -1,4 +1,5 @@
-part of envy;
+import 'dart:math' as Math;
+import 'number_source.dart';
 
 class RandomNumber extends NumberSource {
   final Math.Random generator = new Math.Random(new DateTime.now().millisecond);

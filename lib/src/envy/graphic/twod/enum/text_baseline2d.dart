@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// Supported values: top, hanging, middle, alphabetic (default),
 /// ideographic, or bottom

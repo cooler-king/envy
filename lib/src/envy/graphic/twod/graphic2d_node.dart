@@ -1,4 +1,16 @@
-part of envy;
+import 'dart:async';
+import 'dart:html';
+import 'dart:math' show max;
+import 'package:quantity/quantity.dart' show Angle, angle0;
+import 'package:vector_math/vector_math.dart' show Vector2;
+import '../graphic_node.dart';
+import '../../envy_property.dart';
+import '../../html/canvas_node.dart';
+import 'number_list.dart';
+import 'drawing_style2d.dart';
+import 'enum/line_cap2d.dart';
+import 'enum/line_join2d.dart';
+import '../../color/color.dart';
 
 abstract class Graphic2dNode extends GraphicLeaf {
   /// Store paths for efficient hit testing
@@ -37,12 +49,19 @@ abstract class Graphic2dNode extends GraphicLeaf {
   Angle _rotation = angle0;
   Vector2 _scale = vec2one;
   Vector2 _skew = vec2zero;
+  NumberList ctxNumberList;
+  num ctxNum;
+  DrawingStyle2d ctxDrawingStyle2d;
+  String ctxString;
+  LineCap2d ctxLineCap2d;
+  LineJoin2d ctxLineJoin2d;
+  Color ctxColor;
 
   static const List<int> defaultLineDash = const [1, 0];
 
   Graphic2dNode(Node htmlNode, [String id]) {
     _initContextProperties();
-    _initBaseProperties();
+    initBaseProperties();
 
     _initStreams();
   }
@@ -94,7 +113,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// y: the y coordinate of the anchor
   /// rotation: the rotation about the anchor
   ///
-  void _initBaseProperties() {
+  void initBaseProperties() {
     properties["anchor"] = new Anchor2dProperty(optional: true);
     properties["fill"] = new BooleanProperty(defaultValue: true, optional: true);
     properties["stroke"] = new BooleanProperty(defaultValue: true, optional: true);
@@ -175,7 +194,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // 2 - render in each one (INDEPENDENT population only implementation)
 
     // _currentContext2DList contains the contexts for the CanvasElements currently being updated
-    for (var context in _currentContext2DList) {
+    for (var context in currentContext2DList) {
       // Update dynamic properties
       super.update(fraction, context: context, finish: finish);
       //print("g2d update 2");
@@ -202,14 +221,14 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// current size and the new size (that is, everything is drawn including new graphics and
   /// graphics on their way out).
   ///
-  void _render(context, bool finish) {
+  void _render(CanvasRenderingContext2D context, bool finish) {
     //print("G2D _render... SIZE = ${size}");
     //for(int i=0; i<size; i++) {
 
     // Forget the current paths, about to make new ones
     paths.clear();
 
-    int renderSize = finish ? _size : Math.max(_size, _prevSize);
+    int renderSize = finish ? size : max(size, prevSize);
     //print("RENDER SIZE = ${renderSize}");
     for (_i = 0; _i < renderSize; _i++) {
       context.save();
@@ -222,44 +241,40 @@ abstract class Graphic2dNode extends GraphicLeaf {
   //TODO find a way to use nulls for default values -- efficiency
   //TODO only apply properties that are used for particular types of graphics?
   void _apply2dContext(int index, CanvasRenderingContext2D ctx) {
-    /* applying default value 0.... (invisible) */
-    var value;
+    ctxDrawingStyle2d = fillStyle.valueAt(index);
+    if (ctxDrawingStyle2d != null) ctx.fillStyle = ctxDrawingStyle2d.style(ctx);
 
-    value = fillStyle.valueAt(index);
-    if (value != null) ctx.fillStyle = value.style(ctx);
+    ctxDrawingStyle2d = strokeStyle.valueAt(index);
+    if (ctxDrawingStyle2d != null) ctx.strokeStyle = ctxDrawingStyle2d.style(ctx);
 
-    value = strokeStyle.valueAt(index);
-    if (value != null) ctx.strokeStyle = value.style(ctx);
+    ctx.globalAlpha = globalAlpha.valueAt(index) ?? 1;
 
-    value = globalAlpha.valueAt(index);
-    ctx.globalAlpha = value ?? 1;
+    ctxString = globalCompositeOperation.valueAt(index);
+    if (ctxString != null) ctx.globalCompositeOperation = ctxString;
 
-    value = globalCompositeOperation.valueAt(index);
-    if (value != null) ctx.globalCompositeOperation = value;
+    ctxNum = lineWidth.valueAt(index);
+    if (ctxNum != null) ctx.lineWidth = ctxNum;
 
-    value = lineWidth.valueAt(index);
-    if (value != null) ctx.lineWidth = value;
+    ctxLineCap2d = lineCap.valueAt(index);
+    if (ctxLineCap2d != null) ctx.lineCap = ctxLineCap2d.value;
 
-    value = lineCap.valueAt(index);
-    if (value != null) ctx.lineCap = value.value;
+    ctxLineJoin2d = lineJoin.valueAt(index);
+    if (ctxLineJoin2d != null) ctx.lineJoin = ctxLineJoin2d.value;
 
-    value = lineJoin.valueAt(index);
-    if (value != null) ctx.lineJoin = value.value;
-
-    value = lineDash.valueAt(index);
-    if (value != null) {
-      if (value.isEmpty) {
-        if (ctx.getLineDash()?.isNotEmpty ?? false) value = defaultLineDash;
+    ctxNumberList = lineDash.valueAt(index);
+    if (ctxNumberList != null) {
+      if (ctxNumberList.isEmpty) {
+        if (ctx.getLineDash()?.isNotEmpty ?? false) ctx.setLineDash(defaultLineDash);
       } else {
-        ctx.setLineDash(value);
+        ctx.setLineDash(ctxNumberList);
       }
     }
 
-    value = shadowBlur.valueAt(index);
-    if (value != null) ctx.shadowBlur = value;
+    ctxNum = shadowBlur.valueAt(index);
+    if (ctxNum != null) ctx.shadowBlur = ctxNum;
 
-    value = shadowColor.valueAt(index);
-    if (value != null) ctx.shadowColor = value.css;
+    ctxColor = shadowColor.valueAt(index);
+    if (ctxColor != null) ctx.shadowColor = ctxColor.css;
 
     _applyTransform(index, ctx);
   }

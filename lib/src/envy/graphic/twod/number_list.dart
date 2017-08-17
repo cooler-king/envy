@@ -1,4 +1,4 @@
-part of envy;
+import 'package:collection/collection.dart';
 
 class NumberList extends DelegatingList<num> {
   NumberList([Iterable<num> numbers]) : super(new List<num>.from(numbers ?? []));

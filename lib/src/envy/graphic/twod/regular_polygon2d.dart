@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' as Math;
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
 
 /// A 2-dimensional regular polygon to be drawn on an HTML canvas.
 ///
@@ -18,7 +22,7 @@ class RegularPolygon2d extends Graphic2dNode {
   NumberProperty get pointCount => properties["pointCount"] as NumberProperty;
   NumberProperty get radius => properties["radius"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _pointCount, _x, _y, _radius;
     _pointCount = pointCount.valueAt(i);
 

@@ -1,4 +1,10 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import 'path_interpolation2d_source.dart';
+import '../../data_accessor.dart';
+import '../data_source.dart';
+import '../../keyed_dataset.dart';
+import '../../../graphic/twod/enum/path_interpolation2d.dart';
 
 /// Retrieves text baseline data (a list of text baselines or a single
 /// text baseline) from a named dataset.
@@ -12,8 +18,8 @@ class PathInterpolation2dData extends ArrayDataSource<PathInterpolation2d> imple
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -54,11 +60,11 @@ class PathInterpolation2dData extends ArrayDataSource<PathInterpolation2d> imple
       this.values.add(data);
     } else {
       // warn and do best to convert
-      _LOG.warning("Unexpected data type for PathInterpolation2dData: ${data}");
+      logger.warning("Unexpected data type for PathInterpolation2dData: ${data}");
     }
   }
 
-  PathInterpolation2d _fromAnything(dynamic d) {
+  PathInterpolation2d fromAnything(dynamic d) {
     if (d is String) return PathInterpolation2d.from(d);
     return PathInterpolation2d.LINEAR;
   }

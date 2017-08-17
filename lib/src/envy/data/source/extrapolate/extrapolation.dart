@@ -1,5 +1,3 @@
-part of envy;
-
 /// The base class for providing missing values at the end of
 /// property arrays.
 ///

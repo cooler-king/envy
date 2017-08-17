@@ -1,15 +1,13 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
 }
 
 void _init() {
-  EnvyDiv e = querySelector("#envy") as EnvyDiv;
+  EnvyScene e = querySelector("#envy") as EnvyScene;
   //print(e);
   //print(e.sceneGraph);
 

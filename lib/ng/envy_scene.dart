@@ -1,31 +1,27 @@
 import 'dart:html';
-import 'package:angular2/angular2.dart';
+import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 
-//encapsulation: ViewEncapsulation.Native,
 @Component(
-    selector: "envy-scene",
-    templateUrl: 'envy_scene.html')
+  selector: "envy-scene",
+  templateUrl: 'envy_scene.html',
+)
 class EnvyScene implements AfterViewInit {
   //TODO input spec
   String spec;
 
-  final EnvySceneGraph _sceneGraph = new EnvySceneGraph();
-  EnvySceneGraph get sceneGraph => _sceneGraph;
+  final EnvySceneGraph sceneGraph = new EnvySceneGraph();
 
-  @ViewChild('envyRootEl')
-  ElementRef envyRootEl;
+  @ViewChild('envyRoot')
+  Element root;
 
   void ngAfterViewInit() {
-    //print("Envy div ATTACHED");
-    sceneGraph.htmlHost = envyRootEl.nativeElement;
-    //sceneGraph.updateGraph();
+    sceneGraph.htmlHost = root;
   }
 
   /// Returns the first canvas element found under the root (or null).
-  CanvasElement get canvas {
-    Element root = envyRootEl.nativeElement;
-    return root?.querySelector("canvas") as CanvasElement;
-  }
+  CanvasElement get canvas => root?.querySelector("canvas") as CanvasElement;
 
+  /// Gets the bounds of the root HTML element.
+  Rectangle get bounds => root?.getBoundingClientRect();
 }

@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Timing Functions', () {
     test('Linear Function', () {
       LinearFunction linear = new LinearFunction();

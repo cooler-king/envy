@@ -1,4 +1,5 @@
-part of envy;
+import '../css/css_adapter.dart';
+import '../css/css_property.dart';
 
 class Font implements CssAdapter {
   FontStyle style;

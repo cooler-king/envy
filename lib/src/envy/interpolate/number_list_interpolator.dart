@@ -1,4 +1,6 @@
-part of envy;
+import 'envy_interpolator.dart';
+import 'number_interpolator.dart';
+import '../graphic/twod/number_list.dart';
 
 /// Interpolates between a two lists containing points.
 ///

@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:math' show min;
+import 'multiplicity.dart';
+import '../envy_property.dart';
 
 class SmallestSize extends Multiplicity {
   SmallestSize();
@@ -8,7 +10,7 @@ class SmallestSize extends Multiplicity {
 
     int smallest = 99999999;
     for (var prop in props) {
-      smallest = Math.min(smallest, prop.rawSize);
+      smallest = min(smallest, prop.rawSize);
     }
 
     return smallest;

@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// Defines the type of corners where two lines meet. Possible values: round,
 /// bevel, and miter (default).

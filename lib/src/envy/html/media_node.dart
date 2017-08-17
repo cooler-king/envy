@@ -1,4 +1,5 @@
-part of envy;
+import 'html_node.dart';
+import '../envy_property.dart';
 
 /// [MediaNode] is an abstract Envy scene graph node that provides a common base for specific media node types
 /// such as VideoNode and AudioNode.

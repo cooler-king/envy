@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// How to draw a line between the points in a path.
 ///

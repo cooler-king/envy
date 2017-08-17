@@ -1,7 +1,8 @@
-part of envy;
+import 'dart:math' show Random;
+import 'extrapolation.dart';
 
 class RandomSample<T> extends Extrapolation<T> {
-  Math.Random r = new Math.Random(new DateTime.now().millisecondsSinceEpoch);
+  Random r = new Random(new DateTime.now().millisecondsSinceEpoch);
 
   RandomSample() : super("randomSample", "Randomly sample the existing values");
 

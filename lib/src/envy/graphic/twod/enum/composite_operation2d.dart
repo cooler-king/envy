@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// With globalAlpha applied this sets how shapes and images are drawn onto the existing bitmap.
 ///

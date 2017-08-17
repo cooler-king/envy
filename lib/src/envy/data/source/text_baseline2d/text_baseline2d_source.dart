@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/enum/text_baseline2d.dart';
 
 abstract class TextBaseline2dSource extends DataSource<TextBaseline2d> {}
 

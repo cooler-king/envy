@@ -1,4 +1,5 @@
-part of envy;
+import 'package:quantity/quantity.dart' show Angle;
+import '../data_source.dart';
 
 abstract class AngleSource extends DataSource<Angle> {}
 

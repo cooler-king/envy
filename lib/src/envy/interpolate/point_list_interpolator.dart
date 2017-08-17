@@ -1,6 +1,9 @@
-part of envy;
+import 'dart:math';
+import 'envy_interpolator.dart';
+import 'point_interpolator.dart';
+import '../graphic/twod/point_list.dart';
 
-const ptZeroZero = const Point<num>(0, 0);
+const Point ptZeroZero = const Point<num>(0, 0);
 
 /// Interpolates between a two lists containing points.
 ///

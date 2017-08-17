@@ -1,4 +1,5 @@
-part of envy;
+import 'dart:html' show Element, DivElement;
+import 'html_node.dart';
 
 /// [DivNode] is an Envy scene graph node that manages an HTML div element.
 ///

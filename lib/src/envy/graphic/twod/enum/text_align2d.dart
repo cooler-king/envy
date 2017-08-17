@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 /// Supported values: start (default), end, left, right or center.
 ///

@@ -1,4 +1,4 @@
-part of envy;
+import '../../../util/enumeration.dart';
 
 class AnchorMode2d extends Enumeration<String> {
   static const AnchorMode2d DEFAULT = const AnchorMode2d("default");

@@ -1,5 +1,3 @@
-part of envy;
-
 /// The [populationStrategy] determines how an Envy node populates the
 /// DOM nodes of parent Envy node.
 ///
@@ -29,7 +27,7 @@ class DomNodeCoupling {
   DomNodeCoupling({this.parentIndex: -1, this.propIndex: -1});
 
   /// Two couplings with teh same parent and prop indeices are considered equals
-  bool operator ==(other) {
+  bool operator ==(dynamic other) {
     if (other is DomNodeCoupling) return hashCode == other.hashCode;
     return false;
   }

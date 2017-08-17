@@ -1,4 +1,10 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'css_style_source.dart';
+import '../../../css/css_style.dart';
 
 /// Retrieves CSS style data (a list of CSS styles or a single
 /// CSS style) from a named dataset.
@@ -53,7 +59,7 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
     } else if (data is CssStyle) {
       this.values.add(data);
     } else {
-      _LOG.warning("Unexpected data type for CssStyleData: ${data}");
+      logger.warning("Unexpected data type for CssStyleData: ${data}");
     }
   }
 }

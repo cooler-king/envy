@@ -1,4 +1,10 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' show sin, cos;
+import 'package:quantity/quantity.dart' show Angle, AngleRange, twoPi, angle0, angle90, angle180, angle270;
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+
 
 /// A 2-dimensional annular section to be drawn on an HTML canvas.
 ///
@@ -23,7 +29,7 @@ class AnnularSection2d extends Graphic2dNode {
   AngleProperty get startAngle => properties["startAngle"] as AngleProperty;
   AngleProperty get endAngle => properties["endAngle"] as AngleProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _innerRadius, _outerRadius, _startAngleRad, _endAngleRad;
     _innerRadius = innerRadius.valueAt(i);
     _outerRadius = outerRadius.valueAt(i);
@@ -58,11 +64,11 @@ class AnnularSection2d extends Graphic2dNode {
       Path2D p = new Path2D();
       paths.add(p);
       if (_fill) {
-        num cosStart = Math.cos(_startAngleRad);
-        num sinStart = Math.sin(_startAngleRad);
+        num cosStart = cos(_startAngleRad);
+        num sinStart = sin(_startAngleRad);
         p.moveTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
         p.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
-        p.lineTo(_x + _outerRadius * Math.cos(_endAngleRad), _y + _outerRadius * Math.sin(_endAngleRad));
+        p.lineTo(_x + _outerRadius * cos(_endAngleRad), _y + _outerRadius * sin(_endAngleRad));
         p.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
         p.lineTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
         p.closePath();
@@ -84,13 +90,13 @@ class AnnularSection2d extends Graphic2dNode {
         ctx.stroke();
       }
     } else {
-      var x1 = _x + _innerRadius * Math.cos(_startAngleRad);
-      var y1 = _y + _innerRadius * Math.sin(_startAngleRad);
+      var x1 = _x + _innerRadius * cos(_startAngleRad);
+      var y1 = _y + _innerRadius * sin(_startAngleRad);
       Path2D p = new Path2D();
       //ctx.beginPath();
       p.moveTo(x1, y1);
       p.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
-      p.lineTo(_x + _outerRadius * Math.cos(_endAngleRad), _y + _outerRadius * Math.sin(_endAngleRad));
+      p.lineTo(_x + _outerRadius * cos(_endAngleRad), _y + _outerRadius * sin(_endAngleRad));
       p.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
       p.lineTo(x1, y1);
       p.closePath();

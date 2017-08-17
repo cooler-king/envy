@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:collection';
+import '../util/logger.dart';
+import '../envy_property.dart';
 
 /// DataAccessor provides a road map into a dataset to select a
 /// specific property within a map or index in an array.
@@ -106,7 +108,7 @@ class DataAccessor {
         }
       }
     } catch (e, s) {
-      _LOG.severe("Problem parsing accessPath:  ${accessPath}", e, s);
+      logger.severe("Problem parsing accessPath:  ${accessPath}", e, s);
     }
   }
 
@@ -225,8 +227,8 @@ class DataAccessor {
       }
 
       // Sort keys by index
-      var list = new List.from(m.keys);
-      list.sort((a, b) => m[a].compareTo(m[b]));
+      var list = new List<dynamic>.from(m.keys);
+      list.sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
       // Change indices to consecutive positive integers
       int index = 0;
@@ -274,7 +276,7 @@ class Indices {
         }
       }
     } catch (e, s) {
-      _LOG.severe("Unable to parse indices string '${str}'", e, s);
+      logger.severe("Unable to parse indices string '${str}'", e, s);
     }
   }
 

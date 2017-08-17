@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:collection';
+import 'envy_property.dart';
+import 'multiplicity/multiplicity.dart';
 
 /// Anything with updatable Envy Properties is Dynamic.
 ///
@@ -14,8 +16,8 @@ class DynamicNode {
   ///
   Multiplicity _multiplicity;
 
-  int _size = 0;
-  int _prevSize = 0;
+  int size = 0;
+  int prevSize = 0;
 
   /// Update all property values.
   ///
@@ -37,27 +39,25 @@ class DynamicNode {
     _multiplicity = m;
   }
 
-  int get size => _size;
-
   //int get size => multiplicity.sizeOf(properties.values);
 
   void _refreshDataSources() {
     for (var envyProp in properties.values) {
-      envyProp._refreshDataSources();
+      envyProp.refreshDataSources();
     }
   }
 
   void _updateSize() {
-    _prevSize = _size;
-    _size = multiplicity.sizeOf(properties.values);
+    prevSize = size;
+    size = multiplicity.sizeOf(properties.values);
     //print("${this} SIZE/PREV... ${_size}/${_prevSize}");
   }
 
-  void _preparePropertiesForAnimation() {
+  void preparePropertiesForAnimation() {
     _refreshDataSources();
     _updateSize();
     for (var prop in properties.values) {
-      prop._preparePropertyForAnimation(_size);
+      prop.preparePropertyForAnimation(size);
     }
   }
 }

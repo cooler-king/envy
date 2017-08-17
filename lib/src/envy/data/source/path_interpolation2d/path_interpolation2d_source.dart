@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/enum/path_interpolation2d.dart';
 
 abstract class PathInterpolation2dSource extends DataSource<PathInterpolation2d> {}
 

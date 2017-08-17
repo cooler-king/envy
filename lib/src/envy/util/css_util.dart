@@ -1,4 +1,5 @@
-part of envy;
+import 'dart:html';
+import '../util/logger.dart';
 
 final Map<String, num> convert = {};
 bool computedValueBug = false;
@@ -34,7 +35,8 @@ class CssUtil {
   /// Uses width as the property when checking computed style by default.
   ///
   static num toPixels(Element element, String value, [String prop = 'width', bool force = false]) {
-    var style, pixels;
+    CssStyleDeclaration style;
+    num pixels;
 
     // Init conversion values if first time
     if (convert.isEmpty) CssUtil._initAbsoluteUnitConversions();
@@ -105,7 +107,7 @@ class CssUtil {
         return num.parse(pxCss);
       }
     } catch (e, s) {
-      _LOG.severe("Unable to parse pixel value: ${pxCss}", e, s);
+      logger.severe("Unable to parse pixel value: ${pxCss}", e, s);
       return 0;
     }
   }
@@ -113,10 +115,10 @@ class CssUtil {
   /// Return the computed value of a CSS [prop]erty.
   ///
   static String curCSS(Element elem, String prop) {
-    var unit;
+    String unit;
     String rvpos = r"/^top|bottom/";
     List<String> outerProp = ["paddingTop", "paddingBottom", "borderTop", "borderBottom"];
-    var innerHeight;
+    int innerHeight;
     //int i = 4; // outerProp.length
 
     // Init computedValuesBug flag if first time
@@ -132,11 +134,11 @@ class CssUtil {
       // WebKit won't convert percentages for top, bottom, left, right, margin and text-indent
       if (prop.contains(rvpos)) {
         // Top and bottom require measuring the innerHeight of the parent.
-        Element parent = elem.parentNode ?? elem;
-        innerHeight = parent.offsetHeight;
+        Node parent = elem.parentNode ?? elem;
+        innerHeight = parent is Element ? parent.offsetHeight : 0;
         //while (i--) {
         for (int i = outerProp.length - 1; i >= 0; i--) {
-          innerHeight -= _parsePixels(curCSS(parent, outerProp[i]));
+          innerHeight -= _parsePixels(curCSS(parent, outerProp[i])).round();
         }
         value = "${_parsePixels(value) / 100 * innerHeight}px";
       } else {

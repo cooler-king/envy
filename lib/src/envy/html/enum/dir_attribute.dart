@@ -1,4 +1,4 @@
-part of envy;
+import '../../util/enumeration.dart';
 
 /// The dir attribute specifies the text direction of the element's content.
 ///

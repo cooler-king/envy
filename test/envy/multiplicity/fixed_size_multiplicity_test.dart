@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Fixed Size Multiplicity', () {
     test('Constructors', () {
       FixedSize fs = new FixedSize(3);

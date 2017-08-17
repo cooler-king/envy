@@ -1,4 +1,4 @@
-part of envy;
+import '../../util/enumeration.dart';
 
 /// [PopulationMode] determines how an Envy node populates the
 /// DOM nodes of its parent Envy node.

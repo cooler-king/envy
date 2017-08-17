@@ -1,4 +1,4 @@
-part of envy;
+import 'package:quantity/quantity.dart' show Angle;
 
 class GeoCoord {
   final num latRad;

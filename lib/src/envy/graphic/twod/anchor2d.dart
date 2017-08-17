@@ -1,4 +1,5 @@
-part of envy;
+import 'enum/anchor_mode2d.dart';
+import '../../util/logger.dart';
 
 /// An anchor specifies the origin of a shape through a combination
 /// of a mode and optional offset.
@@ -40,7 +41,7 @@ class Anchor2d {
     if (mode == AnchorMode2d.BOTTOM_LEFT) return [-(left + offsetX), -(bottom + offsetY)];
     if (mode == AnchorMode2d.BOTTOM_RIGHT) return [-(right + offsetX), -(bottom + offsetY)];
 
-    _LOG.warning("Unexpected anchor mode detected: ${mode}");
+    logger.warning("Unexpected anchor mode detected: ${mode}");
     return [0, 0];
   }
 

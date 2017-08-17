@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
 
 /// A 2-dimensional line to be drawn on an HTML canvas.
 ///
@@ -15,7 +18,7 @@ class Point2d extends Graphic2dNode {
 
   NumberProperty get pixelSize => properties["pixelSize"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y;
     Anchor2d _anchor = anchor.valueAt(i);
     num _pixelSize = pixelSize.valueAt(i);

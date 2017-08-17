@@ -1,12 +1,10 @@
 import 'dart:math' as Math;
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
 }
 
@@ -20,7 +18,7 @@ void _init() {
 }
 
 void testBasic() {
-  EnvyDiv e = querySelector("#image2d-basic") as EnvyDiv;
+  EnvyScene e = querySelector("#image2d-basic") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -50,7 +48,7 @@ void testBasic() {
 }
 
 void testRotation() {
-  EnvyDiv e = querySelector("#image2d-rotation") as EnvyDiv;
+  EnvyScene e = querySelector("#image2d-rotation") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -77,7 +75,7 @@ void testRotation() {
 }
 
 void testAnchors() {
-  EnvyDiv e = querySelector("#image2d-anchors") as EnvyDiv;
+  EnvyScene e = querySelector("#image2d-anchors") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 200);
   esg.attachToRoot(canvas);
@@ -126,7 +124,7 @@ void testAnchors() {
 }
 
 void testLifecycle() {
-  EnvyDiv e = querySelector("#image2d-lifecycle") as EnvyDiv;
+  EnvyScene e = querySelector("#image2d-lifecycle") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode();
   esg.attachToRoot(canvas);
@@ -207,7 +205,7 @@ void testLifecycle() {
 }
 
 void testDataDriven() {
-  EnvyDiv e = querySelector("#image2d-data") as EnvyDiv;
+  EnvyScene e = querySelector("#image2d-data") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode();
   esg.attachToRoot(canvas);
@@ -251,7 +249,7 @@ void testDataDriven() {
 }
 
 void testHit() {
-  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvyScene e = querySelector("#hit") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 500);
   esg.attachToRoot(canvas);
@@ -279,14 +277,14 @@ void testHit() {
 
   s.rotation.enter = new AngleConstant.array(
       [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-  s.onClick.listen((g2di) => querySelector("#hit-feedback").innerHtml =
+  s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml =
       "CLICKED ${g2di}... data = ${g2di.graphic2d.data.valueAt(g2di.index)}");
-  s.onDoubleClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
-  s.onMouseEnter.listen((g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
-  s.onMouseOut.listen((g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
-  s.onMouseOver.listen((g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
-  s.onMouseDown.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
-  s.onMouseUp.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+  s.onDoubleClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
+  s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
 
   esg.updateGraph();
 }

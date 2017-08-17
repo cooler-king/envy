@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
 
 /// A 2-dimensional diamond to be drawn on an HTML canvas.
 ///
@@ -15,7 +18,7 @@ class Diamond2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     _width = width.valueAt(i);

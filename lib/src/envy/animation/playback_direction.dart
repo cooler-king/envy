@@ -1,5 +1,3 @@
-part of envy;
-
 class PlaybackDirection {
 
   /// All iterations are played as specified

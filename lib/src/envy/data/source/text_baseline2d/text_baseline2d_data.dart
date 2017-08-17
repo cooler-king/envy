@@ -1,4 +1,10 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import 'text_baseline2d_source.dart';
+import '../../data_accessor.dart';
+import '../data_source.dart';
+import '../../keyed_dataset.dart';
+import '../../../graphic/twod/enum/text_baseline2d.dart';
 
 /// Retrieves text baseline data (a list of text baselines or a single
 /// text baseline) from a named dataset.
@@ -54,11 +60,11 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
       this.values.add(data);
     } else {
       // warn and do best to convert
-      _LOG.warning("Unexpected data type for TextBaseline2dData: ${data}");
+      logger.warning("Unexpected data type for TextBaseline2dData: ${data}");
     }
   }
 
-  TextBaseline2d _fromAnything(dynamic d) {
+  TextBaseline2d fromAnything(dynamic d) {
     if (d is String) return TextBaseline2d.from(d);
     return TextBaseline2d.ALPHABETIC;
   }

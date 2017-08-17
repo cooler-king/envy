@@ -1,4 +1,5 @@
-part of envy;
+import 'dart:math' as Math;
+import 'package:collection/collection.dart';
 
 class PointList extends DelegatingList<Math.Point> {
   PointList([Iterable<Math.Point> points]) : super(new List<Math.Point>.from(points ?? []));

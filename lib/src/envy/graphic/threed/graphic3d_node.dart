@@ -1,4 +1,4 @@
-part of envy;
+import '../graphic_node.dart';
 
 abstract class Graphic3dNode extends GraphicNode {
   Graphic3dNode() {

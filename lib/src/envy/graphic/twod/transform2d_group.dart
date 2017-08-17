@@ -1,4 +1,12 @@
-part of envy;
+import 'dart:collection';
+import 'dart:html';
+import 'package:quantity/quantity.dart';
+import 'package:vector_math/vector_math.dart';
+import '../../dynamic_node.dart';
+import '../../envy_property.dart';
+import '../../util/logger.dart';
+import '../graphic_node.dart';
+import '../../html/canvas_node.dart';
 
 //TODO should the size of this node affect the number of canvases?
 
@@ -29,24 +37,24 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
       // Apply the transform
       //for(CanvasRenderingContext2D ctx in _currentContext2DList) {
 
-      for (int index = 0; index < _currentContext2DList.length; index++) {
+      for (int index = 0; index < currentContext2DList.length; index++) {
         //if(context is CanvasRenderingContext2D) {
         // Save a copy of the transform before modification
         //int index = _currentContext2DList.indexOf(ctx);
-        CanvasRenderingContext2D ctx = _currentContext2DList[index];
-        ListQueue transform2DStack = _transform2DStackList[index];
+        CanvasRenderingContext2D ctx = currentContext2DList[index];
+        ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
 
         Matrix3 currentTransform = transform2DStack.first;
 
         Vector2 _scale = scale.valueAt(index);
-        num sx = _scale.x;
-        num sy = _scale.y;
+        double sx = _scale.x;
+        double sy = _scale.y;
         Angle theta = rotate.valueAt(index);
-        num cosTheta = theta.cosine();
-        num sinTheta = theta.sine();
+        double cosTheta = theta.cosine();
+        double sinTheta = theta.sine();
         Vector2 _translate = translate.valueAt(index);
-        num tx = _translate.x;
-        num ty = _translate.y;
+        double tx = _translate.x;
+        double ty = _translate.y;
 
         // column major order
         Matrix3 myTransform =
@@ -57,10 +65,10 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
         _replaceTransform(myTransform, ctx);
       }
       //} else {
-      //  _LOG.warning("Expected CanvasRenderingContext2D for context, not ${context}");
+      //  logger.warning("Expected CanvasRenderingContext2D for context, not ${context}");
       // }
     } catch (e, s) {
-      _LOG.severe("Error applying transform", e, s);
+      logger.severe("Error applying transform", e, s);
     }
   }
 
@@ -70,20 +78,20 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
   void groupUpdatePost(num timeFraction, {dynamic context, bool finish: false}) {
     // Set back to the incoming transform
     //if(context is CanvasRenderingContext2D) {
-    for (int index = 0; index < _currentContext2DList.length; index++) {
-      CanvasRenderingContext2D ctx = _currentContext2DList[index];
+    for (int index = 0; index < currentContext2DList.length; index++) {
+      CanvasRenderingContext2D ctx = currentContext2DList[index];
       // Save a copy of the transform before modification
       //int index = _currentContext2DList.indexOf(context);
-      if (_transform2DStackList.length > index) {
-        ListQueue transform2DStack = _transform2DStackList[index];
+      if (transform2DStackList.length > index) {
+        ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
         transform2DStack.removeFirst();
         _replaceTransform(transform2DStack.first, ctx);
       } else {
-        _LOG.warning("Attempt to revert transform at index ${index} ignored; out of range");
+        logger.warning("Attempt to revert transform at index ${index} ignored; out of range");
       }
     }
     //} else {
-    //  _LOG.warning("Expected CanvasRenderingContext2D for context, not ${context}");
+    //  logger.warning("Expected CanvasRenderingContext2D for context, not ${context}");
     // }
   }
 

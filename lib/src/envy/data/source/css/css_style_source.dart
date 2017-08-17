@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../css/css_style.dart';
 
 abstract class CssStyleSource extends DataSource<CssStyle> {}
 

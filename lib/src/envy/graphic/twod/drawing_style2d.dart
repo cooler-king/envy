@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D;
+import 'gradient2d.dart';
+import 'pattern2d.dart';
+import '../../color/color.dart';
 
 /// Represents a fill style or a stroke style, either a pattern, gradient or color.
 ///

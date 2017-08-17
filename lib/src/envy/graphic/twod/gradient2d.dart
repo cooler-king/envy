@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, CanvasGradient;
+import '../../color/color.dart';
+
 
 /// Common handle for 2d linear and radial gradients.
 ///

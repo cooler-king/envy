@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Random Sample', () {
     test('null and empty values', () {
       RandomSample rs = new RandomSample();

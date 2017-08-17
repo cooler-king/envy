@@ -1,4 +1,4 @@
-part of envy;
+import 'extrapolation.dart';
 
 class DuplicateFirst<T> extends Extrapolation<T> {
   DuplicateFirst() : super("duplicateFirst", "Duplicate the first value");

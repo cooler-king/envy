@@ -1,4 +1,5 @@
-part of envy;
+import 'envy_interpolator.dart';
+
 
 /// Interpolate between two values by instantaneously switching from one
 /// to the other at specific fraction thresholds.

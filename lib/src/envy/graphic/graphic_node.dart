@@ -1,4 +1,6 @@
-part of envy;
+import '../dynamic_node.dart';
+import '../envy_node.dart';
+import '../group_node.dart';
 
 /// Common handle for [GraphicLeaf] and [GraphicGroup] scene graph nodes.
 ///

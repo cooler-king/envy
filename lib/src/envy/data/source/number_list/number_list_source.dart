@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/number_list.dart';
 
 abstract class NumberListSource extends DataSource<NumberList> {}
 

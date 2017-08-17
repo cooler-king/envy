@@ -1,4 +1,9 @@
-part of envy;
+import '../group_node.dart';
+import 'fill_mode.dart';
+import 'playback_direction.dart';
+import 'player.dart';
+import 'timing.dart';
+import 'timing_group.dart';
 
 /// The abstract base class for time-based group nodes that provide
 /// time fractions (used to interpolate property values) to their children.
@@ -33,10 +38,10 @@ abstract class TimedItemGroup extends GroupNode {
     if (_player == p) return;
 
     // Deregister existing player, if necessary
-    if (_player != null) _player._deregisterTimedItemGroup(this);
+    if (_player != null) _player.deregisterTimedItemGroup(this);
 
     _player = p;
-    if (p != null) _player._registerTimedItemGroup(this);
+    if (p != null) _player.registerTimedItemGroup(this);
   }
 
   /// For a timed item, the inherited time at a given moment is based on the
@@ -63,7 +68,7 @@ abstract class TimedItemGroup extends GroupNode {
   ///
   num get startTime {
     if (parentTimingGroup is SequenceTimingGroup && _startTime == null) (parentTimingGroup as SequenceTimingGroup)
-        ._calcStartTimes();
+        .calcStartTimes();
 
     return _startTime == null ? 0 : _startTime;
   }
@@ -279,8 +284,8 @@ abstract class TimedItemGroup extends GroupNode {
     super.update(timeFraction, finish: finish);
   }
 
-  void _finishAnimation({dynamic context: false}) {
+  void finishAnimation({dynamic context: false}) {
     update(1.0, context: context, finish: true);
-    if (player != null) player._deregisterTimedItemGroup(this);
+    if (player != null) player.deregisterTimedItemGroup(this);
   }
 }

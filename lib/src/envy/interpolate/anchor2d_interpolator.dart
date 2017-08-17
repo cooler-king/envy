@@ -1,4 +1,8 @@
-part of envy;
+import 'binary_interpolator.dart';
+import 'envy_interpolator.dart';
+import 'number_interpolator.dart';
+import '../graphic/twod/anchor2d.dart';
+import '../graphic/twod/enum/anchor_mode2d.dart';
 
 /// Interpolates between two [Anchor2d]s.
 ///
@@ -6,7 +10,7 @@ part of envy;
 /// handled by a number interpolator.
 ///
 class Anchor2dInterpolator extends EnvyInterpolator<Anchor2d> {
-  BinaryInterpolator modeInterpolator;
+  BinaryInterpolator<AnchorMode2d> modeInterpolator;
   NumberInterpolator offsetInterpolator;
 
   Anchor2dInterpolator({this.modeInterpolator, this.offsetInterpolator}) {

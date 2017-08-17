@@ -1,4 +1,36 @@
-part of envy;
+import 'dart:math' show max, Point;
+import 'package:quantity/quantity.dart' show Angle;
+import 'package:vector_math/vector_math.dart';
+import 'animation/animation_group.dart';
+import 'data/source/data_source.dart';
+import 'interpolate/envy_interpolator.dart';
+import 'multiplicity/multiplicity.dart';
+import 'data/source/extrapolate/extrapolation.dart';
+import 'interpolate/binary_interpolator.dart';
+import 'interpolate/color_interpolator.dart';
+import 'interpolate/number_interpolator.dart';
+import 'interpolate/vector2_interpolator.dart';
+import 'interpolate/anchor2d_interpolator.dart';
+import 'interpolate/angle_interpolator.dart';
+import 'interpolate/drawing_style2d_interpolator.dart';
+import 'interpolate/point_interpolator.dart';
+import 'interpolate/point_list_interpolator.dart';
+import 'interpolate/css_style_interpolator.dart';
+import 'interpolate/number_list_interpolator.dart';
+import 'interpolate/font_interpolator.dart';
+import 'color/color.dart';
+import 'graphic/twod/enum/composite_operation2d.dart';
+import 'graphic/twod/enum/path_interpolation2d.dart';
+import 'graphic/twod/enum/line_cap2d.dart';
+import 'graphic/twod/enum/line_join2d.dart';
+import 'graphic/twod/enum/text_align2d.dart';
+import 'graphic/twod/enum/text_baseline2d.dart';
+import 'graphic/twod/anchor2d.dart';
+import 'graphic/twod/drawing_style2d.dart';
+import 'graphic/twod/number_list.dart';
+import 'graphic/twod/point_list.dart';
+import 'text/font.dart';
+import 'css/css_style.dart';
 
 /// A value that indicates a position in the array for which there is no data
 /// (needed for keyed property support)
@@ -85,7 +117,7 @@ abstract class EnvyProperty<T> {
   ///
   /// Note that [exit] Data Source values do not affect the raw size.
   ///
-  int get rawSize => Math.max(enter.rawSize, update.rawSize);
+  int get rawSize => max(enter.rawSize, update.rawSize);
 
   EnvyInterpolator<T> get interpolator {
     if (_interpolator == null) _interpolator = defaultInterpolator;
@@ -212,7 +244,7 @@ abstract class EnvyProperty<T> {
     }
   }
 
-  void _refreshDataSources() {
+  void refreshDataSources() {
     _enter?.refresh();
     _update?.refresh();
     _exit?.refresh();
@@ -284,8 +316,8 @@ class AngleProperty extends EnvyProperty<Angle> {
   EnvyInterpolator<Angle> get defaultInterpolator => new AngleInterpolator();
 }
 
-class PointProperty extends EnvyProperty<Math.Point> {
-  PointProperty({bool optional: false}) : super(new Math.Point(0, 0), optional: optional);
+class PointProperty extends EnvyProperty<Point> {
+  PointProperty({bool optional: false}) : super(new Point(0, 0), optional: optional);
   EnvyInterpolator<Point> get defaultInterpolator => new PointInterpolator();
 }
 

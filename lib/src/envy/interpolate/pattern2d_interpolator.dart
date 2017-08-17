@@ -1,4 +1,6 @@
-part of envy;
+import 'binary_interpolator.dart';
+import 'envy_interpolator.dart';
+import '../graphic/twod/pattern2d.dart';
 
 /// Interpolates between two [Pattern2d]s.
 ///

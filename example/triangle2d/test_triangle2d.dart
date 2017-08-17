@@ -1,11 +1,9 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
 }
 
@@ -18,7 +16,7 @@ void _init() {
 }
 
 void testBasic() {
-  EnvyDiv e = querySelector("#basic") as EnvyDiv;
+  EnvyScene e = querySelector("#basic") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -41,7 +39,7 @@ void testBasic() {
 }
 
 void testRotation() {
-  EnvyDiv e = querySelector("#rotation") as EnvyDiv;
+  EnvyScene e = querySelector("#rotation") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -61,7 +59,7 @@ void testRotation() {
 }
 
 void testAnchors() {
-  EnvyDiv e = querySelector("#anchors") as EnvyDiv;
+  EnvyScene e = querySelector("#anchors") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 200);
   esg.attachToRoot(canvas);
@@ -106,7 +104,7 @@ void testAnchors() {
 }
 
 void testLifecycle() {
-  EnvyDiv e = querySelector("#lifecycle") as EnvyDiv;
+  EnvyScene e = querySelector("#lifecycle") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode();
   esg.attachToRoot(canvas);
@@ -158,7 +156,7 @@ void testLifecycle() {
     esg.updateGraph();
   });
 
-  ButtonElement exitButton = querySelector("#exit-button");
+  ButtonElement exitButton = querySelector("#exit-button") as ButtonElement;
   exitButton.onClick.listen((_) {
     s.x.exit = new NumberConstant(400);
     s.y.exit = new NumberConstant(10);
@@ -193,7 +191,7 @@ void testLifecycle() {
 }
 
 void testHit() {
-  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvyScene e = querySelector("#hit") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 500);
   esg.attachToRoot(canvas);
@@ -221,15 +219,15 @@ void testHit() {
 
   s.rotation.enter = new AngleConstant.array(
       [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-  s.onClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
-  s.onDoubleClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
-  s.onMouseEnter.listen((g2di) => querySelector("#hit-feedback-enter").innerHtml = "ENTER ${g2di}");
-  s.onMouseLeave.listen((g2di) => querySelector("#hit-feedback-leave").innerHtml = "LEAVE ${g2di}");
-  s.onMouseOut.listen((g2di) => querySelector("#hit-feedback-out").innerHtml = "OUT ${g2di}");
-  s.onMouseOver.listen((g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
-  s.onMouseDown.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
-  s.onMouseUp.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
-  s.onMouseMove.listen((g2di) => querySelector("#hit-feedback-move").innerHtml = "MOVE ${g2di}");
+  s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
+  s.onDoubleClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-enter").innerHtml = "ENTER ${g2di}");
+  s.onMouseLeave.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-leave").innerHtml = "LEAVE ${g2di}");
+  s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-out").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+  s.onMouseMove.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-move").innerHtml = "MOVE ${g2di}");
 
   esg.updateGraph();
 }

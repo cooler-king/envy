@@ -1,4 +1,4 @@
-part of envy;
+import 'dart:math' show min;
 
 abstract class TimingFunction {
   /// Convert a value between 0-1 (inclusive) to another
@@ -57,5 +57,5 @@ class StepFunction extends TimingFunction {
         delta = 1 / intervals;
 
   //TODO some rounding problems... see tests
-  num output(num input) => Math.min(end ? input ~/ delta : input ~/ delta + 1, intervalCount) * delta;
+  num output(num input) => min(end ? input ~/ delta : input ~/ delta + 1, intervalCount) * delta;
 }

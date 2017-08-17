@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Cycle Values', () {
     test('null and empty values', () {
       CycleValues cv = new CycleValues(true);

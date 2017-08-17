@@ -1,11 +1,9 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
 }
 
@@ -270,13 +268,13 @@ void testHit() {
 
   s.rotation.enter = new AngleConstant.array(
       [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-  s.onClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
-  s.onDoubleClick.listen((g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
-  s.onMouseEnter.listen((g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
-  s.onMouseOut.listen((g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
-  s.onMouseOver.listen((g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
-  s.onMouseDown.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
-  s.onMouseUp.listen((g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+  s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
+  s.onDoubleClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
+  s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
 
   esg.updateGraph();
 }

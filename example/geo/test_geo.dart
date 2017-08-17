@@ -1,12 +1,10 @@
 import 'dart:html';
 
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
-import 'package:polymer/polymer.dart';
+import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
 }
 
@@ -17,7 +15,7 @@ void _init() {
 }
 
 void testBasic() {
-  EnvyDiv e = querySelector("#geo-basic") as EnvyDiv;
+  EnvyScene e = querySelector("#geo-basic") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);
@@ -57,7 +55,7 @@ void testBasic() {
 
 
 void testGeoJson() {
-  EnvyDiv e = querySelector("#geo-json") as EnvyDiv;
+  EnvyScene e = querySelector("#geo-json") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 100);
   esg.attachToRoot(canvas);

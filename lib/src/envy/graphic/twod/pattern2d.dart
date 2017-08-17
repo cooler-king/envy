@@ -1,4 +1,4 @@
-part of envy;
+import 'dart:html';
 
 enum PatternRepeat { repeat, repeatX, repeatY, noRepeat }
 

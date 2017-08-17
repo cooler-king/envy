@@ -1,4 +1,10 @@
-part of envy;
+import '../../../graphic/twod/number_list.dart';
+import 'number_list_source.dart';
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
 
 /// Retrieves NumberList data from a named dataset.
 ///
@@ -62,7 +68,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
       this.values.add(new NumberList(data));
     } else {
       // Warn and return empty NumberList
-      _LOG.warning("Unexpected data type for NumberListData: ${data}");
+      logger.warning("Unexpected data type for NumberListData: ${data}");
       this.values.add(new NumberList());
     }
   }

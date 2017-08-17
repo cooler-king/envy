@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' as Math;
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
 
 /// A 2-dimensional star to be drawn on an HTML canvas.
 ///
@@ -20,7 +24,7 @@ class Star2d extends Graphic2dNode {
   NumberProperty get innerRadius => properties["innerRadius"] as NumberProperty;
   NumberProperty get outerRadius => properties["outerRadius"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _pointCount, _x, _y, _outerRadius, _innerRadius;
     _pointCount = pointCount.valueAt(i).toInt();
 

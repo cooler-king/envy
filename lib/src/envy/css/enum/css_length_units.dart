@@ -1,4 +1,4 @@
-part of envy;
+import '../../util/enumeration.dart';
 
 class CssLengthUnits extends Enumeration<String> {
   static const CssLengthUnits px = const CssLengthUnits("px");

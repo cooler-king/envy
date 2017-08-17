@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Rect2d', () {
     test('constructors', () {
       Rect2d rect = new Rect2d();

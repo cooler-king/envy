@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:math' show max;
+import 'color_source.dart';
+import '../number/number_source.dart';
+import '../../../color/color.dart';
 
 class ColorRgb extends ColorSource {
 
@@ -20,7 +23,7 @@ class ColorRgb extends ColorSource {
     //return super.valueAt(i);
   }
 
-  int get rawSize => Math.max(Math.max(red.rawSize, green.rawSize), blue.rawSize);
+  int get rawSize => max(max(red.rawSize, green.rawSize), blue.rawSize);
 
   // No-op refresh
   void refresh() {}

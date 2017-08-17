@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:math' show PI;
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
 
 /// A 2-dimensional circle to be drawn on an HTML canvas.
 ///
@@ -13,7 +17,7 @@ class Circle2d extends Graphic2dNode {
 
   NumberProperty get radius => properties["radius"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _radius = radius.valueAt(i);
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);
@@ -29,7 +33,7 @@ class Circle2d extends Graphic2dNode {
     }
 
     Path2D p = new Path2D();
-    p.arc(_x, _y, _radius, 0, 2.0 * Math.PI, false);
+    p.arc(_x, _y, _radius, 0, 2.0 * PI, false);
     paths.add(p);
     if (_fill) ctx.fill(p);
     if (_stroke) ctx.stroke(p);

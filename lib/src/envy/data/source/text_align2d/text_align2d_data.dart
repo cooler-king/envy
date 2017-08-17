@@ -1,4 +1,10 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import 'text_align2d_source.dart';
+import '../../data_accessor.dart';
+import '../data_source.dart';
+import '../../keyed_dataset.dart';
+import '../../../graphic/twod/enum/text_align2d.dart';
 
 /// Retrieves text alignment data (a list of text alignments or a single
 /// text alignment) from a named dataset.
@@ -12,8 +18,8 @@ class TextAlign2dData extends ArrayDataSource<TextAlign2d> implements TextAlign2
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -54,11 +60,11 @@ class TextAlign2dData extends ArrayDataSource<TextAlign2d> implements TextAlign2
       this.values.add(data);
     } else {
       // warn and do best to convert
-      _LOG.warning("Unexpected data type for TextAlign2dData: ${data}");
+      logger.warning("Unexpected data type for TextAlign2dData: ${data}");
     }
   }
 
-  TextAlign2d _fromAnything(dynamic d) {
+  TextAlign2d fromAnything(dynamic d) {
     if (d is String) return TextAlign2d.from(d);
     return TextAlign2d.LEFT;
   }

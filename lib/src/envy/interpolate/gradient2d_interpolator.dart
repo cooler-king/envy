@@ -1,4 +1,9 @@
-part of envy;
+import 'binary_interpolator.dart';
+import 'color_interpolator.dart';
+import 'envy_interpolator.dart';
+import 'number_interpolator.dart';
+import '../color/color.dart';
+import '../graphic/twod/gradient2d.dart';
 
 /// Interpolates between two [Gradient2d]s.
 ///

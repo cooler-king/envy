@@ -1,4 +1,4 @@
-part of envy;
+import '../util/enumeration.dart';
 
 class FillMode extends Enumeration<String> {
   static const FillMode none = const FillMode("none");

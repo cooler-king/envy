@@ -1,4 +1,9 @@
-part of envy;
+import '../data_source.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import 'string_source.dart';
 
 /// Retrieves numerical data (a list of numbers or a single number)
 /// from a named dataset.
@@ -12,8 +17,8 @@ class StringData extends ArrayDataSource<String> implements StringSource {
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -54,7 +59,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
       this.values.add(data);
     } else {
       // warn and do best to convert to string
-      _LOG.warning("Unexpected data type for StringData: ${data}");
+      logger.warning("Unexpected data type for StringData: ${data}");
       if (data is List) {
         for (Object d in data) {
           this.values.add(d.toString());

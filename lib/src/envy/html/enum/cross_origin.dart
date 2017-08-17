@@ -1,4 +1,4 @@
-part of envy;
+import '../../util/enumeration.dart';
 
 /// In HTML5, some HTML elements which provide support for CORS, such as <img> or <video>, have a
 /// crossorigin attribute (crossOrigin property), which lets you configure the CORS requests for the

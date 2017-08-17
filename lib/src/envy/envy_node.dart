@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:collection';
+import 'dynamic_node.dart';
+import 'html/html_node.dart';
 
 /// The base class for all nodes that can be added to the Envy scene graph.
 ///
@@ -44,7 +46,7 @@ abstract class EnvyNode {
   /// Subclasses should override if they need to be initialized for animation
   /// upon attachment to scene graph.
   ///
-  void _prepareForAnimation() {}
+  void prepareForAnimation() {}
 
   /// Add a dataset to this node.
   ///

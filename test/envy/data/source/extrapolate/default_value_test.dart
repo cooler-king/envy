@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Default Value', () {
     test('null and empty values', () {
       DefaultValue<num> dv = new DefaultValue<num>(42);

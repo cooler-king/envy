@@ -1,4 +1,4 @@
-part of envy;
+import '../group_node.dart';
 
 /// A group node that also holds a map of named data sets.
 ///

@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html';
+import 'html/html_node.dart';
+import 'animation/animation_group.dart';
+import 'html/population/population_strategy.dart';
 
 /// The root node of an [EnvySceneGraph].
 ///
@@ -13,7 +16,7 @@ class EnvyRoot extends HtmlNode {
   EnvyRoot() {
     // Root only ever has a single DivElement DOM node; create it here
     DomNodeCoupling c = new DomNodeCoupling(parentIndex: 0, propIndex: 0);
-    _domNodesMap[c] = generateNode();
+    domNodesMap[c] = generateNode();
 
     _initAnimationNode();
   }

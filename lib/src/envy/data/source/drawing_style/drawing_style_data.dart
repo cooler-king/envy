@@ -1,4 +1,11 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import 'drawing_style_source.dart';
+import '../../data_accessor.dart';
+import '../data_source.dart';
+import '../../keyed_dataset.dart';
+import '../../../graphic/twod/drawing_style2d.dart';
+
 
 /// Retrieves drawing style data (a list of drawing styles or a single
 /// drawing style) from a named dataset.
@@ -54,7 +61,7 @@ class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements Draw
       this.values.add(data);
     } else {
       // warn and do best to convert to number
-      _LOG.warning("Unexpected data type for DrawingStyle2dData: ${data}");
+      logger.warning("Unexpected data type for DrawingStyle2dData: ${data}");
     }
   }
 }

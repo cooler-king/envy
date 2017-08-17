@@ -1,4 +1,9 @@
-part of envy;
+import 'dart:html';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../html/canvas_image_source_node.dart';
+
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
 ///
@@ -26,7 +31,7 @@ class Image2d extends Graphic2dNode {
     properties["height"] = new NumberProperty();
   }
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
     _sourceX = sourceX.valueAt(i);
     _sourceY = sourceY.valueAt(i);

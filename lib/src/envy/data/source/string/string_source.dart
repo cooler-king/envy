@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../util/enumeration.dart';
 
 abstract class StringSource extends DataSource<String> {}
 

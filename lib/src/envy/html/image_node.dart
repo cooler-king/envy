@@ -1,4 +1,11 @@
-part of envy;
+import 'dart:html';
+import 'html_node.dart';
+import 'canvas_image_source_node.dart';
+import '../dynamic_node.dart';
+import '../envy_property.dart';
+import '../util/logger.dart';
+import '../html/enum/cross_origin.dart';
+import '../data/source/string/string_source.dart';
 
 /// [ImageNode] is an Envy scene graph node that manages an
 /// HTML Image element.
@@ -11,12 +18,12 @@ class ImageNode extends HtmlNode with DynamicNode implements CanvasImageSourceNo
   ImageElement generateNode() => new ImageElement();
 
   ImageElement elementAt(int index) {
-    if (_domNodesMap.isNotEmpty) {
-      int i = index % _domNodesMap.length;
-      List list = new List.from(_domNodesMap.values);
+    if (domNodesMap.isNotEmpty) {
+      int i = index % domNodesMap.length;
+      List list = new List.from(domNodesMap.values);
       return list[i] as ImageElement;
     } else {
-      _LOG.warning("ImageNode detected empty domNodesMap in elementAt(); returning null");
+      logger.warning("ImageNode detected empty domNodesMap in elementAt(); returning null");
       return null;
     }
   }
@@ -44,8 +51,8 @@ class ImageNode extends HtmlNode with DynamicNode implements CanvasImageSourceNo
   StringProperty get useMap => properties["useMap"] as StringProperty;
 
   @override
-  void _updateDom() {
-    super._updateDom();
+  void updateDom() {
+    super.updateDom();
 
     var value = 0;
     for (int i = 0; i < domNodes.length; i++) {

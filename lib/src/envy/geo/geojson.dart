@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:convert';
+import 'dart:math' show min, max;
+import 'package:quantity/quantity.dart';
+import 'geocoord.dart';
 
 /// GeoJSON is a format for encoding a variety of geographic data structures.
 /// A GeoJSON object may represent a geometry, a feature, or a collection of
@@ -16,7 +19,7 @@ class GeoJson {
 
   GeoJsonBoundingBox _bbox;
 
-  factory GeoJson.string(String str) => new GeoJson.map(JSON.decode(str));
+  factory GeoJson.string(String str) => new GeoJson.map(JSON.decode(str) as Map);
 
   GeoJson.map(Map m) {
     applyMap(m);
@@ -37,7 +40,7 @@ class GeoJson {
   Map toJson() {
     if (featureCollection != null) return featureCollection.toJson();
     if (feature != null) return feature.toJson();
-    if (geometry != null) return geometry.toJson();
+    if (geometry != null) return geometry.toJson() as Map;
     return null;
   }
 
@@ -111,10 +114,10 @@ class GeoJsonBoundingBox {
   ///
   static GeoJsonBoundingBox merge(GeoJsonBoundingBox box1,
       GeoJsonBoundingBox box2) {
-    num minLatDeg = Math.min(box1.minLatitude, box2.minLatitude);
-    num minLongDeg = Math.min(box1.minLongitude, box2.minLongitude);
-    num maxLatDeg = Math.max(box1.maxLatitude, box2.maxLatitude);
-    num maxLongDeg = Math.max(box1.maxLongitude, box2.maxLongitude);
+    num minLatDeg = min(box1.minLatitude, box2.minLatitude);
+    num minLongDeg = min(box1.minLongitude, box2.minLongitude);
+    num maxLatDeg = max(box1.maxLatitude, box2.maxLatitude);
+    num maxLongDeg = max(box1.maxLongitude, box2.maxLongitude);
     return new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
 
@@ -357,10 +360,10 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
     for (var c in coordinates) {
-      minLongDeg = Math.min(minLongDeg, c.longitude);
-      minLatDeg = Math.min(minLatDeg, c.latitude);
-      maxLongDeg = Math.max(maxLongDeg, c.longitude);
-      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+      minLongDeg = min(minLongDeg, c.longitude);
+      minLatDeg = min(minLatDeg, c.latitude);
+      maxLongDeg = max(maxLongDeg, c.longitude);
+      maxLatDeg = max(maxLatDeg, c.latitude);
     }
     _bbox =
     new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
@@ -409,10 +412,10 @@ class GeoJsonLineString extends GeoJsonGeometry {
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
     for (var c in coordinates) {
-      minLongDeg = Math.min(minLongDeg, c.longitude);
-      minLatDeg = Math.min(minLatDeg, c.latitude);
-      maxLongDeg = Math.max(maxLongDeg, c.longitude);
-      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+      minLongDeg = min(minLongDeg, c.longitude);
+      minLatDeg = min(minLatDeg, c.latitude);
+      maxLongDeg = max(maxLongDeg, c.longitude);
+      maxLatDeg = max(maxLatDeg, c.latitude);
     }
     _bbox =
     new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
@@ -511,10 +514,10 @@ class GeoJsonLinearRing extends GeoJsonGeometry {
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
     for (var c in coordinates) {
-      minLongDeg = Math.min(minLongDeg, c.longitude);
-      minLatDeg = Math.min(minLatDeg, c.latitude);
-      maxLongDeg = Math.max(maxLongDeg, c.longitude);
-      maxLatDeg = Math.max(maxLatDeg, c.latitude);
+      minLongDeg = min(minLongDeg, c.longitude);
+      minLatDeg = min(minLatDeg, c.latitude);
+      maxLongDeg = max(maxLongDeg, c.longitude);
+      maxLatDeg = max(maxLatDeg, c.latitude);
     }
     _bbox =
     new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);

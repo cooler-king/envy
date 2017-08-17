@@ -1,4 +1,4 @@
-part of envy;
+import '../envy_node.dart';
 
 /// Identifies a dataset within a node and holds a key property
 /// for convenience that may be used when constructing multiple

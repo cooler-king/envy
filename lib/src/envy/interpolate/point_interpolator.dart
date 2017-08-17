@@ -1,4 +1,5 @@
-part of envy;
+import 'dart:math' as Math;
+import 'envy_interpolator.dart';
 
 /// Interpolates between two 2-dimensional points.
 ///
@@ -34,6 +35,6 @@ class PointInterpolator extends EnvyInterpolator<Math.Point> {
       y = ((fraction < 0) ? a.y : b.y);
     }
 
-    return new Point<num>(x, y);
+    return new Math.Point<num>(x, y);
   }
 }

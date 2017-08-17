@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:math' show max;
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
 
 /// A 2-dimensional cross to be drawn on an HTML canvas.
 ///
@@ -26,7 +30,7 @@ class Cross2d extends Graphic2dNode {
   NumberProperty get horizontalHeight => properties["horizontalHeight"] as NumberProperty;
   NumberProperty get percent => properties["percent"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _verticalWidth, _verticalHeight, _horizontalWidth, _horizontalHeight, _percent;
     Anchor2d _anchor;
     _verticalWidth = verticalWidth.valueAt(i);
@@ -40,7 +44,7 @@ class Cross2d extends Graphic2dNode {
 
     num halfVerticalWidth = _verticalWidth / 2;
 
-    num width = Math.max(_verticalWidth, _horizontalWidth);
+    num width = max(_verticalWidth, _horizontalWidth);
     num height = _verticalHeight;
 
     num halfWidth = width / 2;
@@ -76,35 +80,35 @@ class Cross2d extends Graphic2dNode {
 
     // Start at top left
     if (outTop) {
-      p.moveTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.moveTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
       p.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
       p.lineTo(_x + halfVerticalWidth, _y + halfVerticalWidth);
       p.lineTo(_x - halfVerticalWidth, _y + halfVerticalWidth);
       p.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
     } else if (outBottom) {
       p.moveTo(_x - halfVerticalWidth, _y - halfHeight);
       p.lineTo(_x + halfVerticalWidth, _y - halfHeight);
       p.lineTo(_x + halfVerticalWidth, _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
       p.lineTo(_x - halfVerticalWidth, _y + hbarTop);
     } else {
       p.moveTo(_x - halfVerticalWidth, _y - halfHeight);
       p.lineTo(_x + halfVerticalWidth, _y - halfHeight);
       p.lineTo(_x + halfVerticalWidth, _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
       p.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
       p.lineTo(_x + halfVerticalWidth, _y + halfHeight);
       p.lineTo(_x - halfVerticalWidth, _y + halfHeight);
       p.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - Math.max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
       p.lineTo(_x - halfVerticalWidth, _y + hbarTop);
     }
 

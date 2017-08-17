@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/anchor2d.dart';
 
 abstract class Anchor2dSource extends DataSource<Anchor2d> {}
 

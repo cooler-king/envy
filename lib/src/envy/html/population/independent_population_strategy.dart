@@ -1,4 +1,4 @@
-part of envy;
+import 'population_strategy.dart';
 
 /// A type of population strategy where (copies of) the generated children
 /// are *all* added to each parent DOM node.

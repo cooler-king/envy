@@ -1,17 +1,15 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
 
-main() async {
-  await initPolymer();
+void main() async {
   _init();
   testAnchors();
   testHit();
 }
 
 void _init() {
-  EnvyDiv e = querySelector("#envy") as EnvyDiv;
+  EnvyScene e = querySelector("#envy") as EnvyScene;
   //print(e);
   //print(e.sceneGraph);
 
@@ -37,7 +35,7 @@ void _init() {
 }
 
 void testAnchors() {
-  EnvyDiv e = querySelector("#anchors") as EnvyDiv;
+  EnvyScene e = querySelector("#anchors") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 200);
   esg.attachToRoot(canvas);
@@ -81,7 +79,7 @@ void testAnchors() {
 
 
 void testHit() {
-  EnvyDiv e = querySelector("#hit") as EnvyDiv;
+  EnvyScene e = querySelector("#hit") as EnvyScene;
   EnvySceneGraph esg = e.sceneGraph;
   CanvasNode canvas = new CanvasNode(1000, 400);
   esg.attachToRoot(canvas);
@@ -100,14 +98,14 @@ void testHit() {
     new DrawingStyle2d(color: Color.cyan),
   ]);
 
-  s.onClick.listen((g2di) => querySelector("#hit-click").innerHtml = "CLICKED ${g2di}");
-  s.onDoubleClick.listen((g2di) => querySelector("#hit-click").innerHtml = "DOUBLE-CLICKED ${g2di}");
-  s.onMouseEnter.listen((g2di) => querySelector("#hit-enter").innerHtml = "ENTER ${g2di}");
-  s.onMouseLeave.listen((g2di) => querySelector("#hit-leave").innerHtml = "LEAVE ${g2di}");
-  s.onMouseOut.listen((g2di) => querySelector("#hit-out").innerHtml = "OUT ${g2di}");
-  s.onMouseOver.listen((g2di) => querySelector("#hit-over").innerHtml = "OVER ${g2di}");
-  s.onMouseDown.listen((g2di) => querySelector("#hit-down-up").innerHtml = "DOWN ${g2di}");
-  s.onMouseUp.listen((g2di) => querySelector("#hit-down-up").innerHtml = "UP ${g2di}");
+  s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-click").innerHtml = "CLICKED ${g2di}");
+  s.onDoubleClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-click").innerHtml = "DOUBLE-CLICKED ${g2di}");
+  s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-enter").innerHtml = "ENTER ${g2di}");
+  s.onMouseLeave.listen((Graphic2dIntersection g2di) => querySelector("#hit-leave").innerHtml = "LEAVE ${g2di}");
+  s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-out").innerHtml = "OUT ${g2di}");
+  s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector("#hit-over").innerHtml = "OVER ${g2di}");
+  s.onMouseDown.listen((Graphic2dIntersection g2di) => querySelector("#hit-down-up").innerHtml = "DOWN ${g2di}");
+  s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-down-up").innerHtml = "UP ${g2di}");
 
   esg.updateGraph();
 }

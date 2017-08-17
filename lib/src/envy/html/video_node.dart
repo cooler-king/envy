@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html';
+import 'media_node.dart';
+import 'canvas_image_source_node.dart';
+import '../envy_property.dart';
 
 /// [VideoNode] is an Envy scene graph node that manages an HTML video element.
 ///
@@ -16,8 +19,8 @@ class VideoNode extends MediaNode implements CanvasImageSourceNode {
   Element generateNode() => new VideoElement();
 
   VideoElement elementAt(int index) {
-    int i = index % _domNodesMap.length;
-    List list = new List.from(_domNodesMap.values);
+    int i = index % domNodesMap.length;
+    List<Node> list = new List<Node>.from(domNodesMap.values);
     return list[i] as VideoElement;
   }
 

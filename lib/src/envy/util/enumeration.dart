@@ -1,5 +1,3 @@
-part of envy;
-
 abstract class Enumeration<T> {
   final T value;
 

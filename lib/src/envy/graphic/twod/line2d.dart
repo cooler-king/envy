@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' show min, max;
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
 
 /// A 2-dimensional line to be drawn on an HTML canvas.
 ///
@@ -19,7 +23,7 @@ class Line2d extends Graphic2dNode {
   NumberProperty get x2 => properties["x2"] as NumberProperty;
   NumberProperty get y2 => properties["y2"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x1, _y1, _x2, _y2;
     Anchor2d _anchor = anchor.valueAt(i);
     _x1 = x1.valueAt(i);
@@ -36,7 +40,7 @@ class Line2d extends Graphic2dNode {
       num deltaY = _y2 - _y1;
 
       List<num> adj =
-          _anchor.calcAdjustments(Math.min(0, deltaY), Math.max(0, deltaX), Math.max(0, deltaY), Math.min(0, deltaX));
+          _anchor.calcAdjustments(min(0, deltaY), max(0, deltaX), max(0, deltaY), min(0, deltaX));
       _x1 += adj[0];
       _y1 += adj[1];
       _x2 += adj[0];

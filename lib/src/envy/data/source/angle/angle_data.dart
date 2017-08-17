@@ -1,4 +1,10 @@
-part of envy;
+import 'package:quantity/quantity.dart' show Angle, angle0;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'angle_source.dart';
 
 /// Retrieves angle data (a list of Angles or a single Angle)
 /// from a named dataset.
@@ -54,7 +60,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       this.values.add(data);
     } else {
       // Warn and do best to convert to number
-      _LOG.warning("Unexpected data type for AngleData: ${data}");
+      logger.warning("Unexpected data type for AngleData: ${data}");
       if (data is List) {
         // try to parse entires as numbers; assume degrees
         for (var d in data) {

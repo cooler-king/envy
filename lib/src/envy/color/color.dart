@@ -1,4 +1,5 @@
-part of envy;
+import '../css/css_adapter.dart';
+import '../util/logger.dart';
 
 class Color implements CssAdapter {
   static const Color white = const Color(1.0, 1.0, 1.0);
@@ -160,7 +161,7 @@ class Color implements CssAdapter {
     if(value.length == 4) return "${value[1]}${value[1]}";
     if(value.length == 7) return "${value[1]}${value[2]}";
 
-    _LOG.warning("Malformed color value: ${value}");
+    logger.warning("Malformed color value: ${value}");
     return "00";
   }*/
 
@@ -178,7 +179,7 @@ class Color implements CssAdapter {
     if(value.length == 4) return "${value[2]}${value[2]}";
     if(value.length == 7) return "${value[3]}${value[4]}";
 
-    _LOG.warning("Malformed color value: ${value}");
+    logger.warning("Malformed color value: ${value}");
     return "00";
   }*/
 
@@ -196,7 +197,7 @@ class Color implements CssAdapter {
     if(value.length == 4) return "${value[3]}${value[3]}";
     if(value.length == 7) return "${value[5]}${value[6]}";
 
-    _LOG.warning("Malformed color value: ${value}");
+    logger.warning("Malformed color value: ${value}");
     return "00";
   }*/
 
@@ -273,9 +274,9 @@ class Color implements CssAdapter {
       if (hexStr.length == 4) return int.parse("${hexStr[pos+1]}${hexStr[pos+1]}", radix: 16) / 255.0;
       if (hexStr.length == 7) return int.parse("${hexStr[pos*2 + 1]}${hexStr[pos*2 + 2]}", radix: 16) / 255.0;
 
-      _LOG.warning("Malformed hex string: ${hexStr}");
+      logger.warning("Malformed hex string: ${hexStr}");
     } catch (e) {
-      _LOG.warning("Problem converting hex string to decimal:  ${e}");
+      logger.warning("Problem converting hex string to decimal:  ${e}");
       return 0.0;
     }
     return 0.0;
@@ -286,7 +287,7 @@ class Color implements CssAdapter {
   String get css =>
       alpha == 1.0 ? "rgb(${red256},${green256},${blue256})" : "rgba(${red256},${green256},${blue256},${alpha})";
 
-  dynamic fromCss(String css) {
+  Color fromCss(String css) {
     try {
       if (css == null || css.isEmpty) return Color.black;
       if (css.startsWith("#")) return new Color.hex(css);
@@ -311,14 +312,14 @@ class Color implements CssAdapter {
         return new Color.rgb(r / 255, g / 255, b / 255);
       }
 
-      //TODO handle all predeined CSS color names too
+      //TODO handle all predefined CSS color names too
       // see http://www.w3schools.com/cssref/css_colornames.asp
 
       // Give up
-      _LOG.warning("Envy doesn't know how to parse this CSS color value (${css}):  returning black");
+      logger.warning("Envy doesn't know how to parse this CSS color value (${css}):  returning black");
       return Color.black;
     } catch (e) {
-      _LOG.warning("Problem parsing CSS color value (${css}):  ${e}");
+      logger.warning("Problem parsing CSS color value (${css}):  ${e}");
       return Color.black;
     }
   }

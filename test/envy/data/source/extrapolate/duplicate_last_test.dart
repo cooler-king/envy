@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Duplicate Last', () {
     test('null and empty values', () {
       DuplicateLast dv = new DuplicateLast();

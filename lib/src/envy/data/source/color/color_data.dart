@@ -1,4 +1,10 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'color_source.dart';
+import '../../../color/color.dart';
 
 /// Retrieves color data (a list of Colors or a single Color)
 /// from a named dataset.
@@ -54,9 +60,9 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
       this.values.add(data);
     } else {
       // warn and do best to convert to color
-      _LOG.warning("Unexpected data type for ColorData: ${data}");
+      logger.warning("Unexpected data type for ColorData: ${data}");
       if (data is List) {
-        // try to parse entires as numbers; assume degrees
+        // try to parse entries as numbers; assume degrees
         for (var d in data) {
           this.values.add(_colorFromAnything(d));
         }

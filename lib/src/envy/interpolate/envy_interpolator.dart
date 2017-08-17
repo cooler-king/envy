@@ -1,5 +1,3 @@
-part of envy;
-
 /// The base class for all Envy interpolators.
 ///
 abstract class EnvyInterpolator<T> {

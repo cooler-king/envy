@@ -1,4 +1,11 @@
-part of envy;
+import 'dart:html';
+import '../../envy_property.dart';
+import '../../util/logger.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import 'enum/text_align2d.dart';
+import 'enum/text_baseline2d.dart';
+import '../../text/font.dart';
 
 /// Text to be drawn on an HTML canvas.
 ///
@@ -23,12 +30,12 @@ class Text2d extends Graphic2dNode {
   /// typically stroked, just filled).
   ///
   @override
-  void _initBaseProperties() {
-    super._initBaseProperties();
+  void initBaseProperties() {
+    super.initBaseProperties();
     properties["stroke"] = new BooleanProperty(defaultValue: false);
   }
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _dx, _dy, _maxWidth;
     String _text = text.valueAt(i);
 
@@ -73,7 +80,7 @@ class Text2d extends Graphic2dNode {
     } else if (metrics.width != null) {
       p.rect(_dx, _dy, metrics.width, _dy - approxHeight);
     } else {
-      _LOG.warning("Problem with text metrics for ${_text}");
+      logger.warning("Problem with text metrics for ${_text}");
     }
 
     //

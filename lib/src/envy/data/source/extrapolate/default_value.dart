@@ -1,4 +1,4 @@
-part of envy;
+import 'extrapolation.dart';
 
 class DefaultValue<T> extends Extrapolation<T> {
   final T value;

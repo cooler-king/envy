@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' as Math;
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
 
 /// A 2-dimensional triangle to be drawn on an HTML canvas.
 ///
@@ -52,7 +56,7 @@ class Triangle2d extends Graphic2dNode {
   NumberProperty get height => properties["height"] as NumberProperty;
   //NumberProperty get angle => properties["angle"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _base, _height;
     _base = base.valueAt(i);
     _height = height.valueAt(i);
@@ -82,7 +86,7 @@ class Triangle2d extends Graphic2dNode {
     p.lineTo(_x, _y - _height);
     p.lineTo(_x + halfBase, _y);
     p.closePath();
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
 
     // Reverse angle rotation
@@ -115,7 +119,7 @@ class TriangleVertices2d extends Graphic2dNode {
   NumberProperty get x3 => properties["x3"] as NumberProperty;
   NumberProperty get y3 => properties["y3"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x1, _y1, _x2, _y2, _x3, _y3;
     _x1 = x1.valueAt(i);
     _y1 = y1.valueAt(i);
@@ -133,7 +137,7 @@ class TriangleVertices2d extends Graphic2dNode {
     p.lineTo(_x2, _y2);
     p.lineTo(_x3, _y3);
     p.closePath();
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

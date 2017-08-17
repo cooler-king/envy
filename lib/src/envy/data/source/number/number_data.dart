@@ -1,4 +1,9 @@
-part of envy;
+import 'number_source.dart';
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../source/data_source.dart';
+import '../../keyed_dataset.dart';
 
 /// Retrieves numerical data (a list of numbers or a single number)
 /// from a named dataset.
@@ -12,8 +17,8 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
@@ -62,7 +67,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
       this.values.add(data);
     } else {
       // warn and do best to convert to number
-      _LOG.warning("Unexpected data type for NumberData: ${data}");
+      logger.warning("Unexpected data type for NumberData: ${data}");
       if (data is List) {
         this.values.add(data.length);
         if(data.length == 4) {

@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../graphic/twod/drawing_style2d.dart';
 
 abstract class DrawingStyle2dSource extends DataSource<DrawingStyle2d> {}
 

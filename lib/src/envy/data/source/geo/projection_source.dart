@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../geo/projections.dart';
 
 abstract class ProjectionSource extends DataSource<Projection> {}
 

@@ -164,9 +164,9 @@ main() {
       expect(g.geometry is GeoJsonGeometryCollection, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.geometries.length, 2);
-      expect(g.geometry.geometries[0] is GeoJsonPoint, true);
-      expect(g.geometry.geometries[1] is GeoJsonLineString, true);
+      expect((g.geometry as GeoJsonGeometryCollection).geometries.length, 2);
+      expect((g.geometry as GeoJsonGeometryCollection).geometries[0] is GeoJsonPoint, true);
+      expect((g.geometry as GeoJsonGeometryCollection).geometries[1] is GeoJsonLineString, true);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -198,8 +198,8 @@ main() {
       expect(g.geometry, isNull);
       expect(g.featureCollection, isNull);
       expect(g.feature.geometry is GeoJsonPolygon, true);
-      expect(g.feature.geometry.exteriorRing.coordinates.length, 5);
-      expect(g.feature.geometry.interiorRings, isEmpty);
+      expect((g.feature.geometry as GeoJsonPolygon).exteriorRing.coordinates.length, 5);
+      expect((g.feature.geometry as GeoJsonPolygon).interiorRings, isEmpty);
       expect(g.feature.properties, {
         "prop0": "value0",
         "prop1": {"this": "that"}

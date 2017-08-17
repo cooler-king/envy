@@ -1,4 +1,8 @@
-part of envy;
+import 'package:quantity/quantity.dart' show twoPi;
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import '../../envy_property.dart';
 
 /// A 2-dimensional ellipse to be drawn on an HTML canvas.
 ///
@@ -15,7 +19,7 @@ class Ellipse2d extends Graphic2dNode {
   NumberProperty get radiusX => properties["radiusX"] as NumberProperty;
   NumberProperty get radiusY => properties["radiusY"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _radiusX, _radiusY;
     _radiusX = radiusX.valueAt(i);
     _radiusY = radiusY.valueAt(i);

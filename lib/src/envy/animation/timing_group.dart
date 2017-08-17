@@ -1,4 +1,5 @@
-part of envy;
+import 'timed_item_group.dart';
+import '../envy_node.dart';
 
 /// TimingGroup is the base class for specialzed timing groups.
 ///
@@ -13,24 +14,24 @@ class SequenceTimingGroup extends TimingGroup {
   @override
   bool attach(EnvyNode node, [int index]) {
     bool tf = super.attach(node, index);
-    _calcStartTimes();
+    calcStartTimes();
     return tf;
   }
 
   @override
   bool detach(EnvyNode node) {
     bool tf = super.detach(node);
-    _calcStartTimes();
+    calcStartTimes();
     return tf;
   }
 
   /// Calculate the start times of the group children.
   ///
-  void _calcStartTimes() {
+  void calcStartTimes() {
     num prevEnd = 0;
     for (var child in children) {
       if (child is TimedItemGroup) {
-        child._startTime = prevEnd;
+        child.startTime = prevEnd;
         prevEnd = child.endTime;
       }
     }

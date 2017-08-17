@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../text/font.dart';
 
 abstract class FontSource extends DataSource<Font> {}
 

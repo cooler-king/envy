@@ -1,4 +1,9 @@
-part of envy;
+import '../interpolate/binary_interpolator.dart';
+import '../interpolate/css_style_interpolator.dart';
+import '../interpolate/envy_interpolator.dart';
+import 'enum/css_length_units.dart';
+import 'css_adapter.dart';
+import '../util/css_util.dart';
 
 /// All CSS properties can have 'initial' or 'inherit' values.
 ///

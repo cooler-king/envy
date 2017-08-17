@@ -1,4 +1,5 @@
-### 0.0.8
+### 0.1.0
+  * Added the `envy-scene` Angular component and removed `envy-div` Polymer component.
   * Upgraded dependencies; removed explicit dependencies on `reflectable` and `web_components`.
 
 ### 0.0.7

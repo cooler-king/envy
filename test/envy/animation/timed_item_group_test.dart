@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Timed Item Group', () {
     test('constructor', () {
       GenericTimedItemGroup tig = new GenericTimedItemGroup();

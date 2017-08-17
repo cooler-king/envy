@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Envy Property', () {
     test('Contructors', () {
       var p = new GenericProperty(defaultValue: "someValue");

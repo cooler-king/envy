@@ -1,10 +1,18 @@
-part of envy;
+import 'dart:async';
+import 'dart:collection';
+import 'dart:html';
+import 'package:vector_math/vector_math.dart' show Matrix3;
+import 'html_node.dart';
+import 'canvas_image_source_node.dart';
+import '../envy_node.dart';
+import '../group_node.dart';
+import '../graphic/twod/graphic2d_node.dart';
 
 /// Global list of current 2D contexts
-final List<CanvasRenderingContext2D> _currentContext2DList = [];
+final List<CanvasRenderingContext2D> currentContext2DList = [];
 
 /// Global list of current 2D transforms (no way to get from HTML canvas)
-final List<ListQueue<Matrix3>> _transform2DStackList = [];
+final List<ListQueue<Matrix3>> transform2DStackList = [];
 
 /// [CanvasNode] is an Envy scene graph node that manages an
 /// HTML Canvas element.
@@ -14,7 +22,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
   num initialHeight;
 
   // Keep track of last Graphic2d to intersect with mouse event
-  Graphic2dIntersection _lastG2di;
+  Graphic2dIntersection lastG2di;
 
   // Mouse event streams for events that fall through to the background (no intersection with graphic)
   Stream onClick;
@@ -104,16 +112,16 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     onMouseMove = _onMouseMoveController.stream;
   }
 
-  CanvasElement elementAt(int index) => _domNodesMap.values.elementAt(index % _domNodesMap.length);
+  CanvasElement elementAt(int index) => domNodesMap.values.elementAt(index % domNodesMap.length);
 
   /// Clear the canvas and then update all children.
   ///
   @override
   void update(num timeFraction, {dynamic context, finish: false}) {
     // Clear canvases and store 2D contexts before drawing anything new
-    _currentContext2DList.clear();
-    _transform2DStackList.clear();
-    for (Node n in _domNodesMap.values) {
+    currentContext2DList.clear();
+    transform2DStackList.clear();
+    for (Node n in domNodesMap.values) {
       if (n is CanvasElement) {
         // Make sure canvas fills its parent
         if (n.parent != null) {
@@ -123,10 +131,10 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
         }
 
         n.context2D.clearRect(0, 0, n.width, n.height);
-        _currentContext2DList.add(n.context2D);
+        currentContext2DList.add(n.context2D);
 
         var transform2DStack = new ListQueue<Matrix3>()..add(new Matrix3.identity());
-        _transform2DStackList.add(transform2DStack);
+        transform2DStackList.add(transform2DStack);
       }
     }
 
@@ -140,7 +148,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       return;
     }
     g2d.graphic2d.fireClickEvent(g2d..event = e);
-    _lastG2di = g2d;
+    lastG2di = g2d;
   }
 
   void handleDoubleClick(CanvasElement canvas, MouseEvent e) {
@@ -150,7 +158,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       return;
     }
     g2d.graphic2d.fireDoubleClickEvent(g2d..event = e);
-    _lastG2di = g2d;
+    lastG2di = g2d;
   }
 
   /// Handles detection of mouse movement on the canvas.
@@ -258,7 +266,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       return;
     }
     g2d.graphic2d.fireMouseUpEvent(g2d..event = e);
-    _lastG2di = g2d;
+    lastG2di = g2d;
   }
 
   void handleMouseDown(CanvasElement canvas, MouseEvent e) {
@@ -268,7 +276,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       return;
     }
     g2d.graphic2d.fireMouseDownEvent(g2d..event = e);
-    _lastG2di = g2d;
+    lastG2di = g2d;
   }
 
   /// Finds the first graphic that intersects the point.

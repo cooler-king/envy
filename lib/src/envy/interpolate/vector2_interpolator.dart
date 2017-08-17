@@ -1,4 +1,5 @@
-part of envy;
+import 'package:vector_math/vector_math.dart' show Vector2;
+import 'envy_interpolator.dart';
 
 /// Interpolates between two 2-dimensional vectors.
 ///

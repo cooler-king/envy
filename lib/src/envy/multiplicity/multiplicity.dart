@@ -1,4 +1,5 @@
-part of envy;
+import 'largest_size.dart';
+import '../envy_property.dart';
 
 abstract class Multiplicity {
 

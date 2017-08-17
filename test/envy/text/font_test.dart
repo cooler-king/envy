@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('FontSize', () {
     test('to css string', () {
       var a = new FontSize.px(17);

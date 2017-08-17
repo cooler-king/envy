@@ -1,4 +1,5 @@
-part of envy;
+import 'envy_interpolator.dart';
+import '../color/color.dart';
 
 /// Base class for various color interpolation techniques.
 ///

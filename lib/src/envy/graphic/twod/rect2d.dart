@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
 
 /// A 2-dimensional rectangle to be drawn on an HTML canvas.
 ///
@@ -17,7 +20,7 @@ class Rect2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     //_apply2dContext(i, ctx);

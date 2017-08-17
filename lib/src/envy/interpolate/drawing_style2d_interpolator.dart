@@ -1,4 +1,11 @@
-part of envy;
+import 'binary_interpolator.dart';
+import 'color_interpolator.dart';
+import 'envy_interpolator.dart';
+import 'gradient2d_interpolator.dart';
+import '../color/color.dart';
+import '../graphic/twod/gradient2d.dart';
+import '../graphic/twod/drawing_style2d.dart';
+import '../graphic/twod/pattern2d.dart';
 
 class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
   EnvyInterpolator colorInterpolator;

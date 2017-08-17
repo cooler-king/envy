@@ -1,4 +1,5 @@
-part of envy;
+import 'package:quantity/quantity.dart' show Angle;
+import 'envy_interpolator.dart';
 
 /// Interpolates between two [Angle]s.
 ///

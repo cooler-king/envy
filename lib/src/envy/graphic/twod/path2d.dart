@@ -1,4 +1,10 @@
-part of envy;
+import 'dart:html';
+import 'dart:math' show min, max;
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
+import 'point_list.dart';
+import 'enum/path_interpolation2d.dart';
 
 const List<num> zeroZero = const [0, 0];
 
@@ -14,8 +20,8 @@ class Path2d extends Graphic2dNode {
   /// filled).
   ///
   @override
-  void _initBaseProperties() {
-    super._initBaseProperties();
+  void initBaseProperties() {
+    super.initBaseProperties();
     properties["fill"] = new BooleanProperty(defaultValue: false);
   }
 
@@ -34,7 +40,7 @@ class Path2d extends Graphic2dNode {
 
   NumberProperty get tension => properties["tension"] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx) {
     //num _x1, _y1, _x2, _y2;
     Anchor2d _anchor = anchor.valueAt(i);
     PointList _points = points.valueAt(i);
@@ -86,7 +92,7 @@ class Path2d extends Graphic2dNode {
       var cp1x = 0;
       var cp2x = 0;
       var deltaX = 0;
-      num _tension = Math.max(0.0, Math.min(1.0, tension.valueAt(i)));
+      num _tension = max(0.0, min(1.0, tension.valueAt(i)));
 
       p.moveTo(x1, y1);
 

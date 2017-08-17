@@ -2,7 +2,7 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('getData', () {
     test('keyed property', () {
       DataAccessor a = new DataAccessor.prop("x", keyProp: "id");

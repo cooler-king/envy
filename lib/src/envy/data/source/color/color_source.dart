@@ -1,4 +1,5 @@
-part of envy;
+import '../data_source.dart';
+import '../../../color/color.dart';
 
 abstract class ColorSource extends DataSource<Color> {}
 

@@ -1,4 +1,4 @@
-part of envy;
+import '../data_source.dart';
 
 abstract class BooleanSource extends DataSource<bool> {}
 
