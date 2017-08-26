@@ -4,7 +4,7 @@ import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 
-void main() async {
+void main() {
   _init();
 }
 

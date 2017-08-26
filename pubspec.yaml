@@ -5,9 +5,9 @@ author: Rob Bishop <@robbishop65@gmail.com>
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:
-  sdk: ">=1.12.0 <=2.0.0"
+  sdk: ">=1.24.0 <=2.0.0"
 dependencies:
-  angular: "^4.0.0-alpha+2"
+  angular: "^4.0.0-beta"
   browser: "^0.10.0"
   collection: ">=1.14.0"
   quantity: "^0.1.0"
