@@ -11,8 +11,8 @@ main() {
       expect(g.geometry is GeoJsonPoint, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.coordinate.latitude, 0);
-      expect(g.geometry.coordinate.longitude, 100);
+      expect((g.geometry as GeoJsonPoint).coordinate.latitude, 0);
+      expect((g.geometry as GeoJsonPoint).coordinate.longitude, 100);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -28,11 +28,11 @@ main() {
       expect(g.geometry is GeoJsonMultiPoint, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.coordinates.length, 2);
-      expect(g.geometry.coordinates[0].latitude, 0);
-      expect(g.geometry.coordinates[0].longitude, 100);
-      expect(g.geometry.coordinates[1].latitude, 1);
-      expect(g.geometry.coordinates[1].longitude, 101);
+      expect((g.geometry as GeoJsonMultiPoint).coordinates.length, 2);
+      expect((g.geometry as GeoJsonMultiPoint).coordinates[0].latitude, 0);
+      expect((g.geometry as GeoJsonMultiPoint).coordinates[0].longitude, 100);
+      expect((g.geometry as GeoJsonMultiPoint).coordinates[1].latitude, 1);
+      expect((g.geometry as GeoJsonMultiPoint).coordinates[1].longitude, 101);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -48,13 +48,13 @@ main() {
       expect(g.geometry is GeoJsonLineString, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.coordinates.length, 3);
-      expect(g.geometry.coordinates[0].latitude, 0);
-      expect(g.geometry.coordinates[0].longitude, 100);
-      expect(g.geometry.coordinates[1].latitude, 1);
-      expect(g.geometry.coordinates[1].longitude, 101);
-      expect(g.geometry.coordinates[2].latitude, 2);
-      expect(g.geometry.coordinates[2].longitude, 102);
+      expect((g.geometry as GeoJsonLineString).coordinates.length, 3);
+      expect((g.geometry as GeoJsonLineString).coordinates[0].latitude, 0);
+      expect((g.geometry as GeoJsonLineString).coordinates[0].longitude, 100);
+      expect((g.geometry as GeoJsonLineString).coordinates[1].latitude, 1);
+      expect((g.geometry as GeoJsonLineString).coordinates[1].longitude, 101);
+      expect((g.geometry as GeoJsonLineString).coordinates[2].latitude, 2);
+      expect((g.geometry as GeoJsonLineString).coordinates[2].longitude, 102);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -75,15 +75,15 @@ main() {
       expect(g.geometry is GeoJsonMultiLineString, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.lineStrings.length, 2);
-      expect(g.geometry.lineStrings[0].coordinates[0].latitude, 0);
-      expect(g.geometry.lineStrings[0].coordinates[0].longitude, 100);
-      expect(g.geometry.lineStrings[0].coordinates[1].latitude, 1);
-      expect(g.geometry.lineStrings[0].coordinates[1].longitude, 101);
-      expect(g.geometry.lineStrings[1].coordinates[0].latitude, 2);
-      expect(g.geometry.lineStrings[1].coordinates[0].longitude, 102);
-      expect(g.geometry.lineStrings[1].coordinates[1].latitude, 3);
-      expect(g.geometry.lineStrings[1].coordinates[1].longitude, 103);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings.length, 2);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[0].coordinates[0].latitude, 0);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[0].coordinates[0].longitude, 100);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[0].coordinates[1].latitude, 1);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[0].coordinates[1].longitude, 101);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[1].coordinates[0].latitude, 2);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[1].coordinates[0].longitude, 102);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[1].coordinates[1].latitude, 3);
+      expect((g.geometry as GeoJsonMultiLineString).lineStrings[1].coordinates[1].longitude, 103);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -103,11 +103,11 @@ main() {
       expect(g.geometry is GeoJsonPolygon, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.exteriorRing, isNotNull);
-      expect(g.geometry.interiorRings, isEmpty);
-      expect(g.geometry.exteriorRing.coordinates.length, 5);
-      expect(g.geometry.exteriorRing.coordinates[2].latitude, 7);
-      expect(g.geometry.exteriorRing.coordinates[2].longitude, 107);
+      expect((g.geometry as GeoJsonPolygon).exteriorRing, isNotNull);
+      expect((g.geometry as GeoJsonPolygon).interiorRings, isEmpty);
+      expect((g.geometry as GeoJsonPolygon).exteriorRing.coordinates.length, 5);
+      expect((g.geometry as GeoJsonPolygon).exteriorRing.coordinates[2].latitude, 7);
+      expect((g.geometry as GeoJsonPolygon).exteriorRing.coordinates[2].longitude, 107);
 
       var json = g.toJson();
       expect(json is Map, true);
@@ -130,11 +130,11 @@ main() {
       expect(g.geometry is GeoJsonMultiPolygon, true);
       expect(g.feature, isNull);
       expect(g.featureCollection, isNull);
-      expect(g.geometry.polygons.length, 2);
-      expect(g.geometry.polygons[0].exteriorRing.coordinates.length, 5);
-      expect(g.geometry.polygons[0].exteriorRing.coordinates[0].latitude, 2);
-      expect(g.geometry.polygons[0].exteriorRing.coordinates[0].longitude, 102);
-      expect(g.geometry.polygons[0].interiorRings, isEmpty);
+      expect((g.geometry as GeoJsonMultiPolygon).polygons.length, 2);
+      expect((g.geometry as GeoJsonMultiPolygon).polygons[0].exteriorRing.coordinates.length, 5);
+      expect((g.geometry as GeoJsonMultiPolygon).polygons[0].exteriorRing.coordinates[0].latitude, 2);
+      expect((g.geometry as GeoJsonMultiPolygon).polygons[0].exteriorRing.coordinates[0].longitude, 102);
+      expect((g.geometry as GeoJsonMultiPolygon).polygons[0].interiorRings, isEmpty);
 
       var json = g.toJson();
       expect(json is Map, true);

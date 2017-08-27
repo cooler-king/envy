@@ -336,8 +336,8 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
   }
 
 
-  Map toJson() {
-    var m = {
+  Map<String, dynamic> toJson() {
+    var m = <String, dynamic>{
       "type": "MultiPoint"
     };
     List<List<num>> coordJson = [];
@@ -388,8 +388,8 @@ class GeoJsonLineString extends GeoJsonGeometry {
   }
 
 
-  Map toJson() {
-    var m = {
+  Map<String, dynamic> toJson() {
+    var m = <String, dynamic>{
       "type": "LineString"
     };
     List<List<num>> coordJson = [];
@@ -445,8 +445,8 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
   }
 
 
-  Map toJson() {
-    var m = {
+  Map<String, dynamic> toJson() {
+    var m = <String, dynamic>{
       "type": "MultiLineString"
     };
     List<List<num>> coordJson = [];
@@ -657,8 +657,8 @@ class GeoJsonGeometryCollection extends GeoJsonGeometry {
         m["bbox"][0], m["bbox"][1], m["bbox"][2], m["bbox"][3]);
   }
 
-  Map toJson() {
-    var m = {"type": "GeometryCollection"};
+  Map<String, dynamic> toJson() {
+    var m = <String, dynamic>{"type": "GeometryCollection"};
     List list = [];
     for (var g in geometries) {
       list.add(g.toJson());

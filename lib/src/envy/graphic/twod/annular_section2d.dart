@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:html' show CanvasRenderingContext2D, Path2D;
 import 'dart:math' show sin, cos;
 import 'package:quantity/quantity.dart' show Angle, AngleRange, twoPi, angle0, angle90, angle180, angle270;
 import '../../envy_property.dart';
@@ -74,7 +74,7 @@ class AnnularSection2d extends Graphic2dNode {
         p.closePath();
 
         // Fill only for this piece so no line!
-        ctx.fill(p);
+        ctx.fill();
       }
 
       if (_stroke) {
@@ -90,8 +90,8 @@ class AnnularSection2d extends Graphic2dNode {
         ctx.stroke();
       }
     } else {
-      var x1 = _x + _innerRadius * cos(_startAngleRad);
-      var y1 = _y + _innerRadius * sin(_startAngleRad);
+      num x1 = _x + _innerRadius * cos(_startAngleRad);
+      num y1 = _y + _innerRadius * sin(_startAngleRad);
       Path2D p = new Path2D();
       //ctx.beginPath();
       p.moveTo(x1, y1);
@@ -102,7 +102,7 @@ class AnnularSection2d extends Graphic2dNode {
       p.closePath();
       paths.add(p);
 
-      if (_fill) ctx.fill(p);
+      if (_fill) ctx.fill();
       if (_stroke) ctx.stroke(p);
     }
   }

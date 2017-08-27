@@ -44,7 +44,7 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
       (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 
-class NullDataSource extends ArrayDataSource<dynamic> {
+class NullDataSource<T> extends ArrayDataSource<T> {
   /// Fixed, empty list
   static final List emptyList = new List(0);
 

@@ -56,7 +56,7 @@ class DynamicNode {
   void preparePropertiesForAnimation() {
     _refreshDataSources();
     _updateSize();
-    for (var prop in properties.values) {
+    for (EnvyProperty prop in properties.values) {
       prop.preparePropertyForAnimation(size);
     }
   }

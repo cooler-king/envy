@@ -45,7 +45,7 @@ class Bar2d extends Graphic2dNode {
 
     //if (_fill) ctx.fillRect(_x - halfWidth, _y - _height, _width, _height);
     //if (_stroke) ctx.strokeRect(_x - halfWidth, _y - _height, _width, _height);
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

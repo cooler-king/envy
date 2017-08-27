@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'html_node.dart';
 import 'canvas_image_source_node.dart';
-import '../dynamic_node.dart';
 import '../envy_property.dart';
 import '../util/logger.dart';
 import '../html/enum/cross_origin.dart';
@@ -10,7 +9,7 @@ import '../data/source/string/string_source.dart';
 /// [ImageNode] is an Envy scene graph node that manages an
 /// HTML Image element.
 ///
-class ImageNode extends HtmlNode with DynamicNode implements CanvasImageSourceNode {
+class ImageNode extends HtmlNode implements CanvasImageSourceNode {
   ImageNode() : super() {
     _initProperties();
   }
@@ -54,30 +53,32 @@ class ImageNode extends HtmlNode with DynamicNode implements CanvasImageSourceNo
   void updateDom() {
     super.updateDom();
 
-    var value = 0;
+    String strValue;
+    num numValue;
+    bool tf;
     for (int i = 0; i < domNodes.length; i++) {
       ImageElement imageEl = elementAt(i);
 
-      value = src.valueAt(i);
-      if (imageEl.src != value) imageEl.src = value;
+      strValue = src.valueAt(i);
+      if (imageEl.src != strValue) imageEl.src = strValue;
 
-      value = alt.valueAt(i);
-      if (imageEl.alt != value) imageEl.alt = value;
+      strValue = alt.valueAt(i);
+      if (imageEl.alt != strValue) imageEl.alt = strValue;
 
-      value = crossOrigin.valueAt(i);
-      if (imageEl.crossOrigin != value) imageEl.crossOrigin = value;
+      strValue = crossOrigin.valueAt(i);
+      if (imageEl.crossOrigin != strValue) imageEl.crossOrigin = strValue;
 
-      value = height.valueAt(i);
-      if (imageEl.height != value) imageEl.height = value.toInt();
+      numValue = height.valueAt(i);
+      if (imageEl.height != numValue) imageEl.height = numValue.toInt();
 
-      value = isMap.valueAt(i);
-      if (imageEl.isMap != value) imageEl.isMap = value;
+      tf = isMap.valueAt(i);
+      if (imageEl.isMap != tf) imageEl.isMap = tf;
 
-      value = useMap.valueAt(i);
-      if (imageEl.useMap != value) imageEl.useMap = value;
+      strValue = useMap.valueAt(i);
+      if (imageEl.useMap != strValue) imageEl.useMap = strValue;
 
-      value = width.valueAt(i);
-      if (imageEl.width != value) imageEl.width = value.toInt();
+      numValue = width.valueAt(i);
+      if (imageEl.width != numValue) imageEl.width = numValue.toInt();
     }
   }
 }

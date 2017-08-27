@@ -90,19 +90,22 @@ abstract class EnvyProperty<T> {
 
   EnvyProperty(this.defaultValue, {this.optional: false});
 
-  DataSource<T> get enter => _enter ?? DataSource.nullDataSource;
+  //DataSource<T> get enter => _enter ?? DataSource.nullDataSource;
+  DataSource<T> get enter => _enter ?? new NullDataSource<T>();
 
   void set enter(DataSource<T> dataSource) {
     _enter = dataSource;
   }
 
-  DataSource<T> get update => _update ?? DataSource.nullDataSource;
+  //DataSource<T> get update => _update ?? DataSource.nullDataSource;
+  DataSource<T> get update => _update ?? new NullDataSource<T>();
 
   void set update(DataSource<T> dataSource) {
     _update = dataSource;
   }
 
-  DataSource<T> get exit => _exit ?? DataSource.nullDataSource;
+  //DataSource<T> get exit => _exit ?? DataSource.nullDataSource;
+  DataSource<T> get exit => _exit ?? new NullDataSource<T>();
 
   void set exit(DataSource<T> dataSource) {
     _exit = dataSource;
@@ -142,7 +145,7 @@ abstract class EnvyProperty<T> {
   /// Before the start and target values are set, each data source is given a
   /// chance to refresh its values.
   ///
-  void _preparePropertyForAnimation(int size) {
+  void preparePropertyForAnimation(int size) {
     // Store size
     _size = size;
 
@@ -373,20 +376,4 @@ class NakedProperty extends EnvyProperty<dynamic> {
   List get currentValues => _currentValues;
   List get startValues => _startValues;
   List get targetValues => _targetValues;
-
-  void refreshDataSources() {
-    refreshDataSources();
-  }
-
-  void preparePropertyForAnimation(int size) {
-    _preparePropertyForAnimation(size);
-  }
-
-  void updateStartValues() {
-    updateStartValues();
-  }
-
-  void updateTargetValues() {
-    updateTargetValues();
-  }
 }

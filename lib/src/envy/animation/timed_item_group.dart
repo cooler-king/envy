@@ -32,7 +32,7 @@ abstract class TimedItemGroup extends GroupNode {
 
   /// Sets the player and registers this node with it.
   ///
-  /// Deregisters from the previous player, if there was one.
+  /// De-registers from the previous player, if there was one.
   ///
   void set player(Player p) {
     if (_player == p) return;
@@ -72,6 +72,8 @@ abstract class TimedItemGroup extends GroupNode {
 
     return _startTime == null ? 0 : _startTime;
   }
+
+  void set startTime(num time) => _startTime = time;
 
   /// The local time of a timed item is the timed item's inherited time minus
   /// its start time. If the inherited time is null then the local time is also null.

@@ -41,7 +41,7 @@ class Rect2d extends Graphic2dNode {
     paths.add(p);
     p.rect(_x, _y, _width, _height);
 
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

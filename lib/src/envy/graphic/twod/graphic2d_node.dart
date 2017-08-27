@@ -212,7 +212,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   /// Draws the graphic and stores a Path2D in [paths] for efficient hit testing.
   ///
-  void _renderIndex(int index, CanvasRenderingContext2D ctx);
+  void renderIndex(int index, CanvasRenderingContext2D ctx);
 
   /// Renders a graphic for each index up to the current rendering size.
   ///
@@ -233,7 +233,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     for (_i = 0; _i < renderSize; _i++) {
       context.save();
       _apply2dContext(_i, context);
-      _renderIndex(_i, context);
+      renderIndex(_i, context);
       context.restore();
     }
   }

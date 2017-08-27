@@ -38,7 +38,7 @@ class Ellipse2d extends Graphic2dNode {
     paths.add(p);
     //ctx.beginPath();
     p.ellipse(_x, _y, _radiusX, _radiusY, 0, 0, twoPi, false);
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

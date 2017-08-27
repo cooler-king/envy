@@ -117,7 +117,7 @@ class DataAccessor {
   Object getData(Object dataset) {
     if (dataset == null) return null;
 
-    var dataCursor = dataset;
+    dynamic dataCursor = dataset;
     for (var step in steps) {
       if (dataCursor is List<Map>) {
         List dataList = [];

@@ -59,7 +59,7 @@ class RegularPolygon2d extends Graphic2dNode {
       postAngleRad += angleStepRad;
     }
     p.closePath();
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

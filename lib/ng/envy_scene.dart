@@ -12,7 +12,7 @@ class EnvyScene implements AfterViewInit {
 
   final EnvySceneGraph sceneGraph = new EnvySceneGraph();
 
-  @ViewChild('envyRoot')
+  @ViewChild('envyRoot', read: Element)
   Element root;
 
   void ngAfterViewInit() {

@@ -67,8 +67,8 @@ void testGeoJson() {
   var coordData = [];
   for (var feature in geoJson.featureCollection.features) {
     if (feature.geometry is GeoJsonPolygon) {
-      var rings = [feature.geometry.exteriorRing];
-      rings.addAll(feature.geometry.interiorRings);
+      var rings = [(feature.geometry as GeoJsonPolygon).exteriorRing];
+      rings.addAll((feature.geometry as GeoJsonPolygon).interiorRings);
       for (var ring in rings) {
         var latitudes = [];
         var longitudes = [];

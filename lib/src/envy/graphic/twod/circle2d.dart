@@ -35,7 +35,7 @@ class Circle2d extends Graphic2dNode {
     Path2D p = new Path2D();
     p.arc(_x, _y, _radius, 0, 2.0 * PI, false);
     paths.add(p);
-    if (_fill) ctx.fill(p);
+    if (_fill) ctx.fill();
     if (_stroke) ctx.stroke(p);
   }
 }

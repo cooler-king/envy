@@ -92,7 +92,7 @@ class Star2d extends Graphic2dNode {
         p.lineTo(_x + xRaw[i], _y + yRaw[i]);
       }
       p.closePath();
-      if (_fill) ctx.fill(p);
+      if (_fill) ctx.fill();
       if (_stroke) ctx.stroke(p);
     }
   }

@@ -29,7 +29,7 @@ class SequenceTimingGroup extends TimingGroup {
   ///
   void calcStartTimes() {
     num prevEnd = 0;
-    for (var child in children) {
+    for (EnvyNode child in children) {
       if (child is TimedItemGroup) {
         child.startTime = prevEnd;
         prevEnd = child.endTime;
