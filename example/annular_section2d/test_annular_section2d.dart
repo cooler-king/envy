@@ -1,4 +1,3 @@
-import 'dart:async';
 import 'dart:html';
 import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_scene.dart';

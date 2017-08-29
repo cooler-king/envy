@@ -2,7 +2,7 @@ import 'dart:html';
 import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_scene.dart';
 
-void main() async {
+void main() {
   _init();
   testAnchors();
   testHit();

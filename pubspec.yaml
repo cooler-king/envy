@@ -30,6 +30,6 @@ transformers:
     $include: test/**_test.dart
 
 # Make pub serve use dartdevc (webdev.dartlang.org/tools/dartdevc).
-#web:
-#  compiler:
-#    debug: dartdevc
+web:
+  compiler:
+    debug: dartdevc
