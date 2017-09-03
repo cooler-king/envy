@@ -7,8 +7,6 @@ abstract class Extrapolation<T> {
 
   Extrapolation(this.key, this.displayName);
 
-  /// Provide a value for [index] given a current
-  /// set of values.
-  ///
+  /// Provide a value for [index] given a current set of values.
   T valueAt(int index, List<T> values);
 }

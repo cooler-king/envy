@@ -11,9 +11,8 @@ import '../../../graphic/twod/enum/anchor_mode2d.dart';
 /// drawing style) from a named dataset.
 ///
 class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
-  String _datasetName;
-  EnvyNode _node;
-  DataAccessor accessor;
+  final String datasetName;
+  final EnvyNode node;
 
   /// Find the dataset named [datasetName], starting with [node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
@@ -27,9 +26,9 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  Anchor2dData(this._datasetName, this._node, {this.accessor, String prop}) {
+  Anchor2dData(this.datasetName, this.node, {DataAccessor accessor, String prop}) {
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      this.accessor = new DataAccessor.prop(prop);
     }
   }
 
@@ -38,10 +37,8 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
   /// dataset.
   ///
-  Anchor2dData.keyed(KeyedDataset keyedDataset, String prop) {
+  Anchor2dData.keyed(KeyedDataset keyedDataset, String prop) : datasetName = keyedDataset?.name, node = keyedDataset?.node {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
@@ -49,7 +46,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   void refresh() {
     this.values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    Object data = node.getDataset(datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);

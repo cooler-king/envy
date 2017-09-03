@@ -1,6 +1,5 @@
 import 'dart:collection';
 import '../util/logger.dart';
-import '../envy_property.dart';
 
 /// DataAccessor provides a road map into a dataset to select a
 /// specific property within a map or index in an array.
@@ -9,14 +8,19 @@ import '../envy_property.dart';
 /// a multi-step accessor.
 ///
 class DataAccessor {
-  /// A list of [Indices] and/or Strings, where ints indicate an index into
+  /// A list of [Indices], [KeyedProperty]s and/or Strings, where ints indicate an index into
   /// an array and String indicate a property in a map.
-  final List steps = [];
+  final List<dynamic> steps = <dynamic>[];
 
   /// Keep track of any keyed property ordering (key prop -> map of key value to index)
   final Map<String, LinkedHashMap<dynamic, int>> propOrderingMap = new Map<String, LinkedHashMap<dynamic, int>>();
 
   dynamic _lastData;
+
+  //T dataNotAvailable = new DataNotAvailable<T>().token;
+
+  /// Keeps a record of which indices
+  final Set<int> dataUnavailableIndices = new Set<int>();
 
   DataAccessor.index(int index) {
     if (index != null) steps.add(new Indices.single(index));
@@ -120,8 +124,8 @@ class DataAccessor {
     dynamic dataCursor = dataset;
     for (var step in steps) {
       if (dataCursor is List<Map>) {
-        List dataList = [];
-        if (step is! Indices || step.isAll) {
+        List dataList = <dynamic>[];
+        if (step is! Indices || (step as Indices).isAll) {
           // Shortcut! (Assume [*] for List of Maps when
           // no indices are provided)
           if (step is String) {
@@ -150,10 +154,17 @@ class DataAccessor {
             } else {
               // Populate the values in the data list using previous order
               //TODO create this list as class variable and grow as necessary
-              dataList = new List.generate(keyValueIndexMap.length, (i) => dataNotAvailable, growable: true);
+              dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
+
+              // TODO dataUnavailableIndices ... use Set<int> to keep track?? and null for value
+              dataUnavailableIndices.clear();
+              for (int i=0; i<dataList.length; i++) {
+                dataUnavailableIndices.add(i);
+              }
+
               int index;
               for (Map m in dataCursor) {
-                var keyValue = m[stepKeyProp];
+                dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
                   // Found a new key value, add it to keyValueIndexMap
@@ -162,6 +173,7 @@ class DataAccessor {
                   dataList.add(m[stepProp]);
                 } else {
                   dataList[index] = m[stepProp];
+                  dataUnavailableIndices.remove(index);
                 }
               }
               dataCursor = dataList;
@@ -183,7 +195,7 @@ class DataAccessor {
           throw new StateError("Unable to apply access step (${step}) to data (${dataCursor})");
         }
       } else if (dataCursor is List) {
-        List dataList = [];
+        List dataList = <dynamic>[];
         if (step is Indices) {
           for (int i in step.values) {
             dataList.add(dataCursor[i]);
@@ -208,26 +220,30 @@ class DataAccessor {
   ///
   void cullUnavailableData() {
     if (propOrderingMap.isEmpty) return;
-    List keysToRemove = [];
-    for (var propKey in propOrderingMap.keys) {
-      Map m = propOrderingMap[propKey];
+    //List keysToRemove = [];
+    Iterable<dynamic> keysToRemove;
+    for (String propKey in propOrderingMap.keys) {
+      LinkedHashMap<dynamic, int> m = propOrderingMap[propKey];
 
+      keysToRemove =  m.keys.where((dynamic key) => dataUnavailableIndices.contains(m[key]));
+
+      /*
       // Remove dataNotAvailable entries
       keysToRemove.clear();
-      for (var key in m.keys) {
+      for (dynamic key in m.keys) {
         if (_lastData[m[key]] == dataNotAvailable) {
           keysToRemove.add(key);
         }
       }
-
-      // If no removals no need for compaction
+*/
+      // If no removals, no need for compaction.
       if (keysToRemove.isEmpty) continue;
-      for (var k in keysToRemove) {
+      for (var k in new List<dynamic>.from(keysToRemove)) {
         m.remove(k);
       }
 
       // Sort keys by index
-      var list = new List<dynamic>.from(m.keys);
+      List<dynamic> list = new List<dynamic>.from(m.keys);
       list.sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
       // Change indices to consecutive positive integers
@@ -239,12 +255,10 @@ class DataAccessor {
   }
 }
 
-/// Represents some combination of individual indices and index ranges, or all
-/// indices.
-///
+/// Represents some combination of individual indices and index ranges, or all indices.
 class Indices {
   // Holds ints and/or List<int>
-  List _list = [];
+  List _list = <dynamic>[];
 
   bool _all = false;
 
@@ -303,11 +317,8 @@ class Indices {
   }
 }
 
-/// A [KeyedProperty] accessor step provides a way
-/// to extract values from a Map while attempting to preserve
-/// ordering on subsequent accesses with repect to the
-/// Map values for [keyProp].
-///
+/// A [KeyedProperty] accessor step provides a way to extract values from a Map while attempting to preserve
+/// ordering on subsequent accesses with respect to the Map values for [keyProp].
 class KeyedProperty {
   final String property;
   final String keyProp;

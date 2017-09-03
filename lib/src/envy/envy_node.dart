@@ -27,7 +27,7 @@ abstract class EnvyNode {
   /// EnvySceneGraph.
   ///
   HtmlNode get htmlParent {
-    if (_parent is HtmlNode) return _parent;
+    if (_parent is HtmlNode) return _parent as HtmlNode;
     if (_parent == null) return null;
     return _parent.htmlParent;
   }

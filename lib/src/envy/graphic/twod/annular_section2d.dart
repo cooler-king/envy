@@ -1,10 +1,9 @@
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
-import 'dart:math' show sin, cos;
-import 'package:quantity/quantity.dart' show Angle, AngleRange, twoPi, angle0, angle90, angle180, angle270;
+import 'dart:html' show CanvasRenderingContext2D;
+import 'dart:math' show sin, cos, min, max;
+import 'package:quantity/quantity.dart' show twoPi;
 import '../../envy_property.dart';
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
-
 
 /// A 2-dimensional annular section to be drawn on an HTML canvas.
 ///
@@ -29,7 +28,7 @@ class AnnularSection2d extends Graphic2dNode {
   AngleProperty get startAngle => properties["startAngle"] as AngleProperty;
   AngleProperty get endAngle => properties["endAngle"] as AngleProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _innerRadius, _outerRadius, _startAngleRad, _endAngleRad;
     _innerRadius = innerRadius.valueAt(i);
     _outerRadius = outerRadius.valueAt(i);
@@ -39,19 +38,32 @@ class AnnularSection2d extends Graphic2dNode {
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);
 
-    AngleRange range = new AngleRange(new Angle(rad: _startAngleRad), new Angle(rad: _endAngleRad));
+    num cosStart = cos(_startAngleRad);
+    num sinStart = sin(_startAngleRad);
+    num cosEnd = cos(_endAngleRad);
+    num sinEnd = sin(_endAngleRad);
 
     // Adjust for anchor (default is at the origin of the circle of which the annulus is a section)
     _x = 0;
     _y = 0;
     Anchor2d _anchor = anchor.valueAt(i);
     if (_anchor?.isNotDefault ?? false) {
-      num outerRadius = _outerRadius > _innerRadius ? _outerRadius : _innerRadius;
+      num x1 = _innerRadius * cosStart;
+      num y1 = _innerRadius * sinStart;
 
-      num minY = -outerRadius * range.angleClosestTo(angle0).cosine();
-      num maxY = outerRadius * range.angleClosestTo(angle180).cosine();
-      num minX = outerRadius * range.angleClosestTo(angle270).sine();
-      num maxX = outerRadius * range.angleClosestTo(angle90).sine();
+      num x2 = _innerRadius * cosEnd;
+      num y2 = _innerRadius * sinEnd;
+
+      num x3 = _outerRadius * cosEnd;
+      num y3 = _outerRadius * sinEnd;
+
+      num x4 = _outerRadius * cosStart;
+      num y4 = _outerRadius * sinStart;
+
+      num minX = min(x1, max(x2, max(x3, x4)));
+      num maxX = max(x1, max(x2, max(x3, x4)));
+      num minY = min(y1, max(y2, max(y3, y4)));
+      num maxY = max(y1, max(y2, max(y3, y4)));
 
       List<num> adj = _anchor.calcAdjustments(minY, maxX, maxY, minX);
       _x += adj[0];
@@ -61,20 +73,19 @@ class AnnularSection2d extends Graphic2dNode {
     var angleDelta = (_endAngleRad - _startAngleRad).abs();
     if (angleDelta.remainder(twoPi) < 0.0001 || (angleDelta - twoPi).abs() < 0.0001) {
       // Handle 360 degree annulus specially so there is no line going from inner to outer edge
-      Path2D p = new Path2D();
-      paths.add(p);
       if (_fill) {
         num cosStart = cos(_startAngleRad);
         num sinStart = sin(_startAngleRad);
-        p.moveTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
-        p.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
-        p.lineTo(_x + _outerRadius * cos(_endAngleRad), _y + _outerRadius * sin(_endAngleRad));
-        p.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
-        p.lineTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
-        p.closePath();
+        ctx.beginPath();
+        ctx.moveTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
+        ctx.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
+        ctx.lineTo(_x + _outerRadius * cosEnd, _y + _outerRadius * sinEnd);
+        ctx.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
+        ctx.lineTo(_x + _innerRadius * cosStart, _y + _innerRadius * sinStart);
+        ctx.closePath();
 
         // Fill only for this piece so no line!
-        ctx.fill();
+        if (fillOrHitTest(ctx, hitTest)) return;
       }
 
       if (_stroke) {
@@ -82,28 +93,27 @@ class AnnularSection2d extends Graphic2dNode {
         ctx.beginPath();
         ctx.arc(_x, _y, _innerRadius, 0, twoPi, false);
         ctx.closePath();
-        ctx.stroke();
+        if (strokeOrHitTest(ctx, hitTest)) return;
 
         ctx.beginPath();
         ctx.arc(_x, _y, _outerRadius, 0, twoPi, false);
         ctx.closePath();
-        ctx.stroke();
+        if (strokeOrHitTest(ctx, hitTest)) return;
       }
     } else {
-      num x1 = _x + _innerRadius * cos(_startAngleRad);
-      num y1 = _y + _innerRadius * sin(_startAngleRad);
-      Path2D p = new Path2D();
-      //ctx.beginPath();
-      p.moveTo(x1, y1);
-      p.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
-      p.lineTo(_x + _outerRadius * cos(_endAngleRad), _y + _outerRadius * sin(_endAngleRad));
-      p.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
-      p.lineTo(x1, y1);
-      p.closePath();
-      paths.add(p);
+      num x1 = _x + _innerRadius * cosStart;
+      num y1 = _y + _innerRadius * sinStart;
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.arc(_x, _y, _innerRadius, _startAngleRad, _endAngleRad, false);
+      ctx.lineTo(_x + _outerRadius * cosEnd, _y + _outerRadius * sinEnd);
+      ctx.arc(_x, _y, _outerRadius, _endAngleRad, _startAngleRad, true);
+      ctx.lineTo(x1, y1);
+      ctx.closePath();
 
-      if (_fill) ctx.fill();
-      if (_stroke) ctx.stroke(p);
+      if (_fill && fillOrHitTest(ctx, hitTest)) return;
+
+      if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
     }
   }
 }

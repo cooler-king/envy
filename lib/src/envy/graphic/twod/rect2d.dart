@@ -20,7 +20,7 @@ class Rect2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     //_apply2dContext(i, ctx);
@@ -37,11 +37,13 @@ class Rect2d extends Graphic2dNode {
     _x = adj[0];
     _y = adj[1];
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    p.rect(_x, _y, _width, _height);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.rect(_x, _y, _width, _height);
+    ctx.closePath();
 
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

@@ -86,7 +86,7 @@ class EnvySceneGraph {
   /// Only one of the values should be provided.
   ///
   void setAnimationDuration({Time t, num seconds, num millis}) {
-    num secs = t != null ? t.mks : seconds != null ? seconds : millis != null ? millis / 1000 : 0;
+    num secs = t != null ? t.mks.toDouble() : seconds != null ? seconds : millis != null ? millis / 1000 : 0;
     root.rootAnimation.timing.iterationDuration = secs;
   }
 }

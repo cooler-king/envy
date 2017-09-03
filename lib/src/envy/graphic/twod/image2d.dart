@@ -4,7 +4,6 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 import '../../html/canvas_image_source_node.dart';
 
-
 /// A 2-dimensional image to be drawn on an HTML canvas.
 ///
 class Image2d extends Graphic2dNode {
@@ -31,7 +30,7 @@ class Image2d extends Graphic2dNode {
     properties["height"] = new NumberProperty();
   }
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
     _sourceX = sourceX.valueAt(i);
     _sourceY = sourceY.valueAt(i);
@@ -48,8 +47,8 @@ class Image2d extends Graphic2dNode {
       if (_width == 0 || _height == 0) {
         // If width and height are not explicitly set (non-zero) then use actual dimensions
         // (Note: ImageElement, VideoElement and CanvasElement all have width and height properties)
-        if (_width == 0) _width = (imgSource as dynamic).width;
-        if (_height == 0) _height = (imgSource as dynamic).height;
+        if (_width == 0) _width = (imgSource as dynamic).width as num;
+        if (_height == 0) _height = (imgSource as dynamic).height as num;
       }
 
       // Adjust for anchor (default is upper left)
@@ -63,9 +62,17 @@ class Image2d extends Graphic2dNode {
       }
 
       // Store rect path for hit testing
-      Path2D p = new Path2D();
-      paths.add(p);
-      p.rect(_x, _y, _width, _height);
+      //Path2D p = new Path2D();
+      //paths.add(p);
+      if (hitTest != null) {
+        ctx.beginPath();
+        ctx.rect(_x, _y, _width, _height);
+        ctx.closePath();
+        if (ctx.isPointInPath(hitTest.x, hitTest.y)) {
+          hitTest.hit = true;
+        }
+        return;
+      }
 
       if ((_sourceX != null && _sourceX > 0) ||
           (_sourceY != null && _sourceY > 0) ||

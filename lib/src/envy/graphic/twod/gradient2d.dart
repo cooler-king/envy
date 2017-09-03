@@ -12,7 +12,7 @@ abstract class Gradient2d {
   /// Adds a color stop to this gradient at the offset.
   /// The offset can range between 0.0 and 1.0.
   ///
-  addColorStop(num offset, Color c) {
+  void addColorStop(num offset, Color c) {
     stops[offset] = c;
     _canvasGradient = null;
   }

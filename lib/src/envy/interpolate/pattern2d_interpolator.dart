@@ -9,7 +9,7 @@ import '../graphic/twod/pattern2d.dart';
 class Pattern2dInterpolator extends EnvyInterpolator<Pattern2d> {
   static final Pattern2dInterpolator instance = new Pattern2dInterpolator._internal();
 
-  BinaryInterpolator _binaryInterpolator = new BinaryInterpolator();
+  BinaryInterpolator<Pattern2d> _binaryInterpolator = new BinaryInterpolator<Pattern2d>();
 
   factory Pattern2dInterpolator() => instance;
 

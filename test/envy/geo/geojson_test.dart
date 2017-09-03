@@ -2,7 +2,7 @@ import 'package:envy/envy.dart';
 @TestOn('browser')
 import 'package:test/test.dart';
 
-main() {
+void main() {
   group('GeoJson', () {
     test('Point', () {
       var m = { "type": "Point", "coordinates": [100.0, 0.0]};

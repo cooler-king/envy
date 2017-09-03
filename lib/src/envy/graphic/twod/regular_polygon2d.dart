@@ -22,7 +22,7 @@ class RegularPolygon2d extends Graphic2dNode {
   NumberProperty get pointCount => properties["pointCount"] as NumberProperty;
   NumberProperty get radius => properties["radius"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _radius;
     _pointCount = pointCount.valueAt(i);
 
@@ -48,18 +48,18 @@ class RegularPolygon2d extends Graphic2dNode {
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x + Math.sin(preAngleRad) * _radius, _y + Math.cos(preAngleRad) * _radius);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.moveTo(_x + Math.sin(preAngleRad) * _radius, _y + Math.cos(preAngleRad) * _radius);
     for (int i = 0; i < _pointCount; i++) {
-      p.lineTo(Math.sin(postAngleRad) * _radius, Math.cos(postAngleRad) * _radius);
+      ctx.lineTo(Math.sin(postAngleRad) * _radius, Math.cos(postAngleRad) * _radius);
 
       preAngleRad += angleStepRad;
       postAngleRad += angleStepRad;
     }
-    p.closePath();
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    ctx.closePath();
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

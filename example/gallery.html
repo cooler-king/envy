@@ -1,1 +1,25 @@
-<test-annular-section2d></test-annular-section2d>
+<div class="nav-left">
+    <div class="nav-option" (click)="page = 'annular_section2d'">Annular Section</div>
+    <div class="nav-option" (click)="page = 'circle2d'">Circle</div>
+    <div class="nav-option" (click)="page = 'div_node'">Div Node</div>
+    <div class="nav-option" (click)="page = 'html_node_population'">HTML Node Population</div>
+    <div class="nav-option" (click)="page = 'image2d'">Image</div>
+    <div class="nav-option" (click)="page = 'path2d'">Path</div>
+    <div class="nav-option" (click)="page = 'rect2d'">Rect</div>
+    <div class="nav-option" (click)="page = 'star2d'">Star</div>
+    <div class="nav-option" (click)="page = 'text2d'">Text</div>
+    <div class="nav-option" (click)="page = 'triangle2d'">Triangle</div>
+</div>
+<div class="content-right">
+    <test-annular-section2d *ngIf="page == 'annular_section2d'"></test-annular-section2d>
+    <test-circle2d *ngIf="page == 'circle2d'"></test-circle2d>
+    <test-div-node *ngIf="page == 'div_node'"></test-div-node>
+    <test-html-node-population *ngIf="page == 'html_node_population'"></test-html-node-population>
+    <test-image2d *ngIf="page == 'image2d'"></test-image2d>
+    <test-path2d *ngIf="page == 'path2d'"></test-path2d>
+    <test-rect2d *ngIf="page == 'rect2d'"></test-rect2d>
+    <test-star2d *ngIf="page == 'star2d'"></test-star2d>
+    <test-text2d *ngIf="page == 'text2d'"></test-text2d>
+    <test-triangle2d *ngIf="page == 'triangle2d'"></test-triangle2d>
+
+</div>

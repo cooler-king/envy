@@ -1,4 +1,4 @@
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:html' show CanvasRenderingContext2D;
 import 'dart:math' show PI;
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
@@ -17,7 +17,7 @@ class Circle2d extends Graphic2dNode {
 
   NumberProperty get radius => properties["radius"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _radius = radius.valueAt(i);
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);
@@ -32,10 +32,12 @@ class Circle2d extends Graphic2dNode {
       _y += adj[1];
     }
 
-    Path2D p = new Path2D();
-    p.arc(_x, _y, _radius, 0, 2.0 * PI, false);
-    paths.add(p);
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    //Path2D p = new Path2D();
+    ctx.beginPath();
+    ctx.arc(_x, _y, _radius, 0, 2.0 * PI, false);
+    ctx.closePath();
+    //paths.add(p);
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

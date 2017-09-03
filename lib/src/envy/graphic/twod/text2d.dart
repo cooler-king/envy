@@ -35,7 +35,7 @@ class Text2d extends Graphic2dNode {
     properties["stroke"] = new BooleanProperty(defaultValue: false);
   }
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _dx, _dy, _maxWidth;
     String _text = text.valueAt(i);
 
@@ -68,22 +68,28 @@ class Text2d extends Graphic2dNode {
       _dy += adj[1];
     }
 
-    // Store backing rectangle for hit testing (do not draw)
-    Path2D p = new Path2D();
-    paths.add(p);
-    if (metrics.actualBoundingBoxLeft != null) {
-      p.rect(
-          -(metrics.actualBoundingBoxLeft) + _dx,
-          -(metrics.actualBoundingBoxAscent) + _dy,
-          metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft,
-          metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent);
-    } else if (metrics.width != null) {
-      p.rect(_dx, _dy, metrics.width, _dy - approxHeight);
-    } else {
-      logger.warning("Problem with text metrics for ${_text}");
+    // Hit test against backing rectangle, if requested.
+    if (hitTest != null) {
+      ctx.beginPath();
+      if (metrics.actualBoundingBoxLeft != null) {
+        ctx.rect(
+            -(metrics.actualBoundingBoxLeft) + _dx,
+            -(metrics.actualBoundingBoxAscent) + _dy,
+            metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft,
+            metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent);
+      } else if (metrics.width != null) {
+        ctx.rect(_dx, _dy, metrics.width, _dy - approxHeight);
+      } else {
+        logger.warning("Problem with text metrics for ${_text}");
+      }
+      ctx.closePath();
+      if (_fill && hitTest != null && ctx.isPointInPath(hitTest.x, hitTest.y) ||
+          _stroke && hitTest != null && ctx.isPointInStroke(hitTest.x, hitTest.y)) {
+        hitTest.hit = true;
+      }
+      return;
     }
 
-    //
     if (_maxWidth != null && _maxWidth > 0.0) {
       if (_fill) ctx.fillText(_text, _dx, _dy, _maxWidth);
       if (_stroke) ctx.strokeText(_text, _dx, _dy, _maxWidth);

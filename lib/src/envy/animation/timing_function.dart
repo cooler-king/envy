@@ -52,7 +52,7 @@ class StepFunction extends TimingFunction {
   final bool end;
   final num delta;
 
-  StepFunction(num intervals, [this.end = true])
+  StepFunction(int intervals, [this.end = true])
       : this.intervalCount = intervals,
         delta = 1 / intervals;
 

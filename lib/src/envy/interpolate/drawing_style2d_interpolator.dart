@@ -8,15 +8,15 @@ import '../graphic/twod/drawing_style2d.dart';
 import '../graphic/twod/pattern2d.dart';
 
 class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
-  EnvyInterpolator colorInterpolator;
-  EnvyInterpolator gradient2dInterpolator;
-  EnvyInterpolator pattern2dInterpolator;
-  BinaryInterpolator _binaryInterpolator = new BinaryInterpolator();
+  EnvyInterpolator<Color> colorInterpolator;
+  EnvyInterpolator<Gradient2d> gradient2dInterpolator;
+  EnvyInterpolator<Pattern2d> pattern2dInterpolator;
+  BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = new BinaryInterpolator<DrawingStyle2d>();
 
   DrawingStyle2dInterpolator({this.colorInterpolator, this.gradient2dInterpolator, this.pattern2dInterpolator}) {
     if (colorInterpolator == null) colorInterpolator = new RgbaInterpolator();
     if (gradient2dInterpolator == null) gradient2dInterpolator = new Gradient2dInterpolator();
-    if (pattern2dInterpolator == null) pattern2dInterpolator = _binaryInterpolator;
+    if (pattern2dInterpolator == null) pattern2dInterpolator = new BinaryInterpolator<Pattern2d>();
   }
 
   /// Returns a [DrawingStyle2d] having values between those of DrawingStyle2ds [a] and [b]
@@ -25,8 +25,8 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
   DrawingStyle2d interpolate(DrawingStyle2d a, DrawingStyle2d b, num fraction) {
 
     // Get the pattern, gradient or color in the style (first non-null, in that order)
-    var obj1 = a.styleObj;
-    var obj2 = b.styleObj;
+    dynamic obj1 = a.styleObj;
+    dynamic obj2 = b.styleObj;
 
     // Handle interpolation between same type (color, gradient or pattern)
     if (obj1 is Color && obj2 is Color) return new DrawingStyle2d(

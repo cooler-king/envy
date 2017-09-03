@@ -19,7 +19,7 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
   ImageElement elementAt(int index) {
     if (domNodesMap.isNotEmpty) {
       int i = index % domNodesMap.length;
-      List list = new List.from(domNodesMap.values);
+      List<Node> list = new List<Node>.from(domNodesMap.values);
       return list[i] as ImageElement;
     } else {
       logger.warning("ImageNode detected empty domNodesMap in elementAt(); returning null");

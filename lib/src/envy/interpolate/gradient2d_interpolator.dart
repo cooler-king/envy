@@ -41,7 +41,7 @@ class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
       // Linear to radial, radial to linear -- just use binary interpolator
       //TODO something more elegant for these?
       //TODO this will change input gradients -- BUG
-      gradient = new BinaryInterpolator().interpolate(a, b, fraction);
+      gradient = new BinaryInterpolator<Gradient2d>().interpolate(a, b, fraction);
     }
 
     // Consolidate the number, fractional value and Color of each stop

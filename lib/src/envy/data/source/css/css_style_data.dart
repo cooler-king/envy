@@ -12,21 +12,20 @@ import '../../../css/css_style.dart';
 class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
   String _datasetName;
   EnvyNode _node;
-  DataAccessor accessor;
 
   /// Find the dataset named [datasetName], starting with [node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
   /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  CssStyleData(this._datasetName, this._node, {this.accessor, String prop}) {
+  CssStyleData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }

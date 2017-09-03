@@ -1,4 +1,4 @@
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:html' show CanvasRenderingContext2D;
 import 'dart:math' show max;
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
@@ -30,7 +30,7 @@ class Cross2d extends Graphic2dNode {
   NumberProperty get horizontalHeight => properties["horizontalHeight"] as NumberProperty;
   NumberProperty get percent => properties["percent"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _verticalWidth, _verticalHeight, _horizontalWidth, _horizontalHeight, _percent;
     Anchor2d _anchor;
     _verticalWidth = verticalWidth.valueAt(i);
@@ -74,47 +74,48 @@ class Cross2d extends Graphic2dNode {
       _y += adj[1];
     }
 
-    Path2D p = new Path2D();
+    //Path2D p = new Path2D();
     //ctx.beginPath();
-    paths.add(p);
+    //paths.add(p);
 
     // Start at top left
+    ctx.beginPath();
     if (outTop) {
-      p.moveTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x + halfVerticalWidth, _y + halfVerticalWidth);
-      p.lineTo(_x - halfVerticalWidth, _y + halfVerticalWidth);
-      p.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.moveTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
+      ctx.lineTo(_x + halfVerticalWidth, _y + halfVerticalWidth);
+      ctx.lineTo(_x - halfVerticalWidth, _y + halfVerticalWidth);
+      ctx.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
+      ctx.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
     } else if (outBottom) {
-      p.moveTo(_x - halfVerticalWidth, _y - halfHeight);
-      p.lineTo(_x + halfVerticalWidth, _y - halfHeight);
-      p.lineTo(_x + halfVerticalWidth, _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x - halfVerticalWidth, _y + hbarTop);
+      ctx.moveTo(_x - halfVerticalWidth, _y - halfHeight);
+      ctx.lineTo(_x + halfVerticalWidth, _y - halfHeight);
+      ctx.lineTo(_x + halfVerticalWidth, _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x - halfVerticalWidth, _y + hbarTop);
     } else {
-      p.moveTo(_x - halfVerticalWidth, _y - halfHeight);
-      p.lineTo(_x + halfVerticalWidth, _y - halfHeight);
-      p.lineTo(_x + halfVerticalWidth, _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x + halfVerticalWidth, _y + halfHeight);
-      p.lineTo(_x - halfVerticalWidth, _y + halfHeight);
-      p.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
-      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
-      p.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
-      p.lineTo(_x - halfVerticalWidth, _y + hbarTop);
+      ctx.moveTo(_x - halfVerticalWidth, _y - halfHeight);
+      ctx.lineTo(_x + halfVerticalWidth, _y - halfHeight);
+      ctx.lineTo(_x + halfVerticalWidth, _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x + max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.lineTo(_x + halfVerticalWidth, _y + hbarBottom);
+      ctx.lineTo(_x + halfVerticalWidth, _y + halfHeight);
+      ctx.lineTo(_x - halfVerticalWidth, _y + halfHeight);
+      ctx.lineTo(_x - halfVerticalWidth, _y + hbarBottom);
+      ctx.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarBottom);
+      ctx.lineTo(_x - max(halfWidth, halfVerticalWidth), _y + hbarTop);
+      ctx.lineTo(_x - halfVerticalWidth, _y + hbarTop);
     }
 
-    p.closePath();
+    ctx.closePath();
 
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

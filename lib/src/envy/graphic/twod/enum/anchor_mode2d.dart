@@ -14,7 +14,7 @@ class AnchorMode2d extends Enumeration<String> {
 
   const AnchorMode2d(String value) : super(value);
 
-  static from(dynamic d) {
+  static AnchorMode2d from(dynamic d) {
     if (d is AnchorMode2d) return d;
     if (d is String) {
       String lc = d.toLowerCase();

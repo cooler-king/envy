@@ -35,6 +35,6 @@ class Vector2Interpolator extends EnvyInterpolator<Vector2> {
       y = ((fraction < 0) ? a.y : b.y);
     }
 
-    return new Vector2(x, y);
+    return new Vector2(x.toDouble(), y.toDouble());
   }
 }

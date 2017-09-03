@@ -40,7 +40,7 @@ class Path2d extends Graphic2dNode {
 
   NumberProperty get tension => properties["tension"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     //num _x1, _y1, _x2, _y2;
     Anchor2d _anchor = anchor.valueAt(i);
     PointList _points = points.valueAt(i);
@@ -53,48 +53,48 @@ class Path2d extends Graphic2dNode {
     // Adjust based on anchor (default origin is x1, y1)
     List<num> adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
     if (_interpolation == null ||
         _interpolation == PathInterpolation2d.LINEAR ||
         _interpolation == PathInterpolation2d.LINEAR_CLOSED) {
-      p.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
+      ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       for (var pt in _points) {
-        p.lineTo(pt.x + adj[0], pt.y + adj[1]);
+        ctx.lineTo(pt.x + adj[0], pt.y + adj[1]);
       }
     } else if (_interpolation == PathInterpolation2d.STEP_BEFORE) {
-      p.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
+      ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       var x = _points[0].x + adj[0];
       for (var pt in _points) {
         var y = pt.y + adj[1];
-        p.lineTo(x, y);
+        ctx.lineTo(x, y);
         x = pt.x + adj[0];
-        p.lineTo(x, y);
+        ctx.lineTo(x, y);
       }
     } else if (_interpolation == PathInterpolation2d.STEP_AFTER) {
-      p.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
+      ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       var y = _points[0].y + adj[1];
       for (var pt in _points) {
         var x = pt.x + adj[0];
-        p.lineTo(x, y);
+        ctx.lineTo(x, y);
         y = pt.y + adj[1];
-        p.lineTo(x, y);
+        ctx.lineTo(x, y);
       }
     } else if (_interpolation == PathInterpolation2d.DIAGONAL) {
       // Cubic Bezier with tension
       // Control point 1 located on same y value as point 1 toward point 2's x value (1 - tension)
       // Control point 2 located on same y value as point 2 toward point 1's x value (1 - tension)
-      var x1 = _points[0].x + adj[0];
-      var y1 = _points[0].y + adj[1];
-      var x2 = 0;
-      var y2 = 0;
-      var cp1x = 0;
-      var cp2x = 0;
-      var deltaX = 0;
+      num x1 = _points[0].x + adj[0];
+      num y1 = _points[0].y + adj[1];
+      num x2 = 0;
+      num y2 = 0;
+      num cp1x = 0;
+      num cp2x = 0;
+      num deltaX = 0;
       num _tension = max(0.0, min(1.0, tension.valueAt(i)));
 
-      p.moveTo(x1, y1);
+      ctx.moveTo(x1, y1);
 
       for (int i = 1; i < _points.length; i++) {
         x2 = _points[i].x + adj[0];
@@ -105,7 +105,7 @@ class Path2d extends Graphic2dNode {
         cp1x = x1 + deltaX;
         cp2x = x2 - deltaX;
 
-        p.bezierCurveTo(cp1x, y1, cp2x, y2, x2, y2);
+        ctx.bezierCurveTo(cp1x, y1, cp2x, y2, x2, y2);
 
         x1 = x2;
         y1 = y2;
@@ -114,13 +114,13 @@ class Path2d extends Graphic2dNode {
 
     // Close the path if interpolation indicates closure
     if (_interpolation == PathInterpolation2d.LINEAR_CLOSED) {
-      p.closePath();
+      ctx.closePath();
 
       // Fill only closed paths
-      if (_fill) ctx.fill();
+      if (_fill && fillOrHitTest(ctx, hitTest)) return;
     }
 
-    if (_stroke) ctx.stroke(p);
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
 
     // Optionally draw markers for points
     // _points.forEach((p){

@@ -1,5 +1,5 @@
 import 'package:quantity/quantity.dart' show twoPi;
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:html' show CanvasRenderingContext2D;
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 import '../../envy_property.dart';
@@ -19,7 +19,7 @@ class Ellipse2d extends Graphic2dNode {
   NumberProperty get radiusX => properties["radiusX"] as NumberProperty;
   NumberProperty get radiusY => properties["radiusY"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _radiusX, _radiusY;
     _radiusX = radiusX.valueAt(i);
     _radiusY = radiusY.valueAt(i);
@@ -34,11 +34,12 @@ class Ellipse2d extends Graphic2dNode {
       _y += adj[1];
     }
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.ellipse(_x, _y, _radiusX, _radiusY, 0, 0, twoPi, false);
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.ellipse(_x, _y, _radiusX, _radiusY, 0, 0, twoPi, false);
+    ctx.closePath();
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

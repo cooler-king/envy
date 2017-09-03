@@ -39,7 +39,8 @@ void main() {
       dataList = data as List;
       expect(dataList.length, 6);
       expect(dataList[0], 400);
-      expect(dataList[1], dataNotAvailable);
+      expect(a.dataUnavailableIndices.length == 1, true);
+      expect(a.dataUnavailableIndices.contains(1), true);
       expect(dataList[2], 100);
       expect(dataList[3], 200);
       expect(dataList[4], 300);
@@ -51,12 +52,8 @@ void main() {
       expect(data is List, true);
       dataList = data as List;
       expect(dataList.length, 9);
-      expect(dataList[0], dataNotAvailable);
-      expect(dataList[1], dataNotAvailable);
-      expect(dataList[2], dataNotAvailable);
-      expect(dataList[3], dataNotAvailable);
-      expect(dataList[4], dataNotAvailable);
-      expect(dataList[5], dataNotAvailable);
+      expect(a.dataUnavailableIndices.length == 6, true);
+      expect(a.dataUnavailableIndices.containsAll(<int>[0, 1, 2, 3, 4, 5]), true);
       expect(dataList[6], 700);
       expect(dataList[7], 800);
       expect(dataList[8], 900);
@@ -68,14 +65,10 @@ void main() {
       dataList = data as List;
       expect(dataList.length, 9);
       expect(dataList[0], 111);
-      expect(dataList[1], dataNotAvailable);
       expect(dataList[2], 333);
-      expect(dataList[3], dataNotAvailable);
       expect(dataList[4], 555);
-      expect(dataList[5], dataNotAvailable);
-      expect(dataList[6], dataNotAvailable);
-      expect(dataList[7], dataNotAvailable);
-      expect(dataList[8], dataNotAvailable);
+      expect(a.dataUnavailableIndices.length == 6, true);
+      expect(a.dataUnavailableIndices.containsAll(<int>[1, 3, 5, 6, 7, 8]), true);
     });
 
     test('cullUnavailableData', () {

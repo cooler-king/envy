@@ -20,7 +20,7 @@ class Timeline {
   Timeline.zeroDateTime(DateTime zero) : startMillis = zero.millisecondsSinceEpoch;
 
   /// Derives this Timeline by applying an offset in milliseconds to an existing Timeline.
-  Timeline.derive(Timeline t1, num millisOffset) : startMillis = t1.startMillis + millisOffset;
+  Timeline.derive(Timeline t1, int millisOffset) : startMillis = t1.startMillis + millisOffset;
 
   /// Gets the current time in this Timeline's frame, in seconds.
   ///

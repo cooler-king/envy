@@ -1,4 +1,4 @@
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:html' show CanvasRenderingContext2D;
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 import '../../envy_property.dart';
@@ -24,7 +24,7 @@ class Bar2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _width = width.valueAt(i);
     num _height = height.valueAt(i);
     Anchor2d _anchor = anchor.valueAt(i);
@@ -39,13 +39,15 @@ class Bar2d extends Graphic2dNode {
     _x += adj[0];
     _y += adj[1];
 
-    Path2D p = new Path2D();
-    p.rect(_x - halfWidth, _y - _height, _width, _height);
-    paths.add(p);
+    //Path2D p = new Path2D();
+    ctx.beginPath();
+    ctx.rect(_x - halfWidth, _y - _height, _width, _height);
+    //paths.add(p);
+    ctx.closePath();
 
     //if (_fill) ctx.fillRect(_x - halfWidth, _y - _height, _width, _height);
     //if (_stroke) ctx.strokeRect(_x - halfWidth, _y - _height, _width, _height);
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

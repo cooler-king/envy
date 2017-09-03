@@ -14,7 +14,7 @@ import '../../color/color.dart';
 
 abstract class Graphic2dNode extends GraphicLeaf {
   /// Store paths for efficient hit testing
-  final List<Path2D> paths = [];
+  //final List<Path2D> paths = [];
 
   ///
   Stream onClick;
@@ -212,7 +212,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   /// Draws the graphic and stores a Path2D in [paths] for efficient hit testing.
   ///
-  void renderIndex(int index, CanvasRenderingContext2D ctx);
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest});
 
   /// Renders a graphic for each index up to the current rendering size.
   ///
@@ -226,7 +226,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     //for(int i=0; i<size; i++) {
 
     // Forget the current paths, about to make new ones
-    paths.clear();
+    //paths.clear();
 
     int renderSize = finish ? size : max(size, prevSize);
     //print("RENDER SIZE = ${renderSize}");
@@ -279,7 +279,6 @@ abstract class Graphic2dNode extends GraphicLeaf {
     _applyTransform(index, ctx);
   }
 
-
   /// First rotate about the anchor point and then apply the
   /// translation, scale and skew with the transform method.
   ///
@@ -318,9 +317,18 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// point described by x, y.
   ///
   int indexContainingPoint(num x, num y, CanvasRenderingContext2D ctx) {
-    for (_i = paths.length - 1; _i >= 0; _i--) {
+    //for (_i = paths.length - 1; _i >= 0; _i--) {
+    for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();
       _applyTransform(_i, ctx);
+
+      HitTest test = new HitTest(x, y);
+      renderIndex(_i, ctx, hitTest: test);
+      if (test.hit) {
+        ctx.restore();
+        return _i;
+      }
+      /*
       if (fill.valueAt(_i)) {
         if (ctx.isPointInPath(paths[_i], x, y)) {
           ctx.restore();
@@ -333,7 +341,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
           ctx.restore();
           return _i;
         }
-      }
+      }*/
       ctx.restore();
     }
     return null;
@@ -349,9 +357,16 @@ abstract class Graphic2dNode extends GraphicLeaf {
   ///
   List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
     List<int> hitIndices = listToUse ?? [];
-    for (_i = paths.length - 1; _i >= 0; _i--) {
+    //for (_i = paths.length - 1; _i >= 0; _i--) {
+    for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();
       _applyTransform(_i, ctx);
+
+      HitTest test = new HitTest(x, y);
+      renderIndex(_i, ctx, hitTest: test);
+      if (test.hit) hitIndices.add(_i);
+
+/*
       if (fill.valueAt(_i)) {
         if (ctx.isPointInPath(paths[_i], x, y)) {
           hitIndices.add(_i);
@@ -361,7 +376,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
             hitIndices.add(_i);
           }
         }
-      }
+      }*/
       ctx.restore();
     }
     return hitIndices;
@@ -397,38 +412,77 @@ abstract class Graphic2dNode extends GraphicLeaf {
   }
 
   void fireClickEvent(Graphic2dIntersection g2di) {
-    if(_onClickController.hasListener) _onClickController.add(g2di);
+    if (_onClickController.hasListener) _onClickController.add(g2di);
   }
 
   void fireDoubleClickEvent(Graphic2dIntersection g2di) {
-    if(_onDoubleClickController.hasListener) _onDoubleClickController.add(g2di);
+    if (_onDoubleClickController.hasListener) _onDoubleClickController.add(g2di);
   }
 
   void fireMouseEnterEvent(Graphic2dIntersection g2di) {
-    if(_onMouseEnterController.hasListener) _onMouseEnterController.add(g2di);
+    if (_onMouseEnterController.hasListener) _onMouseEnterController.add(g2di);
   }
 
   void fireMouseOutEvent(Graphic2dIntersection g2di) {
-    if(_onMouseOutController.hasListener) _onMouseOutController.add(g2di);
+    if (_onMouseOutController.hasListener) _onMouseOutController.add(g2di);
   }
 
   void fireMouseLeaveEvent(Graphic2dIntersection g2di) {
-    if(_onMouseLeaveController.hasListener) _onMouseLeaveController.add(g2di);
+    if (_onMouseLeaveController.hasListener) _onMouseLeaveController.add(g2di);
   }
 
   void fireMouseOverEvent(Graphic2dIntersection g2di) {
-    if(_onMouseOverController.hasListener) _onMouseOverController.add(g2di);
+    if (_onMouseOverController.hasListener) _onMouseOverController.add(g2di);
   }
 
   void fireMouseMoveEvent(Graphic2dIntersection g2di) {
-    if(_onMouseMoveController.hasListener) _onMouseMoveController.add(g2di);
+    if (_onMouseMoveController.hasListener) _onMouseMoveController.add(g2di);
   }
 
   void fireMouseDownEvent(Graphic2dIntersection g2di) {
-    if(_onMouseDownController.hasListener) _onMouseDownController.add(g2di);
+    if (_onMouseDownController.hasListener) _onMouseDownController.add(g2di);
   }
 
   void fireMouseUpEvent(Graphic2dIntersection g2di) {
-    if(_onMouseUpController.hasListener) _onMouseUpController.add(g2di);
+    if (_onMouseUpController.hasListener) _onMouseUpController.add(g2di);
   }
+
+  /// Fills the current path defined in [ctx], unless a [hitTest] is requested.
+  ///
+  /// Returns true only if hitTest is requested and there is a hit.
+  bool fillOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+    if (hitTest == null) {
+      ctx.fill();
+      return false;
+    }
+    if (ctx.isPointInPath(hitTest.x, hitTest.y)) {
+      hitTest.hit = true;
+      return true;
+    }
+    return false;
+  }
+
+  /// Strokes the current path defined in [ctx], unless a [hitTest] is requested.
+  ///
+  /// Returns true only if hitTest is requested and there is a hit.
+  bool strokeOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+    if (hitTest == null) {
+      ctx.stroke();
+      return false;
+    }
+    if (ctx.isPointInStroke(hitTest.x, hitTest.y)) {
+      hitTest.hit = true;
+      return true;
+    }
+    return false;
+  }
+}
+
+/// Optionally passed into renderIndex to request a hit test rather than a render.
+class HitTest {
+  final num x;
+  final num y;
+  bool hit = false;
+
+  HitTest(this.x, this.y);
 }

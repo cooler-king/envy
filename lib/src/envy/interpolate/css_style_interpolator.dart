@@ -20,7 +20,7 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
 
     // Interpolate each property in the CssStyle (which is a Map)
     CssProperty aValue, bValue, iValue;
-    List bOnlyProps = new List.from(b.keys);
+    List<String> bOnlyProps = new List.from(b.keys);
     bool bHas;
     for (String prop in a.keys) {
       bHas = bOnlyProps.remove(prop);

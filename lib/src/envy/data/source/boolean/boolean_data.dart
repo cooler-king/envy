@@ -12,21 +12,20 @@ import 'boolean_source.dart';
 class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
   String _datasetName;
   EnvyNode _node;
-  DataAccessor accessor;
 
   /// Find the dataset named [datasetName], starting with [node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
-  /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// If [prop] is provided instead of [accessor] then a property DataAccessor
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  BooleanData(this._datasetName, this._node, {this.accessor, String prop}) {
+  BooleanData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }

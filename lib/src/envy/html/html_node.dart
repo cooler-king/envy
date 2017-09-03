@@ -78,7 +78,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
   List<Node> get domNodes => new List.from(domNodesMap.values);
 
-  CssStyleProperty get style => properties["style"];
+  CssStyleProperty get style => properties["style"] as CssStyleProperty;
 
   /// In addition to setting the parent node reference, [HtmlNode]s attach and
   /// detach their DOM nodes as appropriate.

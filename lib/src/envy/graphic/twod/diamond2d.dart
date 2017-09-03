@@ -1,4 +1,4 @@
-import 'dart:html' show CanvasRenderingContext2D, Path2D;
+import 'dart:html' show CanvasRenderingContext2D;
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 import '../../envy_property.dart';
@@ -18,7 +18,7 @@ class Diamond2d extends Graphic2dNode {
   NumberProperty get width => properties["width"] as NumberProperty;
   NumberProperty get height => properties["height"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     _width = width.valueAt(i);
@@ -39,16 +39,16 @@ class Diamond2d extends Graphic2dNode {
       _y += adj[1];
     }
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x, _y - halfHeight);
-    p.lineTo(_x + _width, _y);
-    p.lineTo(_x, _y + halfHeight);
-    p.lineTo(_x - _width, _y);
-    p.closePath();
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.moveTo(_x, _y - halfHeight);
+    ctx.lineTo(_x + _width, _y);
+    ctx.lineTo(_x, _y + halfHeight);
+    ctx.lineTo(_x - _width, _y);
+    ctx.closePath();
 
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

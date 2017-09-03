@@ -8,7 +8,7 @@ class FontInterpolator extends EnvyInterpolator<Font> {
   EnvyInterpolator weightInterpolator;
   EnvyInterpolator sizeInterpolator;
   EnvyInterpolator familyInterpolator;
-  BinaryInterpolator _binaryInterpolator = new BinaryInterpolator();
+  BinaryInterpolator<dynamic> _binaryInterpolator = new BinaryInterpolator<dynamic>();
 
   FontInterpolator({this.styleInterpolator, this.variantInterpolator, this.weightInterpolator, this.sizeInterpolator,
       this.familyInterpolator}) {
@@ -25,15 +25,15 @@ class FontInterpolator extends EnvyInterpolator<Font> {
   Font interpolate(Font a, Font b, num fraction) {
     Font f = new Font();
 
-    f.style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator);
-    f.variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator);
-    f.weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator);
-    f.size = _interpolateProperty(a.size, b.size, fraction, sizeInterpolator);
-    f.family = _interpolateProperty(a.family, b.family, fraction, familyInterpolator);
+    f.style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator) as FontStyle;
+    f.variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator) as FontVariant;
+    f.weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator) as FontWeight;
+    f.size = _interpolateProperty(a.size, b.size, fraction, sizeInterpolator) as FontSize;
+    f.family = _interpolateProperty(a.family, b.family, fraction, familyInterpolator) as FontFamily;
     return f;
   }
 
-  dynamic _interpolateProperty(a, b, num fraction, EnvyInterpolator interp) {
+  dynamic _interpolateProperty(dynamic a, dynamic b, num fraction, EnvyInterpolator interp) {
     if (a != null) {
       if (b != null) {
         return interp.interpolate(a, b, fraction);

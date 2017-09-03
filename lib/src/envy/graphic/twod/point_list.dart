@@ -1,12 +1,12 @@
-import 'dart:math' as Math;
+import 'dart:math' show Point;
 import 'package:collection/collection.dart';
 
-class PointList extends DelegatingList<Math.Point> {
-  PointList([Iterable<Math.Point> points]) : super(new List<Math.Point>.from(points ?? []));
+class PointList extends DelegatingList<Point> {
+  PointList([Iterable<Point> points]) : super(new List<Point>.from(points ?? <Point>[]));
 
-  void addPoint(Math.Point value) => add(value);
+  void addPoint(Point value) => add(value);
 
-  void addPoints(Iterable<Math.Point> points) => addAll(points);
+  void addPoints(Iterable<Point> points) => addAll(points);
 
   //----------------
 

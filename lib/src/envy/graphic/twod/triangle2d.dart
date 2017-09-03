@@ -56,7 +56,7 @@ class Triangle2d extends Graphic2dNode {
   NumberProperty get height => properties["height"] as NumberProperty;
   //NumberProperty get angle => properties["angle"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _base, _height;
     _base = base.valueAt(i);
     _height = height.valueAt(i);
@@ -79,15 +79,15 @@ class Triangle2d extends Graphic2dNode {
     // Rotate for angle ( plus any angle offset)
     ctx.rotate(effectiveAngleRad);
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x - halfBase, _y);
-    p.lineTo(_x, _y - _height);
-    p.lineTo(_x + halfBase, _y);
-    p.closePath();
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.moveTo(_x - halfBase, _y);
+    ctx.lineTo(_x, _y - _height);
+    ctx.lineTo(_x + halfBase, _y);
+    ctx.closePath();
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
 
     // Reverse angle rotation
     ctx.rotate(-effectiveAngleRad);
@@ -119,7 +119,7 @@ class TriangleVertices2d extends Graphic2dNode {
   NumberProperty get x3 => properties["x3"] as NumberProperty;
   NumberProperty get y3 => properties["y3"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x1, _y1, _x2, _y2, _x3, _y3;
     _x1 = x1.valueAt(i);
     _y1 = y1.valueAt(i);
@@ -130,14 +130,14 @@ class TriangleVertices2d extends Graphic2dNode {
     bool _fill = fill.valueAt(i);
     bool _stroke = stroke.valueAt(i);
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x1, _y1);
-    p.lineTo(_x2, _y2);
-    p.lineTo(_x3, _y3);
-    p.closePath();
-    if (_fill) ctx.fill();
-    if (_stroke) ctx.stroke(p);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.moveTo(_x1, _y1);
+    ctx.lineTo(_x2, _y2);
+    ctx.lineTo(_x3, _y3);
+    ctx.closePath();
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

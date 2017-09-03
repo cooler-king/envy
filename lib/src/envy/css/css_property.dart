@@ -17,11 +17,11 @@ abstract class CssProperty implements CssAdapter {
     return "";
   }
 
-  EnvyInterpolator get interpolator;
+  EnvyInterpolator<CssProperty> get interpolator;
 }
 
 class CssString extends CssProperty {
-  EnvyInterpolator get interpolator => new BinaryInterpolator();
+  EnvyInterpolator<CssString> get interpolator => new BinaryInterpolator<CssString>();
 }
 
 class CssNumber extends CssProperty {
@@ -43,7 +43,7 @@ class CssNumber extends CssProperty {
     }
   }*/
 
-  EnvyInterpolator get interpolator => new CssNumberInterpolator();
+  EnvyInterpolator<CssNumber> get interpolator => new CssNumberInterpolator();
 }
 
 class CssLength extends CssProperty {
@@ -73,7 +73,7 @@ class CssLength extends CssProperty {
     return super.css;
   }
 
-  EnvyInterpolator get interpolator => new CssLengthInterpolator();
+  EnvyInterpolator<CssLength> get interpolator => new CssLengthInterpolator();
 
   CssLength get inPixels {
     if (units == CssLengthUnits.px) return this;
@@ -86,5 +86,5 @@ class CssOpacity extends CssNumber {
 }
 
 class CssTransform extends CssProperty {
-  EnvyInterpolator get interpolator => new CssTransformInterpolator();
+  EnvyInterpolator<CssTransform> get interpolator => new CssTransformInterpolator();
 }

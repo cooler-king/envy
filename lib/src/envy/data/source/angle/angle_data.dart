@@ -12,7 +12,6 @@ import 'angle_source.dart';
 class AngleData extends ArrayDataSource<Angle> implements AngleSource {
   String _datasetName;
   EnvyNode _node;
-  DataAccessor accessor;
 
   /// Find the dataset named [datasetName], starting with [node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
@@ -26,9 +25,9 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  AngleData(this._datasetName, this._node, {this.accessor, String prop}) {
+  AngleData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      this.accessor = new DataAccessor.prop(prop);
     }
   }
 
@@ -62,7 +61,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       // Warn and do best to convert to number
       logger.warning("Unexpected data type for AngleData: ${data}");
       if (data is List) {
-        // try to parse entires as numbers; assume degrees
+        // try to parse entries as numbers; assume degrees
         for (var d in data) {
           this.values.add(_angleFromAnything(d));
         }

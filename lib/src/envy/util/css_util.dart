@@ -138,7 +138,7 @@ class CssUtil {
         innerHeight = parent is Element ? parent.offsetHeight : 0;
         //while (i--) {
         for (int i = outerProp.length - 1; i >= 0; i--) {
-          innerHeight -= _parsePixels(curCSS(parent, outerProp[i])).round();
+          innerHeight -= _parsePixels(curCSS(parent is Element ? parent : parent.parent, outerProp[i])).round();
         }
         value = "${_parsePixels(value) / 100 * innerHeight}px";
       } else {

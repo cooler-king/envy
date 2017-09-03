@@ -71,9 +71,9 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
     int size = max(projSource.rawSize, max(latListSource.rawSize, longListSource.rawSize));
     for(int i = 0; i< size; i++) {
       var pts = new PointList();
-      Projection proj = projSource.valueAt(i) as Projection;
-      NumberList lats = latListSource.valueAt(i) as NumberList;
-      NumberList longs = longListSource.valueAt(i) as NumberList;
+      Projection proj = projSource.valueAt(i);
+      NumberList lats = latListSource.valueAt(i);
+      NumberList longs = longListSource.valueAt(i);
 
       // Only create points for which both lat and long are available
       int numPoints = lats?.length ?? 0;

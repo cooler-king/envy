@@ -19,7 +19,7 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   /// dataset.
   ///
   /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///

@@ -32,10 +32,6 @@ import 'graphic/twod/point_list.dart';
 import 'text/font.dart';
 import 'css/css_style.dart';
 
-/// A value that indicates a position in the array for which there is no data
-/// (needed for keyed property support)
-const String dataNotAvailable = "deadJim";
-
 final Vector2 vec2zero = new Vector2(0.0, 0.0);
 final Vector2 vec2one = new Vector2(1.0, 1.0);
 
@@ -61,12 +57,13 @@ abstract class EnvyProperty<T> {
   // For efficiency
   int _i = 0;
   T _value;
+  NullDataSource<T> nullDataSource = new NullDataSource<T>();
+  //T dataNotAvailable = new DataNotAvailable<T>().token;
 
   EnvyInterpolator<T> _interpolator;
 
   /// An optional payload that may be used for things like identifying a property during debugging.
   dynamic payload;
-
 
   ///  Control over property array length.
   ///
@@ -90,22 +87,19 @@ abstract class EnvyProperty<T> {
 
   EnvyProperty(this.defaultValue, {this.optional: false});
 
-  //DataSource<T> get enter => _enter ?? DataSource.nullDataSource;
-  DataSource<T> get enter => _enter ?? new NullDataSource<T>();
+  DataSource<T> get enter => _enter ?? nullDataSource;
 
   void set enter(DataSource<T> dataSource) {
     _enter = dataSource;
   }
 
-  //DataSource<T> get update => _update ?? DataSource.nullDataSource;
-  DataSource<T> get update => _update ?? new NullDataSource<T>();
+  DataSource<T> get update => _update ?? nullDataSource;
 
   void set update(DataSource<T> dataSource) {
     _update = dataSource;
   }
 
-  //DataSource<T> get exit => _exit ?? DataSource.nullDataSource;
-  DataSource<T> get exit => _exit ?? new NullDataSource<T>();
+  DataSource<T> get exit => _exit ?? nullDataSource;
 
   void set exit(DataSource<T> dataSource) {
     _exit = dataSource;
@@ -165,12 +159,9 @@ abstract class EnvyProperty<T> {
     if (_size > _currentValues.length) {
       // Size greater than number of current values... some will be entering
       for (_i = _currentValues.length; _i < _size; _i++) {
-        _value = enter?.valueAt(_i);
-        if (_value == null || _value == dataNotAvailable) _value = _update?.valueAt(_i);
-        if (_value == null || _value == dataNotAvailable) _value = defaultValue;
-
-        // Debug
-        assert(_value != dataNotAvailable);
+        _value = _enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i);
+        _value = _value ?? (_update == null || _update.dataNotAvailableAt(_i) ? null : _update.valueAt(_i));
+        _value = _value ?? defaultValue;
 
         //print("_updateStartValues... adding value ${_value}");
         _startValues.add(_value);
@@ -187,11 +178,23 @@ abstract class EnvyProperty<T> {
     _targetValues.clear();
 
     // Value may be String ("deadJim")
-    dynamic val;
+    T val;
 
     for (_i = 0; _i < _size; _i++) {
-        val = _update?.valueAt(_i) ?? (_enter?.valueAt(_i));
+      val = _update?.valueAt(_i) ?? _enter?.valueAt(_i);
 
+      if (val == null) {
+        // If the value (of a keyed property) is no longer available, use exit value.
+        bool dataNotAvailable = (_update?.dataNotAvailableAt(_i) ?? false) || (_enter?.dataNotAvailableAt(_i) ?? false);
+        if (dataNotAvailable) {
+          val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
+          val = val ?? _update?.valueAt(_i) ?? _enter?.valueAt(_i) ?? defaultValue;
+        } else {
+          // Regular null value means use default value.
+          val = defaultValue;
+        }
+      }
+/*
       if (val == null) val = defaultValue;
 
       // If the value (of a keyed property) is no longer available, use exit value
@@ -204,24 +207,22 @@ abstract class EnvyProperty<T> {
           if (val == null || val == dataNotAvailable) val = defaultValue;
         }
       }
-
+*/
       _value = val;
 
       // Debug
-      assert(_value != dataNotAvailable);
+      //assert(_value != dataNotAvailable);
 
       _targetValues.add(_value);
     }
 
     // Set target values for exiting nodes
     for (_i = _size; _i < _currentValues.length; _i++) {
-      val = exit.valueAt(_i);
-      if (val == null || val == dataNotAvailable) val = _currentValues[_i];
-
-      _value = val;
+      val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
+      _value = val ?? _currentValues[_i];
 
       // Debug
-      assert(_value != dataNotAvailable);
+      //assert(_value != dataNotAvailable);
 
       _targetValues.add(_value);
     }
@@ -240,7 +241,9 @@ abstract class EnvyProperty<T> {
     } else {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
         // For finish values, only include available update or enter data
-        if ((_update?.valueAt(_i) ?? _enter?.valueAt(_i)) != dataNotAvailable) {
+        T val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
+        val = val ?? (_enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i));
+        if (val != null) {
           _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
         }
       }
@@ -256,7 +259,7 @@ abstract class EnvyProperty<T> {
 
 class GenericProperty extends EnvyProperty<dynamic> {
   GenericProperty({dynamic defaultValue: 0, bool optional: false}) : super(defaultValue, optional: optional);
-  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator();
+  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator<dynamic>();
 }
 
 class NumberProperty extends EnvyProperty<num> {
@@ -371,7 +374,7 @@ class PathInterpolation2dProperty extends EnvyProperty<PathInterpolation2d> {
 ///
 class NakedProperty extends EnvyProperty<dynamic> {
   NakedProperty({dynamic defaultValue: 0}) : super(defaultValue);
-  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator();
+  EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator<dynamic>();
 
   List get currentValues => _currentValues;
   List get startValues => _startValues;

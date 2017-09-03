@@ -1,0 +1,31 @@
+:host {
+    display: flex;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.nav-left {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  padding: 20px;
+}
+
+.content-right {
+    flex: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-left: 1px solid lightgray;
+    padding-left: 20px;
+}
+
+.nav-option {
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    margin: 10px;
+    color: steelblue;
+}

@@ -11,9 +11,8 @@ import '../../keyed_dataset.dart';
 class NumberData extends ArrayDataSource<num> implements NumberSource {
   String _datasetName;
   EnvyNode _node;
-  DataAccessor accessor;
 
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
@@ -25,7 +24,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  NumberData(this._datasetName, this._node, {this.accessor, String prop}) {
+  NumberData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }

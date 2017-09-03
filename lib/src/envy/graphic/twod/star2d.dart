@@ -24,7 +24,7 @@ class Star2d extends Graphic2dNode {
   NumberProperty get innerRadius => properties["innerRadius"] as NumberProperty;
   NumberProperty get outerRadius => properties["outerRadius"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _outerRadius, _innerRadius;
     _pointCount = pointCount.valueAt(i).toInt();
 
@@ -80,20 +80,20 @@ class Star2d extends Graphic2dNode {
       _y += adj[1];
     }
 
-    Path2D p = new Path2D();
-    paths.add(p);
+    //Path2D p = new Path2D();
+    //paths.add(p);
     if (xRaw.isNotEmpty) {
       bool _fill = fill.valueAt(i);
       bool _stroke = stroke.valueAt(i);
 
-      //ctx.beginPath();
-      p.moveTo(_x + xRaw[0], _y + yRaw[0]);
+      ctx.beginPath();
+      ctx.moveTo(_x + xRaw[0], _y + yRaw[0]);
       for (int i = 1; i < xRaw.length; i++) {
-        p.lineTo(_x + xRaw[i], _y + yRaw[i]);
+        ctx.lineTo(_x + xRaw[i], _y + yRaw[i]);
       }
-      p.closePath();
-      if (_fill) ctx.fill();
-      if (_stroke) ctx.stroke(p);
+      ctx.closePath();
+      if (_fill && fillOrHitTest(ctx, hitTest)) return;
+      if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
     }
   }
 }

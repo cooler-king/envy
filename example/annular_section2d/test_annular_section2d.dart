@@ -10,26 +10,35 @@ import 'package:angular/angular.dart';
   directives: const [EnvyScene],
 )
 class TestAnnularSection2d implements AfterViewInit {
-  @ViewChild('basic')
+  @ViewChild('basic', read: EnvyScene)
   EnvyScene basicScene;
 
-  @ViewChild('rotation')
+  @ViewChild('rotation', read: EnvyScene)
   EnvyScene rotationScene;
 
-  @ViewChild('circle')
+  @ViewChild('circle', read: EnvyScene)
   EnvyScene circleScene;
 
-  @ViewChild('anchors')
+  @ViewChild('anchors', read: EnvyScene)
   EnvyScene anchorsScene;
 
-  @ViewChild('lifecycle')
+  @ViewChild('lifecycle', read: EnvyScene)
   EnvyScene lifecycleScene;
 
-  @ViewChild('hit')
+  @ViewChild('hit', read: EnvyScene)
   EnvyScene hitScene;
 
-  @ViewChild('fill')
+  @ViewChild('fill', read: EnvyScene)
   EnvyScene fillScene;
+
+  @ViewChild('enterButton', read: Element)
+  Element enterButton;
+
+  @ViewChild('updateButton', read: Element)
+  Element updateButton;
+
+  @ViewChild('exitButton', read: Element)
+  Element exitButton;
 
   void ngAfterViewInit() {
     testBasic(basicScene);
@@ -148,10 +157,12 @@ class TestAnnularSection2d implements AfterViewInit {
     canvas.attach(c);
     c.x.enter = new NumberConstant.array(xList);
     c.y.enter = new NumberConstant(100);
-    c.radius.enter = new NumberConstant(2);
+    c.radius.enter = new NumberConstant(2.5);
+    c.opacity.enter = new NumberConstant(0.7);
     c.lineWidth.enter = new NumberConstant(1);
     c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
     c.stroke.enter = new BooleanConstant(false);
+    c.anchor.enter = new Anchor2dConstant(new Anchor2d(mode: AnchorMode2d.CENTER));
 
     esg.updateGraph();
   }
@@ -163,7 +174,6 @@ class TestAnnularSection2d implements AfterViewInit {
     AnnularSection2d s = new AnnularSection2d();
     canvas.attach(s);
 
-    ButtonElement enterButton = querySelector("#enter-button");
     enterButton.onClick.listen((_) {
       s.x.enter = new NumberConstant(50);
       s.y.enter = new NumberConstant(50);
@@ -190,7 +200,6 @@ class TestAnnularSection2d implements AfterViewInit {
       esg.updateGraph();
     });
 
-    ButtonElement updateButton = querySelector("#update-button");
     updateButton.onClick.listen((_) {
       s.x.enter = new NumberConstant(50);
       s.y.enter = new NumberConstant(50);
@@ -218,7 +227,6 @@ class TestAnnularSection2d implements AfterViewInit {
       esg.updateGraph();
     });
 
-    ButtonElement exitButton = querySelector("#exit-button");
     exitButton.onClick.listen((_) {
       s.x.exit = new NumberConstant(400);
       s.y.exit = new NumberConstant(10);
@@ -314,8 +322,8 @@ class TestAnnularSection2d implements AfterViewInit {
     AnnularSection2d s = new AnnularSection2d();
     canvas.attach(s);
 
-    s.x.enter = new NumberConstant.array([50, 200, 350, 460, 650]);
-    s.y.enter = new NumberConstant.array([50, 50, 50, 10, 50]);
+    s.x.enter = new NumberConstant.array([50, 200, 350, 500, 650]);
+    s.y.enter = new NumberConstant.array([50, 50, 50, 50, 50]);
     s.innerRadius.enter = new NumberConstant(0);
     s.outerRadius.enter = new NumberConstant(40);
     s.startAngle.enter = new AngleConstant(new Angle(deg: 0));

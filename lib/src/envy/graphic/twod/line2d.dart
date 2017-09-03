@@ -23,7 +23,7 @@ class Line2d extends Graphic2dNode {
   NumberProperty get x2 => properties["x2"] as NumberProperty;
   NumberProperty get y2 => properties["y2"] as NumberProperty;
 
-  void renderIndex(int i, CanvasRenderingContext2D ctx) {
+  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x1, _y1, _x2, _y2;
     Anchor2d _anchor = anchor.valueAt(i);
     _x1 = x1.valueAt(i);
@@ -47,11 +47,11 @@ class Line2d extends Graphic2dNode {
       _y2 += adj[1];
     }
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x1, _y1);
-    p.lineTo(_x2, _y2);
-    if (_stroke) ctx.stroke(p);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx.beginPath();
+    ctx.moveTo(_x1, _y1);
+    ctx.lineTo(_x2, _y2);
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

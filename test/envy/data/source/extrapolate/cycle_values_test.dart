@@ -5,12 +5,12 @@ import 'package:envy/envy.dart';
 void main() {
   group('Cycle Values', () {
     test('null and empty values', () {
-      CycleValues cv = new CycleValues(true);
+      CycleValues<int> cv = new CycleValues<int>(true);
       expect(cv.valueAt(0, null), null);
-      expect(cv.valueAt(0, []), null);
-      cv = new CycleValues(false);
+      expect(cv.valueAt(0, <int>[]), null);
+      cv = new CycleValues<int>(false);
       expect(cv.valueAt(0, null), null);
-      expect(cv.valueAt(0, []), null);
+      expect(cv.valueAt(0, <int>[]), null);
     });
 
     test('index >= values.length... one way', () {
