@@ -1,4 +1,4 @@
-<h1>Envy 2D Annular Section</h1>
+<h1>Envy 2D Cross</h1>
 
 <div id="vis-container" style="height:500px;">
     <h3>Basic</h3>
@@ -12,36 +12,28 @@
         <envy-scene #rotation></envy-scene>
     </div>
     <hr>
-    <h3>Donut - Special Case (no side lines)</h3>
-    <div style='display: flex; height: 200px;'>
-        <envy-scene #circle></envy-scene>
-    </div>
-    <hr>
     <h3>Anchors</h3>
     <i>Default, Center, Bottom, Bottom-Left, Bottom-Right, Left, Right, Top, Top-Left, Top-Right</i>
-    <div>
-        <button (click)="randomizeAnchorAngles()">Random Angle Range</button>
-    </div>
     <div style='display: flex; height: 200px;'>
         <envy-scene #anchors></envy-scene>
     </div>
     <hr>
     <h3>Lifecycle</h3>
-    <button #enterButton
-    >Enter
-    </button>
-    <button #updateButton
-    >Update
-    </button>
-    <button #exitButton
-    >Exit
-    </button>
-    <div style="display: flex; min-height:500px;">
+    <button #enterButton>Enter</button>
+    <button #updateButton>Update</button>
+    <button #exitButton>Exit</button>
+    <div style="display: flex; min-height:400px;">
         <envy-scene #lifecycle></envy-scene>
     </div>
     <hr>
+    <h3>Data-driven</h3>
+    <button #dataButton>Update Data</button>
+    <div style="display: flex; min-height:400px;">
+        <envy-scene #data></envy-scene>
+    </div>
+    <hr>
     <h3>Hit Testing</h3>
-    <div id='hit-feedback'></div>
+    <div id='hit-feedback'>========================</div>
     <div id='hit-feedback-over'>========================</div>
     <div id='hit-feedback-downup'>========================</div>
     <p>
@@ -54,4 +46,6 @@
     <div style='display: flex; height: 150px; background: goldenrod;'>
         <envy-scene #fill></envy-scene>
     </div>
+
+    <p>
 </div>

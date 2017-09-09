@@ -1,6 +1,6 @@
 import 'dart:html' show CanvasRenderingContext2D;
 import 'dart:math' show sin, cos, min, max;
-import 'package:quantity/quantity.dart' show twoPi;
+import 'package:quantity/quantity.dart' show twoPi, Angle, AngleRange, angle0, angle90, angle180, angle270;
 import '../../envy_property.dart';
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
@@ -60,10 +60,12 @@ class AnnularSection2d extends Graphic2dNode {
       num x4 = _outerRadius * cosStart;
       num y4 = _outerRadius * sinStart;
 
-      num minX = min(x1, max(x2, max(x3, x4)));
-      num maxX = max(x1, max(x2, max(x3, x4)));
-      num minY = min(y1, max(y2, max(y3, y4)));
-      num maxY = max(y1, max(y2, max(y3, y4)));
+      AngleRange range = new AngleRange(new Angle(rad: _startAngleRad), new Angle(rad: _endAngleRad));
+
+      num minX = range.contains360(angle180) ? -_outerRadius : min(x1, min(x2, min(x3, x4)));
+      num maxX = range.contains360(angle0) ? _outerRadius : max(x1, max(x2, max(x3, x4)));
+      num minY = range.contains360(angle270) ? -_outerRadius : min(y1, min(y2, min(y3, y4)));
+      num maxY = range.contains360(angle90) ? _outerRadius : max(y1, max(y2, max(y3, y4)));
 
       List<num> adj = _anchor.calcAdjustments(minY, maxX, maxY, minX);
       _x += adj[0];

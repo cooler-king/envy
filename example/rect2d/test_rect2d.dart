@@ -17,9 +17,6 @@ class TestRect2d implements AfterViewInit {
   @ViewChild('rotation')
   EnvyScene rotationScene;
 
-  @ViewChild('circle')
-  EnvyScene circleScene;
-
   @ViewChild('anchors')
   EnvyScene anchorsScene;
 

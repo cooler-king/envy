@@ -21,11 +21,6 @@ transformers:
 - angular:
     entry_points: example/examples.dart
 
-# Run the code generator on the entire package.
-- angular/transform/codegen
-
-- angular/transform/reflection_remover:
-    $include: test/**_test.dart
 - test/pub_serve:
     $include: test/**_test.dart
 
