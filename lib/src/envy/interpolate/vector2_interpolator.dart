@@ -25,6 +25,7 @@ class Vector2Interpolator extends EnvyInterpolator<Vector2> {
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
+  @override
   Vector2 interpolate(Vector2 a, Vector2 b, num fraction) {
     num x, y;
     if (!clamped || (fraction >= 0 && fraction <= 1)) {

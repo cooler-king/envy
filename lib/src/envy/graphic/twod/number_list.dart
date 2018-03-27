@@ -10,18 +10,18 @@ class NumberList extends DelegatingList<num> {
   //----------------
 
   num get min {
-    if (isEmpty) return double.NAN;
-    num x = double.INFINITY;
-    for (var n in this) {
+    if (isEmpty) return double.nan;
+    num x = double.infinity;
+    for (num n in this) {
       if (n < x) x = n;
     }
     return x;
   }
 
   num get max {
-    if (isEmpty) return double.NAN;
-    num x = double.NEGATIVE_INFINITY;
-    for (var n in this) {
+    if (isEmpty) return double.nan;
+    num x = double.negativeInfinity;
+    for (num n in this) {
       if (n > x) x = n;
     }
     return x;

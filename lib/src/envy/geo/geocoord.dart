@@ -6,12 +6,13 @@ class GeoCoord {
 
   GeoCoord.radians({this.latRad: 0, this.longRad: 0});
 
-  GeoCoord.degrees({num latDeg: 0, num longDeg: 0}) : latRad = new Angle(deg: latDeg).valueSI.toDouble(),
+  GeoCoord.degrees({num latDeg: 0, num longDeg: 0})
+      : latRad = new Angle(deg: latDeg).valueSI.toDouble(),
         longRad = new Angle(deg: longDeg).valueSI.toDouble();
 
-  GeoCoord.angles({Angle lat, Angle long}) : latRad = lat?.valueSI?.toDouble() ?? 0,
+  GeoCoord.angles({Angle lat, Angle long})
+      : latRad = lat?.valueSI?.toDouble() ?? 0,
         longRad = long?.valueSI?.toDouble() ?? 0;
-
 
   Angle get latitude => new Angle(rad: latRad);
 
@@ -25,13 +26,14 @@ class GeoCoord {
 
   num get radiansLongitude => longRad;
 
+  @override
   String toString() {
-    var buf = new StringBuffer();
-    buf.write(degreesLatitude);
-    buf.write(degreesLatitude < 0 ? "S" : "N");
-    buf.write(", ");
-    buf.write(degreesLongitude);
-    buf.write(degreesLongitude < 0 ? "W" : "E");
+    final StringBuffer buf = new StringBuffer()
+      ..write(degreesLatitude)
+      ..write(degreesLatitude < 0 ? 'S' : 'N')
+      ..write(', ')
+      ..write(degreesLongitude)
+      ..write(degreesLongitude < 0 ? 'W' : 'E');
     return buf.toString();
   }
 }

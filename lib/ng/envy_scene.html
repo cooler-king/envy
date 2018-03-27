@@ -2,9 +2,13 @@
      and manage its own height -->
 <style>
   :host {
-     position: relative;
      display: flex;
      flex-grow: 1;
   }
+
+  .wrapper {
+    flex: 1;
+    position: relative;
+  }
 </style>
-<div #envyRoot></div>
+<div #envyWrapper class="wrapper"></div>

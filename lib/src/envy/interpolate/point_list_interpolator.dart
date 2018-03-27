@@ -1,9 +1,9 @@
 import 'dart:math';
+import '../graphic/twod/point_list.dart';
 import 'envy_interpolator.dart';
 import 'point_interpolator.dart';
-import '../graphic/twod/point_list.dart';
 
-const Point ptZeroZero = const Point<num>(0, 0);
+const Point<num> ptZeroZero = const Point<num>(0, 0);
 
 /// Interpolates between a two lists containing points.
 ///
@@ -34,9 +34,10 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
+  @override
   PointList interpolate(PointList a, PointList b, num fraction) {
-    int numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
-    PointList newPoints = new PointList();
+    final int numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
+    final PointList newPoints = new PointList();
     for (int i = 0; i < numPoints; i++) {
       newPoints
           .add(_pointInterp.interpolate(i < a.length ? a[i] : ptZeroZero, i < b.length ? b[i] : ptZeroZero, fraction));

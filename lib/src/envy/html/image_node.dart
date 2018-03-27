@@ -1,10 +1,10 @@
 import 'dart:html';
-import 'html_node.dart';
-import 'canvas_image_source_node.dart';
-import '../envy_property.dart';
-import '../util/logger.dart';
-import '../html/enum/cross_origin.dart';
 import '../data/source/string/string_source.dart';
+import '../envy_property.dart';
+import '../html/enum/cross_origin.dart';
+import '../util/logger.dart';
+import 'canvas_image_source_node.dart';
+import 'html_node.dart';
 
 /// [ImageNode] is an Envy scene graph node that manages an
 /// HTML Image element.
@@ -14,40 +14,42 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
     _initProperties();
   }
 
+  @override
   ImageElement generateNode() => new ImageElement();
 
+  @override
   ImageElement elementAt(int index) {
     if (domNodesMap.isNotEmpty) {
-      int i = index % domNodesMap.length;
-      List<Node> list = new List<Node>.from(domNodesMap.values);
+      final int i = index % domNodesMap.length;
+      final List<Node> list = new List<Node>.from(domNodesMap.values);
       return list[i] as ImageElement;
     } else {
-      logger.warning("ImageNode detected empty domNodesMap in elementAt(); returning null");
+      logger.warning('ImageNode detected empty domNodesMap in elementAt(); returning null');
       return null;
     }
   }
 
   void _initProperties() {
-    properties["alt"] = new StringProperty();
-    properties["crossOrigin"] = new StringProperty()
-      ..enter = new StringConstant.enumerationValue(CrossOrigin.ANONYMOUS);
-    properties["height"] = new NumberProperty();
-    properties["isMap"] = new BooleanProperty();
-    properties["src"] = new StringProperty();
+    properties['alt'] = new StringProperty();
+    properties['crossOrigin'] = new StringProperty()
+      ..enter = new StringConstant.enumerationValue(CrossOrigin.anonymous);
+    properties['height'] = new NumberProperty();
+    properties['isMap'] = new BooleanProperty();
+    properties['src'] = new StringProperty();
     //TODO srcset (List of src strings plus width/height thresholds)
-    properties["useMap"] = new StringProperty();
-    properties["width"] = new NumberProperty();
+    properties['useMap'] = new StringProperty();
+    properties['width'] = new NumberProperty();
   }
 
-  StringProperty get src => properties["src"] as StringProperty;
+  StringProperty get src => properties['src'] as StringProperty;
 
-  NumberProperty get width => properties["width"] as NumberProperty;
-  NumberProperty get height => properties["height"] as NumberProperty;
+  NumberProperty get width => properties['width'] as NumberProperty;
+  NumberProperty get height => properties['height'] as NumberProperty;
 
-  StringProperty get alt => properties["alt"] as StringProperty;
-  StringProperty get crossOrigin => properties["crossOrigin"] as StringProperty;
-  BooleanProperty get isMap => properties["isMap"] as BooleanProperty;
-  StringProperty get useMap => properties["useMap"] as StringProperty;
+  StringProperty get alt => properties['alt'] as StringProperty;
+  StringProperty get crossOrigin => properties['crossOrigin'] as StringProperty;
+  BooleanProperty get isMap => properties['isMap'] as BooleanProperty;
+  StringProperty get useMap => properties['useMap'] as StringProperty;
 
   @override
   void updateDom() {
@@ -57,7 +59,7 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
     num numValue;
     bool tf;
     for (int i = 0; i < domNodes.length; i++) {
-      ImageElement imageEl = elementAt(i);
+      final ImageElement imageEl = elementAt(i);
 
       strValue = src.valueAt(i);
       if (imageEl.src != strValue) imageEl.src = strValue;

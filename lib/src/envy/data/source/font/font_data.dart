@@ -1,20 +1,17 @@
-import 'font_source.dart';
-import '../data_source.dart';
-import '../../data_accessor.dart';
-import '../../keyed_dataset.dart';
 import '../../../envy_node.dart';
 import '../../../text/font.dart';
 import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'font_source.dart';
 
-/// Retrieves font data (a list of font or a single font)
-/// from a named dataset.
-///
+/// Retrieves font data (a list of font or a single font) from a named dataset.
 class FontData extends ArrayDataSource<Font> implements FontSource {
   String _datasetName;
   EnvyNode _node;
-  DataAccessor accessor;
 
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
@@ -26,27 +23,26 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  FontData(this._datasetName, this._node, {this.accessor, String prop}) {
-    if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
-    }
+  FontData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
+    this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
   }
 
-  /// Find the dataset named [keyedDataset.name], starting with [keyedDataset.node]
+  /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
   /// and working up the ancestor chain, and use a keyed property data accessor
-  /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
+  /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
   FontData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
+      _datasetName = keyedDataset.name;
+      _node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
+  @override
   void refresh() {
-    this.values.clear();
+    values.clear();
 
     Object data = _node.getDataset(_datasetName);
     if (accessor != null) {
@@ -54,14 +50,14 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
       data = accessor.getData(data);
     }
 
-    if (data is List<Font>) {
-      this.values.addAll(data);
+    if (data is List<dynamic>) {
+      values.addAll(data as List<Font>);
     } else if (data is Font) {
-      this.values.add(data);
+      values.add(data);
     } else {
       //TODO do some font parsing?
-      logger.warning("Unexpected data type for FontData: ${data}");
-      this.values.add(new Font());
+      logger.warning('Unexpected data type for FontData: $data');
+      values.add(new Font());
     }
   }
 }

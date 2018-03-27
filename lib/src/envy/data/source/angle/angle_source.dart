@@ -5,13 +5,14 @@ abstract class AngleSource extends DataSource<Angle> {}
 
 class AngleConstant extends ArrayDataSource<Angle> implements AngleSource {
   AngleConstant(Angle angle) {
-    this.values.add(angle);
+    values.add(angle);
   }
 
   AngleConstant.array(List<Angle> angles) {
-    this.values.addAll(angles);
+    values.addAll(angles);
   }
 
   // No-op refresh
+  @override
   void refresh() {}
 }

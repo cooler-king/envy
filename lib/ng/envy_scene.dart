@@ -3,7 +3,7 @@ import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 
 @Component(
-  selector: "envy-scene",
+  selector: 'envy-scene',
   templateUrl: 'envy_scene.html',
 )
 class EnvyScene implements AfterViewInit {
@@ -12,16 +12,17 @@ class EnvyScene implements AfterViewInit {
 
   final EnvySceneGraph sceneGraph = new EnvySceneGraph();
 
-  @ViewChild('envyRoot', read: Element)
-  Element root;
+  @ViewChild('envyWrapper', read: Element)
+  Element wrapper;
 
+  @override
   void ngAfterViewInit() {
-    sceneGraph.htmlHost = root;
+    sceneGraph.htmlHost = wrapper;
   }
 
   /// Returns the first canvas element found under the root (or null).
-  CanvasElement get canvas => root?.querySelector("canvas") as CanvasElement;
+  CanvasElement get canvas => wrapper?.querySelector('canvas') as CanvasElement;
 
   /// Gets the bounds of the root HTML element.
-  Rectangle get bounds => root?.getBoundingClientRect();
+  Rectangle<num> get bounds => wrapper?.getBoundingClientRect();
 }

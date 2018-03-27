@@ -13,13 +13,14 @@ class Rect2d extends Graphic2dNode {
   }
 
   void _initProperties() {
-    properties["width"] = new NumberProperty();
-    properties["height"] = new NumberProperty();
+    properties['width'] = new NumberProperty();
+    properties['height'] = new NumberProperty();
   }
 
-  NumberProperty get width => properties["width"] as NumberProperty;
-  NumberProperty get height => properties["height"] as NumberProperty;
+  NumberProperty get width => properties['width'] as NumberProperty;
+  NumberProperty get height => properties['height'] as NumberProperty;
 
+  @override
   void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
@@ -27,21 +28,20 @@ class Rect2d extends Graphic2dNode {
     _width = width.valueAt(i);
     _height = height.valueAt(i);
     _anchor = anchor.valueAt(i);
-    bool _fill = fill.valueAt(i);
-    bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(i);
+    final bool _stroke = stroke.valueAt(i);
 
-    //print("x, y, width, height... ${_x}, ${_y}, ${_width}, ${_height}");
+    //print('x, y, width, height... ${_x}, ${_y}, ${_width}, ${_height}');
 
     // Adjust for anchor (default origin is upper left)
-    List<num> adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? [0, 0];
+    final List<num> adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? <num>[0, 0];
     _x = adj[0];
     _y = adj[1];
 
-    //Path2D p = new Path2D();
-    //paths.add(p);
-    ctx.beginPath();
-    ctx.rect(_x, _y, _width, _height);
-    ctx.closePath();
+    ctx
+      ..beginPath()
+      ..rect(_x, _y, _width, _height)
+      ..closePath();
 
     if (_fill && fillOrHitTest(ctx, hitTest)) return;
     if (_stroke && strokeOrHitTest(ctx, hitTest)) return;

@@ -2,6 +2,7 @@ import 'dart:html';
 
 enum PatternRepeat { repeat, repeatX, repeatY, noRepeat }
 
+// ignore: one_member_abstracts
 abstract class Pattern2d {
   CanvasPattern asCanvasPattern(CanvasRenderingContext2D ctx);
 }
@@ -29,15 +30,16 @@ class ImagePattern2d extends Pattern2d {
       _canvasPattern = ctx.createPatternFromImage(imageObj, repeatStr);
     } else {
       // Scale down the image onto an auxiliary canvas and use that for the pattern
-      int width = patternWidth ?? (imageObj.width);
-      int height = patternHeight ?? (imageObj.height);
-      CanvasElement patternCanvas = new CanvasElement(width: width, height: height);
+      final int width = patternWidth ?? (imageObj.width);
+      final int height = patternHeight ?? (imageObj.height);
+      final CanvasElement patternCanvas = new CanvasElement(width: width, height: height);
 
       patternCanvas.context2D.drawImageScaled(imageObj, 0, 0, width, height);
       _canvasPattern = ctx.createPattern(patternCanvas, repeatStr);
     }
   }
 
+  @override
   CanvasPattern asCanvasPattern(CanvasRenderingContext2D ctx) {
     if (_canvasPattern == null) _createCanvasPattern(ctx);
     return _canvasPattern;

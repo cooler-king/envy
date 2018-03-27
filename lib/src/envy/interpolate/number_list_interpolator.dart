@@ -1,6 +1,6 @@
+import '../graphic/twod/number_list.dart';
 import 'envy_interpolator.dart';
 import 'number_interpolator.dart';
-import '../graphic/twod/number_list.dart';
 
 /// Interpolates between a two lists containing points.
 ///
@@ -31,12 +31,12 @@ class NumberListInterpolator extends EnvyInterpolator<NumberList> {
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
+  @override
   NumberList interpolate(NumberList a, NumberList b, num fraction) {
-    int numEntries = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
-    NumberList newEntries = new NumberList();
+    final int numEntries = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
+    final NumberList newEntries = new NumberList();
     for (int i = 0; i < numEntries; i++) {
-      newEntries
-          .add(_numInterp.interpolate(i < a.length ? a[i] : 0, i < b.length ? b[i] : 0, fraction));
+      newEntries.add(_numInterp.interpolate(i < a.length ? a[i] : 0, i < b.length ? b[i] : 0, fraction));
     }
 
     return newEntries;

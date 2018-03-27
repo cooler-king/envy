@@ -9,9 +9,7 @@ import 'geocoord.dart';
 /// Polygon, MultiPoint, MultiLineString, MultiPolygon, and GeometryCollection.
 /// Features in GeoJSON contain a geometry object and additional properties,
 /// and a feature collection represents a list of features.
-///
 class GeoJson {
-
   // Will only be one of these
   GeoJsonFeatureCollection featureCollection;
   GeoJsonFeature feature;
@@ -19,17 +17,17 @@ class GeoJson {
 
   GeoJsonBoundingBox _bbox;
 
-  factory GeoJson.string(String str) => new GeoJson.map(JSON.decode(str) as Map);
+  factory GeoJson.string(String str) => new GeoJson.map(json.decode(str) as Map<String, dynamic>);
 
-  GeoJson.map(Map m) {
+  GeoJson.map(Map<String, dynamic> m) {
     applyMap(m);
   }
 
-  void applyMap(Map m) {
+  void applyMap(Map<String, dynamic> m) {
     if (m == null) return;
-    if (m["type"] == "FeatureCollection") {
+    if (m['type'] == 'FeatureCollection') {
       featureCollection = new GeoJsonFeatureCollection.fromJson(m);
-    } else if (m["type"] == "Feature") {
+    } else if (m['type'] == 'Feature') {
       feature = new GeoJsonFeature.fromJson(m);
     } else {
       // Must be a geometry of some kind
@@ -37,15 +35,14 @@ class GeoJson {
     }
   }
 
-  Map toJson() {
+  dynamic toJson() {
     if (featureCollection != null) return featureCollection.toJson();
     if (feature != null) return feature.toJson();
-    if (geometry != null) return geometry.toJson() as Map;
+    if (geometry != null) return geometry.toJson();
     return null;
   }
 
   /// Returns the bounding box for the geometry, calculating it if necessary.
-  ///
   GeoJsonBoundingBox get boundingBox {
     if (_bbox == null) _calculateBoundingBox();
     return _bbox;
@@ -64,22 +61,19 @@ class GeoJson {
   }
 
   AngleRange get latitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
   }
 
   AngleRange get longitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
   }
 
   GeoCoord get center {
-    var box = this.boundingBox;
+    final GeoJsonBoundingBox box = boundingBox;
     return new GeoCoord.degrees(
-        latDeg: (box.maxLatitude + box.minLatitude) / 2,
-        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+        latDeg: (box.maxLatitude + box.minLatitude) / 2, longDeg: (box.maxLongitude + box.minLongitude) / 2);
   }
 }
 
@@ -94,7 +88,7 @@ class GeoJsonCoordinate {
     latitude = longLat[1];
   }
 
-  List<num> toJson() => [longitude ?? 0, latitude ?? 0];
+  List<num> toJson() => <num>[longitude ?? 0, latitude ?? 0];
 }
 
 class GeoJsonBoundingBox {
@@ -104,53 +98,46 @@ class GeoJsonBoundingBox {
   num maxLatitude;
 
   /// Angles are in degrees.
-  ///
-  GeoJsonBoundingBox(
-      [this.minLongitude, this.minLatitude, this.maxLongitude, this.maxLatitude]);
-
-  List<num> toJson() => <num>[minLongitude, minLatitude, maxLongitude, maxLatitude];
+  GeoJsonBoundingBox([this.minLongitude, this.minLatitude, this.maxLongitude, this.maxLatitude]);
 
   /// Combine two bounding boxes such that returned bounding box contains them both.
-  ///
-  static GeoJsonBoundingBox merge(GeoJsonBoundingBox box1,
-      GeoJsonBoundingBox box2) {
-    num minLatDeg = min(box1.minLatitude, box2.minLatitude);
-    num minLongDeg = min(box1.minLongitude, box2.minLongitude);
-    num maxLatDeg = max(box1.maxLatitude, box2.maxLatitude);
-    num maxLongDeg = max(box1.maxLongitude, box2.maxLongitude);
+  factory GeoJsonBoundingBox.merge(GeoJsonBoundingBox box1, GeoJsonBoundingBox box2) {
+    final num minLatDeg = min(box1.minLatitude, box2.minLatitude);
+    final num minLongDeg = min(box1.minLongitude, box2.minLongitude);
+    final num maxLatDeg = max(box1.maxLatitude, box2.maxLatitude);
+    final num maxLongDeg = max(box1.maxLongitude, box2.maxLongitude);
     return new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
 
+  List<num> toJson() => <num>[minLongitude, minLatitude, maxLongitude, maxLatitude];
 }
 
-
 class GeoJsonFeatureCollection {
-
-  final List<GeoJsonFeature> features = [];
+  final List<GeoJsonFeature> features = <GeoJsonFeature>[];
 
   GeoJsonBoundingBox _bbox;
 
-
-  GeoJsonFeatureCollection.fromJson(Map m) {
+  GeoJsonFeatureCollection.fromJson(Map<String, dynamic> m) {
     if (m == null) return;
-    dynamic list = m["features"];
+    final dynamic list = m['features'];
     if (list is List) {
-      for (var x in list) {
-        if (x is Map) features.add(new GeoJsonFeature.fromJson(x));
+      for (dynamic x in list) {
+        if (x is Map<String, dynamic>) features.add(new GeoJsonFeature.fromJson(x));
       }
     }
-    if (m["bbox"] is List<num>) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List<num>)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-  Map toJson() {
-    Map m = <String, dynamic>{"type": "FeatureCollection"};
-    List list = <dynamic>[];
-    for (var f in features) {
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'FeatureCollection'};
+    final List<dynamic> list = <dynamic>[];
+    for (GeoJsonFeature f in features) {
       list.add(f.toJson());
     }
-    m["features"] = list;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['features'] = list;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
@@ -165,93 +152,76 @@ class GeoJsonFeatureCollection {
       return;
     }
     GeoJsonBoundingBox box;
-    for (var f in features) {
-      box = box == null ? f.boundingBox : GeoJsonBoundingBox.merge(
-          box, f.boundingBox);
+    for (GeoJsonFeature f in features) {
+      box = box == null ? f.boundingBox : new GeoJsonBoundingBox.merge(box, f.boundingBox);
     }
     _bbox = box;
   }
-
-
 }
 
 class GeoJsonFeature {
-
   GeoJsonGeometry geometry;
 
-  Map properties;
+  Map<String, dynamic> properties;
 
   GeoJsonBoundingBox _bbox;
 
   GeoJsonFeature([this.geometry, this.properties]);
 
-  GeoJsonFeature.fromJson(Map m) {
+  GeoJsonFeature.fromJson(Map<String, dynamic> m) {
     applyMap(m);
   }
 
-  void applyMap(Map m) {
+  void applyMap(Map<String, dynamic> m) {
     if (m == null) return;
-    if (m["geometry"] is Map)
-      geometry = new GeoJsonGeometry.fromJson(m["geometry"] as Map<dynamic, dynamic>);
-    if (m["properties"] is Map) properties = m["properties"] as Map;
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['geometry'] is Map) geometry = new GeoJsonGeometry.fromJson(m['geometry'] as Map<String, dynamic>);
+    if (m['properties'] is Map) properties = m['properties'] as Map<String, dynamic>;
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-  Map toJson() {
-    Map m = <String, dynamic>{"type":"Feature", "geometry": geometry?.toJson()};
-    if (properties != null) m["properties"] = properties;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'Feature', 'geometry': geometry?.toJson()};
+    if (properties != null) m['properties'] = properties;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
   /// Returns the bounding box for the geometry, calculating it if necessary.
-  ///
-  GeoJsonBoundingBox get boundingBox {
-    if (_bbox == null)
-      _bbox = geometry?.boundingBox ?? new GeoJsonBoundingBox(0, 0, 0, 0);
-    return _bbox;
-  }
-
+  GeoJsonBoundingBox get boundingBox => _bbox ??= geometry?.boundingBox ?? new GeoJsonBoundingBox(0, 0, 0, 0);
 
   AngleRange get latitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
   }
 
   AngleRange get longitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
   }
 
   GeoCoord get center {
-    var box = this.boundingBox;
+    final GeoJsonBoundingBox box = boundingBox;
     return new GeoCoord.degrees(
-        latDeg: (box.maxLatitude + box.minLatitude) / 2,
-        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+        latDeg: (box.maxLatitude + box.minLatitude) / 2, longDeg: (box.maxLongitude + box.minLongitude) / 2);
   }
 }
 
-
 abstract class GeoJsonGeometry {
-
   GeoJsonBoundingBox _bbox;
 
   GeoJsonGeometry();
 
-  factory GeoJsonGeometry.fromJson(Map<dynamic, dynamic> m) {
-    String type = m["type"] as String;
-    if (type == "Point") return new GeoJsonPoint.fromJson(m);
-    if (type == "MultiPoint") return new GeoJsonMultiPoint.fromJson(m);
-    if (type == "LineString") return new GeoJsonLineString.fromJson(m);
-    if (type == "MultiLineString") return new GeoJsonMultiLineString.fromJson(
-        m);
-    if (type == "Polygon") return new GeoJsonPolygon.fromJson(m);
-    if (type == "MultiPolygon") return new GeoJsonMultiPolygon.fromJson(m);
-    if (type == "GeometryCollection") return new GeoJsonGeometryCollection
-        .fromJson(m);
+  factory GeoJsonGeometry.fromJson(Map<String, dynamic> m) {
+    final String type = m['type'] as String;
+    if (type == 'Point') return new GeoJsonPoint.fromJson(m);
+    if (type == 'MultiPoint') return new GeoJsonMultiPoint.fromJson(m);
+    if (type == 'LineString') return new GeoJsonLineString.fromJson(m);
+    if (type == 'MultiLineString') return new GeoJsonMultiLineString.fromJson(m);
+    if (type == 'Polygon') return new GeoJsonPolygon.fromJson(m);
+    if (type == 'MultiPolygon') return new GeoJsonMultiPolygon.fromJson(m);
+    if (type == 'GeometryCollection') return new GeoJsonGeometryCollection.fromJson(m);
     return null;
   }
 
@@ -267,88 +237,81 @@ abstract class GeoJsonGeometry {
   void _calculateBoundingBox();
 
   AngleRange get latitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLatitude), new Angle(deg: box.maxLatitude));
   }
 
   AngleRange get longitudeRange {
-    var box = this.boundingBox;
-    return new AngleRange(
-        new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
+    final GeoJsonBoundingBox box = boundingBox;
+    return new AngleRange(new Angle(deg: box.minLongitude), new Angle(deg: box.maxLongitude));
   }
 
   GeoCoord get center {
-    var box = this.boundingBox;
+    final GeoJsonBoundingBox box = boundingBox;
     return new GeoCoord.degrees(
-        latDeg: (box.maxLatitude + box.minLatitude) / 2,
-        longDeg: (box.maxLongitude + box.minLongitude) / 2);
+        latDeg: (box.maxLatitude + box.minLatitude) / 2, longDeg: (box.maxLongitude + box.minLongitude) / 2);
   }
 }
-
 
 class GeoJsonPoint extends GeoJsonGeometry {
   GeoJsonCoordinate coordinate;
 
   GeoJsonPoint([this.coordinate]);
 
-  GeoJsonPoint.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      coordinate =
-      new GeoJsonCoordinate(m["coordinates"][0] as num, m["coordinates"][1] as num);
+  GeoJsonPoint.fromJson(Map<dynamic, dynamic> m) {
+    if (m['coordinates'] is List) {
+      coordinate = new GeoJsonCoordinate(m['coordinates'][0] as num, m['coordinates'][1] as num);
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-  GeoJsonPoint.longLat(List<num> array)
-      : coordinate = new GeoJsonCoordinate(array[0], array[1]);
+  GeoJsonPoint.longLat(List<num> array) : coordinate = new GeoJsonCoordinate(array[0], array[1]);
 
-  Map toJson() {
-    var m = {"type": "Point", "coordinates": coordinate.toJson()};
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'Point', 'coordinates': coordinate.toJson()};
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     _bbox =
-    new GeoJsonBoundingBox(
-        coordinate.latitude, coordinate.longitude, coordinate.latitude,
-        coordinate.longitude);
+        new GeoJsonBoundingBox(coordinate.latitude, coordinate.longitude, coordinate.latitude, coordinate.longitude);
   }
-
 }
 
 class GeoJsonMultiPoint extends GeoJsonGeometry {
-  final List<GeoJsonCoordinate> coordinates = [];
+  final List<GeoJsonCoordinate> coordinates = <GeoJsonCoordinate>[];
 
   GeoJsonMultiPoint();
 
-  GeoJsonMultiPoint.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      for (var c in m["coordinates"]) {
-        if (c is List && c.length > 1) coordinates.add(
-            new GeoJsonCoordinate(c[0] as num, c[1] as num));
+  GeoJsonMultiPoint.fromJson(Map<dynamic, dynamic> m) {
+    if (m['coordinates'] is List) {
+      for (dynamic c in m['coordinates']) {
+        if (c is List && c.length > 1) coordinates.add(new GeoJsonCoordinate(c[0] as num, c[1] as num));
       }
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-
+  @override
   Map<String, dynamic> toJson() {
-    var m = <String, dynamic>{
-      "type": "MultiPoint"
-    };
-    List<List<num>> coordJson = [];
-    for (var coord in coordinates) {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'MultiPoint'};
+    final List<List<num>> coordJson = <List<num>>[];
+    for (GeoJsonCoordinate coord in coordinates) {
       coordJson.add(coord.toJson());
     }
-    m["coordinates"] = coordJson;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['coordinates'] = coordJson;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (coordinates.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
@@ -359,48 +322,45 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
     num minLongDeg = 1000;
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
-    for (var c in coordinates) {
+    for (GeoJsonCoordinate c in coordinates) {
       minLongDeg = min(minLongDeg, c.longitude);
       minLatDeg = min(minLatDeg, c.latitude);
       maxLongDeg = max(maxLongDeg, c.longitude);
       maxLatDeg = max(maxLatDeg, c.latitude);
     }
-    _bbox =
-    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+    _bbox = new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
-
 }
 
 class GeoJsonLineString extends GeoJsonGeometry {
-  final List<GeoJsonCoordinate> coordinates = [];
+  final List<GeoJsonCoordinate> coordinates = <GeoJsonCoordinate>[];
 
   GeoJsonLineString();
 
-  GeoJsonLineString.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      for (var c in m["coordinates"]) {
-        if (c is List && c.length > 1) coordinates.add(
-            new GeoJsonCoordinate(c[0] as num, c[1] as num));
+  GeoJsonLineString.fromJson(Map<dynamic, dynamic> m) {
+    if (m['coordinates'] is List) {
+      for (dynamic c in m['coordinates']) {
+        if (c is List && c.length > 1) coordinates.add(new GeoJsonCoordinate(c[0] as num, c[1] as num));
       }
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-
+  @override
   Map<String, dynamic> toJson() {
-    var m = <String, dynamic>{
-      "type": "LineString"
-    };
-    List<List<num>> coordJson = [];
-    for (var coord in coordinates) {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'LineString'};
+    final List<List<num>> coordJson = <List<num>>[];
+    for (GeoJsonCoordinate coord in coordinates) {
       coordJson.add(coord.toJson());
     }
-    m["coordinates"] = coordJson;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['coordinates'] = coordJson;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (coordinates.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
@@ -411,14 +371,13 @@ class GeoJsonLineString extends GeoJsonGeometry {
     num minLongDeg = 1000;
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
-    for (var c in coordinates) {
+    for (GeoJsonCoordinate c in coordinates) {
       minLongDeg = min(minLongDeg, c.longitude);
       minLatDeg = min(minLatDeg, c.latitude);
       maxLongDeg = max(maxLongDeg, c.longitude);
       maxLatDeg = max(maxLatDeg, c.latitude);
     }
-    _bbox =
-    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+    _bbox = new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
 }
 
@@ -427,41 +386,40 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
 
   GeoJsonMultiLineString();
 
-  GeoJsonMultiLineString.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      for (var lineString in m["coordinates"]) {
+  GeoJsonMultiLineString.fromJson(Map<String, dynamic> m) {
+    if (m['coordinates'] is List) {
+      for (dynamic lineString in m['coordinates']) {
         if (lineString is List) {
-          List<GeoJsonCoordinate> coords = [];
-          for (var c in lineString) {
+          final List<GeoJsonCoordinate> coords = <GeoJsonCoordinate>[];
+          for (dynamic c in lineString) {
             coords.add(new GeoJsonCoordinate(c[0] as num, c[1] as num));
           }
-          lineStrings.add(new GeoJsonLineString()
-            ..coordinates.addAll(coords));
+          lineStrings.add(new GeoJsonLineString()..coordinates.addAll(coords));
         }
       }
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-
+  @override
   Map<String, dynamic> toJson() {
-    var m = <String, dynamic>{
-      "type": "MultiLineString"
-    };
-    List<List<List<num>>> coordJson = <List<List<num>>>[];
-    for (var lineString in lineStrings) {
-      List<List<num>> list = <List<num>>[];
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'MultiLineString'};
+    final List<List<List<num>>> coordJson = <List<List<num>>>[];
+    for (GeoJsonLineString lineString in lineStrings) {
+      final List<List<num>> list = <List<num>>[];
       for (GeoJsonCoordinate coord in lineString.coordinates) {
         list.add(coord.toJson());
       }
       coordJson.add(list);
     }
-    m["coordinates"] = coordJson;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['coordinates'] = coordJson;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (lineStrings.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
@@ -469,9 +427,8 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
     }
 
     GeoJsonBoundingBox box;
-    for (var ls in lineStrings) {
-      box = (box == null) ? ls.boundingBox : GeoJsonBoundingBox.merge(
-          box, ls.boundingBox);
+    for (GeoJsonLineString ls in lineStrings) {
+      box = (box == null) ? ls.boundingBox : new GeoJsonBoundingBox.merge(box, ls.boundingBox);
     }
     _bbox = box;
   }
@@ -481,28 +438,28 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
 /// positions are equivalent (they represent equivalent points). Though a LinearRing
 /// is not explicitly represented as a GeoJSON geometry type, it is referred to in
 /// the Polygon geometry type definition.
-///
 class GeoJsonLinearRing extends GeoJsonGeometry {
   final List<GeoJsonCoordinate> coordinates = <GeoJsonCoordinate>[];
 
   GeoJsonLinearRing();
 
-  GeoJsonLinearRing.fromJson(List jsonList) {
+  GeoJsonLinearRing.fromJson(List<dynamic> jsonList) {
     if (jsonList == null) return;
-    for (var x in jsonList) {
-      if (x is List && x.length > 1) coordinates.add(
-          new GeoJsonCoordinate(x[0] as num, x[1] as num));
+    for (dynamic x in jsonList) {
+      if (x is List && x.length > 1) coordinates.add(new GeoJsonCoordinate(x[0] as num, x[1] as num));
     }
   }
 
+  @override
   List<List<num>> toJson() {
-    List<List<num>> list = <List<num>>[];
+    final List<List<num>> list = <List<num>>[];
     for (GeoJsonCoordinate c in coordinates) {
       list.add(c.toJson());
     }
     return list;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (coordinates.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
@@ -513,170 +470,165 @@ class GeoJsonLinearRing extends GeoJsonGeometry {
     num minLongDeg = 1000;
     num maxLatDeg = -1000;
     num maxLongDeg = -1000;
-    for (var c in coordinates) {
+    for (GeoJsonCoordinate c in coordinates) {
       minLongDeg = min(minLongDeg, c.longitude);
       minLatDeg = min(minLatDeg, c.latitude);
       maxLongDeg = max(maxLongDeg, c.longitude);
       maxLatDeg = max(maxLatDeg, c.latitude);
     }
-    _bbox =
-    new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
+    _bbox = new GeoJsonBoundingBox(minLongDeg, minLatDeg, maxLongDeg, maxLatDeg);
   }
 }
-
 
 /// Coordinates of a Polygon are an array of LinearRing coordinate arrays.
 /// The first element in the array represents the exterior ring. Any subsequent
 /// elements represent interior rings (or holes).
 ///
 class GeoJsonPolygon extends GeoJsonGeometry {
-
   GeoJsonLinearRing exteriorRing;
-  final List<GeoJsonLinearRing> interiorRings = [];
+  final List<GeoJsonLinearRing> interiorRings = <GeoJsonLinearRing>[];
 
   GeoJsonPolygon([this.exteriorRing, List<GeoJsonLinearRing> holes]) {
-    if (holes?.isNotEmpty ?? false) interiorRings.addAll(holes);
+    if (holes?.isNotEmpty == true) interiorRings.addAll(holes);
   }
 
-  GeoJsonPolygon.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      List<List<dynamic>> rings = m["coordinates"] as List<List<dynamic>>;
+  GeoJsonPolygon.fromJson(Map<String, dynamic> m) {
+    if (m['coordinates'] is List) {
+      final List<List<dynamic>> rings = m['coordinates'] as List<List<dynamic>>;
       if (rings.isEmpty) return;
       exteriorRing = new GeoJsonLinearRing.fromJson(rings.first);
       for (int i = 1; i < rings.length; i++) {
         interiorRings.add(new GeoJsonLinearRing.fromJson(rings[i]));
       }
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-  Map toJson() {
-    Map m = <String, dynamic>{
-      "type": "Polygon"
-    };
-    List rings = <dynamic>[];
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'Polygon'};
+    final List<List<List<num>>> rings = <List<List<num>>>[];
     if (exteriorRing != null) rings.add(exteriorRing.toJson());
-    for (var hole in interiorRings) {
+    for (GeoJsonLinearRing hole in interiorRings) {
       rings.add(hole.toJson());
     }
-    m["coordinates"] = rings;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['coordinates'] = rings;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
-    GeoJsonBoundingBox box = exteriorRing != null
-        ? exteriorRing.boundingBox
-        : new GeoJsonBoundingBox(0, 0, 0, 0);
-    for (var ir in interiorRings) {
-      box = GeoJsonBoundingBox.merge(box, ir.boundingBox);
+    GeoJsonBoundingBox box = exteriorRing != null ? exteriorRing.boundingBox : new GeoJsonBoundingBox(0, 0, 0, 0);
+    for (GeoJsonLinearRing ir in interiorRings) {
+      box = new GeoJsonBoundingBox.merge(box, ir.boundingBox);
     }
     _bbox = box;
   }
 }
 
-
 class GeoJsonMultiPolygon extends GeoJsonGeometry {
-
-  final List<GeoJsonPolygon> polygons = [];
+  final List<GeoJsonPolygon> polygons = <GeoJsonPolygon>[];
 
   GeoJsonMultiPolygon([List<GeoJsonPolygon> polys]) {
-    if (polys != null) this.polygons.addAll(polys);
+    if (polys != null) polygons.addAll(polys);
   }
 
-  GeoJsonMultiPolygon.fromJson(Map m) {
-    if (m["coordinates"] is List) {
-      List<List> polys = m["coordinates"] as List<List>;
+  //TODO
+  GeoJsonMultiPolygon.fromJson(Map<String, dynamic> m) {
+    if (m['coordinates'] is List) {
+      /*
+      final List<List<GeoJsonPolygon>> polys = m['coordinates'] as List<List<GeoJsonPolygon>>;
       if (polys.isEmpty) return;
-      for (List poly in polys) {
-        var holes = poly.length > 1
-            ? poly.where((dynamic ring) => ring != poly.first)
-            : <dynamic>[];
-        var exterior = new GeoJsonLinearRing();
-        for (var c in poly.first) {
+      for (List<dynamic> poly in polys) {
+        final Iterable<dynamic> holes =
+            poly.length > 1 ? poly.where((dynamic ring) => ring != poly.first) : <dynamic>[];
+        final GeoJsonLinearRing exterior = new GeoJsonLinearRing();
+        for (GeoJsonPolygon c in poly.first) {
           exterior.coordinates.add(new GeoJsonCoordinate(c[0] as num, c[1] as num));
         }
-        List<GeoJsonLinearRing> interior = [];
-        for (var h in holes) {
-          var inRing = new GeoJsonLinearRing();
-          for (var hc in h) {
+        final List<GeoJsonLinearRing> interior = <GeoJsonLinearRing>[];
+        for (dynamic h in holes) {
+          final GeoJsonLinearRing inRing = new GeoJsonLinearRing();
+          for (dynamic hc in h) {
             inRing.coordinates.add(new GeoJsonCoordinate(hc[0] as num, hc[1] as num));
           }
           interior.add(inRing);
         }
         polygons.add(new GeoJsonPolygon(exterior, interior));
-      }
+      }*/
     }
-    if (m["bbox"] is List<num>) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List<num>)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
-  Map toJson() {
-    Map m = <String, dynamic>{
-      "type": "MultiPolygon"
-    };
-    List<dynamic> list = <dynamic>[];
-    for (var p in polygons) {
-      var polyJson = p.toJson();
-      list.add(polyJson["coordinates"]);
+  @override
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'MultiPolygon'};
+    final List<dynamic> list = <dynamic>[];
+    for (GeoJsonPolygon p in polygons) {
+      final Map<String, dynamic> polyJson = p.toJson();
+      list.add(polyJson['coordinates']);
     }
-    m["coordinates"] = list;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['coordinates'] = list;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (polygons.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
       return;
     }
     GeoJsonBoundingBox box;
-    for (var p in polygons) {
-      box = box == null ? p.boundingBox : GeoJsonBoundingBox.merge(
-          box, p.boundingBox);
+    for (GeoJsonPolygon p in polygons) {
+      box = box == null ? p.boundingBox : new GeoJsonBoundingBox.merge(box, p.boundingBox);
     }
     _bbox = box;
   }
 }
 
-
 class GeoJsonGeometryCollection extends GeoJsonGeometry {
-
-  final List<GeoJsonGeometry> geometries = [];
+  final List<GeoJsonGeometry> geometries = <GeoJsonGeometry>[];
 
   GeoJsonGeometryCollection();
 
-  GeoJsonGeometryCollection.fromJson(Map m) {
-    if (m["geometries"] is List) {
-      for (Map g in m["geometries"]) {
+  GeoJsonGeometryCollection.fromJson(Map<String, dynamic> m) {
+    if (m['geometries'] is List) {
+      for (Map<String, dynamic> g in m['geometries']) {
         geometries.add(new GeoJsonGeometry.fromJson(g));
       }
     }
-    if (m["bbox"] is List) _bbox = new GeoJsonBoundingBox(
-        m["bbox"][0] as num, m["bbox"][1] as num, m["bbox"][2] as num, m["bbox"][3] as num);
+    if (m['bbox'] is List)
+      _bbox =
+          new GeoJsonBoundingBox(m['bbox'][0] as num, m['bbox'][1] as num, m['bbox'][2] as num, m['bbox'][3] as num);
   }
 
+  @override
   Map<String, dynamic> toJson() {
-    var m = <String, dynamic>{"type": "GeometryCollection"};
-    List<dynamic> list = <dynamic>[];
-    for (var g in geometries) {
+    final Map<String, dynamic> m = <String, dynamic>{'type': 'GeometryCollection'};
+    final List<dynamic> list = <dynamic>[];
+    for (GeoJsonGeometry g in geometries) {
       list.add(g.toJson());
     }
-    m["geometries"] = list;
-    if (_bbox != null) m["bbox"] = _bbox.toJson();
+    m['geometries'] = list;
+    if (_bbox != null) m['bbox'] = _bbox.toJson();
     return m;
   }
 
+  @override
   void _calculateBoundingBox() {
     if (geometries.isEmpty) {
       _bbox = new GeoJsonBoundingBox(0, 0, 0, 0);
       return;
     }
     GeoJsonBoundingBox box;
-    for (var g in geometries) {
-      box = box == null ? g.boundingBox : GeoJsonBoundingBox.merge(
-          box, g.boundingBox);
+    for (GeoJsonGeometry g in geometries) {
+      box = box == null ? g.boundingBox : new GeoJsonBoundingBox.merge(box, g.boundingBox);
     }
     _bbox = box;
   }

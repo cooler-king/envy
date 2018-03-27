@@ -3,10 +3,14 @@ import 'package:envy/ng/envy_scene.dart';
 import 'package:angular/angular.dart';
 import 'package:quantity/quantity.dart';
 
+// ignore_for_file: always_specify_types
+
 @Component(
-  selector: "test-geo",
+  selector: 'test-geo',
   templateUrl: 'test_geo.html',
-  directives: const [EnvyScene],
+  directives: const <Object>[
+    EnvyScene,
+  ],
 )
 class TestCircle2d implements AfterViewInit {
   @ViewChild('basic')
@@ -15,107 +19,110 @@ class TestCircle2d implements AfterViewInit {
   @ViewChild('geoJson')
   EnvyScene geoJsonScene;
 
+  @override
   void ngAfterViewInit() {
     testBasic(basicScene);
     testGeoJson(geoJsonScene);
   }
 
   void testBasic(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    var latitudes = [10, 20, 30, 20, -10, 10];
-    var longitudes = [-120, -60, 0, 60, 10, -120];
+    final List<num> latitudes = <num>[10, 20, 30, 20, -10, 10];
+    final List<num> longitudes = <num>[-120, -60, 0, 60, 10, -120];
 
-    var coordData = [
-      {"lats": latitudes, "longs": longitudes}
+    final List<Map<String, List<num>>> coordData = <Map<String, List<num>>>[
+      <String, List<num>>{'lats': latitudes, 'longs': longitudes}
     ];
 
     // Path
-    Path2d s = new Path2d();
-    canvas.addDataset("coords", list: coordData);
-    canvas.attach(s);
+    final Path2d s = new Path2d();
+    canvas
+      ..addDataset('coords', list: coordData)
+      ..attach(s);
 
-    var projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45)));
-    var latSource = new NumberListData("coords", canvas, prop: "lats");
-    var longSource = new NumberListData("coords", canvas, prop: "longs");
+    final ProjectionConstant projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45)));
+    final NumberListData latSource = new NumberListData('coords', canvas, prop: 'lats');
+    final NumberListData longSource = new NumberListData('coords', canvas, prop: 'longs');
 
     s.points.enter = new GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
     s.x.enter = new NumberConstant.array([200, 500, 800]);
     s.y.enter = new NumberConstant(100);
     s.lineWidth.enter = new NumberConstant(3);
     s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
     s.fill.enter = new BooleanConstant.array([true, true, false]);
     s.stroke.enter = new BooleanConstant.array([true, false, true]);
-    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.LINEAR_CLOSED);
+    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
 
     esg.updateGraph();
   }
 
   void testGeoJson(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    var geoJson = new GeoJson.map(nevada);
+    final GeoJson geoJson = new GeoJson.map(nevada);
 
-    var coordData = <dynamic>[];
+    final List<dynamic> coordData = <dynamic>[];
     for (var feature in geoJson.featureCollection.features) {
       if (feature.geometry is GeoJsonPolygon) {
-        var rings = [(feature.geometry as GeoJsonPolygon).exteriorRing];
-        rings.addAll((feature.geometry as GeoJsonPolygon).interiorRings);
+        final List<dynamic> rings = <dynamic>[(feature.geometry as GeoJsonPolygon).exteriorRing]
+          ..addAll((feature.geometry as GeoJsonPolygon).interiorRings);
         for (var ring in rings) {
-          var latitudes = <dynamic>[];
-          var longitudes = <dynamic>[];
+          final List<dynamic> latitudes = <dynamic>[];
+          final List<dynamic> longitudes = <dynamic>[];
           for (var coord in ring.coordinates) {
             longitudes.add(coord.longitude);
             latitudes.add(coord.latitude);
           }
-          coordData.add({"lats": latitudes, "longs": longitudes});
+          coordData.add({'lats': latitudes, 'longs': longitudes});
         }
       }
     }
 
     // Path
-    Path2d s = new Path2d();
-    canvas.addDataset("coords", list: coordData);
-    canvas.attach(s);
+    final Path2d s = new Path2d();
+    canvas
+      ..addDataset('coords', list: coordData)
+      ..attach(s);
 
-    AngleRange longRange = geoJson.longitudeRange;
-    num factor = 360 / longRange.span.valueInUnits(Angle.degrees).toDouble();
+    final AngleRange longRange = geoJson.longitudeRange;
+    final num factor = 360 / longRange.span.valueInUnits(Angle.degrees).toDouble();
 
-    GeoCoord center = geoJson.center;
+    final GeoCoord center = geoJson.center;
 
-    var projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45),
+    final ProjectionConstant projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45),
         width: 100 * factor,
         anchor: new GeoCoord.degrees(latDeg: center.degreesLatitude, longDeg: center.degreesLongitude)));
-    var latSource = new NumberListData("coords", canvas, prop: "lats");
-    var longSource = new NumberListData("coords", canvas, prop: "longs");
+    final NumberListData latSource = new NumberListData('coords', canvas, prop: 'lats');
+    final NumberListData longSource = new NumberListData('coords', canvas, prop: 'longs');
 
     s.points.enter = new GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
     s.x.enter = new NumberConstant(200);
     s.y.enter = new NumberConstant(100);
     s.lineWidth.enter = new NumberConstant(1);
     s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
     s.fill.enter = BooleanConstant.TRUE;
     s.stroke.enter = BooleanConstant.TRUE;
-    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.LINEAR_CLOSED);
+    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
 
     esg.updateGraph();
   }
 }
 
-Map nevada = <String, dynamic>{
-  "features": [
+Map<String, dynamic> nevada = <String, dynamic>{
+  'features': [
     {
-      "code": 32013,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32013,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.305165, 40.953176],
             [-119.324018, 40.952833],
@@ -144,11 +151,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32007,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32007,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-115.822196, 40.126751],
             [-115.98998, 40.127752],
@@ -169,11 +176,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32031,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32031,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.995304, 39.311545],
             [-119.996011, 39.443501],
@@ -244,11 +251,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32015,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32015,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-116.583191, 39.159171],
             [-117.343877, 39.157582],
@@ -296,11 +303,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32011,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32011,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-115.899573, 39.161796],
             [-116.583191, 39.159171],
@@ -328,11 +335,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32027,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32027,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-117.534606, 39.998272],
             [-118.670365, 39.994215],
@@ -351,11 +358,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32033,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32033,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-114.994171, 38.680836],
             [-115.900252, 39.15591],
@@ -384,11 +391,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32001,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32001,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-118.733468, 39.077077],
             [-118.735109, 39.12103],
@@ -488,11 +495,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32019,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32019,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.318825, 38.527109],
             [-119.320153, 38.661732],
@@ -589,11 +596,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32029,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32029,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.688162, 39.258693],
             [-119.682524, 39.282848],
@@ -626,11 +633,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32510,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32510,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.528017, 39.081131],
             [-119.736852, 39.083958],
@@ -663,11 +670,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32023,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32023,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-115.88137, 36.838899],
             [-115.885769, 36.001226],
@@ -694,11 +701,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32005,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32005,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-119.575687, 38.70291],
             [-119.889342, 38.922252],
@@ -738,11 +745,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32021,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32021,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-118.41742, 37.886677],
             [-119.15245, 38.411801],
@@ -765,11 +772,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32017,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32017,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-114.043716, 36.841849],
             [-114.870837, 36.843424],
@@ -792,11 +799,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32009,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32009,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-117.160424, 36.959594],
             [-117.838686, 37.457298],
@@ -813,11 +820,11 @@ Map nevada = <String, dynamic>{
       }
     },
     {
-      "code": 32003,
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
-        "coordinates": [
+      'code': 32003,
+      'type': 'Feature',
+      'geometry': {
+        'type': 'Polygon',
+        'coordinates': [
           [
             [-114.621069, 34.998914],
             [-115.626197, 35.795698],
@@ -880,5 +887,5 @@ Map nevada = <String, dynamic>{
       }
     }
   ],
-  "type": "FeatureCollection"
+  'type': 'FeatureCollection'
 };

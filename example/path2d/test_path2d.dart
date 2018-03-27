@@ -1,14 +1,16 @@
 import 'dart:html';
-import 'dart:math' as Math;
+import 'dart:math';
 import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_scene.dart';
 import 'package:quantity/quantity.dart';
 import 'package:angular/angular.dart';
 
 @Component(
-  selector: "test-path2d",
+  selector: 'test-path2d',
   templateUrl: 'test_path2d.html',
-  directives: const [EnvyScene],
+  directives: const <Object>[
+    EnvyScene,
+  ],
 )
 class TestPath2d implements AfterViewInit {
   @ViewChild('basic')
@@ -43,6 +45,7 @@ class TestPath2d implements AfterViewInit {
   @ViewChild('dataButton', read: Element)
   Element dataButton;
 
+  @override
   void ngAfterViewInit() {
     testBasic(basicScene);
     testRotation(rotationScene);
@@ -53,104 +56,108 @@ class TestPath2d implements AfterViewInit {
     testHit(hitScene);
   }
 
-  var pointData = new PointList(
-      [new Point(1, 5), new Point(20, 20), new Point(40, 10), new Point(60, 40), new Point(80, 5), new Point(100, 60)]);
+  PointList pointData = new PointList(<Point<num>>[
+    const Point<num>(1, 5),
+    const Point<num>(20, 20),
+    const Point<num>(40, 10),
+    const Point<num>(60, 40),
+    const Point<num>(80, 5),
+    const Point<num>(100, 60),
+  ]);
 
   void testBasic(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Path
-    Path2d s = new Path2d();
-    canvas.addDataset("points", list: pointData);
-    canvas.attach(s);
+    final Path2d s = new Path2d();
+    canvas
+      ..addDataset('points', list: pointData)
+      ..attach(s);
 
-    s.points.enter = new PointListData("points", canvas);
-    s.x.enter = new NumberConstant.array([50, 250, 450]);
+    s.points.enter = new PointListData('points', canvas);
+    s.x.enter = new NumberConstant.array(<num>[50, 250, 450]);
     s.y.enter = new NumberConstant(10);
     s.lineWidth.enter = new NumberConstant(5);
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
-    s.fill.enter = new BooleanConstant.array([true, true, false]);
-    s.stroke.enter = new BooleanConstant.array([true, false, true]);
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
+    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
+    s.fill.enter = new BooleanConstant.array(<bool>[true, true, false]);
+    s.stroke.enter = new BooleanConstant.array(<bool>[true, false, true]);
 
     esg.updateGraph();
   }
 
   void testRotation(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
-    canvas.addDataset("points", list: pointData);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
     // Path
-    Path2d s = new Path2d();
+    final Path2d s = new Path2d();
     canvas.attach(s);
 
-    s.points.enter = new PointListData("points", canvas);
-    s.x.enter = new NumberConstant.array([50, 150, 250, 350, 450]);
+    s.points.enter = new PointListData('points', canvas);
+    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = new NumberConstant(50);
     s.rotation.enter = new AngleConstant.array(
-        [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
 
     esg.updateGraph();
   }
 
   void testAnchors(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 200);
-    canvas.addDataset("points", list: pointData);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 200)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    Path2d s = new Path2d();
+    final Path2d s = new Path2d();
     canvas.attach(s);
 
-    List<num> xList = [50, 250, 450, 650, 850, 1050, 1250, 1450, 1650, 1850];
+    final List<num> xList = <num>[50, 250, 450, 650, 850, 1050, 1250, 1450, 1650, 1850];
 
-    s.points.enter = new PointListData("points", canvas);
+    s.points.enter = new PointListData('points', canvas);
     s.x.enter = new NumberConstant.array(xList);
     s.y.enter = new NumberConstant(100);
     s.lineWidth.enter = new NumberConstant(1);
     s.rotation.enter = new AngleConstant(new Angle(deg: 0));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
     s.stroke.enter = new BooleanConstant(true);
-    s.anchor.enter = new Anchor2dConstant.array([
-      new Anchor2d(mode: AnchorMode2d.DEFAULT),
-      new Anchor2d(mode: AnchorMode2d.CENTER),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM_LEFT),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM_RIGHT),
-      new Anchor2d(mode: AnchorMode2d.LEFT),
-      new Anchor2d(mode: AnchorMode2d.RIGHT),
-      new Anchor2d(mode: AnchorMode2d.TOP),
-      new Anchor2d(mode: AnchorMode2d.TOP_LEFT),
-      new Anchor2d(mode: AnchorMode2d.TOP_RIGHT)
+    s.anchor.enter = new Anchor2dConstant.array(<Anchor2d>[
+      new Anchor2d(mode: AnchorMode2d.defaultMode),
+      new Anchor2d(mode: AnchorMode2d.center),
+      new Anchor2d(mode: AnchorMode2d.bottom),
+      new Anchor2d(mode: AnchorMode2d.bottomLeft),
+      new Anchor2d(mode: AnchorMode2d.bottomRight),
+      new Anchor2d(mode: AnchorMode2d.left),
+      new Anchor2d(mode: AnchorMode2d.right),
+      new Anchor2d(mode: AnchorMode2d.top),
+      new Anchor2d(mode: AnchorMode2d.topLeft),
+      new Anchor2d(mode: AnchorMode2d.topRight)
     ]);
 
     // Circles to mark the anchors
-    Circle2d c = new Circle2d();
+    final Circle2d c = new Circle2d();
     canvas.attach(c);
     c.x.enter = new NumberConstant.array(xList);
     c.y.enter = new NumberConstant(100);
     c.radius.enter = new NumberConstant(2);
     c.lineWidth.enter = new NumberConstant(1);
-    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
     c.stroke.enter = new BooleanConstant(false);
 
     esg.updateGraph();
   }
 
   void testLifecycle(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode();
-    canvas.addDataset("points", list: pointData);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode()..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
-    Path2d s = new Path2d();
+    final Path2d s = new Path2d();
     canvas.attach(s);
 
     enterButton.onClick.listen((_) {
-      s.points.enter = new PointListData("points", canvas);
+      s.points.enter = new PointListData('points', canvas);
       s.x.enter = new NumberConstant(50);
       s.y.enter = new NumberConstant(50);
       s.lineWidth.enter = new NumberConstant(1);
@@ -168,8 +175,9 @@ class TestPath2d implements AfterViewInit {
       esg.updateGraph();
     });
 
+    // ignore: cascade_invocations
     updateButton.onClick.listen((_) {
-      s.points.enter = new PointListData("points", canvas);
+      s.points.enter = new PointListData('points', canvas);
       s.x.enter = new NumberConstant(50);
       s.y.enter = new NumberConstant(50);
       s.lineWidth.enter = new NumberConstant(1);
@@ -177,23 +185,24 @@ class TestPath2d implements AfterViewInit {
       s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
       s.opacity.enter = new NumberConstant(1);
 
-      s.points.update = new PointListData("points", canvas);
+      s.points.update = new PointListData('points', canvas);
       s.x.update = new NumberConstant(200);
       s.y.update = new NumberConstant(100);
       s.lineWidth.update = new NumberConstant(3);
       s.rotation.update = new AngleConstant(new Angle(deg: 720));
-      s.strokeStyle.update = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.BLUE));
+      s.strokeStyle.update = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
       s.opacity.update = new NumberConstant(1);
       esg.updateGraph();
     });
 
+    // ignore: cascade_invocations
     exitButton.onClick.listen((_) {
-      s.points.exit = new PointListData("points", canvas);
+      s.points.exit = new PointListData('points', canvas);
       s.x.exit = new NumberConstant(400);
       s.y.exit = new NumberConstant(10);
       s.lineWidth.exit = new NumberConstant(3);
       s.rotation.exit = new AngleConstant(new Angle(deg: 0));
-      s.strokeStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+      s.strokeStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
       s.stroke.exit = new BooleanConstant(false);
       s.opacity.exit = new NumberConstant(0);
 
@@ -218,13 +227,12 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testDataDriven(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode();
-    canvas.addDataset("points", list: pointData);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode()..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    Path2d s = new Path2d();
-    s.points.enter = new PointListData("points", canvas);
+    final Path2d s = new Path2d();
+    s.points.enter = new PointListData('points', canvas);
     s.x.enter = new NumberConstant(50);
     s.y.enter = new NumberConstant(50);
     s.lineWidth.enter = new NumberConstant(1);
@@ -236,43 +244,44 @@ class TestPath2d implements AfterViewInit {
     esg.updateGraph();
 
     dataButton.onClick.listen((_) {
-      Math.Random rand = new Math.Random();
-      var newPointData = new PointList([
-        new Point(1, rand.nextDouble() * 300),
-        new Point(20, rand.nextDouble() * 300),
-        new Point(40, rand.nextDouble() * 300),
-        new Point(60, rand.nextDouble() * 300),
-        new Point(80, rand.nextDouble() * 300),
-        new Point(100 + rand.nextDouble() * 100, rand.nextDouble() * 300)
+      final Random rand = new Random();
+      final PointList newPointData = new PointList(<Point<num>>[
+        new Point<num>(1, rand.nextDouble() * 300),
+        new Point<num>(20, rand.nextDouble() * 300),
+        new Point<num>(40, rand.nextDouble() * 300),
+        new Point<num>(60, rand.nextDouble() * 300),
+        new Point<num>(80, rand.nextDouble() * 300),
+        new Point<num>(100 + rand.nextDouble() * 100, rand.nextDouble() * 300)
       ]);
 
-      canvas.addDataset("points", list: newPointData);
+      canvas.addDataset('points', list: newPointData);
       esg.updateGraph();
     });
   }
 
   void testInterpolation(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Path
-    Path2d s = new Path2d();
-    canvas.addDataset("points", list: pointData);
-    canvas.attach(s);
+    final Path2d s = new Path2d();
+    canvas
+      ..addDataset('points', list: pointData)
+      ..attach(s);
 
-    s.points.enter = new PointListData("points", canvas);
-    s.interpolation.enter = new PathInterpolation2dConstant.array([
-      PathInterpolation2d.LINEAR,
-      PathInterpolation2d.LINEAR_CLOSED,
-      PathInterpolation2d.STEP_BEFORE,
-      PathInterpolation2d.STEP_AFTER,
-      PathInterpolation2d.DIAGONAL
+    s.points.enter = new PointListData('points', canvas);
+    s.interpolation.enter = new PathInterpolation2dConstant.array(<PathInterpolation2d>[
+      PathInterpolation2d.linear,
+      PathInterpolation2d.linearClosed,
+      PathInterpolation2d.stepBefore,
+      PathInterpolation2d.stepAfter,
+      PathInterpolation2d.diagonal
     ]);
-    s.x.enter = new NumberConstant.array([50, 250, 450, 650, 850]);
+    s.x.enter = new NumberConstant.array(<num>[50, 250, 450, 650, 850]);
     s.y.enter = new NumberConstant(10);
     s.lineWidth.enter = new NumberConstant(3);
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.magenta));
     s.stroke.enter = BooleanConstant.TRUE;
     s.fill.enter = BooleanConstant.TRUE;
@@ -281,39 +290,37 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testHit(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 500);
-    canvas.addDataset("points", list: pointData);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 500)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    Path2d s = new Path2d();
+    final Path2d s = new Path2d();
     canvas.attach(s);
 
-    s.x.enter = new NumberConstant.array([50, 200, 350, 500, 550]);
+    s.x.enter = new NumberConstant.array(<num>[50, 200, 350, 500, 550]);
     s.y.enter = new NumberConstant(50);
-    s.points.enter = new PointListData("points", canvas);
+    s.points.enter = new PointListData('points', canvas);
     s.lineWidth.enter = new NumberConstant(5);
     s.stroke.enter = BooleanConstant.TRUE;
-    s.strokeStyle.enter = new DrawingStyle2dConstant.array([
-      new DrawingStyle2d(color: Color.BLUE),
-      new DrawingStyle2d(color: Color.BLUE),
-      new DrawingStyle2d(color: Color.BLUE),
+    s.strokeStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
+      new DrawingStyle2d(color: Color.blue),
+      new DrawingStyle2d(color: Color.blue),
+      new DrawingStyle2d(color: Color.blue),
       new DrawingStyle2d(color: Color.black),
-      new DrawingStyle2d(color: Color.RED)
+      new DrawingStyle2d(color: Color.red)
     ]);
 
     s.rotation.enter = new AngleConstant.array(
-        [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-    s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "CLICKED ${g2di}");
+        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'CLICKED $g2di');
     s.onDoubleClick
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
-    s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
-    s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
-    s.onMouseOver
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+        .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'DOUBLE-CLICKED $g2di');
+    s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'ENTER $g2di');
+    s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'OUT $g2di');
+    s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-over').innerHtml = 'OVER $g2di');
     s.onMouseDown
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
-    s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+        .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-downup').innerHtml = 'DOWN $g2di');
+    s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-downup').innerHtml = 'UP $g2di');
 
     esg.updateGraph();
   }

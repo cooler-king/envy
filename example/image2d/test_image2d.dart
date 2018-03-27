@@ -6,9 +6,9 @@ import 'package:quantity/quantity.dart';
 import 'package:angular/angular.dart';
 
 @Component(
-  selector: "test-image2d",
+  selector: 'test-image2d',
   templateUrl: 'test_image2d.html',
-  directives: const [EnvyScene],
+  directives: const <Object>[EnvyScene],
 )
 class TestImage2d implements AfterViewInit {
   @ViewChild('basic')
@@ -44,6 +44,7 @@ class TestImage2d implements AfterViewInit {
   @ViewChild('dataButton', read: Element)
   Element dataButton;
 
+  @override
   void ngAfterViewInit() {
     testBasic(basicScene);
     testRotation(rotationScene);
@@ -54,23 +55,24 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
-    CssStyle css = new CssStyle();
-    css["opacity"] = new CssNumber(0.5);
+    final CssStyle css = new CssStyle();
+    css['opacity'] = new CssNumber(0.5);
     image.style.enter = new CssStyleConstant(css);
 
     //s.source = new CanvasImageSource()
@@ -83,94 +85,97 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testRotation(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 100);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
-    s.x.enter = new NumberConstant.array([50, 150, 250, 350, 450]);
+    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = new NumberConstant(10);
     s.width.enter = new NumberConstant(40);
     s.height.enter = new NumberConstant(40);
     s.rotation.enter = new AngleConstant.array(
-        [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
 
     esg.updateGraph();
   }
 
   void testAnchors(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 200);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
-    List<num> xList = [50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+    final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
     s.x.enter = new NumberConstant.array(xList);
     s.y.enter = new NumberConstant(100);
     s.width.enter = new NumberConstant(40);
     s.height.enter = new NumberConstant(40);
-    s.anchor.enter = new Anchor2dConstant.array([
-      new Anchor2d(mode: AnchorMode2d.DEFAULT),
-      new Anchor2d(mode: AnchorMode2d.CENTER),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM_LEFT),
-      new Anchor2d(mode: AnchorMode2d.BOTTOM_RIGHT),
-      new Anchor2d(mode: AnchorMode2d.LEFT),
-      new Anchor2d(mode: AnchorMode2d.RIGHT),
-      new Anchor2d(mode: AnchorMode2d.TOP),
-      new Anchor2d(mode: AnchorMode2d.TOP_LEFT),
-      new Anchor2d(mode: AnchorMode2d.TOP_RIGHT)
+    s.anchor.enter = new Anchor2dConstant.array(<Anchor2d>[
+      new Anchor2d(mode: AnchorMode2d.defaultMode),
+      new Anchor2d(mode: AnchorMode2d.center),
+      new Anchor2d(mode: AnchorMode2d.bottom),
+      new Anchor2d(mode: AnchorMode2d.bottomLeft),
+      new Anchor2d(mode: AnchorMode2d.bottomRight),
+      new Anchor2d(mode: AnchorMode2d.left),
+      new Anchor2d(mode: AnchorMode2d.right),
+      new Anchor2d(mode: AnchorMode2d.top),
+      new Anchor2d(mode: AnchorMode2d.topLeft),
+      new Anchor2d(mode: AnchorMode2d.topRight)
     ]);
 
     // Circles to mark the anchors
-    Circle2d c = new Circle2d();
+    final Circle2d c = new Circle2d();
     canvas.attach(c);
     c.x.enter = new NumberConstant.array(xList);
     c.y.enter = new NumberConstant(100);
     c.radius.enter = new NumberConstant(2);
     c.lineWidth.enter = new NumberConstant(1);
-    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
+    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
     c.stroke.enter = new BooleanConstant(false);
 
     esg.updateGraph();
   }
 
   void testLifecycle(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode();
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode();
     esg.attachToRoot(canvas);
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
     enterButton.onClick.listen((_) {
       s.x.enter = new NumberConstant(50);
@@ -190,6 +195,7 @@ class TestImage2d implements AfterViewInit {
       esg.updateGraph();
     });
 
+    // ignore: cascade_invocations
     updateButton.onClick.listen((_) {
       s.x.enter = new NumberConstant(50);
       s.y.enter = new NumberConstant(50);
@@ -207,6 +213,7 @@ class TestImage2d implements AfterViewInit {
       esg.updateGraph();
     });
 
+    // ignore: cascade_invocations
     exitButton.onClick.listen((_) {
       s.x.exit = new NumberConstant(400);
       s.y.exit = new NumberConstant(10);
@@ -234,86 +241,93 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testDataDriven(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode();
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode();
     esg.attachToRoot(canvas);
-    Map datamap = <String, int>{"xcoord": 100, "ycoord": 50, "width": 50, "height": 20, "opacity": 1};
-    canvas.addDataset("imagedata", map: datamap);
+    final Map<String, int> datamap = <String, int>{
+      'xcoord': 100,
+      'ycoord': 50,
+      'width': 50,
+      'height': 20,
+      'opacity': 1
+    };
+    canvas.addDataset('imagedata', map: datamap);
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
-    s.x.enter = new NumberData("imagedata", canvas, prop: "xcoord");
-    s.y.enter = new NumberData("imagedata", canvas, prop: "ycoord");
-    s.width.enter = new NumberData("imagedata", canvas, prop: "width");
-    s.height.enter = new NumberData("imagedata", canvas, prop: "height");
-    s.opacity.enter = new NumberData("imagedata", canvas, prop: "opacity");
-    s.rotation.enter = new AngleData("imagedata", canvas, prop: "rot");
+    s.x.enter = new NumberData('imagedata', canvas, prop: 'xcoord');
+    s.y.enter = new NumberData('imagedata', canvas, prop: 'ycoord');
+    s.width.enter = new NumberData('imagedata', canvas, prop: 'width');
+    s.height.enter = new NumberData('imagedata', canvas, prop: 'height');
+    s.opacity.enter = new NumberData('imagedata', canvas, prop: 'opacity');
+    s.rotation.enter = new AngleData('imagedata', canvas, prop: 'rot');
 
     esg.updateGraph();
 
     dataButton.onClick.listen((_) {
-      Random rand = new Random();
-      Map randomData = <String, dynamic>{
-        "xcoord": 150 + rand.nextDouble() * 100,
-        "ycoord": 140 + rand.nextDouble() * 50,
-        "width": 40 + rand.nextDouble() * 100,
-        "height": 40 + rand.nextDouble() * 100,
-        "opacity": rand.nextDouble(),
-        "rot": new Angle(deg: rand.nextDouble() * 360)
+      final Random rand = new Random();
+      final Map<String, dynamic> randomData = <String, dynamic>{
+        'xcoord': 150 + rand.nextDouble() * 100,
+        'ycoord': 140 + rand.nextDouble() * 50,
+        'width': 40 + rand.nextDouble() * 100,
+        'height': 40 + rand.nextDouble() * 100,
+        'opacity': rand.nextDouble(),
+        'rot': new Angle(deg: rand.nextDouble() * 360)
       };
-      canvas.addDataset("imagedata", map: randomData);
+      canvas.addDataset('imagedata', map: randomData);
       esg.updateGraph();
     });
   }
 
   void testHit(EnvyScene e) {
-    EnvySceneGraph esg = e.sceneGraph;
-    CanvasNode canvas = new CanvasNode(1000, 500);
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 500);
     esg.attachToRoot(canvas);
 
-    canvas.onClick.listen((e) => querySelector("#hit-feedback").innerHtml = "CLICKED BACKGROUND ${e}");
+    canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    ImageNode image = new ImageNode()
+    final ImageNode image = new ImageNode()
       ..src.enter = new StringConstant(
-          "https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png");
+          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
 
     // Image
-    Image2d s = new Image2d(image);
-    canvas.attach(s);
+    final Image2d s = new Image2d(image);
+    canvas
+      ..attach(s)
 
-    // Image has to be part of scene graph
-    canvas.attach(image);
+      // Image has to be part of scene graph
+      ..attach(image);
 
-    s.x.enter = new NumberConstant.array([50, 150, 250, 350, 375]);
+    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 375]);
     s.y.enter = new NumberConstant(50);
     s.width.enter = new NumberConstant(40);
     s.height.enter = new NumberConstant(40);
     s.rotation.enter = new AngleConstant.array(
-        [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-    s.data.enter = new NumberConstant.array([10, 20, 30, 40, 50]);
+        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.data.enter = new NumberConstant.array(<num>[10, 20, 30, 40, 50]);
 
     s.rotation.enter = new AngleConstant.array(
-        [new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-    s.onClick.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml =
-        "CLICKED ${g2di}... data = ${g2di.graphic2d.data.valueAt(g2di.index)}");
+        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml =
+        'CLICKED $g2di... data = ${g2di.graphic2d.data.valueAt(g2di.index)}');
     s.onDoubleClick
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "DOUBLE-CLICKED ${g2di}");
-    s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "ENTER ${g2di}");
-    s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback").innerHtml = "OUT ${g2di}");
-    s.onMouseOver
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-over").innerHtml = "OVER ${g2di}");
+        .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'DOUBLE-CLICKED $g2di');
+    s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'ENTER $g2di');
+    s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'OUT $g2di');
+    s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-over').innerHtml = 'OVER $g2di');
     s.onMouseDown
-        .listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "DOWN ${g2di}");
-    s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector("#hit-feedback-downup").innerHtml = "UP ${g2di}");
+        .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-downup').innerHtml = 'DOWN $g2di');
+    s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback-downup').innerHtml = 'UP $g2di');
 
     esg.updateGraph();
   }

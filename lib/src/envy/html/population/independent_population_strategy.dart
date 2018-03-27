@@ -11,19 +11,15 @@ import 'population_strategy.dart';
 class IndependentPopulationStrategy extends PopulationStrategy {
   static IndependentPopulationStrategy _instance;
 
-  factory IndependentPopulationStrategy() => instance;
+  factory IndependentPopulationStrategy() => _instance ??= new IndependentPopulationStrategy._internal();
 
   IndependentPopulationStrategy._internal();
 
-  static IndependentPopulationStrategy get instance {
-    if (_instance == null) _instance = new IndependentPopulationStrategy._internal();
-    return _instance;
-  }
-
   /// Generate the coupling list.
   ///
+  @override
   List<DomNodeCoupling> determineCoupling(int parentCount, int childCount) {
-    List<DomNodeCoupling> list = [];
+    final List<DomNodeCoupling> list = <DomNodeCoupling>[];
 
     int c;
     for (int p = 0; p < parentCount; p++) {

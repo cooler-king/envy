@@ -1,7 +1,7 @@
 import 'dart:math' show max;
-import 'color_source.dart';
-import '../number/number_source.dart';
 import '../../../color/color.dart';
+import '../number/number_source.dart';
+import 'color_source.dart';
 
 class ColorRgb extends ColorSource {
   // 0 - 1
@@ -12,6 +12,7 @@ class ColorRgb extends ColorSource {
   ColorRgb(this.red, this.green, this.blue);
 
   //TODO -- array length considerations???
+  @override
   Color valueAt(int i) {
     //TODO check for nulls?
     return new Color(
@@ -22,8 +23,10 @@ class ColorRgb extends ColorSource {
     //return super.valueAt(i);
   }
 
+  @override
   int get rawSize => max(max(red.rawSize, green.rawSize), blue.rawSize);
 
   // No-op refresh
+  @override
   void refresh() {}
 }

@@ -1,21 +1,24 @@
-import 'dart:math' as Math;
+import 'dart:math';
 import 'number_source.dart';
 
 class RandomNumber extends NumberSource {
-  final Math.Random generator = new Math.Random(new DateTime.now().millisecond);
+  final Random generator = new Random(new DateTime.now().millisecond);
 
-  NumberSource min;
-  NumberSource max;
+  NumberSource minSource;
+  NumberSource maxSource;
 
-  RandomNumber(this.min, this.max);
+  RandomNumber(this.minSource, this.maxSource);
 
+  @override
   num valueAt(int i) {
-    num minValue = min.valueAt(i);
-    return minValue + generator.nextDouble() * (max.valueAt(i) - minValue);
+    final num minValue = minSource.valueAt(i);
+    return minValue + generator.nextDouble() * (maxSource.valueAt(i) - minValue);
   }
 
-  int get rawSize => Math.max(min.rawSize, max.rawSize);
+  @override
+  int get rawSize => max(minSource.rawSize, maxSource.rawSize);
 
   // No-op refresh
+  @override
   void refresh() {}
 }

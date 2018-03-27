@@ -1,7 +1,6 @@
 import 'dynamic_node.dart';
 import 'envy_node.dart';
 
-
 /// A generic group nodes holds any number of child nodes but has
 /// no other state and no rendered component.
 ///
@@ -10,7 +9,7 @@ class GroupNode extends EnvyNode {
   //final ObservableList<EnvyNode> children = new ObservableList.from([]);
 
   // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List.from(<EnvyNode>[]);
+  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
 
   GroupNode() {
     /*
@@ -64,6 +63,7 @@ class GroupNode extends EnvyNode {
 
   /// Set start and target values for an animation update for each property.
   ///
+  @override
   void prepareForAnimation() {
     //print("Timed item group preparing for animation");
     if (this is DynamicNode) (this as DynamicNode).preparePropertiesForAnimation();
@@ -73,7 +73,7 @@ class GroupNode extends EnvyNode {
         (child as DynamicNode)._prepareForAnimation();
     });*/
 
-    for (var child in children) {
+    for (EnvyNode child in children) {
       if (child is DynamicNode) (child as DynamicNode).preparePropertiesForAnimation();
       if (child is GroupNode) child.prepareForAnimation();
     }
@@ -92,7 +92,7 @@ class GroupNode extends EnvyNode {
     groupUpdatePre(timeFraction, context: context, finish: finish);
 
     // Update children
-    for (var child in children) {
+    for (EnvyNode child in children) {
       //int start = new DateTime.now().millisecondsSinceEpoch;
       //print("group update node = ${child}");
       child.update(timeFraction, context: context, finish: finish);
@@ -122,8 +122,9 @@ class GroupNode extends EnvyNode {
     } else {
       children.insert(index, node);
     }
-    node.parent = this;
-    node.prepareForAnimation();
+    node
+      ..parent = this
+      ..prepareForAnimation();
     return true;
   }
 
@@ -135,7 +136,7 @@ class GroupNode extends EnvyNode {
   ///
   bool detach(EnvyNode node) {
     if (node == null) return false;
-    bool tf = children.remove(node);
+    final bool tf = children.remove(node);
     node.parent = null;
     return tf;
   }

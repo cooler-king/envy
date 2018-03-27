@@ -1,9 +1,9 @@
 import '../interpolate/binary_interpolator.dart';
 import '../interpolate/css_style_interpolator.dart';
 import '../interpolate/envy_interpolator.dart';
-import 'enum/css_length_units.dart';
-import 'css_adapter.dart';
 import '../util/css_util.dart';
+import 'css_adapter.dart';
+import 'enum/css_length_units.dart';
 
 /// All CSS properties can have 'initial' or 'inherit' values.
 ///
@@ -11,16 +11,18 @@ abstract class CssProperty implements CssAdapter {
   bool initial = false;
   bool inherit = false;
 
+  @override
   String get css {
     if (inherit) return 'inherit';
     if (initial) return 'initial';
-    return "";
+    return '';
   }
 
   EnvyInterpolator<CssProperty> get interpolator;
 }
 
 class CssString extends CssProperty {
+  @override
   EnvyInterpolator<CssString> get interpolator => new BinaryInterpolator<CssString>();
 }
 
@@ -29,8 +31,9 @@ class CssNumber extends CssProperty {
 
   CssNumber([this.value]);
 
+  @override
   String get css {
-    if (value != null) return "${value}";
+    if (value != null) return '$value';
     return super.css;
   }
 
@@ -43,6 +46,7 @@ class CssNumber extends CssProperty {
     }
   }*/
 
+  @override
   EnvyInterpolator<CssNumber> get interpolator => new CssNumberInterpolator();
 }
 
@@ -68,11 +72,13 @@ class CssLength extends CssProperty {
   CssLength.vmax(this.value) : units = CssLengthUnits.vmax;
   CssLength.vmin(this.value) : units = CssLengthUnits.vmin;
 
+  @override
   String get css {
-    if (value != null) return "${value}${units?.value ?? 'px'}";
+    if (value != null) return '$value${units?.value ?? 'px'}';
     return super.css;
   }
 
+  @override
   EnvyInterpolator<CssLength> get interpolator => new CssLengthInterpolator();
 
   CssLength get inPixels {
@@ -86,5 +92,6 @@ class CssOpacity extends CssNumber {
 }
 
 class CssTransform extends CssProperty {
+  @override
   EnvyInterpolator<CssTransform> get interpolator => new CssTransformInterpolator();
 }

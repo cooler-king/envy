@@ -4,20 +4,19 @@ import 'package:envy/envy.dart';
 
 void main() {
   group('Envy Property', () {
-    test('Contructors', () {
-      var p = new GenericProperty(defaultValue: "someValue");
+    test('Constructors', () {
+      GenericProperty p = new GenericProperty(defaultValue: 'someValue');
       expect(p is EnvyProperty, true);
-      expect(p.defaultValue, "someValue");
+      expect(p.defaultValue, 'someValue');
 
       p = new GenericProperty(defaultValue: 42);
       expect(p.defaultValue, 42);
     });
 
-    var p = new NakedProperty(defaultValue: 1234);
-
-    p.enter = new NumberConstant.array([1, 2, 3, 4, 5]);
-    p.update = new NumberConstant.array([66, 77, 88, 99, 110]);
-    p.exit = new NumberConstant.array([-99, -98, -97, -96, -95]);
+    final NakedProperty p = new NakedProperty(defaultValue: 1234)
+      ..enter = new NumberConstant.array(<num>[1, 2, 3, 4, 5])
+      ..update = new NumberConstant.array(<num>[66, 77, 88, 99, 110])
+      ..exit = new NumberConstant.array(<num>[-99, -98, -97, -96, -95]);
 
     test('_preparePropertyForAnimation', () {
       p.preparePropertyForAnimation(5);
@@ -35,8 +34,9 @@ void main() {
     });
 
     test('updateValues', () {
-      p.preparePropertyForAnimation(5);
-      p.updateValues(0);
+      p
+        ..preparePropertyForAnimation(5)
+        ..updateValues(0);
       expect(p.currentValues[0], 1);
       expect(p.currentValues[1], 2);
       expect(p.currentValues[2], 3);

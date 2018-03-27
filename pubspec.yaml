@@ -1,30 +1,22 @@
 name: envy
 description: An experimental information visualization framework.
-version: 0.1.0
+version: 0.2.0
 author: Rob Bishop <@robbishop65@gmail.com>
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:
-  sdk: ">=1.24.0 <=2.0.0"
+  sdk: '>=2.0.0-dev.28.0 <2.0.0'
 dependencies:
-  angular: "^4.0.0"
-  browser: "^0.10.0"
-  collection: ">=1.14.0"
-  quantity: "^0.1.0"
-  vector_math: "^2.0.5"
+  angular: ^5.0.0-alpha
+  collection: ^1.14.0
+  quantity: ^0.1.0
+  vector_math: ^2.0.5
 dev_dependencies:
-  test: "^0.12.15"
+  angular_test: ^2.0.0-alpha
+  build_runner: ^0.8.0
+  build_test: ^0.10.0
+  build_web_compilers: ^0.3.0
+  test: ^0.12.30
 dependency_overrides:
   quantity:
     path: ../quantity/
-transformers:
-- angular:
-    entry_points: example/examples.dart
-
-- test/pub_serve:
-    $include: test/**_test.dart
-
-# Make pub serve use dartdevc (webdev.dartlang.org/tools/dartdevc).
-web:
-  compiler:
-    debug: dartdevc

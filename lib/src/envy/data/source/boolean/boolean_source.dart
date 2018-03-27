@@ -7,13 +7,14 @@ class BooleanConstant extends ArrayDataSource<bool> implements BooleanSource {
   static final BooleanConstant FALSE = new BooleanConstant(false);
 
   BooleanConstant(bool tf) {
-    this.values.add(tf);
+    values.add(tf);
   }
 
   BooleanConstant.array(List<bool> bools) {
-    this.values.addAll(bools);
+    values.addAll(bools);
   }
 
   // No-op refresh
+  @override
   void refresh() {}
 }

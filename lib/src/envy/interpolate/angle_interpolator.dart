@@ -24,6 +24,7 @@ class AngleInterpolator extends EnvyInterpolator<Angle> {
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
+  @override
   Angle interpolate(Angle a, Angle b, num fraction) => (!clamped || (fraction > 0 && fraction < 1))
       ? new Angle(rad: a.mks.toDouble() + (b.mks.toDouble() - a.mks.toDouble()) * fraction)
       : ((fraction <= 0) ? a : b);

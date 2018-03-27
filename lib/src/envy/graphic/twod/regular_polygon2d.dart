@@ -1,5 +1,5 @@
 import 'dart:html';
-import 'dart:math' as Math;
+import 'dart:math';
 import '../../envy_property.dart';
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
@@ -15,13 +15,14 @@ class RegularPolygon2d extends Graphic2dNode {
   }
 
   void _initProperties() {
-    properties["pointCount"] = new NumberProperty();
-    properties["radius"] = new NumberProperty();
+    properties['pointCount'] = new NumberProperty();
+    properties['radius'] = new NumberProperty();
   }
 
-  NumberProperty get pointCount => properties["pointCount"] as NumberProperty;
-  NumberProperty get radius => properties["radius"] as NumberProperty;
+  NumberProperty get pointCount => properties['pointCount'] as NumberProperty;
+  NumberProperty get radius => properties['radius'] as NumberProperty;
 
+  @override
   void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _radius;
     _pointCount = pointCount.valueAt(i);
@@ -34,26 +35,27 @@ class RegularPolygon2d extends Graphic2dNode {
     // Adjust for anchor (default is center of RegularPolygon)
     _x = 0;
     _y = 0;
-    Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(i);
     if (_anchor != null) {
-      List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
+      final List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
       _x += adj[0];
       _y += adj[1];
     }
 
-    num halfAngleStepRad = Math.PI / _pointCount;
-    num angleStepRad = 2.0 * halfAngleStepRad;
+    final num halfAngleStepRad = pi / _pointCount;
+    final num angleStepRad = 2.0 * halfAngleStepRad;
     num preAngleRad = -halfAngleStepRad;
     num postAngleRad = halfAngleStepRad;
-    bool _fill = fill.valueAt(i);
-    bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(i);
+    final bool _stroke = stroke.valueAt(i);
 
     //Path2D p = new Path2D();
     //paths.add(p);
-    ctx.beginPath();
-    ctx.moveTo(_x + Math.sin(preAngleRad) * _radius, _y + Math.cos(preAngleRad) * _radius);
+    ctx
+      ..beginPath()
+      ..moveTo(_x + sin(preAngleRad) * _radius, _y + cos(preAngleRad) * _radius);
     for (int i = 0; i < _pointCount; i++) {
-      ctx.lineTo(Math.sin(postAngleRad) * _radius, Math.cos(postAngleRad) * _radius);
+      ctx.lineTo(sin(postAngleRad) * _radius, cos(postAngleRad) * _radius);
 
       preAngleRad += angleStepRad;
       postAngleRad += angleStepRad;

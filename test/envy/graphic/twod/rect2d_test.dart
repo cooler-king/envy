@@ -5,7 +5,7 @@ import 'package:envy/envy.dart';
 void main() {
   group('Rect2d', () {
     test('constructors', () {
-      Rect2d rect = new Rect2d();
+      final Rect2d rect = new Rect2d();
 
       // properties initialized
       expect(rect.properties != null, true);
@@ -13,7 +13,7 @@ void main() {
     });
 
     test('properties', () {
-      Rect2d rect = new Rect2d();
+      final Rect2d rect = new Rect2d();
 
       // correct property types
       expect(rect.x is NumberProperty, true);

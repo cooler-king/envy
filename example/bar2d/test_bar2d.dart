@@ -6,13 +6,13 @@ import 'package:quantity/quantity.dart';
 import 'package:angular/angular.dart';
 
 @Component(
-  selector: 'test-rect2d',
-  templateUrl: 'test_rect2d.html',
+  selector: 'test-bar2d',
+  templateUrl: 'test_bar2d.html',
   directives: const <Object>[
     EnvyScene,
   ],
 )
-class TestRect2d implements AfterViewInit {
+class TestBar2d implements AfterViewInit {
   @ViewChild('basic')
   EnvyScene basicScene;
 
@@ -62,15 +62,15 @@ class TestRect2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    // Rect
-    final Rect2d s = new Rect2d();
+    // Bar
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     s.x.enter = new NumberConstant.array(<num>[75, 225, 375]);
     s.y.enter = new NumberConstant.array(<num>[55]);
-    s.width.enter = new NumberConstant(50);
+    s.width.enter = new NumberConstant(10);
     s.height.enter = new NumberConstant(30);
-    s.lineWidth.enter = new NumberConstant(5);
+    s.lineWidth.enter = new NumberConstant(2);
     s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
     s.fill.enter = new BooleanConstant.array(<bool>[true, true, false]);
@@ -84,8 +84,8 @@ class TestRect2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    // Rect
-    final Rect2d s = new Rect2d();
+    // Bar
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
@@ -103,7 +103,7 @@ class TestRect2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final Rect2d s = new Rect2d();
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
@@ -146,7 +146,7 @@ class TestRect2d implements AfterViewInit {
     final EnvySceneGraph esg = e.sceneGraph;
     final CanvasNode canvas = new CanvasNode();
     esg.attachToRoot(canvas);
-    final Rect2d s = new Rect2d();
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     enterButton.onClick.listen((_) {
@@ -238,19 +238,19 @@ class TestRect2d implements AfterViewInit {
       'height': 20,
       'opacity': 1
     };
-    canvas.addDataset('rectdata', map: datamap);
+    canvas.addDataset('bardata', map: datamap);
 
-    final Rect2d s = new Rect2d();
+    final Bar2d s = new Bar2d();
 
     canvas.attach(s);
     esg.updateGraph();
 
-    s.x.enter = new NumberData('rectdata', canvas, prop: 'xcoord');
-    s.y.enter = new NumberData('rectdata', canvas, prop: 'ycoord');
-    s.width.enter = new NumberData('rectdata', canvas, prop: 'width');
-    s.height.enter = new NumberData('rectdata', canvas, prop: 'height');
-    s.opacity.enter = new NumberData('rectdata', canvas, prop: 'opacity');
-    s.rotation.enter = new AngleData('rectdata', canvas, prop: 'rot');
+    s.x.enter = new NumberData('bardata', canvas, prop: 'xcoord');
+    s.y.enter = new NumberData('bardata', canvas, prop: 'ycoord');
+    s.width.enter = new NumberData('bardata', canvas, prop: 'width');
+    s.height.enter = new NumberData('bardata', canvas, prop: 'height');
+    s.opacity.enter = new NumberData('bardata', canvas, prop: 'opacity');
+    s.rotation.enter = new AngleData('bardata', canvas, prop: 'rot');
 
     dataButton.onClick.listen((_) {
       final Random rand = new Random();
@@ -262,7 +262,7 @@ class TestRect2d implements AfterViewInit {
         'opacity': rand.nextDouble(),
         'rot': new Angle(deg: rand.nextDouble() * 360)
       };
-      canvas.addDataset('rectdata', map: randomData);
+      canvas.addDataset('bardata', map: randomData);
       esg.updateGraph();
     });
   }
@@ -274,7 +274,7 @@ class TestRect2d implements AfterViewInit {
 
     canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    final Rect2d s = new Rect2d();
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 375]);
@@ -314,8 +314,8 @@ class TestRect2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    // Rect
-    final Rect2d s = new Rect2d();
+    // Bar
+    final Bar2d s = new Bar2d();
     canvas.attach(s);
 
     final ImageElement image = new ImageElement(

@@ -6,7 +6,6 @@ import 'player.dart';
 /// All time properties are returned in seconds (not milliseconds).
 ///
 class Timeline {
-
   /// The zero point of this timeline with respect to the global clock, in milliseconds.
   final int startMillis;
 
@@ -41,7 +40,7 @@ class Timeline {
   /// before the animation loop begins.
   ///
   Player play() {
-    num current = currentTime;
+    final num current = currentTime;
 
     // Add 10 milliseconds for a little setup time
     return new Player(this, current != null ? current + 0.01 : 0);

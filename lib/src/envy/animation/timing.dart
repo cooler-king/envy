@@ -1,6 +1,6 @@
-import 'timing_function.dart';
-import 'playback_direction.dart';
 import 'fill_mode.dart';
+import 'playback_direction.dart';
+import 'timing_function.dart';
 
 Timing defaultTiming = new Timing();
 
@@ -17,7 +17,7 @@ Timing defaultTiming = new Timing();
 /// }
 ///
 class Timing {
-  static const num auto = double.INFINITY;
+  static const num auto = double.infinity;
 
   Timing();
 

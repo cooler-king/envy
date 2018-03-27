@@ -7,8 +7,5 @@ import '../group_node.dart';
 /// the earlier data.
 ///
 class DataGroup extends GroupNode {
-  Map<String, List<Map>> _dataMap = {};
-
-  void update(num fraction, {dynamic context, bool finish: false}) =>
-      super.update(fraction, context: context, finish: finish);
+  final Map<String, List<Map<dynamic, dynamic>>> _dataMap = <String, List<Map<dynamic, dynamic>>>{};
 }

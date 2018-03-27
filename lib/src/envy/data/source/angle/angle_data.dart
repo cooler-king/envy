@@ -13,7 +13,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
   String _datasetName;
   EnvyNode _node;
 
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
@@ -31,21 +31,22 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
     }
   }
 
-  /// Find the dataset named [keyedDataset.name], starting with [keyedDataset.node]
+  /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
   /// and working up the ancestor chain, and use a keyed property data accessor
-  /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
+  /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
   AngleData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
+      _datasetName = keyedDataset.name;
+      _node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
+  @override
   void refresh() {
-    this.values.clear();
+    values.clear();
 
     Object data = _node.getDataset(_datasetName);
     if (accessor != null) {
@@ -53,20 +54,20 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       data = accessor.getData(data);
     }
 
-    if (data is List<Angle>) {
-      this.values.addAll(data);
+    if (data is List<dynamic>) {
+      values.addAll(data as List<Angle>);
     } else if (data is Angle) {
-      this.values.add(data);
+      values.add(data);
     } else {
       // Warn and do best to convert to number
-      logger.warning("Unexpected data type for AngleData: ${data}");
+      logger.warning('Unexpected data type for AngleData: $data');
       if (data is List) {
         // try to parse entries as numbers; assume degrees
-        for (var d in data) {
-          this.values.add(_angleFromAnything(d));
+        for (dynamic d in data) {
+          values.add(_angleFromAnything(d));
         }
       } else {
-        this.values.add(_angleFromAnything(data));
+        values.add(_angleFromAnything(data));
       }
     }
   }
@@ -79,7 +80,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       return new Angle(deg: d);
     } else {
       try {
-        num val = num.parse(d.toString());
+        final num val = num.parse(d.toString());
         return new Angle(deg: val);
       } catch (e) {
         return angle0;

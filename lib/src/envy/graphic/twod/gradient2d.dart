@@ -1,11 +1,10 @@
 import 'dart:html' show CanvasRenderingContext2D, CanvasGradient;
 import '../../color/color.dart';
 
-
 /// Common handle for 2d linear and radial gradients.
 ///
 abstract class Gradient2d {
-  final Map<num, Color> stops = new Map<num, Color>();
+  final Map<num, Color> stops = <num, Color>{};
 
   CanvasGradient _canvasGradient;
 
@@ -33,9 +32,10 @@ class LinearGradient2d extends Gradient2d {
 
   LinearGradient2d({this.x0: 0, this.y0: 0, this.x1: 0, this.y1: 0});
 
+  @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createLinearGradient(x0, y0, x1, y1);
-    for (var stop in stops.keys) {
+    for (num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }
@@ -55,9 +55,10 @@ class RadialGradient2d extends Gradient2d {
 
   RadialGradient2d({this.x0: 0, this.y0: 0, this.r0: 0, this.x1: 0, this.y1: 0, this.r1: 0});
 
+  @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
-    for (var stop in stops.keys) {
+    for (num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }

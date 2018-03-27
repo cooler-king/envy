@@ -1,4 +1,4 @@
-import 'dart:math' as Math;
+import 'dart:math';
 import 'envy_interpolator.dart';
 
 /// Interpolates between two 2-dimensional points.
@@ -9,7 +9,7 @@ import 'envy_interpolator.dart';
 ///
 /// Singleton.
 ///
-class PointInterpolator extends EnvyInterpolator<Math.Point> {
+class PointInterpolator extends EnvyInterpolator<Point<num>> {
   static final PointInterpolator instance = new PointInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
@@ -19,13 +19,14 @@ class PointInterpolator extends EnvyInterpolator<Math.Point> {
 
   PointInterpolator._internal();
 
-  /// Returns a [Math.Point] having x and y values between those of points [a] and [b]
+  /// Returns a `Point` having x and y values between those of points [a] and [b]
   /// based on the time [fraction].
   ///
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
-  Math.Point interpolate(Math.Point a, Math.Point b, num fraction) {
+  @override
+  Point<num> interpolate(Point<num> a, Point<num> b, num fraction) {
     num x, y;
     if (!clamped || (fraction >= 0 && fraction <= 1)) {
       x = a.x + (b.x - a.x) * fraction;
@@ -35,6 +36,6 @@ class PointInterpolator extends EnvyInterpolator<Math.Point> {
       y = ((fraction < 0) ? a.y : b.y);
     }
 
-    return new Math.Point<num>(x, y);
+    return new Point<num>(x, y);
   }
 }

@@ -4,30 +4,29 @@ import 'package:quantity/quantity.dart';
 import 'package:vector_math/vector_math.dart';
 import '../../dynamic_node.dart';
 import '../../envy_property.dart';
+import '../../html/canvas_node.dart';
 import '../../util/logger.dart';
 import '../graphic_node.dart';
-import '../../html/canvas_node.dart';
 
 //TODO should the size of this node affect the number of canvases?
 
 class Transform2dGroup extends GraphicGroup with DynamicNode {
-
   //Matrix3 _incomingTransform;
   Transform2dGroup() : super() {
     _initProperties();
   }
 
   void _initProperties() {
-    properties["rotate"] = new AngleProperty();
-    properties["scale"] = new Scale2Property();
-    properties["translate"] = new Vector2Property();
+    properties['rotate'] = new AngleProperty();
+    properties['scale'] = new Scale2Property();
+    properties['translate'] = new Vector2Property();
   }
 
-  Scale2Property get scale => properties["scale"] as Scale2Property;
+  Scale2Property get scale => properties['scale'] as Scale2Property;
 
-  AngleProperty get rotate => properties["rotate"] as AngleProperty;
+  AngleProperty get rotate => properties['rotate'] as AngleProperty;
 
-  Vector2Property get translate => properties["translate"] as Vector2Property;
+  Vector2Property get translate => properties['translate'] as Vector2Property;
 
   /// Updates prior to child updates (but after property updates).
   ///
@@ -41,34 +40,33 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
         //if(context is CanvasRenderingContext2D) {
         // Save a copy of the transform before modification
         //int index = _currentContext2DList.indexOf(ctx);
-        CanvasRenderingContext2D ctx = currentContext2DList[index];
-        ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
+        final CanvasRenderingContext2D ctx = currentContext2DList[index];
+        final ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
 
-        Matrix3 currentTransform = transform2DStack.first;
+        final Matrix3 currentTransform = transform2DStack.first;
 
-        Vector2 _scale = scale.valueAt(index);
-        double sx = _scale.x;
-        double sy = _scale.y;
-        Angle theta = rotate.valueAt(index);
-        double cosTheta = theta.cosine();
-        double sinTheta = theta.sine();
-        Vector2 _translate = translate.valueAt(index);
-        double tx = _translate.x;
-        double ty = _translate.y;
+        final Vector2 _scale = scale.valueAt(index);
+        final double sx = _scale.x;
+        final double sy = _scale.y;
+        final Angle theta = rotate.valueAt(index);
+        final double cosTheta = theta.cosine();
+        final double sinTheta = theta.sine();
+        final Vector2 _translate = translate.valueAt(index);
+        final double tx = _translate.x;
+        final double ty = _translate.y;
 
         // column major order
-        Matrix3 myTransform =
-            new Matrix3(sx * cosTheta, sy * sinTheta, 0.0, -sx * sinTheta, sy * cosTheta, 0.0, tx, ty, 1.0);
-
-        myTransform.multiply(currentTransform);
+        final Matrix3 myTransform =
+            new Matrix3(sx * cosTheta, sy * sinTheta, 0.0, -sx * sinTheta, sy * cosTheta, 0.0, tx, ty, 1.0)
+              ..multiply(currentTransform);
         transform2DStack.addFirst(myTransform);
         _replaceTransform(myTransform, ctx);
       }
       //} else {
-      //  logger.warning("Expected CanvasRenderingContext2D for context, not ${context}");
+      //  logger.warning('Expected CanvasRenderingContext2D for context, not ${context}');
       // }
     } catch (e, s) {
-      logger.severe("Error applying transform", e, s);
+      logger.severe('Error applying transform', e, s);
     }
   }
 
@@ -79,19 +77,18 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
     // Set back to the incoming transform
     //if(context is CanvasRenderingContext2D) {
     for (int index = 0; index < currentContext2DList.length; index++) {
-      CanvasRenderingContext2D ctx = currentContext2DList[index];
+      final CanvasRenderingContext2D ctx = currentContext2DList[index];
       // Save a copy of the transform before modification
       //int index = _currentContext2DList.indexOf(context);
       if (transform2DStackList.length > index) {
-        ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
-        transform2DStack.removeFirst();
+        final ListQueue<Matrix3> transform2DStack = transform2DStackList[index]..removeFirst();
         _replaceTransform(transform2DStack.first, ctx);
       } else {
-        logger.warning("Attempt to revert transform at index ${index} ignored; out of range");
+        logger.warning('Attempt to revert transform at index $index ignored; out of range');
       }
     }
     //} else {
-    //  logger.warning("Expected CanvasRenderingContext2D for context, not ${context}");
+    //  logger.warning('Expected CanvasRenderingContext2D for context, not ${context}');
     // }
   }
 

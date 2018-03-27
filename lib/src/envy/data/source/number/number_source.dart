@@ -7,13 +7,14 @@ class NumberConstant extends ArrayDataSource<num> implements NumberSource {
   static final NumberConstant one = new NumberConstant(1);
 
   NumberConstant(num number) {
-    this.values.add(number);
+    values.add(number);
   }
 
   NumberConstant.array(List<num> numbers) {
-    this.values.addAll(numbers);
+    values.addAll(numbers);
   }
 
   // No-op refresh
+  @override
   void refresh() {}
 }

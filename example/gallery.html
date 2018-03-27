@@ -1,5 +1,6 @@
 <div class="nav-left">
     <div class="nav-option" (click)="page = 'annular_section2d'">Annular Section</div>
+    <div class="nav-option" (click)="page = 'bar2d'">Bar</div>
     <div class="nav-option" (click)="page = 'circle2d'">Circle</div>
     <div class="nav-option" (click)="page = 'cross2d'">Cross</div>
     <div class="nav-option" (click)="page = 'div_node'">Div Node</div>
@@ -13,6 +14,7 @@
 </div>
 <div class="content-right">
     <test-annular-section2d *ngIf="page == 'annular_section2d'"></test-annular-section2d>
+    <test-bar2d *ngIf="page == 'bar2d'"></test-bar2d>
     <test-circle2d *ngIf="page == 'circle2d'"></test-circle2d>
     <test-cross2d *ngIf="page == 'cross2d'"></test-cross2d>
     <test-div-node *ngIf="page == 'div_node'"></test-div-node>

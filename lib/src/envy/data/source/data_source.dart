@@ -1,5 +1,5 @@
-import 'extrapolate/extrapolation.dart';
 import '../data_accessor.dart';
+import 'extrapolate/extrapolation.dart';
 
 /// The base class for all data source classes.
 ///
@@ -22,7 +22,6 @@ abstract class DataSource<T> {
   //TODO accessor here?
   DataAccessor accessor;
 
-
   /// Refresh values (called when a dynamic node is preparing for animation)
   void refresh();
 
@@ -34,7 +33,6 @@ abstract class DataSource<T> {
 abstract class ArrayDataSource<T> extends DataSource<T> {
   final List<T> values;
 
-
   /// Constructs a data source with an empty growable list.
   ArrayDataSource() : values = <T>[];
 
@@ -42,27 +40,29 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   ArrayDataSource._internal(this.values);
 
   /// The unextrapolated size of the values list.
+  @override
   int get rawSize => values.length;
 
-  /// dynamic return type to support dataNotAvailable
-  //T valueAt(int i) =>
+  /// dynamic return type to support dataNotAvailable.
+  @override
   T valueAt(int i) =>
       (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 
 class NullDataSource<T> extends ArrayDataSource<T> {
   // For efficiency.
-  static final Map<Type, NullDataSource> _perType = new Map<Type, NullDataSource>();
-
-  // construct with a fixed-size empty list
-  NullDataSource._internal() : super._internal(<T>[]);
+  static final Map<Type, NullDataSource<dynamic>> _perType = <Type, NullDataSource<dynamic>>{};
 
   factory NullDataSource() {
     if (!_perType.containsKey(T)) _perType[T] = new NullDataSource<T>._internal();
     return _perType[T] as NullDataSource<T>;
   }
 
+  // construct with a fixed-size empty list
+  NullDataSource._internal() : super._internal(<T>[]);
+
   /// No-op refresh
+  @override
   void refresh() {}
 }
 
@@ -81,4 +81,3 @@ Object dataNotAvailable(Type t) {
   return _dnaTokens[t];
 }
 */
-

@@ -13,7 +13,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
   String _datasetName;
   EnvyNode _node;
 
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
@@ -31,21 +31,22 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
     }
   }
 
-  /// Find the dataset named [keyedDataset.name], starting with [keyedDataset.node]
+  /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
   /// and working up the ancestor chain, and use a keyed property data accessor
-  /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
+  /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
   BooleanData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
+      _datasetName = keyedDataset.name;
+      _node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
+  @override
   void refresh() {
-    this.values.clear();
+    values.clear();
 
     Object data = _node.getDataset(_datasetName);
     if (accessor != null) {
@@ -53,19 +54,19 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       data = accessor.getData(data);
     }
 
-    if (data is List<bool>) {
-      this.values.addAll(data);
+    if (data is List<dynamic>) {
+      values.addAll(data as List<bool>);
     } else if (data is bool) {
-      this.values.add(data);
+      values.add(data);
     } else {
       // warn and do best to convert to bool
-      logger.warning("Unexpected data type for BooleanData: ${data}");
+      logger.warning('Unexpected data type for BooleanData: $data');
       if (data is List) {
-        for (var d in data) {
-          this.values.add(_anythingToBool(d));
+        for (dynamic d in data) {
+          values.add(_anythingToBool(d));
         }
       } else {
-        this.values.add(_anythingToBool(data));
+        values.add(_anythingToBool(data));
       }
     }
   }
@@ -76,11 +77,11 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       if (d == 0) return false;
       return true;
     } else if (d is String) {
-      String lc = d.trim().toLowerCase();
-      if (lc == "true" || lc == "yes" || lc == "y" || lc == "on" || lc == "1") return true;
+      final String lc = d.trim().toLowerCase();
+      if (lc == 'true' || lc == 'yes' || lc == 'y' || lc == 'on' || lc == '1') return true;
       return false;
     } else if (d is Quantity) {
-      if (d.mks == 0) return false;
+      if (d.mks.toDouble() == 0) return false;
       return true;
     } else {
       return false;

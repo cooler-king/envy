@@ -1,3 +1,3 @@
 import 'package:logging/logging.dart';
 
-Logger logger = new Logger("envy");
+Logger logger = new Logger('envy');

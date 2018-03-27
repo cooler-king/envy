@@ -1,4 +1,5 @@
 import 'envy_interpolator.dart';
+
 /// Interpolates between two numbers.
 ///
 /// By default, time fractions outside the normal range (0-1) may return values outside the
@@ -22,6 +23,7 @@ class NumberInterpolator extends EnvyInterpolator<num> {
   /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
   /// then
   ///
+  @override
   num interpolate(num a, num b, num fraction) =>
       (!clamped || (fraction >= 0 && fraction <= 1)) ? a + (b - a) * fraction : ((fraction < 0) ? a : b);
 }

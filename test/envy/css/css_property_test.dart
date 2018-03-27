@@ -6,8 +6,8 @@ void main() {
   group('css properties', () {
     group('CssLength', () {
       test('to css string', () {
-        var a = new CssLength(22, CssLengthUnits.px);
-        expect(a.css, "22px");
+        final CssLength a = new CssLength(22, CssLengthUnits.px);
+        expect(a.css, '22px');
       });
     });
   });

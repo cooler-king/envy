@@ -8,5 +8,6 @@ class DivNode extends HtmlNode {
 
   //DivElement get div => super.domNode as DivElement;
 
+  @override
   Element generateNode() => new DivElement();
 }

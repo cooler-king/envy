@@ -25,14 +25,15 @@ abstract class EnvyNode {
   ///
   /// Return null if no HtmlNode ancestor is found in the
   /// EnvySceneGraph.
-  ///
   HtmlNode get htmlParent {
     if (_parent is HtmlNode) return _parent as HtmlNode;
     if (_parent == null) return null;
+
+    // ignore: recursive_getters
     return _parent.htmlParent;
   }
 
-  void set parent(EnvyNode node) {
+  set parent(EnvyNode node) {
     if (node != _parent) {
       _parent = node;
       //TODO request update?
@@ -55,9 +56,9 @@ abstract class EnvyNode {
   /// If this node already contains a dataset named [name] then the
   /// new dataset will replace it.
   ///
-  void addDataset(String name, {List list, Map map, String text, num number, bool boolean}) {
-    if (_datasetMap == null) _datasetMap = new HashMap<String, dynamic>();
-    _datasetMap[name] = list ?? (map ?? (text ?? (number ?? (boolean ?? null))));
+  void addDataset(String name, {List<dynamic> list, Map<dynamic, dynamic> map, String text, num number, bool boolean}) {
+    _datasetMap ??= new HashMap<String, dynamic>();
+    _datasetMap[name] = list ?? (map ?? (text ?? (number ?? boolean)));
   }
 
   /// Removes the [name]d dataset from this node.

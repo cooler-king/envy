@@ -6,7 +6,6 @@ import 'envy_node.dart';
 import 'envy_root.dart';
 
 class EnvySceneGraph {
-
   /// Master timeline (can be thought of as the document timeline)
   Timeline masterTimeline = new Timeline.now();
 
@@ -17,7 +16,6 @@ class EnvySceneGraph {
   Element _htmlHost;
 
   EnvySceneGraph([String spec]) {
-
     //TODO build scene graph nodes from spec
     if (spec != null) applySpec(spec);
   }
@@ -30,21 +28,18 @@ class EnvySceneGraph {
 
   /// Change the host DOM Element of this Envy scene graph's DOM nodes.
   ///
-  void set htmlHost(Element e) {
-
+  set htmlHost(Element e) {
     //print("html host = ${e}");
 
     if (_htmlHost != null && _htmlHost != e) {
-      root.domNodes.forEach((Node n) {
+      for (Node n in root.domNodes) {
         n.remove();
-      });
+      }
     }
 
     if (e != null) {
       //print("html host appending nodes");
-      root.domNodes.forEach((Node n) {
-        e.append(n);
-      });
+      root.domNodes.forEach(e.append);
     }
 
     _htmlHost = e;
@@ -56,7 +51,7 @@ class EnvySceneGraph {
   void updateGraph() {
     // Create a new Player having current time (plus a little bit) as start time
     // This starts the update loop.
-    Player player = masterTimeline.play();
+    final Player player = masterTimeline.play();
 
     /*
      *  Tell the masterAnimationGroup to use it (this will make the masterAnimationGroup
@@ -86,7 +81,7 @@ class EnvySceneGraph {
   /// Only one of the values should be provided.
   ///
   void setAnimationDuration({Time t, num seconds, num millis}) {
-    num secs = t != null ? t.mks.toDouble() : seconds != null ? seconds : millis != null ? millis / 1000 : 0;
+    final num secs = t != null ? t.mks.toDouble() : seconds != null ? seconds : millis != null ? millis / 1000 : 0;
     root.rootAnimation.timing.iterationDuration = secs;
   }
 }

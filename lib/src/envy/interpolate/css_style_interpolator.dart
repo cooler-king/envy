@@ -1,26 +1,23 @@
+import '../css/css_property.dart';
 import '../css/css_style.dart';
 import '../css/enum/css_length_units.dart';
-import '../css/css_property.dart';
+import '../util/css_util.dart';
 import 'envy_interpolator.dart';
 import 'number_interpolator.dart';
-import '../util/css_util.dart';
 
 /// Interpolates between two [CssStyle]s.
-///
 class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
-
   //CssNumberInterpolator widthInterpolator;
 
-  CssStyle _style = new CssStyle();
+  final CssStyle _style = new CssStyle();
 
-  CssStyleInterpolator() {}
-
+  @override
   CssStyle interpolate(CssStyle a, CssStyle b, num fraction) {
     _style.clear();
 
     // Interpolate each property in the CssStyle (which is a Map)
     CssProperty aValue, bValue, iValue;
-    List<String> bOnlyProps = new List.from(b.keys);
+    final List<String> bOnlyProps = new List<String>.from(b.keys);
     bool bHas;
     for (String prop in a.keys) {
       bHas = bOnlyProps.remove(prop);
@@ -45,29 +42,31 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
 }
 
 class CssNumberInterpolator extends EnvyInterpolator<CssNumber> {
-  NumberInterpolator _numberInterpolator = new NumberInterpolator();
+  final NumberInterpolator _numberInterpolator = new NumberInterpolator();
 
-  CssNumber interpolate(CssNumber a, CssNumber b, num fraction) {
-    return new CssNumber(_numberInterpolator.interpolate(a.value, b.value, fraction));
-  }
+  @override
+  CssNumber interpolate(CssNumber a, CssNumber b, num fraction) =>
+      new CssNumber(_numberInterpolator.interpolate(a.value, b.value, fraction));
 }
 
 class CssLengthInterpolator extends EnvyInterpolator<CssLength> {
-  NumberInterpolator _numberInterpolator = new NumberInterpolator();
+  final NumberInterpolator _numberInterpolator = new NumberInterpolator();
 
+  @override
   CssLength interpolate(CssLength a, CssLength b, num fraction) {
     if (a.units == b.units) {
       return new CssLength(_numberInterpolator.interpolate(a.value, b.value, fraction), a.units);
     } else {
       // convert both to pixels
-      num aPixels = CssUtil.toPixels(null, a.css);
-      num bPixels = CssUtil.toPixels(null, b.css);
+      final num aPixels = CssUtil.toPixels(null, a.css);
+      final num bPixels = CssUtil.toPixels(null, b.css);
       return new CssLength(_numberInterpolator.interpolate(aPixels, bPixels, fraction), CssLengthUnits.px);
     }
   }
 }
 
 class CssTransformInterpolator extends EnvyInterpolator<CssTransform> {
+  @override
   CssTransform interpolate(CssTransform a, CssTransform b, num fraction) {
     //TODO
     if (fraction < 0.5) {

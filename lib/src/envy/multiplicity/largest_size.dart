@@ -1,13 +1,14 @@
 import 'dart:math' show max;
-import 'multiplicity.dart';
 import '../envy_property.dart';
+import 'multiplicity.dart';
 
 class LargestSize extends Multiplicity {
   LargestSize();
 
-  int sizeOf(Iterable<EnvyProperty> props) {
+  @override
+  int sizeOf(Iterable<EnvyProperty<dynamic>> props) {
     int largest = 0;
-    for (var prop in props) {
+    for (EnvyProperty<dynamic> prop in props) {
       //print("raw size = ${prop.rawSize}... ${prop}... optional ${prop.optional}... ${prop.payload}");
       if (!prop.optional) largest = max(largest, prop.rawSize);
     }

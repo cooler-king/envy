@@ -1,8 +1,8 @@
 import 'dart:html';
 import '../../envy_property.dart';
+import '../../html/canvas_image_source_node.dart';
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
-import '../../html/canvas_image_source_node.dart';
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
 ///
@@ -10,26 +10,27 @@ class Image2d extends Graphic2dNode {
   // TODO dynamic node reference?
   CanvasImageSourceNode source;
 
-  NumberProperty get sourceX => properties["sourceX"] as NumberProperty;
-  NumberProperty get sourceY => properties["sourceY"] as NumberProperty;
-  NumberProperty get sourceWidth => properties["sourceWidth"] as NumberProperty;
-  NumberProperty get sourceHeight => properties["sourceHeight"] as NumberProperty;
-  NumberProperty get width => properties["width"] as NumberProperty;
-  NumberProperty get height => properties["height"] as NumberProperty;
-
   Image2d(this.source) : super(null) {
     _initProperties();
   }
 
+  NumberProperty get sourceX => properties['sourceX'] as NumberProperty;
+  NumberProperty get sourceY => properties['sourceY'] as NumberProperty;
+  NumberProperty get sourceWidth => properties['sourceWidth'] as NumberProperty;
+  NumberProperty get sourceHeight => properties['sourceHeight'] as NumberProperty;
+  NumberProperty get width => properties['width'] as NumberProperty;
+  NumberProperty get height => properties['height'] as NumberProperty;
+
   void _initProperties() {
-    properties["sourceX"] = new NumberProperty();
-    properties["sourceY"] = new NumberProperty();
-    properties["sourceWidth"] = new NumberProperty();
-    properties["sourceHeight"] = new NumberProperty();
-    properties["width"] = new NumberProperty();
-    properties["height"] = new NumberProperty();
+    properties['sourceX'] = new NumberProperty();
+    properties['sourceY'] = new NumberProperty();
+    properties['sourceWidth'] = new NumberProperty();
+    properties['sourceHeight'] = new NumberProperty();
+    properties['width'] = new NumberProperty();
+    properties['height'] = new NumberProperty();
   }
 
+  @override
   void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
     _sourceX = sourceX.valueAt(i);
@@ -42,7 +43,7 @@ class Image2d extends Graphic2dNode {
     // fill and stroke don't apply
 
     if (source != null) {
-      CanvasImageSource imgSource = source.elementAt(i);
+      final CanvasImageSource imgSource = source.elementAt(i);
 
       if (_width == 0 || _height == 0) {
         // If width and height are not explicitly set (non-zero) then use actual dimensions
@@ -54,9 +55,9 @@ class Image2d extends Graphic2dNode {
       // Adjust for anchor (default is upper left)
       _x = 0;
       _y = 0;
-      Anchor2d _anchor = anchor.valueAt(i);
+      final Anchor2d _anchor = anchor.valueAt(i);
       if (_anchor != null) {
-        List<num> adj = _anchor.calcAdjustments(0, _width, _height, 0);
+        final List<num> adj = _anchor.calcAdjustments(0, _width, _height, 0);
         _x += adj[0];
         _y += adj[1];
       }
@@ -65,9 +66,10 @@ class Image2d extends Graphic2dNode {
       //Path2D p = new Path2D();
       //paths.add(p);
       if (hitTest != null) {
-        ctx.beginPath();
-        ctx.rect(_x, _y, _width, _height);
-        ctx.closePath();
+        ctx
+          ..beginPath()
+          ..rect(_x, _y, _width, _height)
+          ..closePath();
         if (ctx.isPointInPath(hitTest.x, hitTest.y)) {
           hitTest.hit = true;
         }

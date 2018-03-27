@@ -13,23 +13,24 @@ class Point2d extends Graphic2dNode {
   }
 
   void _initProperties() {
-    properties["pixelSize"] = new NumberProperty();
+    properties['pixelSize'] = new NumberProperty();
   }
 
-  NumberProperty get pixelSize => properties["pixelSize"] as NumberProperty;
+  NumberProperty get pixelSize => properties['pixelSize'] as NumberProperty;
 
+  @override
   void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y;
-    Anchor2d _anchor = anchor.valueAt(i);
-    num _pixelSize = pixelSize.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(i);
+    final num _pixelSize = pixelSize.valueAt(i);
     _y = y.valueAt(i);
-    bool _fill = fill.valueAt(i);
-    bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(i);
+    final bool _stroke = stroke.valueAt(i);
 
     // Adjust based on anchor (default origin is x, y)
     _x = 0;
     _y = 0;
-    List<num> adj = _anchor?.calcAdjustments(0, 0, 0, 0) ?? [0, 0];
+    final List<num> adj = _anchor?.calcAdjustments(0, 0, 0, 0) ?? <num>[0, 0];
 
     //TODO pixelSize, markers not implemented yet
 
