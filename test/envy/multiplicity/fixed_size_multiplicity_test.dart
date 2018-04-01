@@ -6,7 +6,8 @@ void main() {
   group('Fixed Size Multiplicity', () {
     test('Constructors', () {
       final FixedSize fs = new FixedSize(3);
-      expect(fs != null, true);
+      expect(fs, isNotNull);
+      expect(fs.size, 3);
     });
 
     test('Values', () {

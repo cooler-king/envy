@@ -318,10 +318,8 @@ class TestBar2d implements AfterViewInit {
     final Bar2d s = new Bar2d();
     canvas.attach(s);
 
-    final ImageElement image = new ImageElement(
-        width: 30,
-        height: 30,
-        src: 'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageElement image =
+        new ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
 
     s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = new NumberConstant(50);

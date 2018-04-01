@@ -17,7 +17,7 @@ import 'triangle2d/test_triangle2d.dart';
   templateUrl: 'gallery.html',
   styleUrls: const <String>['gallery.css'],
   directives: const <Object>[
-    NgIf,
+    coreDirectives,
     TestAnnularSection2d,
     TestBar2d,
     TestCircle2d,

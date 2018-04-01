@@ -5,18 +5,22 @@ author: Rob Bishop <@robbishop65@gmail.com>
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:
-  sdk: '>=2.0.0-dev.28.0 <2.0.0'
+  sdk: '>=2.0.0-dev.42.0 <2.0.0'
 dependencies:
   angular: ^5.0.0-alpha
   collection: ^1.14.0
-  quantity: ^0.1.0
+  #quantity: ^0.1.0
+  quantity:
+    path: ../quantity/
   vector_math: ^2.0.5
 dev_dependencies:
+  angular_analyzer_plugin: ^0.0.14
   angular_test: ^2.0.0-alpha
   build_runner: ^0.8.0
-  build_test: ^0.10.0
-  build_web_compilers: ^0.3.0
+  build_test: ^0.10.1+1
+  build_web_compilers: ^0.3.4+1
   test: ^0.12.30
 dependency_overrides:
+  angular_ast: ^0.5.0
   quantity:
     path: ../quantity/

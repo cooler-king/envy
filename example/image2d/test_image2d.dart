@@ -11,6 +11,8 @@ import 'package:angular/angular.dart';
   directives: const <Object>[EnvyScene],
 )
 class TestImage2d implements AfterViewInit {
+  final String imageUrl = 'packages/envy/resources/morgan_silver_dollar.png';
+
   @ViewChild('basic')
   EnvyScene basicScene;
 
@@ -59,9 +61,7 @@ class TestImage2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);
@@ -89,9 +89,7 @@ class TestImage2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);
@@ -116,9 +114,7 @@ class TestImage2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);
@@ -165,9 +161,7 @@ class TestImage2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode();
     esg.attachToRoot(canvas);
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);
@@ -253,9 +247,7 @@ class TestImage2d implements AfterViewInit {
     };
     canvas.addDataset('imagedata', map: datamap);
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);
@@ -296,9 +288,7 @@ class TestImage2d implements AfterViewInit {
 
     canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    final ImageNode image = new ImageNode()
-      ..src.enter = new StringConstant(
-          'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageNode image = new ImageNode()..src.enter = new StringConstant(imageUrl);
 
     // Image
     final Image2d s = new Image2d(image);

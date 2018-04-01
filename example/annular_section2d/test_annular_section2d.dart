@@ -326,10 +326,8 @@ class TestAnnularSection2d implements AfterViewInit {
     final CanvasNode canvas = new CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final ImageElement image = new ImageElement(
-        width: 30,
-        height: 30,
-        src: 'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageElement image =
+        new ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
     // Annular Section
     final AnnularSection2d s = new AnnularSection2d();
     canvas.attach(s);

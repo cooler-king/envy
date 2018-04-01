@@ -318,10 +318,8 @@ class TestRect2d implements AfterViewInit {
     final Rect2d s = new Rect2d();
     canvas.attach(s);
 
-    final ImageElement image = new ImageElement(
-        width: 30,
-        height: 30,
-        src: 'https://mozorg.cdn.mozilla.net/media/img/styleguide/identity/firefox/usage-logo.54fbc7b6231b.png');
+    final ImageElement image =
+        new ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
 
     s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = new NumberConstant(50);
@@ -341,7 +339,7 @@ class TestRect2d implements AfterViewInit {
             ..addColorStop(0.3, Color.blue)
             ..addColorStop(0.7, Color.red)
             ..addColorStop(1, Color.black)),
-      new DrawingStyle2d(pattern: new ImagePattern2d(image, patternWidth: 30, patternHeight: 20)),
+      new DrawingStyle2d(pattern: new ImagePattern2d(image, patternWidth: 60, patternHeight: 60)),
       new DrawingStyle2d(color: Color.transparentBlack)
     ]);
 
