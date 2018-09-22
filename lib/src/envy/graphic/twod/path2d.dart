@@ -41,15 +41,15 @@ class Path2d extends Graphic2dNode {
   NumberProperty get tension => properties['tension'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     //num _x1, _y1, _x2, _y2;
-    final Anchor2d _anchor = anchor.valueAt(i);
-    final PointList _points = points.valueAt(i);
-    final PathInterpolation2d _interpolation = interpolation.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
+    final PointList _points = points.valueAt(index);
+    final PathInterpolation2d _interpolation = interpolation.valueAt(index);
 
     if (_points.isEmpty) return;
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     // Adjust based on anchor (default origin is x1, y1)
     final List<num> adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
@@ -93,7 +93,7 @@ class Path2d extends Graphic2dNode {
       num cp1x = 0;
       num cp2x = 0;
       num deltaX = 0;
-      final num _tension = max(0.0, min(1.0, tension.valueAt(i)));
+      final num _tension = max(0.0, min(1.0, tension.valueAt(index)));
 
       ctx.moveTo(x1, y1);
 

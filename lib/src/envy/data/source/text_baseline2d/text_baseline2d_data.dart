@@ -53,7 +53,7 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<TextBaseline2d>);
+      values.addAll(data.whereType<TextBaseline2d>());
     } else if (data is TextBaseline2d) {
       values.add(data);
     } else {

@@ -15,6 +15,7 @@ class EnvySceneGraph {
   // The HTML node under which this scne graph will add its contents
   Element _htmlHost;
 
+  /// Constructs a new instance.
   EnvySceneGraph([String spec]) {
     //TODO build scene graph nodes from spec
     if (spec != null) applySpec(spec);

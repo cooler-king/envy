@@ -53,7 +53,7 @@ class TextAlign2dData extends ArrayDataSource<TextAlign2d> implements TextAlign2
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<TextAlign2d>);
+      values.addAll(data.whereType<TextAlign2d>());
     } else if (data is TextAlign2d) {
       values.add(data);
     } else {

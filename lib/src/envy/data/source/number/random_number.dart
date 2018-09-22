@@ -10,9 +10,9 @@ class RandomNumber extends NumberSource {
   RandomNumber(this.minSource, this.maxSource);
 
   @override
-  num valueAt(int i) {
-    final num minValue = minSource.valueAt(i);
-    return minValue + generator.nextDouble() * (maxSource.valueAt(i) - minValue);
+  num valueAt(int index) {
+    final num minValue = minSource.valueAt(index);
+    return minValue + generator.nextDouble() * (maxSource.valueAt(index) - minValue);
   }
 
   @override

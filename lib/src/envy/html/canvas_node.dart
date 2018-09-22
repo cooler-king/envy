@@ -85,7 +85,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
 
   /// Clear the canvas and then update all children.
   @override
-  void update(num timeFraction, {dynamic context, bool finish: false}) {
+  void update(num timeFraction, {dynamic context, bool finish = false}) {
     // Clear canvases and store 2D contexts before drawing anything new
     currentContext2DList.clear();
     transform2DStackList.clear();
@@ -322,13 +322,16 @@ class Graphic2dIntersection {
   final int index;
   MouseEvent event;
 
+  /// Constructs a new instance.
   Graphic2dIntersection(this.graphic2d, this.index);
 
+  /// Two intersections are considered equal if they refer to the same graphic element and the same index into
+  /// that graphic element's array.
   @override
-  bool operator ==(dynamic obj) {
-    if (obj is! Graphic2dIntersection) return false;
-    if (obj.graphic2d != graphic2d) return false;
-    if (index != obj.index) return false;
+  bool operator ==(dynamic other) {
+    if (other is! Graphic2dIntersection) return false;
+    if (other.graphic2d != graphic2d) return false;
+    if (index != other.index) return false;
     return true;
   }
 

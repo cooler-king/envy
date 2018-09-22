@@ -21,7 +21,7 @@ class DynamicNode {
 
   /// Update all property values.
   ///
-  void updateProperties(num timeFraction, {bool finish: false}) {
+  void updateProperties(num timeFraction, {bool finish = false}) {
     //print("${this} dynamic update properties ${timeFraction}");
     //int count = size;
     //properties.values.forEach((EnvyProperty prop) {

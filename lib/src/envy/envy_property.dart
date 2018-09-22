@@ -84,7 +84,7 @@ abstract class EnvyProperty<T> {
   // optional override of alpha for specific property
   AnimationGroup animationOverride;
 
-  EnvyProperty(this.defaultValue, {this.optional: false});
+  EnvyProperty(this.defaultValue, {this.optional = false});
 
   DataSource<T> get enter => _enter ?? nullDataSource;
 
@@ -229,7 +229,7 @@ abstract class EnvyProperty<T> {
   /// Calculate the current values based on the start and target values,
   /// the timing [fraction] and the interpolator.
   ///
-  void updateValues(num fraction, {bool finish: false}) {
+  void updateValues(num fraction, {bool finish = false}) {
     final EnvyInterpolator<T> interp = interpolator;
     _currentValues.clear();
     if (!finish) {
@@ -256,154 +256,154 @@ abstract class EnvyProperty<T> {
 }
 
 class GenericProperty extends EnvyProperty<dynamic> {
-  GenericProperty({dynamic defaultValue: 0, bool optional: false}) : super(defaultValue, optional: optional);
+  GenericProperty({dynamic defaultValue = 0, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
   EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator<dynamic>();
 }
 
 class NumberProperty extends EnvyProperty<num> {
-  NumberProperty({num defaultValue: 0, bool optional: false}) : super(defaultValue, optional: optional);
+  NumberProperty({num defaultValue = 0, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
   EnvyInterpolator<num> get defaultInterpolator => new NumberInterpolator();
 }
 
 class StringProperty extends EnvyProperty<String> {
-  StringProperty({String defaultValue: '', bool optional: false}) : super(defaultValue, optional: optional);
+  StringProperty({String defaultValue = '', bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
   EnvyInterpolator<String> get defaultInterpolator => new BinaryInterpolator<String>();
 }
 
 class BooleanProperty extends EnvyProperty<bool> {
-  BooleanProperty({bool defaultValue: false, bool optional: false}) : super(defaultValue, optional: optional);
+  BooleanProperty({bool defaultValue = false, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
   EnvyInterpolator<bool> get defaultInterpolator => new BooleanInterpolator();
 }
 
 class ColorProperty extends EnvyProperty<Color> {
-  ColorProperty({Color defaultValue: Color.black, bool optional: false}) : super(Color.black, optional: optional);
+  ColorProperty({Color defaultValue = Color.black, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
   EnvyInterpolator<Color> get defaultInterpolator => new RgbaInterpolator();
 }
 
 class TextAlign2dProperty extends EnvyProperty<TextAlign2d> {
-  TextAlign2dProperty({bool optional: false}) : super(TextAlign2d.start, optional: optional);
+  TextAlign2dProperty({bool optional = false}) : super(TextAlign2d.start, optional: optional);
 
   @override
   EnvyInterpolator<TextAlign2d> get defaultInterpolator => new BinaryInterpolator<TextAlign2d>();
 }
 
 class TextBaseline2dProperty extends EnvyProperty<TextBaseline2d> {
-  TextBaseline2dProperty({bool optional: false}) : super(TextBaseline2d.alphabetic, optional: optional);
+  TextBaseline2dProperty({bool optional = false}) : super(TextBaseline2d.alphabetic, optional: optional);
 
   @override
   EnvyInterpolator<TextBaseline2d> get defaultInterpolator => new BinaryInterpolator<TextBaseline2d>();
 }
 
 class LineCap2dProperty extends EnvyProperty<LineCap2d> {
-  LineCap2dProperty({bool optional: false}) : super(LineCap2d.butt, optional: optional);
+  LineCap2dProperty({bool optional = false}) : super(LineCap2d.butt, optional: optional);
 
   @override
   EnvyInterpolator<LineCap2d> get defaultInterpolator => new BinaryInterpolator<LineCap2d>();
 }
 
 class LineJoin2dProperty extends EnvyProperty<LineJoin2d> {
-  LineJoin2dProperty({bool optional: false}) : super(LineJoin2d.miter, optional: optional);
+  LineJoin2dProperty({bool optional = false}) : super(LineJoin2d.miter, optional: optional);
 
   @override
   EnvyInterpolator<LineJoin2d> get defaultInterpolator => new BinaryInterpolator<LineJoin2d>();
 }
 
 class CompositeOperation2dProperty extends EnvyProperty<CompositeOperation2d> {
-  CompositeOperation2dProperty({bool optional: false}) : super(CompositeOperation2d.sourceOver, optional: optional);
+  CompositeOperation2dProperty({bool optional = false}) : super(CompositeOperation2d.sourceOver, optional: optional);
 
   @override
   EnvyInterpolator<CompositeOperation2d> get defaultInterpolator => new BinaryInterpolator<CompositeOperation2d>();
 }
 
 class DrawingStyle2dProperty extends EnvyProperty<DrawingStyle2d> {
-  DrawingStyle2dProperty({bool optional: false}) : super(new DrawingStyle2d(), optional: optional);
+  DrawingStyle2dProperty({bool optional = false}) : super(new DrawingStyle2d(), optional: optional);
 
   @override
   EnvyInterpolator<DrawingStyle2d> get defaultInterpolator => new DrawingStyle2dInterpolator();
 }
 
 class Anchor2dProperty extends EnvyProperty<Anchor2d> {
-  Anchor2dProperty({bool optional: false}) : super(new Anchor2d(), optional: optional);
+  Anchor2dProperty({bool optional = false}) : super(new Anchor2d(), optional: optional);
 
   @override
   EnvyInterpolator<Anchor2d> get defaultInterpolator => new Anchor2dInterpolator();
 }
 
 class AngleProperty extends EnvyProperty<Angle> {
-  AngleProperty({bool optional: false}) : super(new Angle(rad: 0), optional: optional);
+  AngleProperty({bool optional = false}) : super(new Angle(rad: 0), optional: optional);
 
   @override
   EnvyInterpolator<Angle> get defaultInterpolator => new AngleInterpolator();
 }
 
 class PointProperty extends EnvyProperty<Point<num>> {
-  PointProperty({bool optional: false}) : super(const Point<num>(0, 0), optional: optional);
+  PointProperty({bool optional = false}) : super(const Point<num>(0, 0), optional: optional);
 
   @override
   EnvyInterpolator<Point<num>> get defaultInterpolator => new PointInterpolator();
 }
 
 class PointListProperty extends EnvyProperty<PointList> {
-  PointListProperty({bool optional: false}) : super(new PointList(), optional: optional);
+  PointListProperty({bool optional = false}) : super(new PointList(), optional: optional);
 
   @override
   EnvyInterpolator<PointList> get defaultInterpolator => new PointListInterpolator();
 }
 
 class NumberListProperty extends EnvyProperty<NumberList> {
-  NumberListProperty({bool optional: false}) : super(new NumberList(), optional: optional);
+  NumberListProperty({bool optional = false}) : super(new NumberList(), optional: optional);
 
   @override
   EnvyInterpolator<NumberList> get defaultInterpolator => new NumberListInterpolator();
 }
 
 class CssStyleProperty extends EnvyProperty<CssStyle> {
-  CssStyleProperty({bool optional: false}) : super(new CssStyle(), optional: optional);
+  CssStyleProperty({bool optional = false}) : super(new CssStyle(), optional: optional);
 
   @override
   EnvyInterpolator<CssStyle> get defaultInterpolator => new CssStyleInterpolator();
 }
 
 class FontProperty extends EnvyProperty<Font> {
-  FontProperty({bool optional: false}) : super(new Font(), optional: optional);
+  FontProperty({bool optional = false}) : super(new Font(), optional: optional);
 
   @override
   EnvyInterpolator<Font> get defaultInterpolator => new FontInterpolator();
 }
 
 class Vector2Property extends EnvyProperty<Vector2> {
-  Vector2Property({bool optional: false}) : super(vec2zero, optional: optional);
+  Vector2Property({bool optional = false}) : super(vec2zero, optional: optional);
 
   @override
   EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
 }
 
 class Scale2Property extends EnvyProperty<Vector2> {
-  Scale2Property({bool optional: false}) : super(vec2one, optional: optional);
+  Scale2Property({bool optional = false}) : super(vec2one, optional: optional);
 
   @override
   EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
 }
 
 class Skew2Property extends EnvyProperty<Vector2> {
-  Skew2Property({bool optional: false}) : super(vec2zero, optional: optional);
+  Skew2Property({bool optional = false}) : super(vec2zero, optional: optional);
 
   @override
   EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
 }
 
 class PathInterpolation2dProperty extends EnvyProperty<PathInterpolation2d> {
-  PathInterpolation2dProperty({bool optional: false}) : super(PathInterpolation2d.linear, optional: optional);
+  PathInterpolation2dProperty({bool optional = false}) : super(PathInterpolation2d.linear, optional: optional);
 
   @override
   EnvyInterpolator<PathInterpolation2d> get defaultInterpolator => new BinaryInterpolator<PathInterpolation2d>();
@@ -415,7 +415,7 @@ class PathInterpolation2dProperty extends EnvyProperty<PathInterpolation2d> {
 /// in situations where direct manipulation of values is desired.
 ///
 class NakedProperty extends EnvyProperty<dynamic> {
-  NakedProperty({dynamic defaultValue: 0}) : super(defaultValue);
+  NakedProperty({dynamic defaultValue = 0}) : super(defaultValue);
 
   @override
   EnvyInterpolator<dynamic> get defaultInterpolator => new BinaryInterpolator<dynamic>();

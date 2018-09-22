@@ -53,7 +53,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<Anchor2d>);
+      values.addAll(data.whereType<Anchor2d>());
     } else if (data is Anchor2d) {
       values.add(data);
     } else {

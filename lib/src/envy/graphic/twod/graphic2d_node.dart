@@ -187,7 +187,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   ///
   ///
   @override
-  void update(num fraction, {dynamic context, bool finish: false}) {
+  void update(num fraction, {dynamic context, bool finish = false}) {
     //print('${this} graphic2d update fraction = ${fraction}, finish = ${finish}');
     //print('properties = ${properties}');
     // TODO

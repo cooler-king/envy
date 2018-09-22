@@ -22,7 +22,7 @@ class DomNodeCoupling {
   final int parentIndex;
   final int propIndex;
 
-  DomNodeCoupling({this.parentIndex: -1, this.propIndex: -1});
+  DomNodeCoupling({this.parentIndex = -1, this.propIndex = -1});
 
   /// Two couplings with teh same parent and prop indeices are considered equals
   @override

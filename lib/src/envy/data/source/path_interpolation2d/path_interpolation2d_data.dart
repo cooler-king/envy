@@ -53,7 +53,7 @@ class PathInterpolation2dData extends ArrayDataSource<PathInterpolation2d> imple
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<PathInterpolation2d>);
+      values.addAll(data.whereType<PathInterpolation2d>());
     } else if (data is PathInterpolation2d) {
       values.add(data);
     } else {

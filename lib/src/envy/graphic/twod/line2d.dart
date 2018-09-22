@@ -24,16 +24,16 @@ class Line2d extends Graphic2dNode {
   NumberProperty get y2 => properties['y2'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x1, _y1, _x2, _y2;
-    final Anchor2d _anchor = anchor.valueAt(i);
-    _x1 = x1.valueAt(i);
-    _y1 = y1.valueAt(i);
-    _x2 = x2.valueAt(i);
-    _y2 = y2.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
+    _x1 = x1.valueAt(index);
+    _y1 = y1.valueAt(index);
+    _x2 = x2.valueAt(index);
+    _y2 = y2.valueAt(index);
     // fill doesn't apply?
     //bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    final bool _stroke = stroke.valueAt(index);
 
     // Adjust based on anchor (default origin is x1, y1)
     if (_anchor != null) {

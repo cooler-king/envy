@@ -31,7 +31,7 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
   /// Updates prior to child updates (but after property updates).
   ///
   @override
-  void groupUpdatePre(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePre(num timeFraction, {dynamic context, bool finish = false}) {
     try {
       // Apply the transform
       //for(CanvasRenderingContext2D ctx in _currentContext2DList) {
@@ -73,7 +73,7 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
   /// Updates after child updates to restore the incoming transform.
   ///
   @override
-  void groupUpdatePost(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePost(num timeFraction, {dynamic context, bool finish = false}) {
     // Set back to the incoming transform
     //if(context is CanvasRenderingContext2D) {
     for (int index = 0; index < currentContext2DList.length; index++) {

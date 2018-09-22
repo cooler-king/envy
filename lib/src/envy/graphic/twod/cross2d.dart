@@ -31,17 +31,17 @@ class Cross2d extends Graphic2dNode {
   NumberProperty get percent => properties['percent'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _verticalWidth, _verticalHeight, _horizontalWidth, _horizontalHeight, _percent;
     Anchor2d _anchor;
-    _verticalWidth = verticalWidth.valueAt(i);
-    _verticalHeight = verticalHeight.valueAt(i);
-    _horizontalWidth = horizontalWidth.valueAt(i);
-    _horizontalHeight = horizontalHeight.valueAt(i);
-    _percent = percent.valueAt(i);
-    _anchor = anchor.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _verticalWidth = verticalWidth.valueAt(index);
+    _verticalHeight = verticalHeight.valueAt(index);
+    _horizontalWidth = horizontalWidth.valueAt(index);
+    _horizontalHeight = horizontalHeight.valueAt(index);
+    _percent = percent.valueAt(index);
+    _anchor = anchor.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     final num halfVerticalWidth = _verticalWidth / 2;
 

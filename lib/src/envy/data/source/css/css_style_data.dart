@@ -26,6 +26,7 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
   /// as a whole.
   ///
   CssStyleData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+    accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }
@@ -55,7 +56,7 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<CssStyle>);
+      values.addAll(data.whereType<CssStyle>());
     } else if (data is CssStyle) {
       values.add(data);
     } else {

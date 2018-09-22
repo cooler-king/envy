@@ -31,19 +31,19 @@ class Image2d extends Graphic2dNode {
   }
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
-    _sourceX = sourceX.valueAt(i);
-    _sourceY = sourceY.valueAt(i);
-    _sourceWidth = sourceWidth.valueAt(i);
-    _sourceHeight = sourceHeight.valueAt(i);
-    _width = width.valueAt(i);
-    _height = height.valueAt(i);
+    _sourceX = sourceX.valueAt(index);
+    _sourceY = sourceY.valueAt(index);
+    _sourceWidth = sourceWidth.valueAt(index);
+    _sourceHeight = sourceHeight.valueAt(index);
+    _width = width.valueAt(index);
+    _height = height.valueAt(index);
 
     // fill and stroke don't apply
 
     if (source != null) {
-      final CanvasImageSource imgSource = source.elementAt(i);
+      final CanvasImageSource imgSource = source.elementAt(index);
 
       if (_width == 0 || _height == 0) {
         // If width and height are not explicitly set (non-zero) then use actual dimensions
@@ -55,7 +55,7 @@ class Image2d extends Graphic2dNode {
       // Adjust for anchor (default is upper left)
       _x = 0;
       _y = 0;
-      final Anchor2d _anchor = anchor.valueAt(i);
+      final Anchor2d _anchor = anchor.valueAt(index);
       if (_anchor != null) {
         final List<num> adj = _anchor.calcAdjustments(0, _width, _height, 0);
         _x += adj[0];
@@ -83,9 +83,9 @@ class Image2d extends Graphic2dNode {
         ctx.drawImageScaledFromSource(imgSource, _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y,
             _width > 0 ? _width : _sourceWidth, _height > 0 ? _height : _sourceHeight);
       } else if ((_width != null && _width > 0) || (_height != null && _height > 0)) {
-        ctx.drawImageScaled(source.elementAt(i), _x, _y, _width, _height);
+        ctx.drawImageScaled(source.elementAt(index), _x, _y, _width, _height);
       } else {
-        ctx.drawImage(source.elementAt(i), _x, _y);
+        ctx.drawImage(source.elementAt(index), _x, _y);
       }
     }
   }

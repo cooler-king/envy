@@ -116,7 +116,7 @@ class CssUtil {
   ///
   static String curCSS(Element elem, String prop) {
     String unit;
-    final String rvpos = r'/^top|bottom/';
+    const String rvpos = r'/^top|bottom/';
     final List<String> outerProp = <String>['paddingTop', 'paddingBottom', 'borderTop', 'borderBottom'];
     int innerHeight;
     //int i = 4; // outerProp.length
@@ -147,7 +147,7 @@ class CssUtil {
         // @see http://bugs.jquery.com/ticket/10639
         value = '${toPixels(elem, value)}px';
       }
-    } else if ((value == 'auto' || (unit != null && unit != 'px'))) {
+    } else if (value == 'auto' || (unit != null && unit != 'px')) {
       // WebKit and Opera will return auto in some cases
       // Firefox will pass back an unaltered value when it can't be set, like top on a static element
       value = '0';

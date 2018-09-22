@@ -32,8 +32,8 @@ class PointInterpolator extends EnvyInterpolator<Point<num>> {
       x = a.x + (b.x - a.x) * fraction;
       y = a.y + (b.y - a.y) * fraction;
     } else {
-      x = ((fraction < 0) ? a.x : b.x);
-      y = ((fraction < 0) ? a.y : b.y);
+      x = (fraction < 0) ? a.x : b.x;
+      y = (fraction < 0) ? a.y : b.y;
     }
 
     return new Point<num>(x, y);

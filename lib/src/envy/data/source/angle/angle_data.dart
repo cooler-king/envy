@@ -55,7 +55,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<Angle>);
+      values.addAll(data.whereType<Angle>());
     } else if (data is Angle) {
       values.add(data);
     } else {

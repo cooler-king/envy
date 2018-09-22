@@ -50,14 +50,14 @@ class GroupNode extends EnvyNode {
   /// Subclasses must override to execute any updates prior to child updates
   /// (but after property updates).
   ///
-  void groupUpdatePre(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePre(num timeFraction, {dynamic context, bool finish = false}) {
     // No-op default
   }
 
   /// Subclasses must override to execute any updates after child updates
   /// (and after property updates and any groupUpdatePre updates).
   ///
-  void groupUpdatePost(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePost(num timeFraction, {dynamic context, bool finish = false}) {
     // No-op default
   }
 
@@ -83,7 +83,7 @@ class GroupNode extends EnvyNode {
   /// update the group's children (in that order).
   ///
   @override
-  void update(num timeFraction, {dynamic context, bool finish: false}) {
+  void update(num timeFraction, {dynamic context, bool finish = false}) {
     // print("group update fraction = ${timeFraction}");
     // Update any dynamic properties
     super.update(timeFraction, context: context, finish: finish);

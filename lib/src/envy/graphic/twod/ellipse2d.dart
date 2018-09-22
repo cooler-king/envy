@@ -20,15 +20,15 @@ class Ellipse2d extends Graphic2dNode {
   NumberProperty get radiusY => properties['radiusY'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _radiusX, _radiusY;
-    _radiusX = radiusX.valueAt(i);
-    _radiusY = radiusY.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _radiusX = radiusX.valueAt(index);
+    _radiusY = radiusY.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     // Adjust for anchor (default is center of ellipse)
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor != null) {
       final List<num> adj = _anchor.calcAdjustments(-_radiusY, _radiusX, _radiusY, -_radiusX);
       _x += adj[0];

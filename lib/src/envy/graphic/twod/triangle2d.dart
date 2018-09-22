@@ -59,18 +59,18 @@ class Triangle2d extends Graphic2dNode {
   //NumberProperty get angle => properties['angle'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _base, _height;
-    _base = base.valueAt(i);
-    _height = height.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _base = base.valueAt(index);
+    _height = height.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     final num halfBase = _base / 2.0;
     final num effectiveAngleRad = offsetAngle * pi / 180.0;
 
     // Adjust for anchor (default is center of base)
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     _x = 0;
     _y = 0;
     if (_anchor != null) {
@@ -117,16 +117,16 @@ class TriangleVertices2d extends Graphic2dNode {
   NumberProperty get y3 => properties['y3'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x1, _y1, _x2, _y2, _x3, _y3;
-    _x1 = x1.valueAt(i);
-    _y1 = y1.valueAt(i);
-    _x2 = x2.valueAt(i);
-    _y2 = y2.valueAt(i);
-    _x3 = x3.valueAt(i);
-    _y3 = y3.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _x1 = x1.valueAt(index);
+    _y1 = y1.valueAt(index);
+    _x2 = x2.valueAt(index);
+    _y2 = y2.valueAt(index);
+    _x3 = x3.valueAt(index);
+    _y3 = y3.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     ctx
       ..beginPath()

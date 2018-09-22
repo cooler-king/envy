@@ -50,7 +50,7 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
     if (data is PointList) {
       values.add(data);
     } else if (data is List<dynamic>) {
-      values.addAll(data as List<PointList>);
+      values.addAll(data.whereType<PointList>());
     } else {
       // Warn and return empty PointList.
       logger.warning('Unexpected data type for PointListData: $data');

@@ -26,6 +26,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
   /// as a whole.
   ///
   BooleanData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+    accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }
@@ -55,7 +56,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<bool>);
+      values.addAll(data.whereType<bool>());
     } else if (data is bool) {
       values.add(data);
     } else {

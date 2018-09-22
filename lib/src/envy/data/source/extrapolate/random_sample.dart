@@ -4,6 +4,7 @@ import 'extrapolation.dart';
 class RandomSample<T> extends Extrapolation<T> {
   Random r = new Random(new DateTime.now().millisecondsSinceEpoch);
 
+  /// Constructs a new instance.
   RandomSample() : super('randomSample', 'Randomly sample the existing values');
 
   /// Returns one of the current [values], randomly selected; [index] is not used.

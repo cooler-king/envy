@@ -51,7 +51,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<Font>);
+      values.addAll(data.whereType<Font>());
     } else if (data is Font) {
       values.add(data);
     } else {

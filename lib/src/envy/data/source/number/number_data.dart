@@ -55,7 +55,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
     if (data == null) return;
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<num>);
+      values.addAll(data.whereType<num>());
     } else if (data is num) {
       values.add(data);
     } else {

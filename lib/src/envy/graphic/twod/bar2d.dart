@@ -24,12 +24,12 @@ class Bar2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _width = width.valueAt(i);
-    final num _height = height.valueAt(i);
-    final Anchor2d _anchor = anchor.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+    final num _width = width.valueAt(index);
+    final num _height = height.valueAt(index);
+    final Anchor2d _anchor = anchor.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     // Adjust for anchor (default origin is bottom middle)
     num _x = 0;

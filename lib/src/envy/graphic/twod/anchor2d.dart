@@ -15,7 +15,7 @@ class Anchor2d {
   num offsetX;
   num offsetY;
 
-  Anchor2d({this.mode: AnchorMode2d.defaultMode, this.offsetX: 0, this.offsetY: 0});
+  Anchor2d({this.mode = AnchorMode2d.defaultMode, this.offsetX = 0, this.offsetY = 0});
 
   /// Calculates the adjustments that should be added to the vertices of
   /// a `graphic2d` object based on this anchor's current settings.

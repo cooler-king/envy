@@ -40,7 +40,7 @@ abstract class EnvyNode {
     }
   }
 
-  void update(num fraction, {dynamic context, bool finish: false}) {
+  void update(num fraction, {dynamic context, bool finish = false}) {
     if (this is DynamicNode) (this as DynamicNode).updateProperties(fraction, finish: finish);
   }
 

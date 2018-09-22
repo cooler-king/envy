@@ -25,15 +25,15 @@ class Star2d extends Graphic2dNode {
   NumberProperty get outerRadius => properties['outerRadius'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _outerRadius, _innerRadius;
-    _pointCount = pointCount.valueAt(i).toInt();
+    _pointCount = pointCount.valueAt(index).toInt();
 
     // No points, nothing to render
     if (_pointCount < 1) return;
 
-    _outerRadius = outerRadius.valueAt(i);
-    _innerRadius = innerRadius.valueAt(i);
+    _outerRadius = outerRadius.valueAt(index);
+    _innerRadius = innerRadius.valueAt(index);
 
     //num maxRadius = Math.max(_outerRadius, _innerRadius);
 
@@ -74,7 +74,7 @@ class Star2d extends Graphic2dNode {
     // Adjust for anchor (default is center of Star)
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor != null) {
       final List<num> adj = _anchor.calcAdjustments(-maxY, maxX, maxY, -maxX);
       _x += adj[0];
@@ -82,8 +82,8 @@ class Star2d extends Graphic2dNode {
     }
 
     if (xRaw.isNotEmpty) {
-      final bool _fill = fill.valueAt(i);
-      final bool _stroke = stroke.valueAt(i);
+      final bool _fill = fill.valueAt(index);
+      final bool _stroke = stroke.valueAt(index);
 
       ctx
         ..beginPath()

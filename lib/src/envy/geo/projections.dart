@@ -11,7 +11,7 @@ abstract class Projection {
 
   /// The scale of the projection may be set indirectly by specifying the
   /// desired width of the projection in pixels (at 0 latitude).
-  set pixelWidth(num width) {
+  void setPixelWidth(num width) {
     final Point<num> left = degreesToPoint(latDeg: 0, longDeg: -180);
     final Point<num> right = degreesToPoint(latDeg: 0, longDeg: 180);
     _scale = width / (right.x - left.x).abs();
@@ -19,14 +19,14 @@ abstract class Projection {
 
   /// The scale of the projection may be set indirectly by specifying the
   /// desired height of the projection in pixels (at 0 longitude).
-  set pixelHeight(num height) {
+  void setPixelHeight(num height) {
     final Point<num> top = degreesToPoint(latDeg: 89.99, longDeg: 0);
     final Point<num> bottom = degreesToPoint(latDeg: -89.99, longDeg: 0);
     _scale = height / (bottom.x - top.x).abs();
   }
 
   /// The anchor coordinate, if specified, will be at pixel location 0, 0.
-  set anchorCoord(GeoCoord coord) {
+  void setAnchorCoord(GeoCoord coord) {
     final Point<num> anchor = toPoint(latRad: coord.latRad, longRad: coord.longRad);
     _offset = new Point<num>(-anchor.x, -anchor.y);
   }
@@ -57,9 +57,9 @@ abstract class Projection {
 class Equirectangular extends Projection {
   final num cosParallel;
 
-  Equirectangular(Angle standardParallel, {num width: 500, GeoCoord anchor}) : cosParallel = standardParallel.cosine() {
-    if (width != null) pixelWidth = width;
-    if (anchor != null) anchorCoord = anchor;
+  Equirectangular(Angle standardParallel, {num width = 500, GeoCoord anchor}) : cosParallel = standardParallel.cosine() {
+    if (width != null) setPixelWidth(width);
+    if (anchor != null) setAnchorCoord(anchor);
   }
 
   @override

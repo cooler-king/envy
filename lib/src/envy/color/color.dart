@@ -132,10 +132,10 @@ class Color implements CssAdapter {
   /// Returns a [light] or [dark] color, whichever is easiest to see when
   /// superimposed on this color, based on its perceptive luminance.
   ///
-  /// The [threshold] determines the level of perceptive luminince at which
+  /// The [threshold] determines the level of perceptive luminance at which
   /// the auto text color switches over from light to dark (default is 0.5).
   ///
-  Color autoTextColor({Color light: Color.white, Color dark: Color.black, double threshold: 0.5}) {
+  Color autoTextColor({Color light = Color.white, Color dark = Color.black, double threshold = 0.5}) {
     if (perceptiveLuminance > threshold)
       return dark;
     else

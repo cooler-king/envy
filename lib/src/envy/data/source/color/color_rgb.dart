@@ -13,10 +13,10 @@ class ColorRgb extends ColorSource {
 
   //TODO -- array length considerations???
   @override
-  Color valueAt(int i) {
+  Color valueAt(int index) {
     //TODO check for nulls?
     return new Color(
-        red?.valueAt(i)?.toDouble() ?? 0.0, green?.valueAt(i)?.toDouble() ?? 0.0, blue?.valueAt(i)?.toDouble() ?? 0.0);
+        red?.valueAt(index)?.toDouble() ?? 0.0, green?.valueAt(index)?.toDouble() ?? 0.0, blue?.valueAt(index)?.toDouble() ?? 0.0);
 
     //TODO even need values array?  or should that be for constants?
     //values[i] = new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));

@@ -21,15 +21,15 @@ class Rect2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     //_apply2dContext(i, ctx);
-    _width = width.valueAt(i);
-    _height = height.valueAt(i);
-    _anchor = anchor.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _width = width.valueAt(index);
+    _height = height.valueAt(index);
+    _anchor = anchor.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     //print('x, y, width, height... ${_x}, ${_y}, ${_width}, ${_height}');
 

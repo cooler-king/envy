@@ -17,7 +17,7 @@ class ImagePattern2d extends Pattern2d {
   int patternWidth;
   int patternHeight;
 
-  ImagePattern2d(this.imageObj, {this.repeat: PatternRepeat.repeat, this.patternWidth, this.patternHeight});
+  ImagePattern2d(this.imageObj, {this.repeat = PatternRepeat.repeat, this.patternWidth, this.patternHeight});
 
   void _createCanvasPattern(CanvasRenderingContext2D ctx) {
     String repeatStr = 'repeat';

@@ -29,15 +29,15 @@ class AnnularSection2d extends Graphic2dNode {
   AngleProperty get endAngle => properties['endAngle'] as AngleProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y, _innerRadius, _outerRadius, _startAngleRad, _endAngleRad;
-    _innerRadius = innerRadius.valueAt(i);
-    _outerRadius = outerRadius.valueAt(i);
-    _startAngleRad = startAngle.valueAt(i).valueSI.toDouble();
-    _endAngleRad = endAngle.valueAt(i).valueSI.toDouble();
+    _innerRadius = innerRadius.valueAt(index);
+    _outerRadius = outerRadius.valueAt(index);
+    _startAngleRad = startAngle.valueAt(index).valueSI.toDouble();
+    _endAngleRad = endAngle.valueAt(index).valueSI.toDouble();
 
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     final num cosStart = cos(_startAngleRad);
     final num sinStart = sin(_startAngleRad);
@@ -47,7 +47,7 @@ class AnnularSection2d extends Graphic2dNode {
     // Adjust for anchor (default is at the origin of the circle of which the annulus is a section)
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor?.isNotDefault == true) {
       final num x1 = _innerRadius * cosStart;
       final num y1 = _innerRadius * sinStart;

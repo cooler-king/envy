@@ -26,6 +26,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
   /// as a whole.
   ///
   ColorData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+    accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }
@@ -55,7 +56,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
     }
 
     if (data is List<dynamic>) {
-      values.addAll(data as List<Color>);
+      values.addAll(data.whereType<Color>());
     } else if (data is Color) {
       values.add(data);
     } else {

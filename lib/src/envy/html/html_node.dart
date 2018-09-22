@@ -103,7 +103,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
   /// Called post-properties update but before children are updated.
   @override
-  void groupUpdatePre(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePre(num timeFraction, {dynamic context, bool finish = false}) {
     updateDom();
   }
 

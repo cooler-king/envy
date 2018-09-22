@@ -23,19 +23,19 @@ class RegularPolygon2d extends Graphic2dNode {
   NumberProperty get radius => properties['radius'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _radius;
-    _pointCount = pointCount.valueAt(i);
+    _pointCount = pointCount.valueAt(index);
 
     // No points, nothing to render
     if (_pointCount < 1) return;
 
-    _radius = radius.valueAt(i);
+    _radius = radius.valueAt(index);
 
     // Adjust for anchor (default is center of RegularPolygon)
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor != null) {
       final List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
       _x += adj[0];
@@ -46,8 +46,8 @@ class RegularPolygon2d extends Graphic2dNode {
     final num angleStepRad = 2.0 * halfAngleStepRad;
     num preAngleRad = -halfAngleStepRad;
     num postAngleRad = halfAngleStepRad;
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     //Path2D p = new Path2D();
     //paths.add(p);

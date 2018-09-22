@@ -24,6 +24,7 @@ class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements Draw
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   DrawingStyle2dData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+    accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }
@@ -52,10 +53,7 @@ class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements Draw
     }
 
     if (data is List<dynamic>) {
-//      for (dynamic value in data) {
-//        values.add(value is DrawingStyle2d ? value : null);
-//      }
-      values.addAll(data as List<DrawingStyle2d>);
+      values.addAll(data.whereType<DrawingStyle2d>());
     } else if (data is DrawingStyle2d) {
       values.add(data);
     } else {

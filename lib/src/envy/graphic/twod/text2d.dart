@@ -36,33 +36,33 @@ class Text2d extends Graphic2dNode {
   }
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _dx, _dy, _maxWidth;
-    final String _text = text.valueAt(i);
+    final String _text = text.valueAt(index);
 
     // Nothing to render?
     if (_text?.isEmpty == true) return;
 
-    _dx = dx.valueAt(i);
-    _dy = dy.valueAt(i);
-    _maxWidth = maxWidth.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+    _dx = dx.valueAt(index);
+    _dy = dy.valueAt(index);
+    _maxWidth = maxWidth.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     // Set the text-related properties in the global context
-    final TextAlign2d _align = textAlign.valueAt(i);
+    final TextAlign2d _align = textAlign.valueAt(index);
     if (_align != null) ctx.textAlign = _align.value;
 
-    final TextBaseline2d _baseline = textBaseline.valueAt(i);
+    final TextBaseline2d _baseline = textBaseline.valueAt(index);
     if (_baseline != null) ctx.textBaseline = _baseline.value;
 
-    final Font _font = font.valueAt(i);
+    final Font _font = font.valueAt(index);
     if (_font != null) ctx.font = _font.css;
 
     // Adjust for anchor (default is top left)
     final TextMetrics metrics = ctx.measureText(_text);
     final num approxHeight = ctx.measureText('x').width * 1.25;
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor?.isNotDefault == true) {
       final List<num> adj = _anchor.calcAdjustments(-approxHeight, metrics.width, 0, 0);
       _dx += adj[0];
@@ -74,8 +74,8 @@ class Text2d extends Graphic2dNode {
       ctx.beginPath();
       if (metrics.actualBoundingBoxLeft != null) {
         ctx.rect(
-            -(metrics.actualBoundingBoxLeft) + _dx,
-            -(metrics.actualBoundingBoxAscent) + _dy,
+            -metrics.actualBoundingBoxLeft + _dx,
+            -metrics.actualBoundingBoxAscent + _dy,
             metrics.actualBoundingBoxRight + metrics.actualBoundingBoxLeft,
             metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent);
       } else if (metrics.width != null) {

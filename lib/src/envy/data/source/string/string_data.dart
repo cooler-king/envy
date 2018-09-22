@@ -60,7 +60,6 @@ class StringData extends ArrayDataSource<String> implements StringSource {
           values.add('$entry');
         }
       }
-      //this.values.addAll(data);
     } else if (data is String) {
       values.add(data);
     } else {

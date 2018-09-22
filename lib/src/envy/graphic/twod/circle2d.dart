@@ -18,13 +18,13 @@ class Circle2d extends Graphic2dNode {
   NumberProperty get radius => properties['radius'] as NumberProperty;
 
   @override
-  void renderIndex(int i, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _radius = radius.valueAt(i);
-    final bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(i);
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+    final num _radius = radius.valueAt(index);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
     // Adjust for anchor (default is center of circle)
-    final Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     num _x = 0;
     num _y = 0;
     if (_anchor != null) {
