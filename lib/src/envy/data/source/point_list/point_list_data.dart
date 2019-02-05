@@ -1,13 +1,14 @@
-part of envy;
+import '../../../envy_node.dart';
+import '../../../graphic/twod/point_list.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'point_list_source.dart';
 
 /// Retrieves PointList data from a named dataset.
-///
 class PointListData extends ArrayDataSource<PointList> implements PointListSource {
-  String _datasetName;
-  EnvyNode _node;
-  DataAccessor accessor;
-
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
@@ -18,28 +19,27 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
-  ///
-  PointListData(this._datasetName, this._node, {this.accessor, String prop}) {
-    if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
-    }
+  PointListData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
+    this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
   }
 
-  /// Find the dataset named [keyedDataset.name], starting with [keyedDataset.node]
+  /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
   /// and working up the ancestor chain, and use a keyed property data accessor
-  /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
-  /// dataset.
-  ///
+  /// constructed from [prop] and `keyedDataset.keyProp` to select data from that dataset.
   PointListData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
+      _datasetName = keyedDataset.name;
+      _node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
+  String _datasetName;
+  EnvyNode _node;
+
+  @override
   void refresh() {
-    this.values.clear();
+    values.clear();
 
     Object data = _node.getDataset(_datasetName);
     if (accessor != null) {
@@ -47,14 +47,14 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
       data = accessor.getData(data);
     }
 
-    if (data is List<PointList>) {
-      this.values.addAll(data);
-    } else if (data is PointList) {
-      this.values.add(data);
+    if (data is PointList) {
+      values.add(data);
+    } else if (data is List<dynamic>) {
+      values.addAll(data.whereType<PointList>());
     } else {
-      // warn and return empty PointList
-      _LOG.warning("Unexpected data type for PointListData: ${data}");
-      this.values.add(new PointList());
+      // Warn and return empty PointList.
+      logger.warning('Unexpected data type for PointListData: $data');
+      values.add(new PointList());
     }
   }
 }

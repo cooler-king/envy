@@ -2,18 +2,18 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Fixed Size Multiplicity', () {
     test('Constructors', () {
-      FixedSize fs = new FixedSize(3);
-      expect(fs != null, true);
+      final FixedSize fs = new FixedSize(3);
+      expect(fs, isNotNull);
+      expect(fs.size, 3);
     });
 
     test('Values', () {
-      FixedSize fs = new FixedSize(5);
+      final FixedSize fs = new FixedSize(5);
 
-      List<EnvyProperty> props = [];
-      props.add(new NumberProperty());
+      final List<EnvyProperty<dynamic>> props = <EnvyProperty<dynamic>>[]..add(new NumberProperty());
 
       expect(fs != null, true);
     });

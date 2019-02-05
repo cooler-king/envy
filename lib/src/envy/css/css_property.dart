@@ -1,4 +1,9 @@
-part of envy;
+import '../interpolate/binary_interpolator.dart';
+import '../interpolate/css_style_interpolator.dart';
+import '../interpolate/envy_interpolator.dart';
+import '../util/css_util.dart';
+import 'css_adapter.dart';
+import 'enum/css_length_units.dart';
 
 /// All CSS properties can have 'initial' or 'inherit' values.
 ///
@@ -6,26 +11,29 @@ abstract class CssProperty implements CssAdapter {
   bool initial = false;
   bool inherit = false;
 
+  @override
   String get css {
     if (inherit) return 'inherit';
     if (initial) return 'initial';
-    return "";
+    return '';
   }
 
-  EnvyInterpolator get interpolator;
+  EnvyInterpolator<CssProperty> get interpolator;
 }
 
 class CssString extends CssProperty {
-  EnvyInterpolator get interpolator => new BinaryInterpolator();
+  @override
+  EnvyInterpolator<CssString> get interpolator => new BinaryInterpolator<CssString>();
 }
 
 class CssNumber extends CssProperty {
-  num value;
-
   CssNumber([this.value]);
 
+  num value;
+
+  @override
   String get css {
-    if (value != null) return "${value}";
+    if (value != null) return '$value';
     return super.css;
   }
 
@@ -38,13 +46,11 @@ class CssNumber extends CssProperty {
     }
   }*/
 
-  EnvyInterpolator get interpolator => new CssNumberInterpolator();
+  @override
+  EnvyInterpolator<CssNumber> get interpolator => new CssNumberInterpolator();
 }
 
 class CssLength extends CssProperty {
-  final CssLengthUnits units;
-  final num value;
-
   CssLength(this.value, this.units);
 
   CssLength.px(this.value) : units = CssLengthUnits.px;
@@ -63,12 +69,17 @@ class CssLength extends CssProperty {
   CssLength.vmax(this.value) : units = CssLengthUnits.vmax;
   CssLength.vmin(this.value) : units = CssLengthUnits.vmin;
 
+  final CssLengthUnits units;
+  final num value;
+
+  @override
   String get css {
-    if (value != null) return "${value}${units?.value ?? 'px'}";
+    if (value != null) return '$value${units?.value ?? 'px'}';
     return super.css;
   }
 
-  EnvyInterpolator get interpolator => new CssLengthInterpolator();
+  @override
+  EnvyInterpolator<CssLength> get interpolator => new CssLengthInterpolator();
 
   CssLength get inPixels {
     if (units == CssLengthUnits.px) return this;
@@ -81,5 +92,6 @@ class CssOpacity extends CssNumber {
 }
 
 class CssTransform extends CssProperty {
-  EnvyInterpolator get interpolator => new CssTransformInterpolator();
+  @override
+  EnvyInterpolator<CssTransform> get interpolator => new CssTransformInterpolator();
 }

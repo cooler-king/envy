@@ -1,16 +1,18 @@
-part of envy;
+import '../../../graphic/twod/number_list.dart';
+import '../data_source.dart';
 
 abstract class NumberListSource extends DataSource<NumberList> {}
 
 class NumberListConstant extends ArrayDataSource<NumberList> implements NumberListSource {
   NumberListConstant(NumberList numberList) {
-    this.values.add(numberList);
+    values.add(numberList);
   }
 
   NumberListConstant.array(List<NumberList> numberLists) {
-    this.values.addAll(numberLists);
+    values.addAll(numberLists);
   }
 
   // No-op refresh
+  @override
   void refresh() {}
 }

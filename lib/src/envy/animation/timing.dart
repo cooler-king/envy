@@ -1,4 +1,6 @@
-part of envy;
+import 'fill_mode.dart';
+import 'playback_direction.dart';
+import 'timing_function.dart';
 
 Timing defaultTiming = new Timing();
 
@@ -15,9 +17,7 @@ Timing defaultTiming = new Timing();
 /// }
 ///
 class Timing {
-  static const num auto = double.INFINITY;
-
-  Timing();
+  static const num auto = double.infinity;
 
   //static final Timing defaultTiming = new Timing();
 

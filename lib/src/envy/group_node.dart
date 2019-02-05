@@ -1,15 +1,10 @@
-part of envy;
+import 'dynamic_node.dart';
+import 'envy_node.dart';
 
 /// A generic group nodes holds any number of child nodes but has
 /// no other state and no rendered component.
 ///
 class GroupNode extends EnvyNode {
-  //@observable
-  //final ObservableList<EnvyNode> children = new ObservableList.from([]);
-
-  // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List.from([]);
-
   GroupNode() {
     /*
     // Listen for changes to list of children and manage parent references
@@ -45,35 +40,41 @@ class GroupNode extends EnvyNode {
       }
     });*/
   }
+  //@observable
+  //final ObservableList<EnvyNode> children = new ObservableList.from([]);
+
+  // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
+  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
 
   /// Subclasses must override to execute any updates prior to child updates
   /// (but after property updates).
   ///
-  void groupUpdatePre(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePre(num timeFraction, {dynamic context, bool finish = false}) {
     // No-op default
   }
 
   /// Subclasses must override to execute any updates after child updates
   /// (and after property updates and any groupUpdatePre updates).
   ///
-  void groupUpdatePost(num timeFraction, {dynamic context, bool finish: false}) {
+  void groupUpdatePost(num timeFraction, {dynamic context, bool finish = false}) {
     // No-op default
   }
 
   /// Set start and target values for an animation update for each property.
   ///
-  void _prepareForAnimation() {
+  @override
+  void prepareForAnimation() {
     //print("Timed item group preparing for animation");
-    if (this is DynamicNode) (this as DynamicNode)._preparePropertiesForAnimation();
+    if (this is DynamicNode) (this as DynamicNode).preparePropertiesForAnimation();
     /*
     children.where((EnvyNode child) => child is DynamicNode).forEach((child) {
       //print("timed item group preparing child dynamic node for animation");
         (child as DynamicNode)._prepareForAnimation();
     });*/
 
-    for (var child in children) {
-      if (child is DynamicNode) (child as DynamicNode)._preparePropertiesForAnimation();
-      if (child is GroupNode) child._prepareForAnimation();
+    for (EnvyNode child in children) {
+      if (child is DynamicNode) (child as DynamicNode).preparePropertiesForAnimation();
+      if (child is GroupNode) child.prepareForAnimation();
     }
   }
 
@@ -81,7 +82,7 @@ class GroupNode extends EnvyNode {
   /// update the group's children (in that order).
   ///
   @override
-  void update(num timeFraction, {dynamic context, bool finish: false}) {
+  void update(num timeFraction, {dynamic context, bool finish = false}) {
     // print("group update fraction = ${timeFraction}");
     // Update any dynamic properties
     super.update(timeFraction, context: context, finish: finish);
@@ -90,7 +91,7 @@ class GroupNode extends EnvyNode {
     groupUpdatePre(timeFraction, context: context, finish: finish);
 
     // Update children
-    for (var child in children) {
+    for (EnvyNode child in children) {
       //int start = new DateTime.now().millisecondsSinceEpoch;
       //print("group update node = ${child}");
       child.update(timeFraction, context: context, finish: finish);
@@ -120,8 +121,9 @@ class GroupNode extends EnvyNode {
     } else {
       children.insert(index, node);
     }
-    node.parent = this;
-    node._prepareForAnimation();
+    node
+      ..parent = this
+      ..prepareForAnimation();
     return true;
   }
 
@@ -133,7 +135,7 @@ class GroupNode extends EnvyNode {
   ///
   bool detach(EnvyNode node) {
     if (node == null) return false;
-    bool tf = children.remove(node);
+    final bool tf = children.remove(node);
     node.parent = null;
     return tf;
   }

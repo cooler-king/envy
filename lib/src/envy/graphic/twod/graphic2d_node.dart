@@ -1,35 +1,54 @@
-part of envy;
+import 'dart:async';
+import 'dart:html';
+import 'dart:math' show max;
+import 'package:quantity/quantity.dart' show Angle, angle0;
+import 'package:vector_math/vector_math.dart' show Vector2;
+import '../../color/color.dart';
+import '../../envy_property.dart';
+import '../../html/canvas_node.dart';
+import '../graphic_node.dart';
+import 'drawing_style2d.dart';
+import 'enum/line_cap2d.dart';
+import 'enum/line_join2d.dart';
+import 'number_list.dart';
 
 abstract class Graphic2dNode extends GraphicLeaf {
+  Graphic2dNode(Node htmlNode, [String id]) {
+    _initContextProperties();
+    initBaseProperties();
+
+    _initStreams();
+  }
+
   /// Store paths for efficient hit testing
-  final List<Path2D> paths = [];
+  //final List<Path2D> paths = [];
 
   ///
-  Stream onClick;
+  Stream<Graphic2dIntersection> onClick;
   StreamController<Graphic2dIntersection> _onClickController;
 
-  Stream onDoubleClick;
+  Stream<Graphic2dIntersection> onDoubleClick;
   StreamController<Graphic2dIntersection> _onDoubleClickController;
 
-  Stream onMouseEnter;
+  Stream<Graphic2dIntersection> onMouseEnter;
   StreamController<Graphic2dIntersection> _onMouseEnterController;
 
-  Stream onMouseOver;
+  Stream<Graphic2dIntersection> onMouseOver;
   StreamController<Graphic2dIntersection> _onMouseOverController;
 
-  Stream onMouseMove;
+  Stream<Graphic2dIntersection> onMouseMove;
   StreamController<Graphic2dIntersection> _onMouseMoveController;
 
-  Stream onMouseOut;
+  Stream<Graphic2dIntersection> onMouseOut;
   StreamController<Graphic2dIntersection> _onMouseOutController;
 
-  Stream onMouseLeave;
+  Stream<Graphic2dIntersection> onMouseLeave;
   StreamController<Graphic2dIntersection> _onMouseLeaveController;
 
-  Stream onMouseDown;
+  Stream<Graphic2dIntersection> onMouseDown;
   StreamController<Graphic2dIntersection> _onMouseDownController;
 
-  Stream onMouseUp;
+  Stream<Graphic2dIntersection> onMouseUp;
   StreamController<Graphic2dIntersection> _onMouseUpController;
 
   // For efficiency
@@ -37,15 +56,15 @@ abstract class Graphic2dNode extends GraphicLeaf {
   Angle _rotation = angle0;
   Vector2 _scale = vec2one;
   Vector2 _skew = vec2zero;
+  NumberList ctxNumberList;
+  num ctxNum;
+  DrawingStyle2d ctxDrawingStyle2d;
+  String ctxString;
+  LineCap2d ctxLineCap2d;
+  LineJoin2d ctxLineJoin2d;
+  Color ctxColor;
 
-  static const List<int> defaultLineDash = const [1, 0];
-
-  Graphic2dNode(Node htmlNode, [String id]) {
-    _initContextProperties();
-    _initBaseProperties();
-
-    _initStreams();
-  }
+  static const List<int> defaultLineDash = const <int>[1, 0];
 
   void _initContextProperties() {
     // fillStyle and stroke style can be CSS color, gradient or pattern
@@ -53,36 +72,36 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // DON'T GIVE THESE INITIAL ENTER VALUES (causes exit properties to have rawSize of 1 unless manually cleared)
     // Use property default values in constructors
 
-    properties["fillStyle"] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
-    properties["strokeStyle"] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
+    properties['fillStyle'] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
+    properties['strokeStyle'] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
 
-    properties["globalAlpha"] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
-    properties["globalCompositeOperation"] = new StringProperty(optional: true); //..enter =
+    properties['globalAlpha'] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
+    properties['globalCompositeOperation'] = new StringProperty(optional: true); //..enter =
     //new StringConstant.enumerationValue(CompositeOperation2d.SOURCE_OVER);
 
     // Line properties
-    properties["lineWidth"] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
+    properties['lineWidth'] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
 
-    properties["lineCap"] = new LineCap2dProperty(optional: true);
-    properties["lineJoin"] = new LineJoin2dProperty(optional: true);
-    properties["miterLimit"] = new NumberProperty(defaultValue: 10, optional: true); //..enter = new NumberConstant(10);
-    properties["lineDashOffset"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['lineCap'] = new LineCap2dProperty(optional: true);
+    properties['lineJoin'] = new LineJoin2dProperty(optional: true);
+    properties['miterLimit'] = new NumberProperty(defaultValue: 10, optional: true); //..enter = new NumberConstant(10);
+    properties['lineDashOffset'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
 
-    properties["lineDash"] = new NumberListProperty(optional: true);
+    properties['lineDash'] = new NumberListProperty(optional: true);
 
     // Text properties
-    properties["font"] = new FontProperty(optional: true);
-    properties["textAlign"] = new TextAlign2dProperty(optional: true);
-    properties["textBaseline"] = new TextBaseline2dProperty(optional: true);
+    properties['font'] = new FontProperty(optional: true);
+    properties['textAlign'] = new TextAlign2dProperty(optional: true);
+    properties['textBaseline'] = new TextBaseline2dProperty(optional: true);
 
     // Image Properties
-    properties["imageSmoothingEnabled"] = new BooleanProperty(); //..enter = BooleanConstant.TRUE;
+    properties['imageSmoothingEnabled'] = new BooleanProperty(); //..enter = BooleanConstant.TRUE;
 
     // Shadow properties
-    properties["shadowBlur"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties["shadowOffsetX"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties["shadowOffsetY"] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties["shadowColor"] = new ColorProperty(optional: true); //..enter = ColorConstant.transparentBlack;
+    properties['shadowBlur'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowOffsetX'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowOffsetY'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowColor'] = new ColorProperty(optional: true); //..enter = ColorConstant.transparentBlack;
   }
 
   /// Initialize the set of base properties that every Graphic2d includes.
@@ -94,69 +113,69 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// y: the y coordinate of the anchor
   /// rotation: the rotation about the anchor
   ///
-  void _initBaseProperties() {
-    properties["anchor"] = new Anchor2dProperty(optional: true);
-    properties["fill"] = new BooleanProperty(defaultValue: true, optional: true);
-    properties["stroke"] = new BooleanProperty(defaultValue: true, optional: true);
-    properties["x"] = new NumberProperty()..payload = "x";
-    properties["y"] = new NumberProperty()..payload = "y";
-    properties["rotation"] = new AngleProperty(optional: true);
-    properties["scale"] = new Scale2Property(optional: true);
-    properties["skew"] = new Skew2Property(optional: true);
+  void initBaseProperties() {
+    properties['anchor'] = new Anchor2dProperty(optional: true);
+    properties['fill'] = new BooleanProperty(defaultValue: true, optional: true);
+    properties['stroke'] = new BooleanProperty(defaultValue: true, optional: true);
+    properties['x'] = new NumberProperty()..payload = 'x';
+    properties['y'] = new NumberProperty()..payload = 'y';
+    properties['rotation'] = new AngleProperty(optional: true);
+    properties['scale'] = new Scale2Property(optional: true);
+    properties['skew'] = new Skew2Property(optional: true);
 
     // Arbitrary data payload
-    properties["data"] = new GenericProperty();
+    properties['data'] = new GenericProperty();
   }
 
   // Context properties
-  DrawingStyle2dProperty get fillStyle => properties["fillStyle"] as DrawingStyle2dProperty;
+  DrawingStyle2dProperty get fillStyle => properties['fillStyle'] as DrawingStyle2dProperty;
 
-  DrawingStyle2dProperty get strokeStyle => properties["strokeStyle"] as DrawingStyle2dProperty;
+  DrawingStyle2dProperty get strokeStyle => properties['strokeStyle'] as DrawingStyle2dProperty;
 
-  NumberProperty get globalAlpha => properties["globalAlpha"] as NumberProperty;
+  NumberProperty get globalAlpha => properties['globalAlpha'] as NumberProperty;
 
-  StringProperty get globalCompositeOperation => properties["globalCompositeOperation"] as StringProperty;
+  StringProperty get globalCompositeOperation => properties['globalCompositeOperation'] as StringProperty;
 
-  NumberProperty get lineWidth => properties["lineWidth"] as NumberProperty;
+  NumberProperty get lineWidth => properties['lineWidth'] as NumberProperty;
 
-  LineCap2dProperty get lineCap => properties["lineCap"] as LineCap2dProperty;
+  LineCap2dProperty get lineCap => properties['lineCap'] as LineCap2dProperty;
 
-  LineJoin2dProperty get lineJoin => properties["lineJoin"] as LineJoin2dProperty;
+  LineJoin2dProperty get lineJoin => properties['lineJoin'] as LineJoin2dProperty;
 
-  NumberListProperty get lineDash => properties["lineDash"] as NumberListProperty;
+  NumberListProperty get lineDash => properties['lineDash'] as NumberListProperty;
 
-  TextAlign2dProperty get textAlign => properties["textAlign"] as TextAlign2dProperty;
+  TextAlign2dProperty get textAlign => properties['textAlign'] as TextAlign2dProperty;
 
-  TextBaseline2dProperty get textBaseline => properties["textBaseline"] as TextBaseline2dProperty;
+  TextBaseline2dProperty get textBaseline => properties['textBaseline'] as TextBaseline2dProperty;
 
-  FontProperty get font => properties["font"] as FontProperty;
+  FontProperty get font => properties['font'] as FontProperty;
 
-  NumberProperty get shadowBlur => properties["shadowBlur"] as NumberProperty;
+  NumberProperty get shadowBlur => properties['shadowBlur'] as NumberProperty;
 
-  NumberProperty get shadowOffsetX => properties["shadowOffsetX"] as NumberProperty;
+  NumberProperty get shadowOffsetX => properties['shadowOffsetX'] as NumberProperty;
 
-  NumberProperty get shadowOffsetY => properties["shadowOffsetY"] as NumberProperty;
+  NumberProperty get shadowOffsetY => properties['shadowOffsetY'] as NumberProperty;
 
-  ColorProperty get shadowColor => properties["shadowColor"] as ColorProperty;
+  ColorProperty get shadowColor => properties['shadowColor'] as ColorProperty;
 
   // Base properties
-  Anchor2dProperty get anchor => properties["anchor"] as Anchor2dProperty;
+  Anchor2dProperty get anchor => properties['anchor'] as Anchor2dProperty;
 
-  BooleanProperty get fill => properties["fill"] as BooleanProperty;
+  BooleanProperty get fill => properties['fill'] as BooleanProperty;
 
-  BooleanProperty get stroke => properties["stroke"] as BooleanProperty;
+  BooleanProperty get stroke => properties['stroke'] as BooleanProperty;
 
-  NumberProperty get x => properties["x"] as NumberProperty;
+  NumberProperty get x => properties['x'] as NumberProperty;
 
-  NumberProperty get y => properties["y"] as NumberProperty;
+  NumberProperty get y => properties['y'] as NumberProperty;
 
-  AngleProperty get rotation => properties["rotation"] as AngleProperty;
+  AngleProperty get rotation => properties['rotation'] as AngleProperty;
 
-  Scale2Property get scale => properties["scale"] as Scale2Property;
+  Scale2Property get scale => properties['scale'] as Scale2Property;
 
-  Skew2Property get skew => properties["skew"] as Skew2Property;
+  Skew2Property get skew => properties['skew'] as Skew2Property;
 
-  GenericProperty get data => properties["data"] as GenericProperty;
+  GenericProperty get data => properties['data'] as GenericProperty;
 
   // Synonym properties
   NumberProperty get opacity => globalAlpha;
@@ -167,33 +186,33 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// graphics disappear.
   ///
   ///
-  void update(num fraction, {dynamic context, bool finish: false}) {
-    //print("${this} graphic2d update fraction = ${fraction}, finish = ${finish}");
-    //print("properties = ${properties}");
+  @override
+  void update(num fraction, {dynamic context, bool finish = false}) {
+    //print('${this} graphic2d update fraction = ${fraction}, finish = ${finish}');
+    //print('properties = ${properties}');
     // TODO
     // 1 - get all canvas parents
     // 2 - render in each one (INDEPENDENT population only implementation)
 
     // _currentContext2DList contains the contexts for the CanvasElements currently being updated
-    for (var context in _currentContext2DList) {
+    for (CanvasRenderingContext2D context in currentContext2DList) {
       // Update dynamic properties
       super.update(fraction, context: context, finish: finish);
-      //print("g2d update 2");
+      //print('g2d update 2');
 
       //_store2dContext(context);
       //context.save();
-      //print("g2d update 3");
+      //print('g2d update 3');
       _render(context, finish);
-      //print("g2d update 4");
+      //print('g2d update 4');
       //_restore2dContext(context);
       //context.restore();
-      //print("g2d update 5");
+      //print('g2d update 5');
     }
   }
 
-  /// Draws the graphic and stores a Path2D in [paths] for efficient hit testing.
-  ///
-  void _renderIndex(int index, CanvasRenderingContext2D ctx);
+  /// Draws the graphic.
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest});
 
   /// Renders a graphic for each index up to the current rendering size.
   ///
@@ -201,20 +220,19 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// graphics will not be drawn).  Otherwise the rendering size will be the larger of the
   /// current size and the new size (that is, everything is drawn including new graphics and
   /// graphics on their way out).
-  ///
-  void _render(context, bool finish) {
-    //print("G2D _render... SIZE = ${size}");
+  void _render(CanvasRenderingContext2D context, bool finish) {
+    //print('G2D _render... SIZE = ${size}');
     //for(int i=0; i<size; i++) {
 
     // Forget the current paths, about to make new ones
-    paths.clear();
+    //paths.clear();
 
-    int renderSize = finish ? _size : Math.max(_size, _prevSize);
-    //print("RENDER SIZE = ${renderSize}");
+    final int renderSize = finish ? size : max(size, prevSize);
+    //print('RENDER SIZE = ${renderSize}');
     for (_i = 0; _i < renderSize; _i++) {
       context.save();
       _apply2dContext(_i, context);
-      _renderIndex(_i, context);
+      renderIndex(_i, context);
       context.restore();
     }
   }
@@ -222,48 +240,43 @@ abstract class Graphic2dNode extends GraphicLeaf {
   //TODO find a way to use nulls for default values -- efficiency
   //TODO only apply properties that are used for particular types of graphics?
   void _apply2dContext(int index, CanvasRenderingContext2D ctx) {
-    /* applying default value 0.... (invisible) */
-    var value;
+    ctxDrawingStyle2d = fillStyle.valueAt(index);
+    if (ctxDrawingStyle2d != null) ctx.fillStyle = ctxDrawingStyle2d.style(ctx);
 
-    value = fillStyle.valueAt(index);
-    if (value != null) ctx.fillStyle = value.style(ctx);
+    ctxDrawingStyle2d = strokeStyle.valueAt(index);
+    if (ctxDrawingStyle2d != null) ctx.strokeStyle = ctxDrawingStyle2d.style(ctx);
 
-    value = strokeStyle.valueAt(index);
-    if (value != null) ctx.strokeStyle = value.style(ctx);
+    ctx.globalAlpha = globalAlpha.valueAt(index) ?? 1;
 
-    value = globalAlpha.valueAt(index);
-    ctx.globalAlpha = value ?? 1;
+    ctxString = globalCompositeOperation.valueAt(index);
+    if (ctxString != null) ctx.globalCompositeOperation = ctxString;
 
-    value = globalCompositeOperation.valueAt(index);
-    if (value != null) ctx.globalCompositeOperation = value;
+    ctxNum = lineWidth.valueAt(index);
+    if (ctxNum != null) ctx.lineWidth = ctxNum;
 
-    value = lineWidth.valueAt(index);
-    if (value != null) ctx.lineWidth = value;
+    ctxLineCap2d = lineCap.valueAt(index);
+    if (ctxLineCap2d != null) ctx.lineCap = ctxLineCap2d.value;
 
-    value = lineCap.valueAt(index);
-    if (value != null) ctx.lineCap = value.value;
+    ctxLineJoin2d = lineJoin.valueAt(index);
+    if (ctxLineJoin2d != null) ctx.lineJoin = ctxLineJoin2d.value;
 
-    value = lineJoin.valueAt(index);
-    if (value != null) ctx.lineJoin = value.value;
-
-    value = lineDash.valueAt(index);
-    if (value != null) {
-      if (value.isEmpty) {
-        if (ctx.getLineDash()?.isNotEmpty ?? false) value = defaultLineDash;
+    ctxNumberList = lineDash.valueAt(index);
+    if (ctxNumberList != null) {
+      if (ctxNumberList.isEmpty) {
+        if (ctx.getLineDash()?.isNotEmpty == true) ctx.setLineDash(defaultLineDash);
       } else {
-        ctx.setLineDash(value);
+        ctx.setLineDash(ctxNumberList);
       }
     }
 
-    value = shadowBlur.valueAt(index);
-    if (value != null) ctx.shadowBlur = value;
+    ctxNum = shadowBlur.valueAt(index);
+    if (ctxNum != null) ctx.shadowBlur = ctxNum;
 
-    value = shadowColor.valueAt(index);
-    if (value != null) ctx.shadowColor = value.css;
+    ctxColor = shadowColor.valueAt(index);
+    if (ctxColor != null) ctx.shadowColor = ctxColor.css;
 
     _applyTransform(index, ctx);
   }
-
 
   /// First rotate about the anchor point and then apply the
   /// translation, scale and skew with the transform method.
@@ -274,12 +287,24 @@ abstract class Graphic2dNode extends GraphicLeaf {
   void _applyTransform(int i, CanvasRenderingContext2D ctx) {
     _scale = scale.valueAt(i);
     _skew = skew.valueAt(i);
-    if (scale != vec2one || skew != vec2zero) {
+    if (_scale != vec2one || _skew != vec2zero) {
+      //print('??? TRANSFORM ${x.valueAt(i)} ${y.valueAt(i)}');
       ctx.transform(_scale?.x ?? 1, _skew?.x ?? 0, _skew?.y ?? 0, _scale?.y ?? 1, x.valueAt(i), y.valueAt(i));
+    } else {
+      //print('TRANSLATE $i -- ${x.valueAt(i)} ${y.valueAt(i)}');
+      /*
+      if (i == 0) {
+        print('raw size ${x.rawSize}');
+        for (int q=0; q<x.rawSize; q++) {
+          print(x.valueAt(q));
+        }
+      }*/
+      //ctx.transform(1, 0, 0, 1, x.valueAt(i), y.valueAt(i));
+      ctx.translate(x.valueAt(i), y.valueAt(i));
     }
 
     _rotation = rotation.valueAt(i);
-    if (_rotation != null && _rotation.mks != 0) {
+    if (_rotation != null && _rotation.mks.toDouble() != 0) {
       ctx.rotate(_rotation.mks.toDouble());
     }
   }
@@ -303,9 +328,18 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// point described by x, y.
   ///
   int indexContainingPoint(num x, num y, CanvasRenderingContext2D ctx) {
-    for (_i = paths.length - 1; _i >= 0; _i--) {
+    //for (_i = paths.length - 1; _i >= 0; _i--) {
+    for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();
       _applyTransform(_i, ctx);
+
+      final HitTest test = new HitTest(x, y);
+      renderIndex(_i, ctx, hitTest: test);
+      if (test.hit) {
+        ctx.restore();
+        return _i;
+      }
+      /*
       if (fill.valueAt(_i)) {
         if (ctx.isPointInPath(paths[_i], x, y)) {
           ctx.restore();
@@ -318,7 +352,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
           ctx.restore();
           return _i;
         }
-      }
+      }*/
       ctx.restore();
     }
     return null;
@@ -333,10 +367,17 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// The indices will be appended to [listToUse], if provided.
   ///
   List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
-    List<int> hitIndices = listToUse ?? [];
-    for (_i = paths.length - 1; _i >= 0; _i--) {
+    final List<int> hitIndices = listToUse ?? <int>[];
+    //for (_i = paths.length - 1; _i >= 0; _i--) {
+    for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();
       _applyTransform(_i, ctx);
+
+      final HitTest test = new HitTest(x, y);
+      renderIndex(_i, ctx, hitTest: test);
+      if (test.hit) hitIndices.add(_i);
+
+/*
       if (fill.valueAt(_i)) {
         if (ctx.isPointInPath(paths[_i], x, y)) {
           hitIndices.add(_i);
@@ -346,7 +387,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
             hitIndices.add(_i);
           }
         }
-      }
+      }*/
       ctx.restore();
     }
     return hitIndices;
@@ -382,38 +423,77 @@ abstract class Graphic2dNode extends GraphicLeaf {
   }
 
   void fireClickEvent(Graphic2dIntersection g2di) {
-    if(_onClickController.hasListener) _onClickController.add(g2di);
+    if (_onClickController.hasListener) _onClickController.add(g2di);
   }
 
   void fireDoubleClickEvent(Graphic2dIntersection g2di) {
-    if(_onDoubleClickController.hasListener) _onDoubleClickController.add(g2di);
+    if (_onDoubleClickController.hasListener) _onDoubleClickController.add(g2di);
   }
 
   void fireMouseEnterEvent(Graphic2dIntersection g2di) {
-    if(_onMouseEnterController.hasListener) _onMouseEnterController.add(g2di);
+    if (_onMouseEnterController.hasListener) _onMouseEnterController.add(g2di);
   }
 
   void fireMouseOutEvent(Graphic2dIntersection g2di) {
-    if(_onMouseOutController.hasListener) _onMouseOutController.add(g2di);
+    if (_onMouseOutController.hasListener) _onMouseOutController.add(g2di);
   }
 
   void fireMouseLeaveEvent(Graphic2dIntersection g2di) {
-    if(_onMouseLeaveController.hasListener) _onMouseLeaveController.add(g2di);
+    if (_onMouseLeaveController.hasListener) _onMouseLeaveController.add(g2di);
   }
 
   void fireMouseOverEvent(Graphic2dIntersection g2di) {
-    if(_onMouseOverController.hasListener) _onMouseOverController.add(g2di);
+    if (_onMouseOverController.hasListener) _onMouseOverController.add(g2di);
   }
 
   void fireMouseMoveEvent(Graphic2dIntersection g2di) {
-    if(_onMouseMoveController.hasListener) _onMouseMoveController.add(g2di);
+    if (_onMouseMoveController.hasListener) _onMouseMoveController.add(g2di);
   }
 
   void fireMouseDownEvent(Graphic2dIntersection g2di) {
-    if(_onMouseDownController.hasListener) _onMouseDownController.add(g2di);
+    if (_onMouseDownController.hasListener) _onMouseDownController.add(g2di);
   }
 
   void fireMouseUpEvent(Graphic2dIntersection g2di) {
-    if(_onMouseUpController.hasListener) _onMouseUpController.add(g2di);
+    if (_onMouseUpController.hasListener) _onMouseUpController.add(g2di);
   }
+
+  /// Fills the current path defined in [ctx], unless a [hitTest] is requested.
+  ///
+  /// Returns true only if hitTest is requested and there is a hit.
+  bool fillOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+    if (hitTest == null) {
+      ctx.fill();
+      return false;
+    }
+    if (ctx.isPointInPath(hitTest.x, hitTest.y)) {
+      hitTest.hit = true;
+      return true;
+    }
+    return false;
+  }
+
+  /// Strokes the current path defined in [ctx], unless a [hitTest] is requested.
+  ///
+  /// Returns true only if hitTest is requested and there is a hit.
+  bool strokeOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+    if (hitTest == null) {
+      ctx.stroke();
+      return false;
+    }
+    if (ctx.isPointInStroke(hitTest.x, hitTest.y)) {
+      hitTest.hit = true;
+      return true;
+    }
+    return false;
+  }
+}
+
+/// Optionally passed into renderIndex to request a hit test rather than a render.
+class HitTest {
+  HitTest(this.x, this.y);
+
+  final num x;
+  final num y;
+  bool hit = false;
 }

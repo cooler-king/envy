@@ -1,30 +1,13 @@
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Envy Test App</title>
-    <link rel="stylesheet" href="../common.css">
-
-    <!-- Polymer -->
-    <script src="packages/web_components/webcomponents-lite.min.js"></script>
-    <script src="packages/web_components/dart_support.js"></script>
-</head>
-<body>
 <h1>Envy Geo</h1>
 
 <div id="vis-container" style="height:500px;">
     <h3>Basic</h3>
     <div style='display: flex; height: 300px;'>
-        <envy-div id="geo-basic"></envy-div>
+        <envy-scene #basic></envy-scene>
     </div>
     <h3>GeoJson</h3>
     <div style='display: flex; height: 300px;'>
-        <envy-div id="geo-json"></envy-div>
+        <envy-scene #geoJson></envy-scene>
     </div>
-    <p>
+    <p></p>
 </div>
-
-<script type="application/dart" src="test_geo.dart"></script>
-</body>
-</html>

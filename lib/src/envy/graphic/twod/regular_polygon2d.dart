@@ -1,4 +1,8 @@
-part of envy;
+import 'dart:html';
+import 'dart:math';
+import '../../envy_property.dart';
+import 'anchor2d.dart';
+import 'graphic2d_node.dart';
 
 /// A 2-dimensional regular polygon to be drawn on an HTML canvas.
 ///
@@ -11,51 +15,53 @@ class RegularPolygon2d extends Graphic2dNode {
   }
 
   void _initProperties() {
-    properties["pointCount"] = new NumberProperty();
-    properties["radius"] = new NumberProperty();
+    properties['pointCount'] = new NumberProperty();
+    properties['radius'] = new NumberProperty();
   }
 
-  NumberProperty get pointCount => properties["pointCount"] as NumberProperty;
-  NumberProperty get radius => properties["radius"] as NumberProperty;
+  NumberProperty get pointCount => properties['pointCount'] as NumberProperty;
+  NumberProperty get radius => properties['radius'] as NumberProperty;
 
-  void _renderIndex(int i, CanvasRenderingContext2D ctx) {
+  @override
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _pointCount, _x, _y, _radius;
-    _pointCount = pointCount.valueAt(i);
+    _pointCount = pointCount.valueAt(index);
 
     // No points, nothing to render
     if (_pointCount < 1) return;
 
-    _radius = radius.valueAt(i);
+    _radius = radius.valueAt(index);
 
     // Adjust for anchor (default is center of RegularPolygon)
     _x = 0;
     _y = 0;
-    Anchor2d _anchor = anchor.valueAt(i);
+    final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor != null) {
-      List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
+      final List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
       _x += adj[0];
       _y += adj[1];
     }
 
-    num halfAngleStepRad = Math.PI / _pointCount;
-    num angleStepRad = 2.0 * halfAngleStepRad;
+    final num halfAngleStepRad = pi / _pointCount;
+    final num angleStepRad = 2.0 * halfAngleStepRad;
     num preAngleRad = -halfAngleStepRad;
     num postAngleRad = halfAngleStepRad;
-    bool _fill = fill.valueAt(i);
-    bool _stroke = stroke.valueAt(i);
+    final bool _fill = fill.valueAt(index);
+    final bool _stroke = stroke.valueAt(index);
 
-    Path2D p = new Path2D();
-    paths.add(p);
-    //ctx.beginPath();
-    p.moveTo(_x + Math.sin(preAngleRad) * _radius, _y + Math.cos(preAngleRad) * _radius);
+    //Path2D p = new Path2D();
+    //paths.add(p);
+    ctx
+      ..beginPath()
+      ..moveTo(_x + sin(preAngleRad) * _radius, _y + cos(preAngleRad) * _radius);
     for (int i = 0; i < _pointCount; i++) {
-      p.lineTo(Math.sin(postAngleRad) * _radius, Math.cos(postAngleRad) * _radius);
+      ctx.lineTo(sin(postAngleRad) * _radius, cos(postAngleRad) * _radius);
 
       preAngleRad += angleStepRad;
       postAngleRad += angleStepRad;
     }
-    p.closePath();
-    if (_fill) ctx.fill(p);
-    if (_stroke) ctx.stroke(p);
+    ctx.closePath();
+    if (_fill && fillOrHitTest(ctx, hitTest)) return;
+    if (_stroke && strokeOrHitTest(ctx, hitTest)) return;
   }
 }

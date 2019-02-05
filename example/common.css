@@ -4,7 +4,8 @@ body {
   font-size: 14px;
   font-weight: normal;
   line-height: 1.2em;
-  margin: 15px;
+  margin: 0;
+  overflow: hidden;
 }
 
 h1, p {
@@ -17,5 +18,18 @@ h1, p {
   position: relative;
   border: 1px solid #ccc;
   background-color: #fff;
+}
+
+.fullbleed {
+    width: 100vw;
+    height: 100vh;
+}
+
+.fit {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
 }
 

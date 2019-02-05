@@ -1,4 +1,6 @@
-part of envy;
+import 'dart:collection';
+import 'envy_property.dart';
+import 'multiplicity/multiplicity.dart';
 
 /// Anything with updatable Envy Properties is Dynamic.
 ///
@@ -6,7 +8,7 @@ part of envy;
 ///
 class DynamicNode {
   // Properties -- self-optimizing
-  final HashMap<String, EnvyProperty> properties = new HashMap<String, EnvyProperty>();
+  final HashMap<String, EnvyProperty<dynamic>> properties = new HashMap<String, EnvyProperty<dynamic>>();
 
   /// Properties may contribute lists of values of various sizes.
   /// The [multiplicity] controls how those lengths are interpreted
@@ -14,16 +16,16 @@ class DynamicNode {
   ///
   Multiplicity _multiplicity;
 
-  int _size = 0;
-  int _prevSize = 0;
+  int size = 0;
+  int prevSize = 0;
 
   /// Update all property values.
   ///
-  void updateProperties(num timeFraction, {bool finish: false}) {
+  void updateProperties(num timeFraction, {bool finish = false}) {
     //print("${this} dynamic update properties ${timeFraction}");
     //int count = size;
     //properties.values.forEach((EnvyProperty prop) {
-    for (var prop in properties.values) {
+    for (EnvyProperty<dynamic> prop in properties.values) {
       //print("dynamic update properties prop = ${prop}");
       prop.updateValues(timeFraction, finish: finish);
       //print("dynamic update properties prop = ${prop} DONE");
@@ -33,31 +35,29 @@ class DynamicNode {
 
   Multiplicity get multiplicity => _multiplicity ?? Multiplicity.defaultMultiplicity;
 
-  void set multiplicity(Multiplicity m) {
+  set multiplicity(Multiplicity m) {
     _multiplicity = m;
   }
-
-  int get size => _size;
 
   //int get size => multiplicity.sizeOf(properties.values);
 
   void _refreshDataSources() {
-    for (var envyProp in properties.values) {
-      envyProp._refreshDataSources();
+    for (EnvyProperty<dynamic> envyProp in properties.values) {
+      envyProp.refreshDataSources();
     }
   }
 
   void _updateSize() {
-    _prevSize = _size;
-    _size = multiplicity.sizeOf(properties.values);
+    prevSize = size;
+    size = multiplicity.sizeOf(properties.values);
     //print("${this} SIZE/PREV... ${_size}/${_prevSize}");
   }
 
-  void _preparePropertiesForAnimation() {
+  void preparePropertiesForAnimation() {
     _refreshDataSources();
     _updateSize();
-    for (var prop in properties.values) {
-      prop._preparePropertyForAnimation(_size);
+    for (EnvyProperty<dynamic> prop in properties.values) {
+      prop.preparePropertyForAnimation(size);
     }
   }
 }

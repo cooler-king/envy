@@ -1,46 +1,53 @@
-part of envy;
+import '../../../css/css_style.dart';
+import '../../../envy_node.dart';
+import '../../../util/logger.dart';
+import '../../data_accessor.dart';
+import '../../keyed_dataset.dart';
+import '../data_source.dart';
+import 'css_style_source.dart';
 
 /// Retrieves CSS style data (a list of CSS styles or a single
 /// CSS style) from a named dataset.
 ///
 class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
-  String _datasetName;
-  EnvyNode _node;
-  DataAccessor accessor;
-
-  /// Find the dataset named [datasetName], starting with [node] and working
+  /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
   ///
   /// If [prop] is provided instead of [accessor] then a property DataAccesor
-  /// will be constructured and used.
+  /// will be constructed and used.
   ///
   /// If both [accessor] and [prop] are provided, [accessor] is used.
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  CssStyleData(this._datasetName, this._node, {this.accessor, String prop}) {
+  CssStyleData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+    accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = new DataAccessor.prop(prop);
     }
   }
 
-  /// Find the dataset named [keyedDataset.name], starting with [keyedDataset.node]
+  /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
   /// and working up the ancestor chain, and use a keyed property data accessor
-  /// constructed from [prop] and [keyedDataset.keyProp] to select data from that
+  /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
   CssStyleData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
-      this._datasetName = keyedDataset.name;
-      this._node = keyedDataset.node;
+      _datasetName = keyedDataset.name;
+      _node = keyedDataset.node;
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
+  String _datasetName;
+  EnvyNode _node;
+
+  @override
   void refresh() {
-    this.values.clear();
+    values.clear();
 
     Object data = _node.getDataset(_datasetName);
     if (accessor != null) {
@@ -48,12 +55,12 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
       data = accessor.getData(data);
     }
 
-    if (data is List<CssStyle>) {
-      this.values.addAll(data);
+    if (data is List<dynamic>) {
+      values.addAll(data.whereType<CssStyle>());
     } else if (data is CssStyle) {
-      this.values.add(data);
+      values.add(data);
     } else {
-      _LOG.warning("Unexpected data type for CssStyleData: ${data}");
+      logger.warning('Unexpected data type for CssStyleData: $data');
     }
   }
 }

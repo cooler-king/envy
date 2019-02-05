@@ -1,4 +1,9 @@
-part of envy;
+import '../group_node.dart';
+import 'fill_mode.dart';
+import 'playback_direction.dart';
+import 'player.dart';
+import 'timing.dart';
+import 'timing_group.dart';
 
 /// The abstract base class for time-based group nodes that provide
 /// time fractions (used to interpolate property values) to their children.
@@ -27,16 +32,16 @@ abstract class TimedItemGroup extends GroupNode {
 
   /// Sets the player and registers this node with it.
   ///
-  /// Deregisters from the previous player, if there was one.
+  /// De-registers from the previous player, if there was one.
   ///
-  void set player(Player p) {
+  set player(Player p) {
     if (_player == p) return;
 
     // Deregister existing player, if necessary
-    if (_player != null) _player._deregisterTimedItemGroup(this);
+    if (_player != null) _player.deregisterTimedItemGroup(this);
 
     _player = p;
-    if (p != null) _player._registerTimedItemGroup(this);
+    if (p != null) _player.registerTimedItemGroup(this);
   }
 
   /// For a timed item, the inherited time at a given moment is based on the
@@ -62,11 +67,13 @@ abstract class TimedItemGroup extends GroupNode {
   /// The start time of children of a sequence timing group.
   ///
   num get startTime {
-    if (parentTimingGroup is SequenceTimingGroup && _startTime == null) (parentTimingGroup as SequenceTimingGroup)
-        ._calcStartTimes();
+    if (parentTimingGroup is SequenceTimingGroup && _startTime == null)
+      (parentTimingGroup as SequenceTimingGroup).calcStartTimes();
 
     return _startTime == null ? 0 : _startTime;
   }
+
+  set startTime(num time) => _startTime = time;
 
   /// The local time of a timed item is the timed item's inherited time minus
   /// its start time. If the inherited time is null then the local time is also null.
@@ -76,7 +83,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// local time space.
   ///
   num get localTime {
-    num inherited = inheritedTime;
+    final num inherited = inheritedTime;
     return inherited != null ? inherited - startTime : null;
   }
 
@@ -89,7 +96,7 @@ abstract class TimedItemGroup extends GroupNode {
       return null;
     }
 
-    num activeDur = _calcActiveDuration(iterDur);
+    final num activeDur = _calcActiveDuration(iterDur);
     if (local < startTime + activeDur) {
       return local - startDelay;
     }
@@ -115,7 +122,7 @@ abstract class TimedItemGroup extends GroupNode {
   }
 
   num _calcActiveDuration(num iterDur) {
-    if (timing.playbackRate == 0) return double.INFINITY;
+    if (timing.playbackRate == 0) return double.infinity;
     if (timing.activeDuration == Timing.auto || timing.activeDuration < 0) {
       return _calcRepeatedDuration(iterDur) / timing.playbackRate.abs();
     } else {
@@ -124,7 +131,7 @@ abstract class TimedItemGroup extends GroupNode {
   }
 
   num get normalizedActiveDuration {
-    if (timing.playbackRate == 0) return double.INFINITY;
+    if (timing.playbackRate == 0) return double.infinity;
     return _calcRepeatedDuration(1) / timing.playbackRate.abs();
   }
 
@@ -158,11 +165,11 @@ abstract class TimedItemGroup extends GroupNode {
   /// and local time.
   ///
   num _calcScaledActiveTime(num iterDur, num local) {
-    num active = _calcActiveTime(iterDur, local);
+    final num active = _calcActiveTime(iterDur, local);
     if (active == null) return null;
     if (timing.playbackRate < 0) {
       print(
-          "TimedItemGroup._calcScaledActiveTime neg playback rate... ${(active - _calcActiveDuration(iterDur)) * timing.playbackRate + _calcStartOffset(iterDur)}");
+          'TimedItemGroup._calcScaledActiveTime neg playback rate... ${(active - _calcActiveDuration(iterDur)) * timing.playbackRate + _calcStartOffset(iterDur)}');
       return (active - _calcActiveDuration(iterDur)) * timing.playbackRate + _calcStartOffset(iterDur);
     }
     return active * timing.playbackRate + _calcStartOffset(iterDur);
@@ -180,7 +187,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// and local time.
   ///
   num _calcIterationTime(num iterDur, num local, [num scaledActive]) {
-    if (scaledActive == null) scaledActive = _calcScaledActiveTime(iterDur, local);
+    scaledActive ??= _calcScaledActiveTime(iterDur, local);
     if (scaledActive == null) return null;
     if (iterDur == 0) return 0;
     if (timing.iterationCount != 0 &&
@@ -192,11 +199,11 @@ abstract class TimedItemGroup extends GroupNode {
   num get currentIteration => _calcCurrentIteration(iterationDuration, localTime);
 
   num _calcCurrentIteration(num iterDur, num local, [num scaledActive, num iterTime]) {
-    if (scaledActive == null) scaledActive = _calcScaledActiveTime(iterDur, local);
+    scaledActive ??= _calcScaledActiveTime(iterDur, local);
     if (scaledActive == null) return null;
     if (scaledActive == 0) return 0;
     if (iterDur == 0) return (timing.iterationStart + timing.iterationCount).floor();
-    if (iterTime == null) iterTime = _calcIterationTime(iterDur, local, scaledActive);
+    iterTime ??= _calcIterationTime(iterDur, local, scaledActive);
     if (iterDur == iterTime) return timing.iterationStart + timing.iterationCount - 1;
 
     return (scaledActive / iterDur).floor();
@@ -208,8 +215,8 @@ abstract class TimedItemGroup extends GroupNode {
   /// and local time.
   ///
   num _calcDirectedTime(num iterDur, num local) {
-    num scaledActive = _calcScaledActiveTime(iterDur, local);
-    num iterTime = _calcIterationTime(iterDur, local, scaledActive);
+    final num scaledActive = _calcScaledActiveTime(iterDur, local);
+    final num iterTime = _calcIterationTime(iterDur, local, scaledActive);
     if (iterTime == null) return null;
 
     // Determine current playback direction
@@ -219,7 +226,7 @@ abstract class TimedItemGroup extends GroupNode {
     } else {
       // Alternate or alternate-reverse
       num d = _calcCurrentIteration(iterDur, local, scaledActive, iterTime);
-      if (timing.direction == PlaybackDirection.alternate_reverse) d += 1;
+      if (timing.direction == PlaybackDirection.alternateReverse) d += 1;
       if (d % 2 != 0) forwards = false;
     }
 
@@ -233,10 +240,10 @@ abstract class TimedItemGroup extends GroupNode {
   /// and local time.
   ///
   num _calcTransformedTime(num iterDur, num local) {
-    num directed = _calcDirectedTime(iterDur, local);
+    final num directed = _calcDirectedTime(iterDur, local);
     if (directed == null) return null;
-    num iterFraction = (iterDur == 0) ? 0 : directed / iterDur;
-    num scaledFraction = timing.timingFunction.output(iterFraction);
+    final num iterFraction = (iterDur == 0) ? 0 : directed / iterDur;
+    final num scaledFraction = timing.timingFunction.output(iterFraction);
     return scaledFraction * iterDur;
   }
 
@@ -249,11 +256,11 @@ abstract class TimedItemGroup extends GroupNode {
   num get timeFraction {
     //TODO store time fraction for frame (keyed to global time or frame number?)
 
-    num iterDur = iterationDuration;
+    final num iterDur = iterationDuration;
 
     // Special calc if iteration duration is zero
     if (iterDur == 0) {
-      num local = localTime;
+      final num local = localTime;
       if (local < startDelay) {
         // Transformed time with iteration duration of 1 and local = startTime - 1
         return _calcTransformedTime(1, startTime - 1);
@@ -262,25 +269,26 @@ abstract class TimedItemGroup extends GroupNode {
         return _calcTransformedTime(1, normalizedActiveDuration);
       }
     }
-    num transformed = transformedTime;
+    final num transformed = transformedTime;
     return (transformed == null) ? null : transformed / iterDur;
   }
 
   /// Updates this group and all its children for the specified [timeFraction].
   ///
-  /// If the [context] is a Boolean value it is interpreted as a "direct" update
+  /// If the [context] is a Boolean value it is interpreted as a 'direct' update
   /// from its own [Player].  If a [TimedItemGroup] has its own Player and the update
   /// is not direct, it will be ignored.
   ///
-  void update(num timeFraction, {dynamic context: false, bool finish: false}) {
+  @override
+  void update(num timeFraction, {dynamic context = false, bool finish = false}) {
     // If this TimedItemGroup has its own player then ignore indirect updates from other players
-    bool direct = context is bool ? context : false;
+    final bool direct = context is bool && context;
     if (player != null && !direct) return;
     super.update(timeFraction, finish: finish);
   }
 
-  void _finishAnimation({dynamic context: false}) {
+  void finishAnimation({dynamic context = false}) {
     update(1.0, context: context, finish: true);
-    if (player != null) player._deregisterTimedItemGroup(this);
+    if (player != null) player.deregisterTimedItemGroup(this);
   }
 }

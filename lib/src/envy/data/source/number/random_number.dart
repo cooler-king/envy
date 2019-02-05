@@ -1,20 +1,24 @@
-part of envy;
+import 'dart:math';
+import 'number_source.dart';
 
 class RandomNumber extends NumberSource {
-  final Math.Random generator = new Math.Random(new DateTime.now().millisecond);
+  RandomNumber(this.minSource, this.maxSource);
 
-  NumberSource min;
-  NumberSource max;
+  final Random generator = new Random(new DateTime.now().millisecond);
 
-  RandomNumber(this.min, this.max);
+  NumberSource minSource;
+  NumberSource maxSource;
 
-  num valueAt(int i) {
-    num minValue = min.valueAt(i);
-    return minValue + generator.nextDouble() * (max.valueAt(i) - minValue);
+  @override
+  num valueAt(int index) {
+    final num minValue = minSource.valueAt(index);
+    return minValue + generator.nextDouble() * (maxSource.valueAt(index) - minValue);
   }
 
-  int get rawSize => Math.max(min.rawSize, max.rawSize);
+  @override
+  int get rawSize => max(minSource.rawSize, maxSource.rawSize);
 
   // No-op refresh
+  @override
   void refresh() {}
 }
