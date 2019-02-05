@@ -1,37 +1,42 @@
-part of envy;
+import '../text/font.dart';
+import 'binary_interpolator.dart';
+import 'envy_interpolator.dart';
 
 class FontInterpolator extends EnvyInterpolator<Font> {
-  EnvyInterpolator styleInterpolator;
-  EnvyInterpolator variantInterpolator;
-  EnvyInterpolator weightInterpolator;
-  EnvyInterpolator sizeInterpolator;
-  EnvyInterpolator familyInterpolator;
-  BinaryInterpolator _binaryInterpolator = new BinaryInterpolator();
-
-  FontInterpolator({this.styleInterpolator, this.variantInterpolator, this.weightInterpolator, this.sizeInterpolator,
+  FontInterpolator(
+      {this.styleInterpolator,
+      this.variantInterpolator,
+      this.weightInterpolator,
+      this.sizeInterpolator,
       this.familyInterpolator}) {
-    if (styleInterpolator == null) styleInterpolator = _binaryInterpolator;
-    if (variantInterpolator == null) variantInterpolator = _binaryInterpolator;
-    if (weightInterpolator == null) weightInterpolator = _binaryInterpolator;
-    if (sizeInterpolator == null) sizeInterpolator = _binaryInterpolator;
-    if (familyInterpolator == null) familyInterpolator = _binaryInterpolator;
+    styleInterpolator ??= _binaryInterpolator;
+    variantInterpolator ??= _binaryInterpolator;
+    weightInterpolator ??= _binaryInterpolator;
+    sizeInterpolator ??= _binaryInterpolator;
+    familyInterpolator ??= _binaryInterpolator;
   }
+
+  EnvyInterpolator<dynamic> styleInterpolator;
+  EnvyInterpolator<dynamic> variantInterpolator;
+  EnvyInterpolator<dynamic> weightInterpolator;
+  EnvyInterpolator<dynamic> sizeInterpolator;
+  EnvyInterpolator<dynamic> familyInterpolator;
+  final BinaryInterpolator<dynamic> _binaryInterpolator = new BinaryInterpolator<dynamic>();
 
   /// Returns a [Font] having values between those of Fonts [a] and [b]
   /// based on the time [fraction].
-  ///
+  @override
   Font interpolate(Font a, Font b, num fraction) {
-    Font f = new Font();
-
-    f.style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator);
-    f.variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator);
-    f.weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator);
-    f.size = _interpolateProperty(a.size, b.size, fraction, sizeInterpolator);
-    f.family = _interpolateProperty(a.family, b.family, fraction, familyInterpolator);
+    final Font f = new Font()
+      ..style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator) as FontStyle
+      ..variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator) as FontVariant
+      ..weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator) as FontWeight
+      ..size = _interpolateProperty(a.size, b.size, fraction, sizeInterpolator) as FontSize
+      ..family = _interpolateProperty(a.family, b.family, fraction, familyInterpolator) as FontFamily;
     return f;
   }
 
-  dynamic _interpolateProperty(a, b, num fraction, EnvyInterpolator interp) {
+  dynamic _interpolateProperty(dynamic a, dynamic b, num fraction, EnvyInterpolator<dynamic> interp) {
     if (a != null) {
       if (b != null) {
         return interp.interpolate(a, b, fraction);

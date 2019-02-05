@@ -1,6 +1,7 @@
-part of envy;
+import '../envy_node.dart';
+import 'timed_item_group.dart';
 
-/// TimingGroup is the base class for specialzed timing groups.
+/// TimingGroup is the base class for specialized timing groups.
 ///
 abstract class TimingGroup extends TimedItemGroup {}
 
@@ -12,25 +13,25 @@ abstract class TimingGroup extends TimedItemGroup {}
 class SequenceTimingGroup extends TimingGroup {
   @override
   bool attach(EnvyNode node, [int index]) {
-    bool tf = super.attach(node, index);
-    _calcStartTimes();
+    final bool tf = super.attach(node, index);
+    calcStartTimes();
     return tf;
   }
 
   @override
   bool detach(EnvyNode node) {
-    bool tf = super.detach(node);
-    _calcStartTimes();
+    final bool tf = super.detach(node);
+    calcStartTimes();
     return tf;
   }
 
   /// Calculate the start times of the group children.
   ///
-  void _calcStartTimes() {
+  void calcStartTimes() {
     num prevEnd = 0;
-    for (var child in children) {
+    for (EnvyNode child in children) {
       if (child is TimedItemGroup) {
-        child._startTime = prevEnd;
+        child.startTime = prevEnd;
         prevEnd = child.endTime;
       }
     }
@@ -46,6 +47,7 @@ class SequenceTimingGroup extends TimingGroup {
   /// As a result, if the sequence timing group has no child timed
   /// items the intrinsic iteration duration will be zero.
   ///
+  @override
   num get intrinsicIterationDuration {
     if (children.isEmpty) return 0;
 
@@ -64,12 +66,13 @@ class SequenceTimingGroup extends TimingGroup {
 /// schedules its child timed items such that they play simultaneously.
 ///
 class ParallelTimingGroup extends TimingGroup {
+  @override
   num get intrinsicIterationDuration {
     if (children.isEmpty) return 0;
 
     num maxEndTime = 0;
     num endTime;
-    for (var child in children) {
+    for (dynamic child in children) {
       if (child is TimedItemGroup) {
         endTime = child.endTime;
         if (endTime > maxEndTime) maxEndTime = endTime;

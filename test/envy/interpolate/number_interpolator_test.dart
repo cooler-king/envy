@@ -2,10 +2,10 @@
 import 'package:test/test.dart';
 import 'package:envy/envy.dart';
 
-main() {
+void main() {
   group('Number Interpolation', () {
     test('Fraction of 0', () {
-      NumberInterpolator ni = new NumberInterpolator();
+      final NumberInterpolator ni = new NumberInterpolator();
       expect(ni.interpolate(3, 4, 0), 3);
       expect(ni.interpolate(5.0, 7.3, 0), 5.0);
       expect(ni.interpolate(6.2, 8.7, 0), 6.2);
@@ -13,7 +13,7 @@ main() {
     });
 
     test('Fraction of 1', () {
-      NumberInterpolator ni = new NumberInterpolator();
+      final NumberInterpolator ni = new NumberInterpolator();
       expect(ni.interpolate(3, 4, 1), 4);
       expect(ni.interpolate(2, 5.9, 1), 5.9);
       expect(ni.interpolate(6.2, 8.7, 1), 8.7);
@@ -21,7 +21,7 @@ main() {
     });
 
     test('Regular Fraction Values (0-1)', () {
-      NumberInterpolator ni = new NumberInterpolator();
+      final NumberInterpolator ni = new NumberInterpolator();
       expect(ni.interpolate(100, 200, 0.01), closeTo(101, 0.00001));
       expect(ni.interpolate(1234.5, 2469, 0.1), closeTo(1234.5 + 123.45, 0.00001));
       expect(ni.interpolate(2469, 1234.5, 0.1), closeTo(2469 - 123.45, 0.00001));
@@ -30,7 +30,7 @@ main() {
     });
 
     test('Overflow Fraction Values, Unclamped', () {
-      NumberInterpolator ni = new NumberInterpolator();
+      final NumberInterpolator ni = new NumberInterpolator();
       expect(ni.interpolate(100, 200, -0.5), closeTo(50, 0.00001));
       expect(ni.interpolate(100, 200, 1.7), closeTo(270, 0.00001));
       expect(ni.interpolate(500, 100, 1.5), closeTo(-100, 0.00001));
@@ -39,8 +39,7 @@ main() {
     });
 
     test('Overflow Fraction Values, Clamped', () {
-      NumberInterpolator ni = new NumberInterpolator();
-      ni.clamped = true;
+      final NumberInterpolator ni = new NumberInterpolator()..clamped = true;
       expect(ni.interpolate(100, 200, -0.6), 100);
       expect(ni.interpolate(100, 200, 1.9), 200);
       expect(ni.interpolate(500, 100, 1.5), 100);

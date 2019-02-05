@@ -1,11 +1,22 @@
-part of envy;
+import 'dart:async';
+import '../util/logger.dart';
+import 'timed_item_group.dart';
+import 'timeline.dart';
 
 /// Players provide an elapsed time relative to a specific
 /// time on a specific [Timeline].
-///
 class Player {
+  /// Create a new Player bound to [timeline] with the specified
+  /// [startTime], in seconds, on that timeline.
+  Player(this.timeline, this.startTime) {
+    //print('player construction startTime = ${startTime}');
+
+    //TODO add delay for start time
+    _initTimer();
+  }
+
   /// A dynamic list of TimedItemGroups to update
-  final List<TimedItemGroup> _registered = [];
+  final List<TimedItemGroup> _registered = <TimedItemGroup>[];
 
   /// The timer that triggers updates to registered TimedItemGroups
   Timer timer;
@@ -28,7 +39,6 @@ class Player {
   ///
   /// Setting a player's playback rate to zero effectively pauses the player but
   /// without affecting the player's paused state.
-  ///
   num _playbackRate = 1;
 
   bool _paused = false;
@@ -36,21 +46,9 @@ class Player {
 
   num _timeDrift = 0;
 
-  /// Create a new Player bound to [timeline] with the specified
-  /// [startTime], in seconds, on that timeline.
-  ///
-  Player(this.timeline, this.startTime) {
-    //print("player construction startTime = ${startTime}");
-
-    //TODO add delay for start time
-    _initTimer();
-  }
-
   /// The [currentTime] is the elapsed time, in seconds, of the player
   /// relative to the [startTime] on its associated [timeline].
-  ///
   /// Time drifts due to pausing the player are taken into account.
-  ///
   num get currentTime => timeline.started ? (timeline.currentTime - startTime) * _playbackRate - timeDrift : null;
 
   /// The effective current time is the non-null elapsed time of the player
@@ -60,9 +58,8 @@ class Player {
   /// than null if the timeline has not yet started.
   ///
   /// Time drifts due to pausing the player are taken into account.
-  ///
   num get effectiveCurrentTime {
-    num current = currentTime;
+    final num current = currentTime;
     return current ?? 0;
   }
 
@@ -75,8 +72,8 @@ class Player {
   /// Changes to the playback rate also trigger a compensatory seek so that that the
   /// player's current time is unaffected by the change to the playback rate.
   ///
-  void set playbackRate(num rate) {
-    num prevTime = effectiveCurrentTime;
+  set playbackRate(num rate) {
+    final num prevTime = effectiveCurrentTime;
     _playbackRate = rate;
     seek(prevTime);
   }
@@ -132,10 +129,10 @@ class Player {
     }
   }
 
-  void _registerTimedItemGroup(TimedItemGroup timedItemGroup) {
+  void registerTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (!_registered.contains(timedItemGroup)) {
       _registered.add(timedItemGroup);
-      if (timer != null) timedItemGroup._prepareForAnimation();
+      if (timer != null) timedItemGroup.prepareForAnimation();
     }
   }
 
@@ -147,7 +144,7 @@ class Player {
   /// Returns true if the timedItemGroup was found and removed; false
   /// if it could not be found.
   ///
-  bool _deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
+  bool deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (_registered.contains(timedItemGroup)) {
       _registered.remove(timedItemGroup);
       if (_registered.isEmpty && timer != null) {
@@ -155,7 +152,7 @@ class Player {
           timer.cancel();
           timer = null;
         } catch (e) {
-          _LOG.warning("Problem canceling timer:  ${e}");
+          logger.warning('Problem canceling timer:  $e');
         }
       }
       return true;
@@ -166,17 +163,17 @@ class Player {
   /// Run a timer at 15 millisecond intervals (just over 60 fps), optionally
   /// waiting [delayMillis] milliseconds before starting.
   ///
-  void _initTimer([num delayMillis = null]) {
+  void _initTimer([num delayMillis]) {
     if (delayMillis == null) {
       _prepareForAnimation();
-      timer = new Timer.periodic(new Duration(milliseconds: 15), (Timer t) {
+      timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
         _updateRegisteredGroups();
       });
     } else {
       // Wait before creating animation timer
-      new Timer(new Duration(milliseconds: delayMillis), () {
+      new Timer(new Duration(milliseconds: delayMillis.round()), () {
         _prepareForAnimation();
-        timer = new Timer.periodic(new Duration(milliseconds: 15), (Timer t) {
+        timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
           _updateRegisteredGroups();
         });
       });
@@ -184,9 +181,9 @@ class Player {
   }
 
   void _prepareForAnimation() {
-    _registered.forEach((TimedItemGroup tig) {
-      tig._prepareForAnimation();
-    });
+    for (TimedItemGroup tig in _registered) {
+      tig.prepareForAnimation();
+    }
   }
 
   void _updateRegisteredGroups() {
@@ -195,13 +192,13 @@ class Player {
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);
       } catch (e, s) {
-        _LOG.severe("Problem updating registered timed item group: ${e}", e, s);
+        logger.severe('Problem updating registered timed item group: $e', e, s);
       }
 
       // Is this group finished animating? (deregisters group from player)
       if (effectiveCurrentTime >= group.endTime) {
         // Schedule the group to finish when the updating is complete
-        Timer.run(() => group._finishAnimation(context: true));
+        Timer.run(() => group.finishAnimation(context: true));
       }
     }
   }

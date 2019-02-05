@@ -1,18 +1,20 @@
-part of envy;
+import '../../../geo/projections.dart';
+import '../data_source.dart';
 
 abstract class ProjectionSource extends DataSource<Projection> {}
 
 class ProjectionConstant extends ArrayDataSource<Projection> implements ProjectionSource {
   ProjectionConstant(Projection proj) {
-    this.values.add(proj);
+    values.add(proj);
   }
 
   ProjectionConstant.array(List<Projection> projList) {
-    this.values.addAll(projList);
+    values.addAll(projList);
   }
 
   // No-op refresh
-  void refresh(){
+  @override
+  void refresh() {
     // No-op
   }
 }

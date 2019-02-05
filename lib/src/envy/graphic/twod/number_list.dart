@@ -1,7 +1,7 @@
-part of envy;
+import 'package:collection/collection.dart';
 
 class NumberList extends DelegatingList<num> {
-  NumberList([Iterable<num> numbers]) : super(new List<num>.from(numbers ?? []));
+  NumberList([Iterable<num> numbers]) : super(new List<num>.from(numbers ?? <num>[]));
 
   void addNumber(num value) => add(value);
 
@@ -10,18 +10,18 @@ class NumberList extends DelegatingList<num> {
   //----------------
 
   num get min {
-    if (isEmpty) return double.NAN;
-    num x = double.INFINITY;
-    for (var n in this) {
+    if (isEmpty) return double.nan;
+    num x = double.infinity;
+    for (num n in this) {
       if (n < x) x = n;
     }
     return x;
   }
 
   num get max {
-    if (isEmpty) return double.NAN;
-    num x = double.NEGATIVE_INFINITY;
-    for (var n in this) {
+    if (isEmpty) return double.nan;
+    num x = double.negativeInfinity;
+    for (num n in this) {
       if (n > x) x = n;
     }
     return x;

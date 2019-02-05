@@ -1,31 +1,32 @@
 import 'dart:html';
-import 'package:angular2/angular2.dart';
+import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 
-//encapsulation: ViewEncapsulation.Native,
+/// Manages and renders an Envy scene.
 @Component(
-    selector: "envy-scene",
-    templateUrl: 'envy_scene.html')
+  selector: 'envy-scene',
+  templateUrl: 'envy_scene.html',
+  styleUrls: const <String>['envy_scene.css'],
+)
 class EnvyScene implements AfterViewInit {
-  //TODO input spec
+  ///TODO input spec
   String spec;
 
-  final EnvySceneGraph _sceneGraph = new EnvySceneGraph();
-  EnvySceneGraph get sceneGraph => _sceneGraph;
+  /// Defines the scene components.
+  final EnvySceneGraph sceneGraph = new EnvySceneGraph();
 
-  @ViewChild('envyRootEl')
-  ElementRef envyRootEl;
+  /// A reference to the wrapper element.
+  @ViewChild('envyWrapper', read: Element)
+  Element wrapper;
 
+  @override
   void ngAfterViewInit() {
-    //print("Envy div ATTACHED");
-    sceneGraph.htmlHost = envyRootEl.nativeElement;
-    //sceneGraph.updateGraph();
+    sceneGraph.htmlHost = wrapper;
   }
 
   /// Returns the first canvas element found under the root (or null).
-  CanvasElement get canvas {
-    Element root = envyRootEl.nativeElement;
-    return root?.querySelector("canvas") as CanvasElement;
-  }
+  CanvasElement get canvas => wrapper?.querySelector('canvas') as CanvasElement;
 
+  /// Gets the bounds of the root HTML element.
+  Rectangle<num> get bounds => wrapper?.getBoundingClientRect();
 }

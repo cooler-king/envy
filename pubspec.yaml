@@ -1,44 +1,22 @@
 name: envy
 description: An experimental information visualization framework.
-version: 0.0.7+1
+version: 0.2.0
 author: Rob Bishop <@robbishop65@gmail.com>
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:
-  sdk: ">=1.12.0 <=2.0.0"
+  sdk: '>=2.0.0 <3.0.0'
 dependencies:
-  angular2: "^3.1.0"
-  browser: "^0.10.0"
-  collection: ">=1.13.0"
-  polymer: "^1.0.0-rc.18"
-  polymer_elements: "^1.0.0-rc.9"
-  quantity: "^0.1.0"
-  vector_math: "^2.0.3"
+  angular: ^5.2.0
+  collection: ^1.14.0
+  quantity: ^0.2.0+1
+  vector_math: ^2.0.5
 dev_dependencies:
-  test: "^0.12.15"
-dependency_overrides:
-  quantity:
-    path: ../quantity/
-transformers:
-- polymer:
-    entry_points:
-    #- example/annular_section2d/test_annular_section2d.html
-    - example/circle2d/test_circle2d.html
-    - example/div_node/test_div_node.html
-    - example/geo/test_geo.html
-    - example/html_node_population/test_html_node_population.html
-    - example/image2d/test_image2d.html
-    - example/rect2d/test_rect2d.html
-    - example/path2d/test_path2d.html
-    - example/star2d/test_star2d.html
-    - example/text2d/test_text2d.html
-    - example/triangle2d/test_triangle2d.html
-- angular2:
-    platform_directives:
-    - 'package:angular2/common.dart#COMMON_DIRECTIVES'
-    platform_pipes:
-    - 'package:angular2/common.dart#COMMON_PIPES'
-    entry_points:
-    #- example/annular_section2d/test_annular_section2d.html
-    resolved_identifiers:
-            BrowserClient: 'package:http/browser_client.dart'
+  #angular_analyzer_plugin: ^0.0.17
+  angular_test: ^2.1.0
+  build_runner: ^1.1.0
+  build_test: ^0.10.1+1
+  build_web_compilers: ^1.0.0
+  test: ^1.3.0
+#dependency_overrides:
+#  analyzer: ^0.34.0

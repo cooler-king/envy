@@ -1,113 +1,125 @@
 import 'dart:html';
-import 'package:polymer/polymer.dart';
 import 'package:envy/envy.dart';
-import 'package:envy/wc/envy_div.dart';
+import 'package:envy/ng/envy_scene.dart';
+import 'package:angular/angular.dart';
 
-main() async {
-  await initPolymer();
-  _init();
-  testAnchors();
-  testHit();
-}
+@Component(
+  selector: 'test-circle2d',
+  templateUrl: 'test_circle2d.html',
+  directives: const <Object>[
+    EnvyScene,
+  ],
+)
+class TestCircle2d implements AfterViewInit {
+  @ViewChild('basic')
+  EnvyScene basicScene;
 
-void _init() {
-  EnvyDiv e = querySelector("#envy") as EnvyDiv;
-  //print(e);
-  //print(e.sceneGraph);
+  @ViewChild('anchors')
+  EnvyScene anchorsScene;
 
-  EnvySceneGraph esg = e.sceneGraph;
+  @ViewChild('hit')
+  EnvyScene hitScene;
 
-  CanvasNode canvas = new CanvasNode();
-  esg.attachToRoot(canvas);
+  @override
+  void ngAfterViewInit() {
+    testBasic(basicScene);
+    testAnchors(anchorsScene);
+    testHit(hitScene);
+  }
 
-  // Circle
-  Circle2d c = new Circle2d();
-  canvas.attach(c);
+  void testBasic(EnvyScene e) {
+    final EnvySceneGraph esg = e.sceneGraph;
 
-  c.x.enter = new NumberConstant.array([300, 395]);
-  c.y.enter = new NumberConstant.array([200]);
-  c.radius.enter = new NumberConstant.array([100, 5]);
-  c.lineWidth.enter = new NumberConstant.array([5, 1]);
-  c.fillStyle.enter = new DrawingStyle2dConstant.array(
-      [new DrawingStyle2d(color: Color.BLUE), new DrawingStyle2d(color: Color.yellow)]);
-  c.strokeStyle.enter =
-      new DrawingStyle2dConstant.array([new DrawingStyle2d(color: Color.cyan), new DrawingStyle2d(color: Color.black)]);
+    final CanvasNode canvas = new CanvasNode();
+    esg.attachToRoot(canvas);
 
-  esg.updateGraph();
-}
+    // Circle
+    final Circle2d c = new Circle2d();
+    canvas.attach(c);
 
-void testAnchors() {
-  EnvyDiv e = querySelector("#anchors") as EnvyDiv;
-  EnvySceneGraph esg = e.sceneGraph;
-  CanvasNode canvas = new CanvasNode(1000, 200);
-  esg.attachToRoot(canvas);
+    c.x.enter = new NumberConstant.array(<num>[300, 395]);
+    c.y.enter = new NumberConstant.array(<num>[200]);
+    c.radius.enter = new NumberConstant.array(<num>[100, 5]);
+    c.lineWidth.enter = new NumberConstant.array(<num>[5, 1]);
+    c.fillStyle.enter = new DrawingStyle2dConstant.array(
+        <DrawingStyle2d>[new DrawingStyle2d(color: Color.blue), new DrawingStyle2d(color: Color.yellow)]);
+    c.strokeStyle.enter = new DrawingStyle2dConstant.array(
+        <DrawingStyle2d>[new DrawingStyle2d(color: Color.cyan), new DrawingStyle2d(color: Color.black)]);
 
-  Circle2d s = new Circle2d();
-  canvas.attach(s);
+    esg.updateGraph();
+  }
 
-  List<num> xList = [50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+  void testAnchors(EnvyScene e) {
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 200);
+    esg.attachToRoot(canvas);
 
-  s.x.enter = new NumberConstant.array(xList);
-  s.y.enter = new NumberConstant(100);
-  s.radius.enter = new NumberConstant(30);
-  s.lineWidth.enter = new NumberConstant(1);
-  s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
-  s.stroke.enter = new BooleanConstant(false);
-  s.anchor.enter = new Anchor2dConstant.array([
-    new Anchor2d(mode: AnchorMode2d.DEFAULT),
-    new Anchor2d(mode: AnchorMode2d.CENTER),
-    new Anchor2d(mode: AnchorMode2d.BOTTOM),
-    new Anchor2d(mode: AnchorMode2d.BOTTOM_LEFT),
-    new Anchor2d(mode: AnchorMode2d.BOTTOM_RIGHT),
-    new Anchor2d(mode: AnchorMode2d.LEFT),
-    new Anchor2d(mode: AnchorMode2d.RIGHT),
-    new Anchor2d(mode: AnchorMode2d.TOP),
-    new Anchor2d(mode: AnchorMode2d.TOP_LEFT),
-    new Anchor2d(mode: AnchorMode2d.TOP_RIGHT)
-  ]);
+    final Circle2d s = new Circle2d();
+    canvas.attach(s);
 
-  // Circles to mark the anchors
-  Circle2d c = new Circle2d();
-  canvas.attach(c);
-  c.x.enter = new NumberConstant.array(xList);
-  c.y.enter = new NumberConstant(100);
-  c.radius.enter = new NumberConstant(2);
-  c.lineWidth.enter = new NumberConstant(1);
-  c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.RED));
-  c.stroke.enter = new BooleanConstant(false);
+    final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
-  esg.updateGraph();
-}
+    s.x.enter = new NumberConstant.array(xList);
+    s.y.enter = new NumberConstant(100);
+    s.radius.enter = new NumberConstant(30);
+    s.lineWidth.enter = new NumberConstant(1);
+    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
+    s.stroke.enter = new BooleanConstant(false);
+    s.anchor.enter = new Anchor2dConstant.array(<Anchor2d>[
+      new Anchor2d(mode: AnchorMode2d.defaultMode),
+      new Anchor2d(mode: AnchorMode2d.center),
+      new Anchor2d(mode: AnchorMode2d.bottom),
+      new Anchor2d(mode: AnchorMode2d.bottomLeft),
+      new Anchor2d(mode: AnchorMode2d.bottomRight),
+      new Anchor2d(mode: AnchorMode2d.left),
+      new Anchor2d(mode: AnchorMode2d.right),
+      new Anchor2d(mode: AnchorMode2d.top),
+      new Anchor2d(mode: AnchorMode2d.topLeft),
+      new Anchor2d(mode: AnchorMode2d.topRight)
+    ]);
 
+    // Circles to mark the anchors
+    final Circle2d c = new Circle2d();
+    canvas.attach(c);
+    c.x.enter = new NumberConstant.array(xList);
+    c.y.enter = new NumberConstant(100);
+    c.radius.enter = new NumberConstant(2);
+    c.lineWidth.enter = new NumberConstant(1);
+    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
+    c.stroke.enter = new BooleanConstant(false);
 
-void testHit() {
-  EnvyDiv e = querySelector("#hit") as EnvyDiv;
-  EnvySceneGraph esg = e.sceneGraph;
-  CanvasNode canvas = new CanvasNode(1000, 400);
-  esg.attachToRoot(canvas);
+    esg.updateGraph();
+  }
 
-  // Annular Section
-  var s = new Circle2d();
-  canvas.attach(s);
+  void testHit(EnvyScene e) {
+    final EnvySceneGraph esg = e.sceneGraph;
+    final CanvasNode canvas = new CanvasNode(1000, 400);
+    esg.attachToRoot(canvas);
 
-  s.x.enter = new NumberConstant(150);
-  s.y.enter = new NumberConstant(150);
-  s.radius.enter = new NumberConstant.array([120, 60, 30]);
-  s.lineWidth.update = new NumberConstant(5);
-  s.fillStyle.update = new DrawingStyle2dConstant.array([
-    new DrawingStyle2d(color: Color.BLUE),
-    new DrawingStyle2d(color: Color.GREEN),
-    new DrawingStyle2d(color: Color.cyan),
-  ]);
+    // Annular Section
+    final Circle2d s = new Circle2d();
+    canvas.attach(s);
 
-  s.onClick.listen((g2di) => querySelector("#hit-click").innerHtml = "CLICKED ${g2di}");
-  s.onDoubleClick.listen((g2di) => querySelector("#hit-click").innerHtml = "DOUBLE-CLICKED ${g2di}");
-  s.onMouseEnter.listen((g2di) => querySelector("#hit-enter").innerHtml = "ENTER ${g2di}");
-  s.onMouseLeave.listen((g2di) => querySelector("#hit-leave").innerHtml = "LEAVE ${g2di}");
-  s.onMouseOut.listen((g2di) => querySelector("#hit-out").innerHtml = "OUT ${g2di}");
-  s.onMouseOver.listen((g2di) => querySelector("#hit-over").innerHtml = "OVER ${g2di}");
-  s.onMouseDown.listen((g2di) => querySelector("#hit-down-up").innerHtml = "DOWN ${g2di}");
-  s.onMouseUp.listen((g2di) => querySelector("#hit-down-up").innerHtml = "UP ${g2di}");
+    s.x.enter = new NumberConstant(150);
+    s.y.enter = new NumberConstant(150);
+    s.radius.enter = new NumberConstant.array(<num>[120, 60, 30]);
+    s.lineWidth.update = new NumberConstant(5);
+    s.fillStyle.update = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
+      new DrawingStyle2d(color: Color.blue),
+      new DrawingStyle2d(color: Color.green),
+      new DrawingStyle2d(color: Color.cyan),
+    ]);
 
-  esg.updateGraph();
+    s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-click').innerHtml = 'CLICKED $g2di');
+    s.onDoubleClick
+        .listen((Graphic2dIntersection g2di) => querySelector('#hit-click').innerHtml = 'DOUBLE-CLICKED $g2di');
+    s.onMouseEnter.listen((Graphic2dIntersection g2di) => querySelector('#hit-enter').innerHtml = 'ENTER $g2di');
+    s.onMouseLeave.listen((Graphic2dIntersection g2di) => querySelector('#hit-leave').innerHtml = 'LEAVE $g2di');
+    s.onMouseOut.listen((Graphic2dIntersection g2di) => querySelector('#hit-out').innerHtml = 'OUT $g2di');
+    s.onMouseOver.listen((Graphic2dIntersection g2di) => querySelector('#hit-over').innerHtml = 'OVER $g2di');
+    s.onMouseDown.listen((Graphic2dIntersection g2di) => querySelector('#hit-down-up').innerHtml = 'DOWN $g2di');
+    s.onMouseUp.listen((Graphic2dIntersection g2di) => querySelector('#hit-down-up').innerHtml = 'UP $g2di');
+
+    esg.updateGraph();
+  }
 }

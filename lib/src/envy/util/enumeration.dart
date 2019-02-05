@@ -1,9 +1,10 @@
-part of envy;
-
+/// The abstract base class for all enumerations.
 abstract class Enumeration<T> {
-  final T value;
-
+  /// The constructor.
   const Enumeration(this.value);
+
+  /// The enumerated value.
+  final T value;
 
   @override
   String toString() => value?.toString();

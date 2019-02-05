@@ -1,16 +1,17 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D, CanvasGradient;
+import '../../color/color.dart';
 
 /// Common handle for 2d linear and radial gradients.
 ///
 abstract class Gradient2d {
-  final Map<num, Color> stops = new Map<num, Color>();
+  final Map<num, Color> stops = <num, Color>{};
 
   CanvasGradient _canvasGradient;
 
   /// Adds a color stop to this gradient at the offset.
   /// The offset can range between 0.0 and 1.0.
   ///
-  addColorStop(num offset, Color c) {
+  void addColorStop(num offset, Color c) {
     stops[offset] = c;
     _canvasGradient = null;
   }
@@ -24,16 +25,17 @@ abstract class Gradient2d {
 }
 
 class LinearGradient2d extends Gradient2d {
+  LinearGradient2d({this.x0 = 0, this.y0 = 0, this.x1 = 0, this.y1 = 0});
+
   num x0;
   num y0;
   num x1;
   num y1;
 
-  LinearGradient2d({this.x0: 0, this.y0: 0, this.x1: 0, this.y1: 0});
-
+  @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createLinearGradient(x0, y0, x1, y1);
-    for (var stop in stops.keys) {
+    for (num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }
@@ -44,6 +46,8 @@ class LinearGradient2d extends Gradient2d {
 /// the end circle.
 ///
 class RadialGradient2d extends Gradient2d {
+  RadialGradient2d({this.x0 = 0, this.y0 = 0, this.r0 = 0, this.x1 = 0, this.y1 = 0, this.r1 = 0});
+
   num x0;
   num y0;
   num r0;
@@ -51,11 +55,10 @@ class RadialGradient2d extends Gradient2d {
   num y1;
   num r1;
 
-  RadialGradient2d({this.x0: 0, this.y0: 0, this.r0: 0, this.x1: 0, this.y1: 0, this.r1: 0});
-
+  @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
-    for (var stop in stops.keys) {
+    for (num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }

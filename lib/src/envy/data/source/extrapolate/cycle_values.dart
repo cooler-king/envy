@@ -1,9 +1,9 @@
-part of envy;
+import 'extrapolation.dart';
 
 class CycleValues<T> extends Extrapolation<T> {
-  final bool oneWay;
+  CycleValues(this.oneWay) : super('cycle', 'Cycle through existing values');
 
-  CycleValues(this.oneWay) : super("cycle", "Cycle through existing values");
+  final bool oneWay;
 
   /// If index is greater than the length of the values array
   /// the value will be selected using a cycle algorithm.  If [oneWay]
@@ -13,6 +13,7 @@ class CycleValues<T> extends Extrapolation<T> {
   ///
   /// If [values] is null or empty, null will be returned.
   ///
+  @override
   T valueAt(int index, List<T> values) {
     if (values == null || values.isEmpty) return null;
 
@@ -23,7 +24,7 @@ class CycleValues<T> extends Extrapolation<T> {
     } else {
       int x = index % ((values.length - 1) * 2);
       if (x >= values.length) x = 2 * values.length - 2 - x;
-      //print("index/x... ${index}/${x}");
+      //print('index/x... ${index}/${x}');
       return values[x];
     }
   }

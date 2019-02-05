@@ -1,4 +1,7 @@
-part of envy;
+import 'dart:html' show CanvasRenderingContext2D;
+import '../../color/color.dart';
+import 'gradient2d.dart';
+import 'pattern2d.dart';
 
 /// Represents a fill style or a stroke style, either a pattern, gradient or color.
 ///
@@ -6,6 +9,8 @@ part of envy;
 /// a gradient takes precedence over a color.
 ///
 class DrawingStyle2d {
+  DrawingStyle2d({this.color, this.gradient, this.pattern});
+
   Color color;
   Gradient2d gradient;
   Pattern2d pattern;
@@ -13,12 +18,10 @@ class DrawingStyle2d {
   static final DrawingStyle2d black = new DrawingStyle2d(color: Color.black);
   static final DrawingStyle2d white = new DrawingStyle2d(color: Color.white);
 
-  DrawingStyle2d({this.color, this.gradient, this.pattern});
-
   dynamic style(CanvasRenderingContext2D ctx) =>
-      pattern?.asCanvasPattern(ctx) ?? (gradient?.asCanvasGradient(ctx) ?? (color?.css ?? null));
+      pattern?.asCanvasPattern(ctx) ?? (gradient?.asCanvasGradient(ctx) ?? color?.css);
 
-  dynamic get styleObj => pattern ?? (gradient ?? (color ?? null));
+  dynamic get styleObj => pattern ?? (gradient ?? color);
 }
 
 /// A synonym class for better readability.
