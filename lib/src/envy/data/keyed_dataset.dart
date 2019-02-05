@@ -4,6 +4,9 @@ import '../envy_node.dart';
 /// for convenience that may be used when constructing multiple
 /// data accessors that differ only in property.
 class KeyedDataset {
+  /// Constructs a new instance.
+  KeyedDataset(this.name, this.node, this.keyProp);
+
   /// The name of the dataset.
   String name;
 
@@ -12,7 +15,4 @@ class KeyedDataset {
 
   /// The key property.
   String keyProp;
-
-  /// Constructs a new instance.
-  KeyedDataset(this.name, this.node, this.keyProp);
 }

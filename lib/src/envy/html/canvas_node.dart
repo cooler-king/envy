@@ -18,13 +18,13 @@ final List<ListQueue<Matrix3>> transform2DStackList = <ListQueue<Matrix3>>[];
 /// HTML Canvas element.
 ///
 class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
+  CanvasNode([this.initialWidth = 500, this.initialHeight = 400]);
+
   num initialWidth;
   num initialHeight;
 
   // Keep track of last Graphic2d to intersect with mouse event
   Graphic2dIntersection lastG2di;
-
-  CanvasNode([this.initialWidth = 500, this.initialHeight = 400]);
 
   // Mouse event streams for events that fall through to the background (no intersection with graphic)
   Stream<MouseEvent> get onClick => _onClick.stream;
@@ -318,12 +318,12 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
 }
 
 class Graphic2dIntersection {
+  /// Constructs a new instance.
+  Graphic2dIntersection(this.graphic2d, this.index);
+
   final Graphic2dNode graphic2d;
   final int index;
   MouseEvent event;
-
-  /// Constructs a new instance.
-  Graphic2dIntersection(this.graphic2d, this.index);
 
   /// Two intersections are considered equal if they refer to the same graphic element and the same index into
   /// that graphic element's array.

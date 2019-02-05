@@ -6,15 +6,6 @@ import 'envy_node.dart';
 import 'envy_root.dart';
 
 class EnvySceneGraph {
-  /// Master timeline (can be thought of as the document timeline)
-  Timeline masterTimeline = new Timeline.now();
-
-  /// The Envy root node is a DataGroup node
-  final EnvyRoot root = new EnvyRoot();
-
-  // The HTML node under which this scne graph will add its contents
-  Element _htmlHost;
-
   /// Constructs a new instance.
   EnvySceneGraph([String spec]) {
     //TODO build scene graph nodes from spec
@@ -24,6 +15,15 @@ class EnvySceneGraph {
   void applySpec(String spec) {
     //TODO envy spec -- add nodes to master animation group
   }
+
+  /// Master timeline (can be thought of as the document timeline)
+  Timeline masterTimeline = new Timeline.now();
+
+  /// The Envy root node is a DataGroup node
+  final EnvyRoot root = new EnvyRoot();
+
+  // The HTML node under which this scne graph will add its contents
+  Element _htmlHost;
 
   Element get htmlHost => _htmlHost;
 

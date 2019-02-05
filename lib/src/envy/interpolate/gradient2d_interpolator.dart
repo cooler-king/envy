@@ -8,12 +8,12 @@ import 'number_interpolator.dart';
 /// Interpolates between two [Gradient2d]s.
 ///
 class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
-  final NumberInterpolator _numberInterpolator = new NumberInterpolator();
-  ColorInterpolator _colorInterpolator = new RgbaInterpolator();
-
   Gradient2dInterpolator({ColorInterpolator colorInterpolator}) {
     _colorInterpolator = colorInterpolator ?? (new RgbaInterpolator());
   }
+
+  final NumberInterpolator _numberInterpolator = new NumberInterpolator();
+  ColorInterpolator _colorInterpolator = new RgbaInterpolator();
 
   /// Returns a Gradient2d value between [a] and [b] based on the time [fraction].
   @override

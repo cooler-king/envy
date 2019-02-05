@@ -7,12 +7,12 @@ import '../../util/enumeration.dart';
 /// See https://developer.mozilla.org/en-US/docs/HTTP/Access_control_CORS for more information on CORS.
 ///
 class CrossOrigin extends Enumeration<String> {
+  const CrossOrigin(String value) : super(value);
+
   /// CORS requests for this element will not have the credentials flag set
   static const CrossOrigin anonymous = const CrossOrigin('anonymous');
 
   /// CORS requests for this element will have the credentials flag set; this means
   /// the request will provide credentials
   static const CrossOrigin useCredentials = const CrossOrigin('use_credentials');
-
-  const CrossOrigin(String value) : super(value);
 }

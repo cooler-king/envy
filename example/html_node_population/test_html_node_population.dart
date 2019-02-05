@@ -22,7 +22,7 @@ class TestHtmlNodePopulation implements AfterViewInit {
     final DivNode div = new DivNode();
     esg.attachToRoot(div);
 
-    final DivNode n1 = new DivNode()..populationStrategy = new IndependentPopulationStrategy();
+    //final DivNode n1 = new DivNode()..populationStrategy = new IndependentPopulationStrategy();
     // TODO make multiple -- need style working
     //div.x.enter = new NumberConstant.array([10, 20, 30, 40]);
     //div.y.enter = new NumberConstant.array([10, 20, 30 ,40]);

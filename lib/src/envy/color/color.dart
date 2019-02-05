@@ -2,6 +2,25 @@ import '../css/css_adapter.dart';
 import '../util/logger.dart';
 
 class Color implements CssAdapter {
+  const Color(this.r, this.g, this.b, [this.alpha = 1.0])
+      : perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
+
+  Color.rgb(this.r, this.g, this.b)
+      : alpha = 1.0,
+        perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
+
+  Color.rgba(this.r, this.g, this.b, this.alpha)
+      : perceptiveLuminance = alpha * ((0.299 * r) + (0.587 * g) + (0.114 * b));
+
+  Color.hex(String hexStr)
+      : r = Color.hexStrToDecimal(hexStr, 0),
+        g = Color.hexStrToDecimal(hexStr, 1),
+        b = Color.hexStrToDecimal(hexStr, 2),
+        alpha = 1.0,
+        perceptiveLuminance = (0.299 * Color.hexStrToDecimal(hexStr, 0)) +
+            (0.587 * Color.hexStrToDecimal(hexStr, 1)) +
+            (0.114 * Color.hexStrToDecimal(hexStr, 2));
+
   static const Color white = const Color(1.0, 1.0, 1.0);
   static const Color black = const Color(0.0, 0.0, 0.0);
   static const Color gray = const Color(0.5, 0.5, 0.5);
@@ -63,25 +82,6 @@ class Color implements CssAdapter {
 
   // Calculate once (lazily) for efficiency
   final double perceptiveLuminance;
-
-  const Color(this.r, this.g, this.b, [this.alpha = 1.0])
-      : perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
-
-  Color.rgb(this.r, this.g, this.b)
-      : this.alpha = 1.0,
-        perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
-
-  Color.rgba(this.r, this.g, this.b, this.alpha)
-      : perceptiveLuminance = alpha * ((0.299 * r) + (0.587 * g) + (0.114 * b));
-
-  Color.hex(String hexStr)
-      : this.r = Color.hexStrToDecimal(hexStr, 0),
-        this.g = Color.hexStrToDecimal(hexStr, 1),
-        this.b = Color.hexStrToDecimal(hexStr, 2),
-        this.alpha = 1.0,
-        perceptiveLuminance = (0.299 * Color.hexStrToDecimal(hexStr, 0)) +
-            (0.587 * Color.hexStrToDecimal(hexStr, 1)) +
-            (0.114 * Color.hexStrToDecimal(hexStr, 2));
 
   /// Derives a new color from the this color by modifying its
   /// [brightness] and/or [saturation].
@@ -260,8 +260,8 @@ class Color implements CssAdapter {
   static double hexStrToDecimal(String hexStr, int pos) {
     try {
       if (hexStr == null) return 0.0;
-      if (hexStr.length == 4) return int.parse('${hexStr[pos+1]}${hexStr[pos+1]}', radix: 16) / 255.0;
-      if (hexStr.length == 7) return int.parse('${hexStr[pos*2 + 1]}${hexStr[pos*2 + 2]}', radix: 16) / 255.0;
+      if (hexStr.length == 4) return int.parse('${hexStr[pos + 1]}${hexStr[pos + 1]}', radix: 16) / 255.0;
+      if (hexStr.length == 7) return int.parse('${hexStr[pos * 2 + 1]}${hexStr[pos * 2 + 2]}', radix: 16) / 255.0;
 
       logger.warning('Malformed hex string: $hexStr');
     } catch (e) {

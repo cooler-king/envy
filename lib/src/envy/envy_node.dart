@@ -13,8 +13,6 @@ abstract class EnvyNode {
 
   HashMap<String, dynamic> _datasetMap;
 
-  EnvyNode();
-
   EnvyNode get parent => _parent;
 
   /// Get the HtmlNode ancestor of this EnvyNode.

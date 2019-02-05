@@ -9,9 +9,6 @@ import 'graphic2d_node.dart';
 /// The triangle is defined by an origin, a base length, a height and a rotation angle
 /// (0 degrees is straight up, clockwise).  The default anchor point is the center of the base.
 class Triangle2d extends Graphic2dNode {
-  // Degrees
-  final num offsetAngle;
-
   Triangle2d()
       : offsetAngle = 0,
         super(null) {
@@ -41,6 +38,9 @@ class Triangle2d extends Graphic2dNode {
         super(null) {
     _initProperties();
   }
+
+  // Degrees
+  final num offsetAngle;
 
   void _initProperties() {
     properties['base'] = new NumberProperty();

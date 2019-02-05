@@ -10,9 +10,6 @@ import 'text_align2d_source.dart';
 /// text alignment) from a named dataset.
 ///
 class TextAlign2dData extends ArrayDataSource<TextAlign2d> implements TextAlign2dSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -41,6 +38,9 @@ class TextAlign2dData extends ArrayDataSource<TextAlign2d> implements TextAlign2
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

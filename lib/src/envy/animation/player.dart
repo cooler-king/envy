@@ -5,8 +5,16 @@ import 'timeline.dart';
 
 /// Players provide an elapsed time relative to a specific
 /// time on a specific [Timeline].
-///
 class Player {
+  /// Create a new Player bound to [timeline] with the specified
+  /// [startTime], in seconds, on that timeline.
+  Player(this.timeline, this.startTime) {
+    //print('player construction startTime = ${startTime}');
+
+    //TODO add delay for start time
+    _initTimer();
+  }
+
   /// A dynamic list of TimedItemGroups to update
   final List<TimedItemGroup> _registered = <TimedItemGroup>[];
 
@@ -31,7 +39,6 @@ class Player {
   ///
   /// Setting a player's playback rate to zero effectively pauses the player but
   /// without affecting the player's paused state.
-  ///
   num _playbackRate = 1;
 
   bool _paused = false;
@@ -39,21 +46,9 @@ class Player {
 
   num _timeDrift = 0;
 
-  /// Create a new Player bound to [timeline] with the specified
-  /// [startTime], in seconds, on that timeline.
-  ///
-  Player(this.timeline, this.startTime) {
-    //print('player construction startTime = ${startTime}');
-
-    //TODO add delay for start time
-    _initTimer();
-  }
-
   /// The [currentTime] is the elapsed time, in seconds, of the player
   /// relative to the [startTime] on its associated [timeline].
-  ///
   /// Time drifts due to pausing the player are taken into account.
-  ///
   num get currentTime => timeline.started ? (timeline.currentTime - startTime) * _playbackRate - timeDrift : null;
 
   /// The effective current time is the non-null elapsed time of the player
@@ -63,7 +58,6 @@ class Player {
   /// than null if the timeline has not yet started.
   ///
   /// Time drifts due to pausing the player are taken into account.
-  ///
   num get effectiveCurrentTime {
     final num current = currentTime;
     return current ?? 0;

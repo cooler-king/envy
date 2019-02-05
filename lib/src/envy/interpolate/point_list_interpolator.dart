@@ -14,6 +14,10 @@ const Point<num> ptZeroZero = const Point<num>(0, 0);
 /// Singleton.
 ///
 class PointListInterpolator extends EnvyInterpolator<PointList> {
+  factory PointListInterpolator() => instance;
+
+  PointListInterpolator._internal();
+
   static final PointListInterpolator instance = new PointListInterpolator._internal();
 
   // Internal interpolator for individual points
@@ -21,10 +25,6 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
-
-  factory PointListInterpolator() => instance;
-
-  PointListInterpolator._internal();
 
   /// Interpolates each individual point based on the time [fraction].
   ///

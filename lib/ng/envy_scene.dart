@@ -2,17 +2,20 @@ import 'dart:html';
 import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 
+/// Manages and renders an Envy scene.
 @Component(
   selector: 'envy-scene',
   templateUrl: 'envy_scene.html',
   styleUrls: const <String>['envy_scene.css'],
 )
 class EnvyScene implements AfterViewInit {
-  //TODO input spec
+  ///TODO input spec
   String spec;
 
+  /// Defines the scene components.
   final EnvySceneGraph sceneGraph = new EnvySceneGraph();
 
+  /// A reference to the wrapper element.
   @ViewChild('envyWrapper', read: Element)
   Element wrapper;
 

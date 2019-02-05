@@ -25,12 +25,12 @@ abstract class Gradient2d {
 }
 
 class LinearGradient2d extends Gradient2d {
+  LinearGradient2d({this.x0 = 0, this.y0 = 0, this.x1 = 0, this.y1 = 0});
+
   num x0;
   num y0;
   num x1;
   num y1;
-
-  LinearGradient2d({this.x0 = 0, this.y0 = 0, this.x1 = 0, this.y1 = 0});
 
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
@@ -46,14 +46,14 @@ class LinearGradient2d extends Gradient2d {
 /// the end circle.
 ///
 class RadialGradient2d extends Gradient2d {
+  RadialGradient2d({this.x0 = 0, this.y0 = 0, this.r0 = 0, this.x1 = 0, this.y1 = 0, this.r1 = 0});
+
   num x0;
   num y0;
   num r0;
   num x1;
   num y1;
   num r1;
-
-  RadialGradient2d({this.x0 = 0, this.y0 = 0, this.r0 = 0, this.x1 = 0, this.y1 = 0, this.r1 = 0});
 
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {

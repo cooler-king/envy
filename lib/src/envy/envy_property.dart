@@ -37,6 +37,8 @@ final Vector2 vec2one = new Vector2(1.0, 1.0);
 
 /// The base class for all Envy properties.
 abstract class EnvyProperty<T> {
+  EnvyProperty(this.defaultValue, {this.optional = false});
+
   int _size = 0;
 
   /// An optional property has an effective raw size of zero, deferring to other properties
@@ -83,8 +85,6 @@ abstract class EnvyProperty<T> {
 
   // optional override of alpha for specific property
   AnimationGroup animationOverride;
-
-  EnvyProperty(this.defaultValue, {this.optional = false});
 
   DataSource<T> get enter => _enter ?? nullDataSource;
 

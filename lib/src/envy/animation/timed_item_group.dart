@@ -282,7 +282,7 @@ abstract class TimedItemGroup extends GroupNode {
   @override
   void update(num timeFraction, {dynamic context = false, bool finish = false}) {
     // If this TimedItemGroup has its own player then ignore indirect updates from other players
-    final bool direct = context is bool ? context : false;
+    final bool direct = context is bool && context;
     if (player != null && !direct) return;
     super.update(timeFraction, finish: finish);
   }

@@ -5,12 +5,6 @@ import 'envy_node.dart';
 /// no other state and no rendered component.
 ///
 class GroupNode extends EnvyNode {
-  //@observable
-  //final ObservableList<EnvyNode> children = new ObservableList.from([]);
-
-  // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
-
   GroupNode() {
     /*
     // Listen for changes to list of children and manage parent references
@@ -46,6 +40,11 @@ class GroupNode extends EnvyNode {
       }
     });*/
   }
+  //@observable
+  //final ObservableList<EnvyNode> children = new ObservableList.from([]);
+
+  // DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
+  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
 
   /// Subclasses must override to execute any updates prior to child updates
   /// (but after property updates).

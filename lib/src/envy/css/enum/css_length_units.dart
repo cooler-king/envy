@@ -1,6 +1,8 @@
 import '../../util/enumeration.dart';
 
 class CssLengthUnits extends Enumeration<String> {
+  const CssLengthUnits(String value) : super(value);
+
   static const CssLengthUnits px = const CssLengthUnits('px');
   static const CssLengthUnits pct = const CssLengthUnits('%');
   static const CssLengthUnits inch = const CssLengthUnits('in');
@@ -15,6 +17,4 @@ class CssLengthUnits extends Enumeration<String> {
   static const CssLengthUnits vh = const CssLengthUnits('vh');
   static const CssLengthUnits vmin = const CssLengthUnits('vmin');
   static const CssLengthUnits vmax = const CssLengthUnits('vmax');
-
-  const CssLengthUnits(String value) : super(value);
 }

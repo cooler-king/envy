@@ -8,16 +8,16 @@ import 'envy_interpolator.dart';
 import 'gradient2d_interpolator.dart';
 
 class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
-  EnvyInterpolator<Color> colorInterpolator;
-  EnvyInterpolator<Gradient2d> gradient2dInterpolator;
-  EnvyInterpolator<Pattern2d> pattern2dInterpolator;
-  final BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = new BinaryInterpolator<DrawingStyle2d>();
-
   DrawingStyle2dInterpolator({this.colorInterpolator, this.gradient2dInterpolator, this.pattern2dInterpolator}) {
     colorInterpolator ??= new RgbaInterpolator();
     gradient2dInterpolator ??= new Gradient2dInterpolator();
     pattern2dInterpolator ??= new BinaryInterpolator<Pattern2d>();
   }
+
+  EnvyInterpolator<Color> colorInterpolator;
+  EnvyInterpolator<Gradient2d> gradient2dInterpolator;
+  EnvyInterpolator<Pattern2d> pattern2dInterpolator;
+  final BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = new BinaryInterpolator<DrawingStyle2d>();
 
   /// Returns a [DrawingStyle2d] having values between those of DrawingStyle2ds [a] and [b]
   /// based on the time [fraction].

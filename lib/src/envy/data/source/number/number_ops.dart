@@ -3,9 +3,9 @@ import 'number_source.dart';
 
 /// Unary operations take a single number source.
 abstract class UnaryOp extends NumberSource {
-  NumberSource ns;
-
   UnaryOp(this.ns);
+
+  NumberSource ns;
 
   @override
   int get rawSize => ns.rawSize;
@@ -18,10 +18,10 @@ abstract class UnaryOp extends NumberSource {
 
 /// Binary operations take two number sources.
 abstract class BinaryOp extends NumberSource {
+  BinaryOp(this.ns1, this.ns2);
+
   NumberSource ns1;
   NumberSource ns2;
-
-  BinaryOp(this.ns1, this.ns2);
 
   @override
   int get rawSize => max(ns1.rawSize, ns2.rawSize);
@@ -35,8 +35,6 @@ abstract class BinaryOp extends NumberSource {
 
 /// Multiple operations take an arbitrary number of number sources.
 abstract class MultipleOp extends NumberSource {
-  final List<NumberSource> _list = <NumberSource>[];
-
   MultipleOp(NumberSource num1, NumberSource num2) {
     _list..add(num1)..add(num2);
   }
@@ -44,6 +42,8 @@ abstract class MultipleOp extends NumberSource {
   MultipleOp.list(List<NumberSource> list) {
     _list.addAll(list);
   }
+
+  final List<NumberSource> _list = <NumberSource>[];
 
   @override
   int get rawSize {
@@ -266,11 +266,11 @@ class TruncDiv extends BinaryOp {
 /// by [ns2] (lower limit) and [ns3] (upper limit).
 ///
 class Clamp extends NumberSource {
+  Clamp(this.ns1, this.ns2, this.ns3);
+
   NumberSource ns1;
   NumberSource ns2;
   NumberSource ns3;
-
-  Clamp(this.ns1, this.ns2, this.ns3);
 
   @override
   num valueAt(int index) => ns1.valueAt(index).clamp(ns2.valueAt(index), ns3.valueAt(index));

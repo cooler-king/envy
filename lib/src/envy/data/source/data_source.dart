@@ -31,13 +31,13 @@ abstract class DataSource<T> {
 /// Constant data sources implement an array of values of a specific type.
 ///
 abstract class ArrayDataSource<T> extends DataSource<T> {
-  final List<T> values;
-
   /// Constructs a data source with an empty growable list.
   ArrayDataSource() : values = <T>[];
 
   /// Constructs a data source with a custom values list.
   ArrayDataSource._internal(this.values);
+
+  final List<T> values;
 
   /// The unextrapolated size of the values list.
   @override
@@ -50,9 +50,6 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
 }
 
 class NullDataSource<T> extends ArrayDataSource<T> {
-  // For efficiency.
-  static final Map<Type, NullDataSource<dynamic>> _perType = <Type, NullDataSource<dynamic>>{};
-
   factory NullDataSource() {
     if (!_perType.containsKey(T)) _perType[T] = new NullDataSource<T>._internal();
     return _perType[T] as NullDataSource<T>;
@@ -60,6 +57,9 @@ class NullDataSource<T> extends ArrayDataSource<T> {
 
   // construct with a fixed-size empty list
   NullDataSource._internal() : super._internal(<T>[]);
+
+  // For efficiency.
+  static final Map<Type, NullDataSource<dynamic>> _perType = <Type, NullDataSource<dynamic>>{};
 
   /// No-op refresh
   @override

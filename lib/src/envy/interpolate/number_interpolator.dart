@@ -9,14 +9,14 @@ import 'envy_interpolator.dart';
 /// Singleton.
 ///
 class NumberInterpolator extends EnvyInterpolator<num> {
+  factory NumberInterpolator() => instance;
+
+  NumberInterpolator._internal();
+
   static final NumberInterpolator instance = new NumberInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
-
-  factory NumberInterpolator() => instance;
-
-  NumberInterpolator._internal();
 
   /// Returns a numerical value between [a] and [b] based on the time [fraction].
   ///

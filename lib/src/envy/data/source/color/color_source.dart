@@ -4,8 +4,6 @@ import '../data_source.dart';
 abstract class ColorSource extends DataSource<Color> {}
 
 class ColorConstant extends ArrayDataSource<Color> implements ColorSource {
-  static final ColorConstant transparentBlack = new ColorConstant(Color.transparentBlack);
-
   ColorConstant(Color c) {
     values.add(c);
   }
@@ -13,6 +11,8 @@ class ColorConstant extends ArrayDataSource<Color> implements ColorSource {
   ColorConstant.array(List<Color> colors) {
     values.addAll(colors);
   }
+
+  static final ColorConstant transparentBlack = new ColorConstant(Color.transparentBlack);
 
   // No-op refresh
   @override

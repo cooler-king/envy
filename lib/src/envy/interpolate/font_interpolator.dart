@@ -3,13 +3,6 @@ import 'binary_interpolator.dart';
 import 'envy_interpolator.dart';
 
 class FontInterpolator extends EnvyInterpolator<Font> {
-  EnvyInterpolator<dynamic> styleInterpolator;
-  EnvyInterpolator<dynamic> variantInterpolator;
-  EnvyInterpolator<dynamic> weightInterpolator;
-  EnvyInterpolator<dynamic> sizeInterpolator;
-  EnvyInterpolator<dynamic> familyInterpolator;
-  final BinaryInterpolator<dynamic> _binaryInterpolator = new BinaryInterpolator<dynamic>();
-
   FontInterpolator(
       {this.styleInterpolator,
       this.variantInterpolator,
@@ -22,6 +15,13 @@ class FontInterpolator extends EnvyInterpolator<Font> {
     sizeInterpolator ??= _binaryInterpolator;
     familyInterpolator ??= _binaryInterpolator;
   }
+
+  EnvyInterpolator<dynamic> styleInterpolator;
+  EnvyInterpolator<dynamic> variantInterpolator;
+  EnvyInterpolator<dynamic> weightInterpolator;
+  EnvyInterpolator<dynamic> sizeInterpolator;
+  EnvyInterpolator<dynamic> familyInterpolator;
+  final BinaryInterpolator<dynamic> _binaryInterpolator = new BinaryInterpolator<dynamic>();
 
   /// Returns a [Font] having values between those of Fonts [a] and [b]
   /// based on the time [fraction].

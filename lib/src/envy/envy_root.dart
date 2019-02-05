@@ -8,8 +8,6 @@ import 'html/population/population_strategy.dart';
 /// The root node can hold global data sets and automatically created an AnimationGroup node
 /// for controlling the properties and display of all child elements.
 class EnvyRoot extends HtmlNode {
-  final AnimationGroup rootAnimation = new AnimationGroup();
-
   EnvyRoot() {
     // Root only ever has a single DivElement DOM node; create it here
     final DomNodeCoupling c = new DomNodeCoupling(parentIndex: 0, propIndex: 0);
@@ -17,6 +15,8 @@ class EnvyRoot extends HtmlNode {
 
     _initAnimationNode();
   }
+
+  final AnimationGroup rootAnimation = new AnimationGroup();
 
   @override
   Node generateNode() => new Element.div()

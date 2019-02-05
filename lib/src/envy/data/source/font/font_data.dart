@@ -8,9 +8,6 @@ import 'font_source.dart';
 
 /// Retrieves font data (a list of font or a single font) from a named dataset.
 class FontData extends ArrayDataSource<Font> implements FontSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -39,6 +36,9 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

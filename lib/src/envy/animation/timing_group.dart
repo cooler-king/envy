@@ -1,7 +1,7 @@
 import '../envy_node.dart';
 import 'timed_item_group.dart';
 
-/// TimingGroup is the base class for specialzed timing groups.
+/// TimingGroup is the base class for specialized timing groups.
 ///
 abstract class TimingGroup extends TimedItemGroup {}
 

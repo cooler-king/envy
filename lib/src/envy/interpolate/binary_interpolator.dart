@@ -8,11 +8,6 @@ import 'envy_interpolator.dart';
 /// to 1.
 ///
 class BinaryInterpolator<T> extends EnvyInterpolator<T> {
-  /// The fraction threshold to switch return values.
-  final List<num> _thresholds = <num>[];
-
-  static final BinaryInterpolator<dynamic> middle = new BinaryInterpolator<dynamic>();
-
   /// Create a binary interpolator that will flip between values `a` and `b` at
   /// specific fraction thresholds.
   BinaryInterpolator([List<num> thresholds]) {
@@ -24,6 +19,11 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
         ..sort();
     }
   }
+
+  /// The fraction threshold to switch return values.
+  final List<num> _thresholds = <num>[];
+
+  static final BinaryInterpolator<dynamic> middle = new BinaryInterpolator<dynamic>();
 
   @override
   T interpolate(T a, T b, num fraction) {

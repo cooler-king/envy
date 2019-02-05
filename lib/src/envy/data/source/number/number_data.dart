@@ -7,9 +7,6 @@ import 'number_source.dart';
 
 /// Retrieves numerical data (a list of numbers or a single number) from a named dataset.
 class NumberData extends ArrayDataSource<num> implements NumberSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -40,6 +37,9 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

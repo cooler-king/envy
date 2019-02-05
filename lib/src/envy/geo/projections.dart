@@ -55,9 +55,8 @@ abstract class Projection {
 /// The projection is neither equal area nor conformal.
 ///
 class Equirectangular extends Projection {
-  final num cosParallel;
-
-  Equirectangular(Angle standardParallel, {num width = 500, GeoCoord anchor}) : cosParallel = standardParallel.cosine() {
+  Equirectangular(Angle standardParallel, {num width = 500, GeoCoord anchor})
+      : cosParallel = standardParallel.cosine() {
     if (width != null) setPixelWidth(width);
     if (anchor != null) setAnchorCoord(anchor);
   }
@@ -65,6 +64,8 @@ class Equirectangular extends Projection {
   @override
   Point<num> toPoint({num latRad, num longRad}) =>
       new Point<num>(longRad * cosParallel * _scale + _offset.x, -latRad * _scale + _offset.y);
+
+  final num cosParallel;
 
   @override
   GeoCoord toGeo(Point<num> pt) {

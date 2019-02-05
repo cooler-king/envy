@@ -9,11 +9,11 @@ import 'population_strategy.dart';
 /// Singleton:  does not have any state.
 ///
 class IndependentPopulationStrategy extends PopulationStrategy {
-  static IndependentPopulationStrategy _instance;
-
   factory IndependentPopulationStrategy() => _instance ??= new IndependentPopulationStrategy._internal();
 
   IndependentPopulationStrategy._internal();
+
+  static IndependentPopulationStrategy _instance;
 
   /// Generate the coupling list.
   ///

@@ -19,8 +19,6 @@ Timing defaultTiming = new Timing();
 class Timing {
   static const num auto = double.infinity;
 
-  Timing();
-
   //static final Timing defaultTiming = new Timing();
 
   /// The number of seconds from a timed item's start time to the start of the active interval.

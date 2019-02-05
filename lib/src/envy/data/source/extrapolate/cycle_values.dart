@@ -1,9 +1,9 @@
 import 'extrapolation.dart';
 
 class CycleValues<T> extends Extrapolation<T> {
-  final bool oneWay;
-
   CycleValues(this.oneWay) : super('cycle', 'Cycle through existing values');
+
+  final bool oneWay;
 
   /// If index is greater than the length of the values array
   /// the value will be selected using a cycle algorithm.  If [oneWay]

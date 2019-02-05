@@ -4,13 +4,6 @@ import '../../../util/enumeration.dart';
 /// ideographic, or bottom
 ///
 class TextBaseline2d extends Enumeration<String> {
-  static const TextBaseline2d alphabetic = const TextBaseline2d('alphabetic');
-  static const TextBaseline2d top = const TextBaseline2d('top');
-  static const TextBaseline2d hanging = const TextBaseline2d('hanging');
-  static const TextBaseline2d middle = const TextBaseline2d('middle');
-  static const TextBaseline2d ideographic = const TextBaseline2d('ideographic');
-  static const TextBaseline2d bottom = const TextBaseline2d('bottom');
-
   const TextBaseline2d(String value) : super(value);
 
   static TextBaseline2d from(dynamic d) {
@@ -27,4 +20,11 @@ class TextBaseline2d extends Enumeration<String> {
 
     return TextBaseline2d.alphabetic;
   }
+
+  static const TextBaseline2d alphabetic = const TextBaseline2d('alphabetic');
+  static const TextBaseline2d top = const TextBaseline2d('top');
+  static const TextBaseline2d hanging = const TextBaseline2d('hanging');
+  static const TextBaseline2d middle = const TextBaseline2d('middle');
+  static const TextBaseline2d ideographic = const TextBaseline2d('ideographic');
+  static const TextBaseline2d bottom = const TextBaseline2d('bottom');
 }

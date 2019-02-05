@@ -10,9 +10,6 @@ import 'color_source.dart';
 /// from a named dataset.
 ///
 class ColorData extends ArrayDataSource<Color> implements ColorSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -44,6 +41,9 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

@@ -7,12 +7,12 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional image to be drawn on an HTML canvas.
 ///
 class Image2d extends Graphic2dNode {
-  // TODO dynamic node reference?
-  CanvasImageSourceNode source;
-
   Image2d(this.source) : super(null) {
     _initProperties();
   }
+
+  // TODO dynamic node reference?
+  CanvasImageSourceNode source;
 
   NumberProperty get sourceX => properties['sourceX'] as NumberProperty;
   NumberProperty get sourceY => properties['sourceY'] as NumberProperty;

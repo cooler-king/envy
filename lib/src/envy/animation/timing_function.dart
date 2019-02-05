@@ -8,19 +8,22 @@ abstract class TimingFunction {
 }
 
 class LinearFunction extends TimingFunction {
-  static LinearFunction _instance;
-
   factory LinearFunction() => _instance ?? (new LinearFunction._internal());
 
   LinearFunction._internal() {
     _instance = this;
   }
 
+  static LinearFunction _instance;
+
   @override
   num output(num input) => input;
 }
 
 class CubicBezierCurve extends TimingFunction {
+  /// Constructs a new instance.
+  CubicBezierCurve(this.cpx1, this.cpy1, this.cpx2, this.cpy2);
+
   static final CubicBezierCurve ease = new CubicBezierCurve(0.25, 0.1, 0.25, 1);
   static final CubicBezierCurve easeIn = new CubicBezierCurve(0.42, 0, 1, 1);
   static final CubicBezierCurve easeOut = new CubicBezierCurve(0, 0, 0.58, 1);
@@ -30,8 +33,6 @@ class CubicBezierCurve extends TimingFunction {
   final num cpy1;
   final num cpx2;
   final num cpy2;
-
-  CubicBezierCurve(this.cpx1, this.cpy1, this.cpx2, this.cpy2);
 
   @override
   num output(num input) {
@@ -47,14 +48,14 @@ class CubicBezierCurve extends TimingFunction {
 }
 
 class StepFunction extends TimingFunction {
+  StepFunction(this.intervalCount, [this.end = true]) : delta = 1 / intervalCount;
+
   static final StepFunction stepStart = new StepFunction(1, false);
   static final StepFunction stepEnd = new StepFunction(1, true);
 
   final int intervalCount;
   final bool end;
   final num delta;
-
-  StepFunction(this.intervalCount, [this.end = true]) : delta = 1 / intervalCount;
 
   //TODO some rounding problems... see tests
   @override

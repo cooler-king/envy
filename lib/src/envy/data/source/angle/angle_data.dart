@@ -8,11 +8,7 @@ import 'angle_source.dart';
 
 /// Retrieves angle data (a list of Angles or a single Angle)
 /// from a named dataset.
-///
 class AngleData extends ArrayDataSource<Angle> implements AngleSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -43,6 +39,9 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

@@ -10,9 +10,6 @@ import 'anchor2d_source.dart';
 /// Retrieves drawing style data (a list of drawing styles or a single
 /// drawing style) from a named dataset.
 class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
-  final String datasetName;
-  final EnvyNode node;
-
   /// Find the dataset named [datasetName], starting with [node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -41,6 +38,9 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  final String datasetName;
+  final EnvyNode node;
 
   @override
   void refresh() {

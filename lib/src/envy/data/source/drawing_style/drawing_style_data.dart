@@ -9,9 +9,6 @@ import 'drawing_style_source.dart';
 /// Retrieves drawing style data (a list of drawing styles or a single
 /// drawing style) from a named dataset.
 class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements DrawingStyle2dSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -41,6 +38,9 @@ class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements Draw
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

@@ -1,9 +1,6 @@
 import 'package:quantity/quantity.dart' show Angle;
 
 class GeoCoord {
-  final num latRad;
-  final num longRad;
-
   GeoCoord.radians({this.latRad = 0, this.longRad = 0});
 
   GeoCoord.degrees({num latDeg = 0, num longDeg = 0})
@@ -13,6 +10,9 @@ class GeoCoord {
   GeoCoord.angles({Angle lat, Angle long})
       : latRad = lat?.valueSI?.toDouble() ?? 0,
         longRad = long?.valueSI?.toDouble() ?? 0;
+
+  final num latRad;
+  final num longRad;
 
   Angle get latitude => new Angle(rad: latRad);
 

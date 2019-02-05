@@ -2,12 +2,12 @@ import 'dart:math';
 import 'number_source.dart';
 
 class RandomNumber extends NumberSource {
+  RandomNumber(this.minSource, this.maxSource);
+
   final Random generator = new Random(new DateTime.now().millisecond);
 
   NumberSource minSource;
   NumberSource maxSource;
-
-  RandomNumber(this.minSource, this.maxSource);
 
   @override
   num valueAt(int index) {

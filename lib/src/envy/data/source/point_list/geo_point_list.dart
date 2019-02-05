@@ -32,11 +32,11 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
 */
 
 class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointListSource {
+  GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource});
+
   ProjectionSource projSource;
   NumberListSource latListSource;
   NumberListSource longListSource;
-
-  GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource});
 
   /*
   PointList valueAt(int i) {

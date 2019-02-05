@@ -10,9 +10,6 @@ import 'text_baseline2d_source.dart';
 /// text baseline) from a named dataset.
 ///
 class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements TextBaseline2dSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -41,6 +38,9 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

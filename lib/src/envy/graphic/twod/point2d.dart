@@ -6,11 +6,11 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional line to be drawn on an HTML canvas.
 ///
 class Point2d extends Graphic2dNode {
-  Graphic2dNode marker;
-
   Point2d([this.marker]) : super(null) {
     _initProperties();
   }
+
+  Graphic2dNode marker;
 
   void _initProperties() {
     properties['pixelSize'] = new NumberProperty();

@@ -1,6 +1,8 @@
 import '../../../util/enumeration.dart';
 
 class AnchorMode2d extends Enumeration<String> {
+  const AnchorMode2d(String value) : super(value);
+
   static const AnchorMode2d defaultMode = const AnchorMode2d('default');
   static const AnchorMode2d center = const AnchorMode2d('center');
   static const AnchorMode2d top = const AnchorMode2d('top');
@@ -11,8 +13,6 @@ class AnchorMode2d extends Enumeration<String> {
   static const AnchorMode2d topRight = const AnchorMode2d('topright');
   static const AnchorMode2d bottomLeft = const AnchorMode2d('bottomleft');
   static const AnchorMode2d bottomRight = const AnchorMode2d('bottomright');
-
-  const AnchorMode2d(String value) : super(value);
 
   static AnchorMode2d from(dynamic d) {
     if (d is AnchorMode2d) return d;

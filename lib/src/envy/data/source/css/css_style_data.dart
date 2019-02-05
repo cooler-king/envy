@@ -10,9 +10,6 @@ import 'css_style_source.dart';
 /// CSS style) from a named dataset.
 ///
 class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -44,6 +41,9 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

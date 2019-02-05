@@ -7,21 +7,6 @@ import '../util/logger.dart';
 /// See the `parse` constructor for examples of how to construct
 /// a multi-step accessor.
 class DataAccessor {
-  /// A list of [Indices], [KeyedProperty]s and/or Strings, where ints indicate an index into
-  /// an array and String indicate a property in a map.
-  final List<dynamic> steps = <dynamic>[];
-
-  /// Keep track of any keyed property ordering (key prop -> map of key value to index).
-  /// Note that Map literals are ordered (not necessary to use LinkedHashMap).
-  final Map<String, Map<dynamic, int>> propOrderingMap = <String, Map<dynamic, int>>{};
-
-  dynamic _lastData;
-
-  //T dataNotAvailable = new DataNotAvailable<T>().token;
-
-  /// Keeps a record of which indices
-  final Set<int> dataUnavailableIndices = new Set<int>();
-
   DataAccessor.index(int index) {
     if (index != null) steps.add(new Indices.single(index));
   }
@@ -118,6 +103,21 @@ class DataAccessor {
       logger.severe('Problem parsing accessPath:  $accessPath', e, s);
     }
   }
+
+  /// A list of [Indices], [KeyedProperty]s and/or Strings, where ints indicate an index into
+  /// an array and String indicate a property in a map.
+  final List<dynamic> steps = <dynamic>[];
+
+  /// Keep track of any keyed property ordering (key prop -> map of key value to index).
+  /// Note that Map literals are ordered (not necessary to use LinkedHashMap).
+  final Map<String, Map<dynamic, int>> propOrderingMap = <String, Map<dynamic, int>>{};
+
+  dynamic _lastData;
+
+  //T dataNotAvailable = new DataNotAvailable<T>().token;
+
+  /// Keeps a record of which indices
+  final Set<int> dataUnavailableIndices = new Set<int>();
 
   /// Returns the data in [dataset] referenced by this accessor.
   Object getData(Object dataset) {
@@ -258,11 +258,6 @@ class DataAccessor {
 
 /// Represents some combination of individual indices and index ranges, or all indices.
 class Indices {
-  // Holds ints and/or List<int>
-  final List<dynamic> _list = <dynamic>[];
-
-  bool _all = false;
-
   Indices.single(int index) {
     _list.add(index);
   }
@@ -295,6 +290,11 @@ class Indices {
     }
   }
 
+  // Holds ints and/or List<int>
+  final List<dynamic> _list = <dynamic>[];
+
+  bool _all = false;
+
   bool get isAll => _all;
 
   List<int> get values {
@@ -321,8 +321,8 @@ class Indices {
 /// A [KeyedProperty] accessor step provides a way to extract values from a Map while attempting to preserve
 /// ordering on subsequent accesses with respect to the Map values for [keyProp].
 class KeyedProperty {
+  KeyedProperty(this.property, this.keyProp);
+
   final String property;
   final String keyProp;
-
-  KeyedProperty(this.property, this.keyProp);
 }

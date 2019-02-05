@@ -27,9 +27,9 @@ class CssString extends CssProperty {
 }
 
 class CssNumber extends CssProperty {
-  num value;
-
   CssNumber([this.value]);
+
+  num value;
 
   @override
   String get css {
@@ -51,9 +51,6 @@ class CssNumber extends CssProperty {
 }
 
 class CssLength extends CssProperty {
-  final CssLengthUnits units;
-  final num value;
-
   CssLength(this.value, this.units);
 
   CssLength.px(this.value) : units = CssLengthUnits.px;
@@ -71,6 +68,9 @@ class CssLength extends CssProperty {
   CssLength.vw(this.value) : units = CssLengthUnits.vw;
   CssLength.vmax(this.value) : units = CssLengthUnits.vmax;
   CssLength.vmin(this.value) : units = CssLengthUnits.vmin;
+
+  final CssLengthUnits units;
+  final num value;
 
   @override
   String get css {

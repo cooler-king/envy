@@ -8,6 +8,8 @@ abstract class Pattern2d {
 }
 
 class ImagePattern2d extends Pattern2d {
+  ImagePattern2d(this.imageObj, {this.repeat = PatternRepeat.repeat, this.patternWidth, this.patternHeight});
+
   ImageElement imageObj;
 
   PatternRepeat repeat;
@@ -16,8 +18,6 @@ class ImagePattern2d extends Pattern2d {
 
   int patternWidth;
   int patternHeight;
-
-  ImagePattern2d(this.imageObj, {this.repeat = PatternRepeat.repeat, this.patternWidth, this.patternHeight});
 
   void _createCanvasPattern(CanvasRenderingContext2D ctx) {
     String repeatStr = 'repeat';

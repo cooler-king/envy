@@ -8,9 +8,6 @@ import 'point_list_source.dart';
 
 /// Retrieves PointList data from a named dataset.
 class PointListData extends ArrayDataSource<PointList> implements PointListSource {
-  String _datasetName;
-  EnvyNode _node;
-
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
   /// dataset.
@@ -36,6 +33,9 @@ class PointListData extends ArrayDataSource<PointList> implements PointListSourc
       accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
+
+  String _datasetName;
+  EnvyNode _node;
 
   @override
   void refresh() {

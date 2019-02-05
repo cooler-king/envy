@@ -11,6 +11,10 @@ import 'number_interpolator.dart';
 /// Singleton.
 ///
 class NumberListInterpolator extends EnvyInterpolator<NumberList> {
+  factory NumberListInterpolator() => instance;
+
+  NumberListInterpolator._internal();
+
   static final NumberListInterpolator instance = new NumberListInterpolator._internal();
 
   // Internal interpolator for individual points
@@ -18,10 +22,6 @@ class NumberListInterpolator extends EnvyInterpolator<NumberList> {
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
-
-  factory NumberListInterpolator() => instance;
-
-  NumberListInterpolator._internal();
 
   /// Interpolates each individual point based on the time [fraction].
   ///

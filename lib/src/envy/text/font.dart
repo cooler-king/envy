@@ -2,13 +2,13 @@ import '../css/css_adapter.dart';
 import '../css/css_property.dart';
 
 class Font implements CssAdapter {
+  Font({this.style, this.variant, this.weight, this.size, this.family});
+
   FontStyle style;
   FontVariant variant;
   FontWeight weight;
   FontSize size;
   FontFamily family;
-
-  Font({this.style, this.variant, this.weight, this.size, this.family});
 
   @override
   String get css {
@@ -45,6 +45,10 @@ class Font implements CssAdapter {
 /// normal|italic|oblique|initial|inherit
 ///
 class FontStyle implements CssAdapter {
+  FontStyle._internal(this.style);
+
+  FontStyle.custom(this.style);
+
   final String style;
 
   static final FontStyle normal = new FontStyle._internal('normal');
@@ -53,10 +57,6 @@ class FontStyle implements CssAdapter {
   static final FontStyle initial = new FontStyle._internal('initial');
   static final FontStyle inherit = new FontStyle._internal('inherit');
 
-  FontStyle._internal(this.style);
-
-  FontStyle.custom(this.style);
-
   @override
   String get css => style != 'normal' ? style : '';
 }
@@ -64,16 +64,16 @@ class FontStyle implements CssAdapter {
 /// normal|small-caps|initial|inherit
 ///
 class FontVariant implements CssAdapter {
+  FontVariant._internal(this.variant);
+
+  FontVariant.custom(this.variant);
+
   final String variant;
 
   static final FontVariant normal = new FontVariant._internal('normal');
   static final FontVariant smallCaps = new FontVariant._internal('small-caps');
   static final FontVariant initial = new FontVariant._internal('initial');
   static final FontVariant inherit = new FontVariant._internal('inherit');
-
-  FontVariant._internal(this.variant);
-
-  FontVariant.custom(this.variant);
 
   @override
   String get css => variant != 'normal' ? variant : '';
@@ -82,6 +82,10 @@ class FontVariant implements CssAdapter {
 /// normal|bold|bolder|lighter|number|initial|inherit
 ///
 class FontWeight implements CssAdapter {
+  FontWeight._internal(this.weight);
+
+  FontWeight.custom(this.weight);
+
   final String weight;
 
   static final FontWeight normal = new FontWeight._internal('normal');
@@ -92,10 +96,6 @@ class FontWeight implements CssAdapter {
   static final FontWeight initial = new FontWeight._internal('initial');
   static final FontWeight inherit = new FontWeight._internal('inherit');
 
-  FontWeight._internal(this.weight);
-
-  FontWeight.custom(this.weight);
-
   @override
   String get css => weight != 'normal' ? weight : '';
 }
@@ -103,6 +103,18 @@ class FontWeight implements CssAdapter {
 /// medium|xx-small|x-small|small|large|x-large|xx-large|smaller|larger|length|initial|inherit;
 ///
 class FontSize implements CssAdapter {
+  FontSize._internal(this.sizeStr) : length = null;
+
+  FontSize.cssLength(this.length) : sizeStr = null;
+
+  FontSize.px(num pixels)
+      : sizeStr = null,
+        length = new CssLength.px(pixels);
+
+  FontSize.pt(num points)
+      : sizeStr = null,
+        length = new CssLength.pt(points);
+
   final String sizeStr;
   final CssLength length;
 
@@ -118,18 +130,6 @@ class FontSize implements CssAdapter {
   static final FontSize initial = new FontSize._internal('initial');
   static final FontSize inherit = new FontSize._internal('inherit');
 
-  FontSize._internal(this.sizeStr) : length = null;
-
-  FontSize.cssLength(this.length) : sizeStr = null;
-
-  FontSize.px(num pixels)
-      : sizeStr = null,
-        length = new CssLength.px(pixels);
-
-  FontSize.pt(num points)
-      : sizeStr = null,
-        length = new CssLength.pt(points);
-
   @override
   String get css => length?.css ?? ((sizeStr != null && sizeStr != 'medium') ? sizeStr : '');
 }
@@ -138,6 +138,10 @@ class FontSize implements CssAdapter {
 /// generic: 'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'.
 ///
 class FontFamily implements CssAdapter {
+  FontFamily._internal(this.familyStr);
+
+  FontFamily.custom(this.familyStr);
+
   final String familyStr;
 
   static final FontFamily serif = new FontFamily._internal('serif');
@@ -147,10 +151,6 @@ class FontFamily implements CssAdapter {
   static final FontFamily monospace = new FontFamily._internal('monospace');
   static final FontFamily initial = new FontFamily._internal('initial');
   static final FontFamily inherit = new FontFamily._internal('inherit');
-
-  FontFamily._internal(this.familyStr);
-
-  FontFamily.custom(this.familyStr);
 
   @override
   String get css => familyStr ?? '';

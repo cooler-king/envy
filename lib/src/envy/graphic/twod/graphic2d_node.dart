@@ -13,6 +13,13 @@ import 'enum/line_join2d.dart';
 import 'number_list.dart';
 
 abstract class Graphic2dNode extends GraphicLeaf {
+  Graphic2dNode(Node htmlNode, [String id]) {
+    _initContextProperties();
+    initBaseProperties();
+
+    _initStreams();
+  }
+
   /// Store paths for efficient hit testing
   //final List<Path2D> paths = [];
 
@@ -58,13 +65,6 @@ abstract class Graphic2dNode extends GraphicLeaf {
   Color ctxColor;
 
   static const List<int> defaultLineDash = const <int>[1, 0];
-
-  Graphic2dNode(Node htmlNode, [String id]) {
-    _initContextProperties();
-    initBaseProperties();
-
-    _initStreams();
-  }
 
   void _initContextProperties() {
     // fillStyle and stroke style can be CSS color, gradient or pattern
@@ -491,9 +491,9 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
 /// Optionally passed into renderIndex to request a hit test rather than a render.
 class HitTest {
+  HitTest(this.x, this.y);
+
   final num x;
   final num y;
   bool hit = false;
-
-  HitTest(this.x, this.y);
 }

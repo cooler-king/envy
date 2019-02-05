@@ -10,14 +10,14 @@ import 'envy_interpolator.dart';
 /// Singleton.
 ///
 class Vector2Interpolator extends EnvyInterpolator<Vector2> {
+  factory Vector2Interpolator() => instance;
+
+  Vector2Interpolator._internal();
+
   static final Vector2Interpolator instance = new Vector2Interpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
-
-  factory Vector2Interpolator() => instance;
-
-  Vector2Interpolator._internal();
 
   /// Returns a [Vector2] having x and y values between those of Vector2s [a] and [b]
   /// based on the time [fraction].

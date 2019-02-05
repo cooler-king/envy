@@ -10,14 +10,14 @@ import 'envy_interpolator.dart';
 /// Singleton.
 ///
 class AngleInterpolator extends EnvyInterpolator<Angle> {
+  factory AngleInterpolator() => instance;
+
+  AngleInterpolator._internal();
+
   static final AngleInterpolator instance = new AngleInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
-
-  factory AngleInterpolator() => instance;
-
-  AngleInterpolator._internal();
 
   /// Returns a Angle value between [a] and [b] based on the time [fraction].
   ///
