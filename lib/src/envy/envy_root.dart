@@ -4,18 +4,19 @@ import 'html/html_node.dart';
 import 'html/population/population_strategy.dart';
 
 /// The root node of an `EnvySceneGraph`.
-///
-/// The root node can hold global data sets and automatically created an AnimationGroup node
+/// The root node can hold global data sets and automatically creates an AnimationGroup node
 /// for controlling the properties and display of all child elements.
 class EnvyRoot extends HtmlNode {
+  /// Constructs a new instance.
   EnvyRoot() {
-    // Root only ever has a single DivElement DOM node; create it here
+    // Root only ever has a single DivElement DOM node; create it here.
     final DomNodeCoupling c = new DomNodeCoupling(parentIndex: 0, propIndex: 0);
     domNodesMap[c] = generateNode();
 
     _initAnimationNode();
   }
 
+  /// The root animation group.
   final AnimationGroup rootAnimation = new AnimationGroup();
 
   @override

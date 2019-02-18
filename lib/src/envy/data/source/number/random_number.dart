@@ -1,24 +1,29 @@
 import 'dart:math';
 import 'number_source.dart';
 
+/// Generates a random number in the range defined by two numerical data sources.
 class RandomNumber extends NumberSource {
+  /// Constructs a new instance.
   RandomNumber(this.minSource, this.maxSource);
 
-  final Random generator = new Random(new DateTime.now().millisecond);
+  final Random _generator = new Random(new DateTime.now().millisecond);
 
-  NumberSource minSource;
-  NumberSource maxSource;
+  /// The numerical data source for the minimum value of the range.
+  final NumberSource minSource;
+
+  /// The numerical data source for the maximum value of the range.
+  final NumberSource maxSource;
 
   @override
   num valueAt(int index) {
     final num minValue = minSource.valueAt(index);
-    return minValue + generator.nextDouble() * (maxSource.valueAt(index) - minValue);
+    return minValue + _generator.nextDouble() * (maxSource.valueAt(index) - minValue);
   }
 
   @override
   int get rawSize => max(minSource.rawSize, maxSource.rawSize);
 
-  // No-op refresh
+  // No-op refresh.
   @override
   void refresh() {}
 }

@@ -11,6 +11,7 @@ import 'graphic2d_node.dart';
 ///
 /// The default anchor is the bottom middle.
 class Bar2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Bar2d() : super(null) {
     _initProperties();
   }
@@ -20,7 +21,10 @@ class Bar2d extends Graphic2dNode {
     properties['height'] = new NumberProperty(optional: true)..payload = 'bar height';
   }
 
+  /// Holds the width of the bar in pixels.
   NumberProperty get width => properties['width'] as NumberProperty;
+
+  /// Holds the height of the bar in pixels.
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override

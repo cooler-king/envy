@@ -31,14 +31,22 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
 }
 */
 
+/// Generates a list of two-dimensional coordinates from a geographic projection
+/// and numerical list latitude and longitude sources (degrees).
 class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointListSource {
+  /// Constructs a new instance.
   GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource});
 
+  /// The geographic projection used to convert to pixel coordinates.
   ProjectionSource projSource;
+
+  /// The source of latitude lists.
   NumberListSource latListSource;
+
+  /// The source of longitude lists.
   NumberListSource longListSource;
 
-  /*
+  /* TODO GeoPointList values
   PointList valueAt(int i) {
     var pts = new PointList();
     var proj = projSource.valueAt(i);
@@ -60,7 +68,6 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
   }*/
 
   /// Refreshes the member sources.
-  ///
   @override
   void refresh() {
     projSource.refresh();
@@ -75,7 +82,7 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
       final NumberList lats = latListSource.valueAt(i);
       final NumberList longs = longListSource.valueAt(i);
 
-      // Only create points for which both lat and long are available
+      // Only create points for which both lat and long are available.
       int numPoints = lats?.length ?? 0;
       if (numPoints > 0 && numPoints != longs.length) {
         numPoints = min(lats.length, longs.length);

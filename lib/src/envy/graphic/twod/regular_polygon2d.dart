@@ -5,11 +5,10 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional regular polygon to be drawn on an HTML canvas.
-///
 /// The regular polygon's number of points, radius
 /// and rotation can be set dynamically.
-///
 class RegularPolygon2d extends Graphic2dNode {
+  /// Constructs a new instance.
   RegularPolygon2d() : super(null) {
     _initProperties();
   }
@@ -19,7 +18,10 @@ class RegularPolygon2d extends Graphic2dNode {
     properties['radius'] = new NumberProperty();
   }
 
+  /// The number of vertices (and sides) in the polygon.
   NumberProperty get pointCount => properties['pointCount'] as NumberProperty;
+
+  /// The radius of the circle that would enclose the regular polygon.
   NumberProperty get radius => properties['radius'] as NumberProperty;
 
   @override
@@ -49,8 +51,6 @@ class RegularPolygon2d extends Graphic2dNode {
     final bool _fill = fill.valueAt(index);
     final bool _stroke = stroke.valueAt(index);
 
-    //Path2D p = new Path2D();
-    //paths.add(p);
     ctx
       ..beginPath()
       ..moveTo(_x + sin(preAngleRad) * _radius, _y + cos(preAngleRad) * _radius);

@@ -39,7 +39,10 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
     }
   }
 
+  /// The name of the data set to access.
   final String datasetName;
+
+  ///
   final EnvyNode node;
 
   @override
@@ -61,5 +64,6 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
     }
   }
 
+  /// Converts [d] into an Anchor2d.
   Anchor2d fromAnything(dynamic d) => new Anchor2d(mode: d is String ? new AnchorMode2d(d) : AnchorMode2d.defaultMode);
 }

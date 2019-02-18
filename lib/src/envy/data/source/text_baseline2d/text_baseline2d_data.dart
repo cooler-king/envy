@@ -8,7 +8,6 @@ import 'text_baseline2d_source.dart';
 
 /// Retrieves text baseline data (a list of text baselines or a single
 /// text baseline) from a named dataset.
-///
 class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements TextBaseline2dSource {
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that
@@ -21,7 +20,6 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
-  ///
   TextBaseline2dData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
     this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
   }
@@ -30,7 +28,6 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   /// and working up the ancestor chain, and use a keyed property data accessor
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
-  ///
   TextBaseline2dData.keyed(KeyedDataset keyedDataset, String prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
@@ -62,6 +59,8 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
     }
   }
 
+  /// Converts [d] to a `TextBaseline2d`, defaulting to `TextBaseline2d.alphabetic`
+  /// if the value is not understood.
   TextBaseline2d fromAnything(dynamic d) {
     if (d is String) return TextBaseline2d.from(d);
     return TextBaseline2d.alphabetic;

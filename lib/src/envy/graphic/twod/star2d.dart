@@ -5,11 +5,10 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional star to be drawn on an HTML canvas.
-///
 /// The star's number of points, outer and inner radius
 /// and rotation can be set dynamically.
-///
 class Star2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Star2d() : super(null) {
     _initProperties();
   }
@@ -20,8 +19,13 @@ class Star2d extends Graphic2dNode {
     properties['innerRadius'] = new NumberProperty();
   }
 
+  /// The number of vertices in the star.
   NumberProperty get pointCount => properties['pointCount'] as NumberProperty;
+
+  /// The length of the interior vertices from the star's center.
   NumberProperty get innerRadius => properties['innerRadius'] as NumberProperty;
+
+  /// The length of the outer vertices from the star's center.
   NumberProperty get outerRadius => properties['outerRadius'] as NumberProperty;
 
   @override
@@ -29,13 +33,11 @@ class Star2d extends Graphic2dNode {
     num _pointCount, _x, _y, _outerRadius, _innerRadius;
     _pointCount = pointCount.valueAt(index).toInt();
 
-    // No points, nothing to render
+    // No points, nothing to render.
     if (_pointCount < 1) return;
 
     _outerRadius = outerRadius.valueAt(index);
     _innerRadius = innerRadius.valueAt(index);
-
-    //num maxRadius = Math.max(_outerRadius, _innerRadius);
 
     final List<num> xRaw = <num>[];
     final List<num> yRaw = <num>[];
@@ -71,7 +73,7 @@ class Star2d extends Graphic2dNode {
       postAngleRad += angleStepRad;
     }
 
-    // Adjust for anchor (default is center of Star)
+    // Adjust for anchor (default is center of Star).
     _x = 0;
     _y = 0;
     final Anchor2d _anchor = anchor.valueAt(index);

@@ -8,15 +8,22 @@ import 'enum/text_baseline2d.dart';
 import 'graphic2d_node.dart';
 
 /// Text to be drawn on an HTML canvas.
-///
 class Text2d extends Graphic2dNode {
+  /// The length of the interior vertices from the star's center.
   Text2d() : super(null) {
     _initProperties();
   }
 
+  /// The horizontal offset from the anchor.
   NumberProperty get dx => properties['dx'] as NumberProperty;
+
+  /// The vertical offset from the anchor.
   NumberProperty get dy => properties['dy'] as NumberProperty;
+
+  /// The text to render.
   StringProperty get text => properties['text'] as StringProperty;
+
+  /// The maximum pixel width the text should occupy.
   NumberProperty get maxWidth => properties['maxWidth'] as NumberProperty;
 
   void _initProperties() {
@@ -28,7 +35,6 @@ class Text2d extends Graphic2dNode {
 
   /// Overrides to make default stroke value false (text is not
   /// typically stroked, just filled).
-  ///
   @override
   void initBaseProperties() {
     super.initBaseProperties();

@@ -6,11 +6,12 @@ import 'enum/path_interpolation2d.dart';
 import 'graphic2d_node.dart';
 import 'point_list.dart';
 
+/// A constant list with two zero values.
 const List<num> zeroZero = const <num>[0, 0];
 
 /// A 2-dimensional path (to be drawn on an HTML canvas).
-///
 class Path2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Path2d() : super(null) {
     _initProperties();
   }
@@ -18,7 +19,6 @@ class Path2d extends Graphic2dNode {
   /// Overrides to make default fill value false (paths are not
   /// typically filled, just stroked, although closed paths are often
   /// filled).
-  ///
   @override
   void initBaseProperties() {
     super.initBaseProperties();
@@ -32,12 +32,16 @@ class Path2d extends Graphic2dNode {
     properties['tension'] = new NumberProperty(defaultValue: 0.3);
   }
 
+  /// Holds the path points.
   PointListProperty get points => properties['points'] as PointListProperty;
 
+  /// Controls whether markers are drawn at the points.
   BooleanProperty get drawMarkers => properties['drawMarkers'] as BooleanProperty;
 
+  /// Controls the interpolation algorithm.
   PathInterpolation2dProperty get interpolation => properties['interpolation'] as PathInterpolation2dProperty;
 
+  /// The tension parameter affect how the line is drawn.
   NumberProperty get tension => properties['tension'] as NumberProperty;
 
   @override

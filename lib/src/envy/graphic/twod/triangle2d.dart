@@ -9,37 +9,42 @@ import 'graphic2d_node.dart';
 /// The triangle is defined by an origin, a base length, a height and a rotation angle
 /// (0 degrees is straight up, clockwise).  The default anchor point is the center of the base.
 class Triangle2d extends Graphic2dNode {
+  /// Constructs a new instance, with the triangle pointing up.
   Triangle2d()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
+  /// Constructs a new instance, with the triangle pointing up.
   Triangle2d.up()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
+  /// Constructs a new instance, with the triangle pointing to the right.
   Triangle2d.right()
       : offsetAngle = 90,
         super(null) {
     _initProperties();
   }
 
+  /// Constructs a new instance, with the triangle pointing to the left.
   Triangle2d.left()
       : offsetAngle = -90,
         super(null) {
     _initProperties();
   }
 
+  /// Constructs a new instance, with the triangle pointing down.
   Triangle2d.down()
       : offsetAngle = 180,
         super(null) {
     _initProperties();
   }
 
-  // Degrees
+  ///  The offset angle, in degrees.
   final num offsetAngle;
 
   void _initProperties() {
@@ -54,7 +59,10 @@ class Triangle2d extends Graphic2dNode {
   @override
   NumberProperty get y => properties['y'] as NumberProperty;
 
+  /// Holds the size of the triangle base, in pixels.
   NumberProperty get base => properties['base'] as NumberProperty;
+
+  /// Holds the height of the triangle, in pixels.
   NumberProperty get height => properties['height'] as NumberProperty;
   //NumberProperty get angle => properties['angle'] as NumberProperty;
 
@@ -95,7 +103,9 @@ class Triangle2d extends Graphic2dNode {
   }
 }
 
+/// A 2-dimensional triangle defined by three arbitrary vertices, to be drawn on an HTML canvas.
 class TriangleVertices2d extends Graphic2dNode {
+  /// Constructs a new instance.
   TriangleVertices2d() : super(null) {
     _initProperties();
   }
@@ -109,11 +119,22 @@ class TriangleVertices2d extends Graphic2dNode {
     properties['y3'] = new NumberProperty();
   }
 
+  /// Holds the x-value of the first vertex.
   NumberProperty get x1 => properties['x1'] as NumberProperty;
+
+  /// Holds the y-value of the first vertex.
   NumberProperty get y1 => properties['y1'] as NumberProperty;
+
+  /// Holds the x-value of the second vertex.
   NumberProperty get x2 => properties['x2'] as NumberProperty;
+
+  /// Holds the y-value of the second vertex.
   NumberProperty get y2 => properties['y2'] as NumberProperty;
+
+  /// Holds the x-value of the third vertex.
   NumberProperty get x3 => properties['x3'] as NumberProperty;
+
+  /// Holds the y-value of the third vertex.
   NumberProperty get y3 => properties['y3'] as NumberProperty;
 
   @override

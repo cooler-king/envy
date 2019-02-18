@@ -48,7 +48,7 @@ void main() {
       expect(dataList.length, 6);
       expect(dataList[0], 400);
       expect(a.dataUnavailableIndices.length == 1, true);
-      expect(a.dataUnavailableIndices.contains(1), true);
+      expect(a.dataUnavailableIndices.containsKey(1), true);
       expect(dataList[2], 100);
       expect(dataList[3], 200);
       expect(dataList[4], 300);
@@ -65,7 +65,13 @@ void main() {
       dataList = data as List<dynamic>;
       expect(dataList.length, 9);
       expect(a.dataUnavailableIndices.length == 6, true);
-      expect(a.dataUnavailableIndices.containsAll(<int>[0, 1, 2, 3, 4, 5]), true);
+      expect(a.dataUnavailableIndices.containsKey(0), true);
+      expect(a.dataUnavailableIndices.containsKey(1), true);
+      expect(a.dataUnavailableIndices.containsKey(2), true);
+      expect(a.dataUnavailableIndices.containsKey(3), true);
+      expect(a.dataUnavailableIndices.containsKey(4), true);
+      expect(a.dataUnavailableIndices.containsKey(5), true);
+      expect(a.dataUnavailableIndices.containsKey(6), false);
       expect(dataList[6], 700);
       expect(dataList[7], 800);
       expect(dataList[8], 900);
@@ -84,7 +90,16 @@ void main() {
       expect(dataList[2], 333);
       expect(dataList[4], 555);
       expect(a.dataUnavailableIndices.length == 6, true);
-      expect(a.dataUnavailableIndices.containsAll(<int>[1, 3, 5, 6, 7, 8]), true);
+      expect(a.dataUnavailableIndices.containsKey(0), false);
+      expect(a.dataUnavailableIndices.containsKey(1), true);
+      expect(a.dataUnavailableIndices.containsKey(2), false);
+      expect(a.dataUnavailableIndices.containsKey(3), true);
+      expect(a.dataUnavailableIndices.containsKey(4), false);
+      expect(a.dataUnavailableIndices.containsKey(5), true);
+      expect(a.dataUnavailableIndices.containsKey(6), true);
+      expect(a.dataUnavailableIndices.containsKey(7), true);
+      expect(a.dataUnavailableIndices.containsKey(8), true);
+      expect(a.dataUnavailableIndices.containsKey(9), false);
     });
 
     test('cullUnavailableData', () {
@@ -101,7 +116,7 @@ void main() {
         <String, dynamic>{'id': 'id8', 'x': 30},
         <String, dynamic>{'id': 'id9', 'x': 30}
       ];
-      Object data = a.getData(dataset);
+      a.getData(dataset);
       print(a.propOrderingMap['x']);
 
       // omit 4 and 7
@@ -114,7 +129,7 @@ void main() {
         <String, dynamic>{'id': 'id8', 'x': 6},
         <String, dynamic>{'id': 'id9', 'x': 7}
       ];
-      data = a.getData(dataset2);
+      a.getData(dataset2);
       print(a.propOrderingMap['x']);
 
       /*

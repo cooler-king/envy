@@ -1,5 +1,6 @@
 import 'dart:math' show min;
 
+/// An abstract base class for timing functions.
 // ignore: one_member_abstracts
 abstract class TimingFunction {
   /// Convert a value between 0-1 (inclusive) to another
@@ -7,7 +8,9 @@ abstract class TimingFunction {
   num output(num input);
 }
 
+/// Linear timing.
 class LinearFunction extends TimingFunction {
+  /// Constructs a new instance.
   factory LinearFunction() => _instance ?? (new LinearFunction._internal());
 
   LinearFunction._internal() {
@@ -20,18 +23,33 @@ class LinearFunction extends TimingFunction {
   num output(num input) => input;
 }
 
+/// Non-linear timing.
 class CubicBezierCurve extends TimingFunction {
   /// Constructs a new instance.
   CubicBezierCurve(this.cpx1, this.cpy1, this.cpx2, this.cpy2);
 
+  /// Ease.
   static final CubicBezierCurve ease = new CubicBezierCurve(0.25, 0.1, 0.25, 1);
+
+  /// Starts slowly.
   static final CubicBezierCurve easeIn = new CubicBezierCurve(0.42, 0, 1, 1);
+
+  /// Ends slowly.
   static final CubicBezierCurve easeOut = new CubicBezierCurve(0, 0, 0.58, 1);
+
+  /// Fastest in the middle.
   static final CubicBezierCurve easeInOut = new CubicBezierCurve(0.42, 0, 0.58, 1);
 
+  /// The x-value of the first curve parameter.
   final num cpx1;
+
+  /// The y-value of the first curve parameter.
   final num cpy1;
+
+  /// The x-value of the second curve parameter.
   final num cpx2;
+
+  /// The y-value of the second curve parameter.
   final num cpy2;
 
   @override
@@ -47,14 +65,24 @@ class CubicBezierCurve extends TimingFunction {
   }
 }
 
+/// Changes values abruptly.
 class StepFunction extends TimingFunction {
+  /// Constructs a new instance.
   StepFunction(this.intervalCount, [this.end = true]) : delta = 1 / intervalCount;
 
+  /// Steps at the start.
   static final StepFunction stepStart = new StepFunction(1, false);
+
+  /// Steps at the end.
   static final StepFunction stepEnd = new StepFunction(1, true);
 
+  /// The number of steps.
   final int intervalCount;
+
+  /// Whether the steps skew toward the end of the beginning.
   final bool end;
+
+  /// The delta.
   final num delta;
 
   //TODO some rounding problems... see tests

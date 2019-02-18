@@ -10,8 +10,8 @@ import 'graphic2d_node.dart';
 /// can be positioned anywhere along the vertical bar (0 percent
 /// means the horizontal bar's center is located at the top
 /// of the vertical bar).
-///
 class Cross2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Cross2d() : super(null) {
     _initProperties();
   }
@@ -24,10 +24,20 @@ class Cross2d extends Graphic2dNode {
     properties['percent'] = new NumberProperty();
   }
 
+  /// Holds the width of the vertical piece of the cross.
   NumberProperty get verticalWidth => properties['verticalWidth'] as NumberProperty;
+
+  /// Holds the height of the vertical piece of the cross.
   NumberProperty get verticalHeight => properties['verticalHeight'] as NumberProperty;
+
+  /// Holds the width of the horizontal piece of the cross.
   NumberProperty get horizontalWidth => properties['horizontalWidth'] as NumberProperty;
+
+  /// Holds the height of the horizontal piece of the cross.
   NumberProperty get horizontalHeight => properties['horizontalHeight'] as NumberProperty;
+
+  /// Holds the percent along the vertical piece at which to place
+  /// the horizontal piece, with zero being the top and 100 being the bottom.
   NumberProperty get percent => properties['percent'] as NumberProperty;
 
   @override
@@ -74,10 +84,6 @@ class Cross2d extends Graphic2dNode {
       _x += adj[0];
       _y += adj[1];
     }
-
-    //Path2D p = new Path2D();
-    //ctx.beginPath();
-    //paths.add(p);
 
     // Start at top left
     ctx.beginPath();

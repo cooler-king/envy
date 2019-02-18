@@ -1,15 +1,18 @@
 import 'dart:math' show Point;
 import 'package:collection/collection.dart';
 
+/// A collection of points.
 class PointList extends DelegatingList<Point<num>> {
+  /// Constructs a new instance.
   PointList([Iterable<Point<num>> points]) : super(new List<Point<num>>.from(points ?? <Point<num>>[]));
 
+  /// Adds a point to the end of the list.
   void addPoint(Point<num> value) => add(value);
 
+  /// Adds points to the end of the list.
   void addPoints(Iterable<Point<num>> points) => addAll(points);
 
-  //----------------
-
+  /// The minimum x value in the point collection.
   num get minX {
     if (isEmpty) return double.nan;
     num min = double.infinity;
@@ -19,6 +22,7 @@ class PointList extends DelegatingList<Point<num>> {
     return min;
   }
 
+  /// The maximum x value in the point collection.
   num get maxX {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;
@@ -28,6 +32,7 @@ class PointList extends DelegatingList<Point<num>> {
     return max;
   }
 
+  /// The minimum y value in the point collection.
   num get minY {
     if (isEmpty) return double.nan;
     num min = double.infinity;
@@ -37,6 +42,7 @@ class PointList extends DelegatingList<Point<num>> {
     return min;
   }
 
+  /// The maximum y value in the point collection.
   num get maxY {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;

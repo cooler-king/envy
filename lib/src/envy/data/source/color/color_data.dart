@@ -8,7 +8,6 @@ import 'color_source.dart';
 
 /// Retrieves color data (a list of Colors or a single Color)
 /// from a named dataset.
-///
 class ColorData extends ArrayDataSource<Color> implements ColorSource {
   /// Find the dataset named [_datasetName], starting with [_node] and working
   /// up the ancestor chain, and use the [accessor] to select data from that

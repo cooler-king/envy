@@ -1,22 +1,44 @@
 import 'dart:html';
 
-enum PatternRepeat { repeat, repeatX, repeatY, noRepeat }
+/// Pattern repetition modes.
+enum PatternRepeat {
+  /// Repeats in both directions.
+  repeat,
 
+  /// Only repeats horizontally.
+  repeatX,
+
+  /// Only repeats vertically.
+  repeatY,
+
+  /// Doesn't repeat.
+  noRepeat
+}
+
+/// The abstract base class for two-dimensional patterns.
 // ignore: one_member_abstracts
 abstract class Pattern2d {
+  /// Concrete classes must be able to provide an equivalent canvas pattern.
   CanvasPattern asCanvasPattern(CanvasRenderingContext2D ctx);
 }
 
+/// An image pattern.
 class ImagePattern2d extends Pattern2d {
+  /// Constructs a new instance.
   ImagePattern2d(this.imageObj, {this.repeat = PatternRepeat.repeat, this.patternWidth, this.patternHeight});
 
+  /// The image element to apply as the pattern.
   ImageElement imageObj;
 
+  /// The pattern repetition mode.
   PatternRepeat repeat;
 
   CanvasPattern _canvasPattern;
 
+  /// the width of the pattern.
   int patternWidth;
+
+  /// the height of the pattern.
   int patternHeight;
 
   void _createCanvasPattern(CanvasRenderingContext2D ctx) {

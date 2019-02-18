@@ -1,17 +1,24 @@
 import '../css/css_adapter.dart';
 import '../util/logger.dart';
 
+/// Represents a single color in the RBGA color space.
+/// Conversions to and from the HSB color space and CSS are also available.
 class Color implements CssAdapter {
+  /// Constructs a constant Color.
   const Color(this.r, this.g, this.b, [this.alpha = 1.0])
       : perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
 
+  /// Constructs a new instance from red, green and blue components.
+  /// The color will be opaque.
   Color.rgb(this.r, this.g, this.b)
       : alpha = 1.0,
         perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
 
+  /// Constructs a new instance from red, green, blue and alpha components.
   Color.rgba(this.r, this.g, this.b, this.alpha)
       : perceptiveLuminance = alpha * ((0.299 * r) + (0.587 * g) + (0.114 * b));
 
+  /// Constructs a new instance from a CSS hex value.
   Color.hex(String hexStr)
       : r = Color.hexStrToDecimal(hexStr, 0),
         g = Color.hexStrToDecimal(hexStr, 1),
@@ -21,33 +28,79 @@ class Color implements CssAdapter {
             (0.587 * Color.hexStrToDecimal(hexStr, 1)) +
             (0.114 * Color.hexStrToDecimal(hexStr, 2));
 
+  /// White.
   static const Color white = const Color(1.0, 1.0, 1.0);
+
+  /// Black.
   static const Color black = const Color(0.0, 0.0, 0.0);
+
+  /// Gray.
   static const Color gray = const Color(0.5, 0.5, 0.5);
+
+  /// Red.
   static const Color red = const Color(1.0, 0.0, 0.0);
+
+  /// Green.
   static const Color green = const Color(0.0, 1.0, 0.0);
+
+  /// Blue.
   static const Color blue = const Color(0.0, 0.0, 1.0);
+
+  /// Yellow.
   static const Color yellow = const Color(1.0, 1.0, 0.0);
+
+  /// Cyan.
   static const Color cyan = const Color(0.0, 1.0, 1.0);
+
+  /// Magenta.
   static const Color magenta = const Color(1.0, 0.0, 1.0);
 
+  /// Gray (#eee).
   static const Color grayEEE = const Color(0.9375, 0.9375, 0.9375);
+
+  /// Gray (#ddd).
   static const Color grayDDD = const Color(0.875, 0.875, 0.875);
+
+  /// Gray (#ccc).
   static const Color grayCCC = const Color(0.8125, 0.8125, 0.8125);
+
+  /// Gray (#bbb).
   static const Color grayBBB = const Color(0.75, 0.75, 0.75);
+
+  /// Gray (#aaa).
   static const Color grayAAA = const Color(0.6875, 0.6875, 0.6875);
+
+  /// Gray (#999).
   static const Color gray999 = const Color(0.625, 0.625, 0.625);
+
+  /// Gray (#888).
   static const Color gray888 = const Color(0.5625, 0.5625, 0.5625);
+
+  /// Gray (#777).
   static const Color gray777 = const Color(0.5, 0.5, 0.5);
+
+  /// Gray (#666).
   static const Color gray666 = const Color(0.4375, 0.4375, 0.4375);
+
+  /// Gray (#555).
   static const Color gray555 = const Color(0.375, 0.375, 0.375);
+
+  /// Gray (#444).
   static const Color gray444 = const Color(0.3125, 0.3125, 0.3125);
+
+  /// Gray (#333).
   static const Color gray333 = const Color(0.25, 0.25, 0.25);
+
+  /// Gray (#222).
   static const Color gray222 = const Color(0.1875, 0.1875, 0.1875);
+
+  /// Gray (#111).
   static const Color gray111 = const Color(0.0625, 0.0625, 0.0625);
 
+  /// Transparent.
   static const Color transparentBlack = const Color(0.0, 0.0, 0.0, 0.0);
 
+  /// The available values.
   static const List<Color> values = const <Color>[
     white,
     black,
@@ -74,18 +127,31 @@ class Color implements CssAdapter {
     gray111
   ];
 
-  // RGB values 0.0 - 1.0 (for alpha, 1 means opaque)
+  // RGB values 0.0 - 1.0 (for alpha, 1 means opaque).
+
+  /// The red component of the color in the RGBA color space (0.0 - 1.0).
   final double r;
+
+  /// The green component of the color in the RGBA color space (0.0 - 1.0).
   final double g;
+
+  /// The blue component of the color in the RGBA color space (0.0 - 1.0).
   final double b;
+
+  /// The alpha component of the color in the RGBA color space (0.0 transparent - 1.0 opaque).
   final double alpha;
 
-  // Calculate once (lazily) for efficiency
+  /// The brightness of the color as perceived by the human eye (0.0 darkest - 1.0 brightest).
+  /// This value is calculated when the color object is created.
   final double perceptiveLuminance;
 
-  /// Derives a new color from the this color by modifying its
-  /// [brightness] and/or [saturation].
-  ///
+  /// Whether another color matches this color.
+  bool matches(Color other) {
+    if (other.r != r || other.g != g || other.b != b || other.alpha != alpha) return false;
+    return true;
+  }
+
+  /// Derives a new color from the this color by modifying its [brightness] and/or [saturation].
   Color derive({double brightness, double saturation}) {
     final List<double> hueSatBr = hsb;
     final double s = saturation ?? hueSatBr[1];
@@ -95,9 +161,7 @@ class Color implements CssAdapter {
     return new Color.rgb(rgb[0], rgb[1], rgb[2]);
   }
 
-  /// Get the hue [0-360], saturation [0-1] and brightness [0-1] values for
-  /// this color.
-  ///
+  /// Get the hue [0-360], saturation [0-1] and brightness [0-1] values for this color.
   List<double> get hsb {
     final int r = red256;
     final int g = green256;
@@ -131,10 +195,8 @@ class Color implements CssAdapter {
 
   /// Returns a [light] or [dark] color, whichever is easiest to see when
   /// superimposed on this color, based on its perceptive luminance.
-  ///
   /// The [threshold] determines the level of perceptive luminance at which
   /// the auto text color switches over from light to dark (default is 0.5).
-  ///
   Color autoTextColor({Color light = Color.white, Color dark = Color.black, double threshold = 0.5}) {
     if (perceptiveLuminance > threshold)
       return dark;
@@ -142,7 +204,7 @@ class Color implements CssAdapter {
       return light;
   }
 
-  /// Get the value for the red component as an integer in the range 0-255.
+  /// Gets the value for the red component as an integer in the range 0-255.
   int get red256 => (255 * r).round();
 
   /**
@@ -159,8 +221,7 @@ class Color implements CssAdapter {
     return '00';
   }*/
 
-  /// Get the value for the green component as an integer in the range 0-255.
-  //int get green256 => int.parse(greenHex, radix:16);
+  /// Gets the value for the green component as an integer in the range 0-255.
   int get green256 => (255 * g).round();
 
   /**
@@ -195,11 +256,9 @@ class Color implements CssAdapter {
     return '00';
   }*/
 
-  /// Returns a value within the range 0-1 that represents the preceived
+  /// Returns a value within the range 0-1 that represents the perceived
   /// luminance (brightness of this color).
-  ///
   /// The human eye favors green over red and red over blue.
-  ///
   /// Digital CCIR601:  0.299 R + 0.587 G + 0.114 B
   static double calcPerceptiveLuminance(double red, double green, double blue) =>
       (0.299 * red) + (0.587 * green) + (0.114 * blue);
@@ -253,10 +312,8 @@ class Color implements CssAdapter {
     return str;
   }
 
-  /// The hex string is assumed to start with '#'.  It may be either 4 or 7
-  /// character in length.
-  ///
-  /// [pos]... 0 extract red, 1 extracts green, 2 extracts blue
+  /// The hex string is assumed to start with '#'.  It may be either 4 or 7 character in length.
+  /// [pos]: 0 extracts red, 1 extracts green, 2 extracts blue.
   static double hexStrToDecimal(String hexStr, int pos) {
     try {
       if (hexStr == null) return 0.0;
@@ -276,6 +333,8 @@ class Color implements CssAdapter {
   @override
   String get css => alpha == 1.0 ? 'rgb($red256,$green256,$blue256)' : 'rgba($red256,$green256,$blue256,$alpha)';
 
+  /// Constructs a [Color] from a CSS string.
+  /// If the CSS string is not understood, black will be returned.
   Color fromCss(String css) {
     try {
       if (css == null || css.isEmpty) return Color.black;

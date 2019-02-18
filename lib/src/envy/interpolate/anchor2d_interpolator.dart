@@ -5,16 +5,19 @@ import 'envy_interpolator.dart';
 import 'number_interpolator.dart';
 
 /// Interpolates between two [Anchor2d]s.
-///
 /// The anchor's mode is handled with a binary interpolator, while the anchor's offset is
 /// handled by a number interpolator.
 class Anchor2dInterpolator extends EnvyInterpolator<Anchor2d> {
+  /// Constructs a new instance.
   Anchor2dInterpolator({this.modeInterpolator, this.offsetInterpolator}) {
     modeInterpolator ??= new BinaryInterpolator<AnchorMode2d>();
     offsetInterpolator ??= new NumberInterpolator();
   }
 
+  /// Interpolates between anchor modes.
   BinaryInterpolator<AnchorMode2d> modeInterpolator;
+
+  /// Interpolates between offset coordinate values.
   NumberInterpolator offsetInterpolator;
 
   @override

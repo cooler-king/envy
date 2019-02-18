@@ -2,12 +2,8 @@ import '../data_accessor.dart';
 import 'extrapolate/extrapolation.dart';
 
 /// The base class for all data source classes.
-///
 /// Data sources provide an array of values of a specific type.
-///
 abstract class DataSource<T> {
-  //final List<T> values;
-
   /// How to fill in missing values at end of array
   Extrapolation<T> extrapolation;
 
@@ -25,11 +21,11 @@ abstract class DataSource<T> {
   /// Refresh values (called when a dynamic node is preparing for animation)
   void refresh();
 
-  bool dataNotAvailableAt(int index) => accessor?.dataUnavailableIndices?.contains(index) ?? false;
+  /// Whether there is no data at [index] (true) or there is data available (false).
+  bool dataNotAvailableAt(int index) => accessor?.dataUnavailableIndices?.containsKey(index) ?? false;
 }
 
 /// Constant data sources implement an array of values of a specific type.
-///
 abstract class ArrayDataSource<T> extends DataSource<T> {
   /// Constructs a data source with an empty growable list.
   ArrayDataSource() : values = <T>[];
@@ -37,6 +33,7 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   /// Constructs a data source with a custom values list.
   ArrayDataSource._internal(this.values);
 
+  /// The list of values.
   final List<T> values;
 
   /// The unextrapolated size of the values list.
@@ -49,35 +46,21 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
       (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 
+/// Provides no data.
 class NullDataSource<T> extends ArrayDataSource<T> {
+  /// Constructs a new instance.
   factory NullDataSource() {
     if (!_perType.containsKey(T)) _perType[T] = new NullDataSource<T>._internal();
     return _perType[T] as NullDataSource<T>;
   }
 
-  // construct with a fixed-size empty list
+  /// Construct a new instance with a fixed-size empty list.
   NullDataSource._internal() : super._internal(<T>[]);
 
   // For efficiency.
   static final Map<Type, NullDataSource<dynamic>> _perType = <Type, NullDataSource<dynamic>>{};
 
-  /// No-op refresh
+  /// No-op refresh.
   @override
   void refresh() {}
 }
-
-/*
-/// These tokens are used to indicate data not available while preserving type semantics.
-final Map<Type, Object> _dnaTokens = new Map<Type, Object>();
-
-/// Retrieve the "data not available" token for the specified type.
-///
-/// A token that indicates a position in the array for which there is no data
-/// (needed for keyed property support).
-//T dataNotAvailable(Type t) => null as T;
-
-Object dataNotAvailable(Type t) {
-  if (!_dnaTokens.containsKey(t)) _dnaTokens[t] = null as t;
-  return _dnaTokens[t];
-}
-*/

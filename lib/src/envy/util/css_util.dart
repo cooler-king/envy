@@ -1,44 +1,43 @@
 import 'dart:html';
 import '../util/logger.dart';
 
-final Map<String, num> convert = <String, num>{};
-bool computedValueBug = false;
-final List<num> conversions = <num>[1 / 25.4, 1 / 2.54, 1 / 72, 1 / 6];
-String runit = r'/^(-?[\d+\.\-]+)([a-z]+|%)$/i';
-Element docElement = document.documentElement;
+// ignore_for_file: avoid_classes_with_only_static_members
 
+/// CSS-related utilities.
 class CssUtil {
+  /// Calculated conversions.
+  static final Map<String, num> convert = <String, num>{};
+
+  /// Useful conversions.
+  static final List<num> conversions = <num>[1 / 25.4, 1 / 2.54, 1 / 72, 1 / 6];
+
+  /// Unit regular expression.
+  static const String runit = r'/^(-?[\d+\.\-]+)([a-z]+|%)$/i';
+
   static void _initAbsoluteUnitConversions() {
     final List<String> units = <String>['mm', 'cm', 'pt', 'pc', 'in', 'mozmm'];
 
-    // create a test element and add to DOM
+    // Create a test element and add it to the DOM.
     Element testElem = document.createElement('test');
-    docElement.append(testElem);
+    document.documentElement.append(testElem);
 
-    // test for the WebKit getComputedStyle bug
-    // @see http://bugs.jquery.com/ticket/10639
-    testElem.style.marginTop = '1%';
-    computedValueBug = testElem.getComputedStyle().marginTop == '1%';
-
-    // pre-calculate absolute unit conversions
+    // Pre-calculate absolute unit conversions.
     for (int i = units.length - 1; i >= 0; i--) {
       convert['${units[i]}toPx'] = i < 4 ? conversions[i] * convert['inToPx'] : toPixels(testElem, '1${units[i]}');
     }
 
-    // remove the test element from the DOM and delete it
+    // Remove the test element from the DOM and delete it.
     testElem.remove();
     testElem = null;
   }
 
-  /// Convert a [value] to pixels.
-  ///
+  /// Converts a [value] to pixels.
   /// Uses width as the property when checking computed style by default.
-  ///
   static num toPixels(Element element, String value, [String prop = 'width', bool force = false]) {
     CssStyleDeclaration style;
     num pixels;
 
-    // Init conversion values if first time
+    // Initialize conversion values if necessary.
     if (convert.isEmpty) CssUtil._initAbsoluteUnitConversions();
 
     // If no element is provided, create a test element and add to DOM
@@ -46,7 +45,7 @@ class CssUtil {
     bool dummyElement = false;
     if (elem == null) {
       elem = document.createElement('test');
-      docElement.append(elem);
+      document.documentElement.append(elem);
       dummyElement = true;
     }
 
@@ -56,11 +55,12 @@ class CssUtil {
     num conversion = (unit == 'px') ? 1 : convert['${unit}toPx'];
 
     if (conversion != null) {
-      // multiply the value by the conversion
       pixels = _parsePixels(value) * conversion;
     } else if ((unit == 'em' || unit == 'rem') && !force) {
       // use the correct element for rem or fontSize + em or em
-      elem = (unit == 'rem') ? docElement : (prop == 'font-size') ? (elem.parent != null ? elem.parent : elem) : elem;
+      elem = (unit == 'rem')
+          ? document.documentElement
+          : (prop == 'font-size') ? (elem.parent != null ? elem.parent : elem) : elem;
 
       // use fontSize of the element for rem and em
       conversion = _parsePixels(CssUtil.curCSS(elem, 'font-size'));
@@ -112,16 +112,9 @@ class CssUtil {
     }
   }
 
-  /// Return the computed value of a CSS [prop]erty.
-  ///
+  /// Returns the computed value of a CSS property.
   static String curCSS(Element elem, String prop) {
-    String unit;
-    const String rvpos = r'/^top|bottom/';
-    final List<String> outerProp = <String>['paddingTop', 'paddingBottom', 'borderTop', 'borderBottom'];
-    int innerHeight;
-    //int i = 4; // outerProp.length
-
-    // Init computedValuesBug flag if first time
+    // Init computedValuesBug flag if first time.
     if (convert.isEmpty) CssUtil._initAbsoluteUnitConversions();
 
     // FireFox, Chrome/Safari, Opera and IE9+
@@ -129,25 +122,8 @@ class CssUtil {
 
     // check the unit
     final List<Match> matches = new List<Match>.from(runit.allMatches(value));
-    unit = matches.isNotEmpty ? matches.first.group(0) : '';
-    if (unit == '%' && computedValueBug) {
-      // WebKit won't convert percentages for top, bottom, left, right, margin and text-indent
-      if (prop.contains(rvpos)) {
-        // Top and bottom require measuring the innerHeight of the parent.
-        final Node parent = elem.parentNode ?? elem;
-        innerHeight = parent is Element ? parent.offsetHeight : 0;
-        //while (i--) {
-        for (int i = outerProp.length - 1; i >= 0; i--) {
-          innerHeight -= _parsePixels(curCSS(parent is Element ? parent : parent.parent, outerProp[i])).round();
-        }
-        value = '${_parsePixels(value) / 100 * innerHeight}px';
-      } else {
-        // This fixes margin, left, right and text-indent
-        // @see https://bugs.webkit.org/show_bug.cgi?id=29084
-        // @see http://bugs.jquery.com/ticket/10639
-        value = '${toPixels(elem, value)}px';
-      }
-    } else if (value == 'auto' || (unit != null && unit != 'px')) {
+    final String unit = matches.isNotEmpty ? matches.first.group(0) : '';
+    if (value == 'auto' || (unit != null && unit != 'px')) {
       // WebKit and Opera will return auto in some cases
       // Firefox will pass back an unaltered value when it can't be set, like top on a static element
       value = '0';

@@ -4,8 +4,8 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional diamond to be drawn on an HTML canvas.
-///
 class Diamond2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Diamond2d() : super(null) {
     _initProperties();
   }
@@ -15,7 +15,10 @@ class Diamond2d extends Graphic2dNode {
     properties['height'] = new NumberProperty();
   }
 
+  /// Holds the diamond's width at its vertical center.
   NumberProperty get width => properties['width'] as NumberProperty;
+
+  /// Holds the diamond's height at its horizontal center.
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override

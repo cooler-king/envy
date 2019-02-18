@@ -107,8 +107,8 @@ class TestCircle2d implements AfterViewInit {
     s.lineWidth.enter = new NumberConstant(1);
     s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
-    s.fill.enter = BooleanConstant.TRUE;
-    s.stroke.enter = BooleanConstant.TRUE;
+    s.fill.enter = BooleanConstant.trueValue;
+    s.stroke.enter = BooleanConstant.trueValue;
     s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
 
     esg.updateGraph();

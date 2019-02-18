@@ -1,6 +1,6 @@
 name: envy
 description: An experimental information visualization framework.
-version: 0.2.0
+version: 0.2.1
 author: Rob Bishop <@robbishop65@gmail.com>
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki

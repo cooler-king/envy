@@ -3,19 +3,21 @@ import '../../envy_property.dart';
 import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
-/// A 2-dimensional line to be drawn on an HTML canvas.
-///
+/// A point to be drawn on an HTML canvas.
 class Point2d extends Graphic2dNode {
+  /// Constructs a new instance, optionally specifying the marker to draw.
   Point2d([this.marker]) : super(null) {
     _initProperties();
   }
 
+  /// The marker to draw at the point.
   Graphic2dNode marker;
 
   void _initProperties() {
     properties['pixelSize'] = new NumberProperty();
   }
 
+  /// The pixel size of the point.
   NumberProperty get pixelSize => properties['pixelSize'] as NumberProperty;
 
   @override
@@ -27,10 +29,15 @@ class Point2d extends Graphic2dNode {
     final bool _fill = fill.valueAt(index);
     final bool _stroke = stroke.valueAt(index);
 
-    // Adjust based on anchor (default origin is x, y)
     _x = 0;
     _y = 0;
-    final List<num> adj = _anchor?.calcAdjustments(0, 0, 0, 0) ?? <num>[0, 0];
+    if (anchor != null) {
+      // Adjust based on anchor (default origin is x, y).
+      final num halfSize = _pixelSize / 2;
+      final List<num> adj = _anchor?.calcAdjustments(halfSize, halfSize, -halfSize, -halfSize) ?? <num>[0, 0];
+      _x += adj[0];
+      _y += adj[1];
+    }
 
     //TODO pixelSize, markers not implemented yet
 

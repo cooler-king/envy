@@ -5,8 +5,8 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional ellipse to be drawn on an HTML canvas.
-///
 class Ellipse2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Ellipse2d() : super(null) {
     _initProperties();
   }
@@ -16,7 +16,10 @@ class Ellipse2d extends Graphic2dNode {
     properties['radiusY'] = new NumberProperty();
   }
 
+  /// Holds the ellipse's radius along the x-axis.
   NumberProperty get radiusX => properties['radiusX'] as NumberProperty;
+
+  /// Holds the ellipse's radius along the y-axis.
   NumberProperty get radiusY => properties['radiusY'] as NumberProperty;
 
   @override
@@ -27,7 +30,10 @@ class Ellipse2d extends Graphic2dNode {
     final bool _fill = fill.valueAt(index);
     final bool _stroke = stroke.valueAt(index);
 
-    // Adjust for anchor (default is center of ellipse)
+    _x = 0;
+    _y = 0;
+
+    // Adjust for anchor (default is center of ellipse).
     final Anchor2d _anchor = anchor.valueAt(index);
     if (_anchor != null) {
       final List<num> adj = _anchor.calcAdjustments(-_radiusY, _radiusX, _radiusY, -_radiusX);

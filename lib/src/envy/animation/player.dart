@@ -9,8 +9,6 @@ class Player {
   /// Create a new Player bound to [timeline] with the specified
   /// [startTime], in seconds, on that timeline.
   Player(this.timeline, this.startTime) {
-    //print('player construction startTime = ${startTime}');
-
     //TODO add delay for start time
     _initTimer();
   }
@@ -63,21 +61,21 @@ class Player {
     return current ?? 0;
   }
 
+  /// The effective time of the timeline.
   num get effectiveTimelineTime => timeline.effectiveTime;
 
-  num get playbackRate => _playbackRate;
-
   /// Sets the playback rate.
-  ///
   /// Changes to the playback rate also trigger a compensatory seek so that that the
   /// player's current time is unaffected by the change to the playback rate.
-  ///
+  num get playbackRate => _playbackRate;
   set playbackRate(num rate) {
     final num prevTime = effectiveCurrentTime;
     _playbackRate = rate;
     seek(prevTime);
   }
 
+
+  /// Whether the player is currently paused.
   bool get paused => _paused;
 
   /// Pausing can be used to temporarily suspend a player. Like seeking, pausing
@@ -87,7 +85,6 @@ class Player {
   /// Whether pausing before or after a player's start time the duration of the
   /// interval during which the player was paused is added to the player's time drift
   /// whilst the start time remains unaffected.
-  ///
   void pause(bool tf) {
     if (tf == _paused) return;
     if (_paused) {
@@ -98,6 +95,7 @@ class Player {
     _paused = tf;
   }
 
+  /// Returns the time drift.
   num get timeDrift {
     if (_paused) {
       return (effectiveTimelineTime - startTime) * playbackRate - _pauseStartTime;
@@ -120,7 +118,6 @@ class Player {
   ///
   /// It is possible to seek a player even if its timeline is not started. Once the timeline
   /// begins, the player will begin playback from the seeked time.
-  ///
   void seek(num seekTime) {
     if (_paused) {
       _pauseStartTime = seekTime;
@@ -129,6 +126,7 @@ class Player {
     }
   }
 
+  /// Registers [timedItemGroup].
   void registerTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (!_registered.contains(timedItemGroup)) {
       _registered.add(timedItemGroup);
@@ -143,7 +141,6 @@ class Player {
   ///
   /// Returns true if the timedItemGroup was found and removed; false
   /// if it could not be found.
-  ///
   bool deregisterTimedItemGroup(TimedItemGroup timedItemGroup) {
     if (_registered.contains(timedItemGroup)) {
       _registered.remove(timedItemGroup);
@@ -162,7 +159,6 @@ class Player {
 
   /// Run a timer at 15 millisecond intervals (just over 60 fps), optionally
   /// waiting [delayMillis] milliseconds before starting.
-  ///
   void _initTimer([num delayMillis]) {
     if (delayMillis == null) {
       _prepareForAnimation();
@@ -170,7 +166,7 @@ class Player {
         _updateRegisteredGroups();
       });
     } else {
-      // Wait before creating animation timer
+      // Wait before creating animation timer.
       new Timer(new Duration(milliseconds: delayMillis.round()), () {
         _prepareForAnimation();
         timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {

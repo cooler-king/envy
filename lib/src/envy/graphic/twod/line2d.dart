@@ -5,8 +5,8 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional line to be drawn on an HTML canvas.
-///
 class Line2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Line2d() : super(null) {
     _initProperties();
   }
@@ -18,9 +18,16 @@ class Line2d extends Graphic2dNode {
     properties['y2'] = new NumberProperty();
   }
 
+  /// Holds the x-coordinate of the first vertex.
   NumberProperty get x1 => properties['x1'] as NumberProperty;
+
+  /// Holds the y-coordinate of the first vertex.
   NumberProperty get y1 => properties['y1'] as NumberProperty;
+
+  /// Holds the x-coordinate of the second vertex.
   NumberProperty get x2 => properties['x2'] as NumberProperty;
+
+  /// Holds the y-coordinate of the second vertex.
   NumberProperty get y2 => properties['y2'] as NumberProperty;
 
   @override
