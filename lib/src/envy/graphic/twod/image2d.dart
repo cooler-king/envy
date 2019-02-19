@@ -5,20 +5,32 @@ import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
-///
 class Image2d extends Graphic2dNode {
+  /// Constructs a new instance.
   Image2d(this.source) : super(null) {
     _initProperties();
   }
 
   // TODO dynamic node reference?
+  /// The source node.
   CanvasImageSourceNode source;
 
+  /// Holds the x-offset into the source.
   NumberProperty get sourceX => properties['sourceX'] as NumberProperty;
+
+  /// Holds the y-offset into the source.
   NumberProperty get sourceY => properties['sourceY'] as NumberProperty;
+
+  /// Holds the width of the rectangle extracted from the source.
   NumberProperty get sourceWidth => properties['sourceWidth'] as NumberProperty;
+
+  /// Holds the height of the rectangle extracted from the source.
   NumberProperty get sourceHeight => properties['sourceHeight'] as NumberProperty;
+
+  /// Holds the width of the created image.
   NumberProperty get width => properties['width'] as NumberProperty;
+
+  /// Holds the height of the created image.
   NumberProperty get height => properties['height'] as NumberProperty;
 
   void _initProperties() {
@@ -40,14 +52,14 @@ class Image2d extends Graphic2dNode {
     _width = width.valueAt(index);
     _height = height.valueAt(index);
 
-    // fill and stroke don't apply
+    // Fill and stroke don't apply.
 
     if (source != null) {
       final CanvasImageSource imgSource = source.elementAt(index);
 
       if (_width == 0 || _height == 0) {
-        // If width and height are not explicitly set (non-zero) then use actual dimensions
-        // (Note: ImageElement, VideoElement and CanvasElement all have width and height properties)
+        // If width and height are not explicitly set (non-zero) then use actual dimensions.
+        // (Note: ImageElement, VideoElement and CanvasElement all have width and height properties).
         if (_width == 0) _width = (imgSource as dynamic).width as num;
         if (_height == 0) _height = (imgSource as dynamic).height as num;
       }
@@ -62,9 +74,6 @@ class Image2d extends Graphic2dNode {
         _y += adj[1];
       }
 
-      // Store rect path for hit testing
-      //Path2D p = new Path2D();
-      //paths.add(p);
       if (hitTest != null) {
         ctx
           ..beginPath()

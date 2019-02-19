@@ -18,7 +18,7 @@ class RgbaInterpolator extends ColorInterpolator {
 /// The [RgbInterpolator] linearly interpolates the red, green and blue values between the two colors
 /// individually.
 ///
-/// Slightly more efficient to use than RgbaInterpolator when the alpha value is know to be constant.
+/// Slightly more efficient to use than RgbaInterpolator when the alpha value is known to be constant.
 class RgbInterpolator extends ColorInterpolator {
   @override
   Color interpolate(Color a, Color b, num fraction) =>

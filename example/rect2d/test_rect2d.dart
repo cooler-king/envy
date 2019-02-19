@@ -283,7 +283,7 @@ class TestRect2d implements AfterViewInit {
     s.height.enter = new NumberConstant(20);
     s.rotation.enter = new AngleConstant.array(
         <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-    s.fill.enter = BooleanConstant.TRUE;
+    s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
       new DrawingStyle2d(color: Color.blue),
       new DrawingStyle2d(color: Color.blue),
@@ -325,7 +325,7 @@ class TestRect2d implements AfterViewInit {
     s.y.enter = new NumberConstant(50);
     s.width.enter = new NumberConstant(60);
     s.height.enter = new NumberConstant(40);
-    s.fill.enter = BooleanConstant.TRUE;
+    s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
       new DrawingStyle2d(color: Color.blue),
       new DrawingStyle2d(

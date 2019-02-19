@@ -1,8 +1,10 @@
 import '../../../css/css_style.dart';
 import '../data_source.dart';
 
+/// A common handle for all CSS style sources.
 abstract class CssStyleSource extends DataSource<CssStyle> {}
 
+/// A constant CSS style.
 class CssStyleConstant extends ArrayDataSource<CssStyle> implements CssStyleSource {
   /// Constructs a new instance from a single style.
   CssStyleConstant(CssStyle style) {
@@ -14,7 +16,7 @@ class CssStyleConstant extends ArrayDataSource<CssStyle> implements CssStyleSour
     values.addAll(styles);
   }
 
-  // No-op refresh
+  // No-op refresh.
   @override
   void refresh() {}
 }

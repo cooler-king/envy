@@ -283,8 +283,8 @@ class TestPath2d implements AfterViewInit {
     s.lineWidth.enter = new NumberConstant(3);
     s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.magenta));
-    s.stroke.enter = BooleanConstant.TRUE;
-    s.fill.enter = BooleanConstant.TRUE;
+    s.stroke.enter = BooleanConstant.trueValue;
+    s.fill.enter = BooleanConstant.trueValue;
 
     esg.updateGraph();
   }
@@ -301,7 +301,7 @@ class TestPath2d implements AfterViewInit {
     s.y.enter = new NumberConstant(50);
     s.points.enter = new PointListData('points', canvas);
     s.lineWidth.enter = new NumberConstant(5);
-    s.stroke.enter = BooleanConstant.TRUE;
+    s.stroke.enter = BooleanConstant.trueValue;
     s.strokeStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
       new DrawingStyle2d(color: Color.blue),
       new DrawingStyle2d(color: Color.blue),

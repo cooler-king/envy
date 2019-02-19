@@ -1,3 +1,9 @@
+### 0.2.1
+  * Additional documentation and analyzer warning cleanup.
+
+### 0.2.0
+  * Stricter typing and Dart 2 support.
+  
 ### 0.1.0
   * Added the `envy-scene` Angular component and removed `envy-div` Polymer component.
   * Upgraded dependencies; removed explicit dependencies on `reflectable` and `web_components`.

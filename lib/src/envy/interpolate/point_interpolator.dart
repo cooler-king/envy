@@ -8,23 +8,22 @@ import 'envy_interpolator.dart';
 /// provided range, set [clamped] to true.
 ///
 /// Singleton.
-///
 class PointInterpolator extends EnvyInterpolator<Point<num>> {
+  /// This factory constructor returns the singleton instance.
   factory PointInterpolator() => instance;
 
   PointInterpolator._internal();
 
+  /// The singleton instance.
   static final PointInterpolator instance = new PointInterpolator._internal();
 
-  /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
+  /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true.
   bool clamped = false;
 
   /// Returns a `Point` having x and y values between those of points [a] and [b]
   /// based on the time [fraction].
-  ///
-  /// if [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
-  /// then
-  ///
+  /// If [clamped] is true and the [fraction] is outside the normal range (0-1, inclusive)
+  /// then a or b is returned as appropriate.
   @override
   Point<num> interpolate(Point<num> a, Point<num> b, num fraction) {
     num x, y;

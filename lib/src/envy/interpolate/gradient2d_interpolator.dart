@@ -6,8 +6,8 @@ import 'envy_interpolator.dart';
 import 'number_interpolator.dart';
 
 /// Interpolates between two [Gradient2d]s.
-///
 class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
+  /// Constructs a new instance.
   Gradient2dInterpolator({ColorInterpolator colorInterpolator}) {
     _colorInterpolator = colorInterpolator ?? (new RgbaInterpolator());
   }

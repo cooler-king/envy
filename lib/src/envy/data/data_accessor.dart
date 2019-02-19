@@ -1,4 +1,3 @@
-import 'dart:collection';
 import '../util/logger.dart';
 
 /// DataAccessor provides a road map into a dataset to select a
@@ -7,10 +6,12 @@ import '../util/logger.dart';
 /// See the `parse` constructor for examples of how to construct
 /// a multi-step accessor.
 class DataAccessor {
+  /// Constructs a new instance, with a single index.
   DataAccessor.index(int index) {
     if (index != null) steps.add(new Indices.single(index));
   }
 
+  /// Constructs a new instance, with an index range.
   DataAccessor.range(int minIndex, int maxIndex) {
     if (minIndex != null && maxIndex != null) steps.add(new Indices.range(minIndex, maxIndex));
   }
@@ -22,7 +23,6 @@ class DataAccessor {
   /// is provided, then the ordering of the returned data will
   /// be consistent with respect to the values provided by
   /// key property.
-  ///
   DataAccessor.prop(String property, {String keyProp}) {
     if (property != null) {
       if (keyProp != null) {
@@ -79,9 +79,7 @@ class DataAccessor {
   ///
   /// The enables smooth transitions of display elements that represent a
   /// specific data element.
-  ///
   /// TODO:  allow property lists? (comma separated)
-  ///
   DataAccessor.parse(String accessPath) {
     if (accessPath == null) return;
     try {
@@ -105,19 +103,16 @@ class DataAccessor {
   }
 
   /// A list of [Indices], [KeyedProperty]s and/or Strings, where ints indicate an index into
-  /// an array and String indicate a property in a map.
+  /// an array and Strings indicate a property in a map.
   final List<dynamic> steps = <dynamic>[];
 
   /// Keep track of any keyed property ordering (key prop -> map of key value to index).
   /// Note that Map literals are ordered (not necessary to use LinkedHashMap).
   final Map<String, Map<dynamic, int>> propOrderingMap = <String, Map<dynamic, int>>{};
 
-  dynamic _lastData;
-
-  //T dataNotAvailable = new DataNotAvailable<T>().token;
-
-  /// Keeps a record of which indices
-  final Set<int> dataUnavailableIndices = new Set<int>();
+  /// Keeps a record of which indices lack data.
+  /// Implemented as a Map for efficient lookup (the value is not used).
+  final Map<int, bool> dataUnavailableIndices = <int, bool>{};
 
   /// Returns the data in [dataset] referenced by this accessor.
   Object getData(Object dataset) {
@@ -156,17 +151,11 @@ class DataAccessor {
             } else {
               // Populate the values in the data list using previous order
               //TODO create this list as class variable and grow as necessary
-              //dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
+              dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
 
-              dataList = <dynamic>[];
-              for (int i = 0; i < keyValueIndexMap.length; i++) {
-                dataList.add(null);
-              }
-
-              // TODO dataUnavailableIndices ... use Set<int> to keep track?? and null for value
               dataUnavailableIndices.clear();
               for (int i = 0; i < dataList.length; i++) {
-                dataUnavailableIndices.add(i);
+                dataUnavailableIndices[i] = true;
               }
 
               int index;
@@ -217,37 +206,21 @@ class DataAccessor {
       }
     }
 
-    _lastData = dataCursor;
     return dataCursor;
   }
 
-  /// Removes any `dataNotAvailable` entries from the propOrderingMaps and adjusts indices as necessary.
+  /// Removes any data unavailable entries from the propOrderingMap and adjusts indices as necessary.
   void cullUnavailableData() {
-    if (propOrderingMap.isEmpty) return;
-    //List keysToRemove = [];
-    Iterable<dynamic> keysToRemove;
+    if (dataUnavailableIndices.isEmpty) return;
     for (String propKey in propOrderingMap.keys) {
-      final LinkedHashMap<dynamic, int> m = propOrderingMap[propKey];
+      final Map<dynamic, int> m = propOrderingMap[propKey];
+      m.removeWhere((dynamic key, int value) => dataUnavailableIndices.containsKey(m[key]));
 
-      keysToRemove = m.keys.where((dynamic key) => dataUnavailableIndices.contains(m[key]));
-
-      /*
-      // Remove dataNotAvailable entries
-      keysToRemove.clear();
-      for (dynamic key in m.keys) {
-        if (_lastData[m[key]] == dataNotAvailable) {
-          keysToRemove.add(key);
-        }
-      }
-*/
-      // If no removals, no need for compaction.
-      if (keysToRemove.isEmpty) continue;
-      new List<dynamic>.from(keysToRemove).forEach(m.remove);
-
-      // Sort keys by index
+      //TODO if it's true they are always already in order then can just rewrite indices.
+      // Sort keys by index.
       final List<dynamic> list = new List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
-      // Change indices to consecutive positive integers
+      // Change indices to consecutive positive integers.
       int index = 0;
       for (dynamic key in list) {
         m[key] = index++;
@@ -258,18 +231,22 @@ class DataAccessor {
 
 /// Represents some combination of individual indices and index ranges, or all indices.
 class Indices {
+  /// Constructs a new instance, with a single index.
   Indices.single(int index) {
     _list.add(index);
   }
 
+  /// Constructs a new instance, with an index range.
   Indices.range(int minIndex, int maxIndex) {
     _list.add(<int>[minIndex, maxIndex]);
   }
 
+  /// Constructs a new instance that indicates the full collection should be used.
   Indices.all() {
     _all = true;
   }
 
+  /// Constructs a new instance by parsing an Indices string.
   Indices.parse(String str) {
     try {
       final List<String> list = str.split(',');
@@ -290,13 +267,15 @@ class Indices {
     }
   }
 
-  // Holds ints and/or List<int>
+  /// Holds integers and/or List<int> objects.
   final List<dynamic> _list = <dynamic>[];
 
   bool _all = false;
 
+  /// Whether all values should be used.
   bool get isAll => _all;
 
+  /// Returns a flat list of all of the indices.
   List<int> get values {
     final List<int> indexList = <int>[];
     for (dynamic v in _list) {
@@ -309,10 +288,12 @@ class Indices {
     return indexList;
   }
 
+  /// Adds a single index.
   void addIndex(int index) {
     _list.add(index);
   }
 
+  /// Adds a new index range.
   void addRange(int minIndex, int maxIndex) {
     _list.add(<int>[minIndex, maxIndex]);
   }
@@ -321,8 +302,12 @@ class Indices {
 /// A [KeyedProperty] accessor step provides a way to extract values from a Map while attempting to preserve
 /// ordering on subsequent accesses with respect to the Map values for [keyProp].
 class KeyedProperty {
+  /// Constructs a new instance.
   KeyedProperty(this.property, this.keyProp);
 
+  /// The name of the property.
   final String property;
+
+  /// The key property used to access a single entry in a list of maps.
   final String keyProp;
 }

@@ -10,8 +10,8 @@ import 'graphic2d_node.dart';
 /// An annular section is a portion of a circle bounded by minimum and
 /// maximum radii and angles.  The zero angle corresponds with the x-axis
 /// and angles increase in the clockwise direction.
-///
 class AnnularSection2d extends Graphic2dNode {
+  /// Constructs a new instance.
   AnnularSection2d() : super(null) {
     _initProperties();
   }
@@ -23,9 +23,16 @@ class AnnularSection2d extends Graphic2dNode {
     properties['endAngle'] = new AngleProperty();
   }
 
+  /// Holds the inner radius, in pixels, of the annular section.
   NumberProperty get innerRadius => properties['innerRadius'] as NumberProperty;
+
+  /// Holds the outer radius, in pixels, of the annular section.
   NumberProperty get outerRadius => properties['outerRadius'] as NumberProperty;
+
+  /// Holds the start angle of the annular section, clockwise from the x-axis.
   AngleProperty get startAngle => properties['startAngle'] as AngleProperty;
+
+  /// Holds the end angle of the annular section, clockwise from the x-axis.
   AngleProperty get endAngle => properties['endAngle'] as AngleProperty;
 
   @override

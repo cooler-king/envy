@@ -3,24 +3,23 @@ import '../../../color/color.dart';
 import '../number/number_source.dart';
 import 'color_source.dart';
 
+/// Generates a color from separate red, green and blue data sources.
 class ColorRgb extends ColorSource {
+  /// Constructs a new instance from existing red, green and blue number sources.
   ColorRgb(this.red, this.green, this.blue);
 
   //TODO -- array length considerations???
   @override
-  Color valueAt(int index) {
-    //TODO check for nulls?
-    return new Color(red?.valueAt(index)?.toDouble() ?? 0.0, green?.valueAt(index)?.toDouble() ?? 0.0,
-        blue?.valueAt(index)?.toDouble() ?? 0.0);
+  Color valueAt(int index) => new Color(red?.valueAt(index)?.toDouble() ?? 0.0,
+      green?.valueAt(index)?.toDouble() ?? 0.0, blue?.valueAt(index)?.toDouble() ?? 0.0);
 
-    //TODO even need values array?  or should that be for constants?
-    //values[i] = new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
-    //return super.valueAt(i);
-  }
-
-  // 0 - 1
+  /// The source of the red value (0-1).
   NumberSource red;
+
+  /// The source of the green value (0-1).
   NumberSource green;
+
+  /// The source of the blue value (0-1).
   NumberSource blue;
 
   @override

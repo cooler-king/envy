@@ -5,7 +5,7 @@ import '../group_node.dart';
 /// A named data set with the same name as one in an ancestor
 /// data node, including the global data pool, will override
 /// the earlier data.
-///
 class DataGroup extends GroupNode {
-  final Map<String, List<Map<dynamic, dynamic>>> _dataMap = <String, List<Map<dynamic, dynamic>>>{};
+  /// The data sets held by this group, mapped by name.
+  final Map<String, List<Map<dynamic, dynamic>>> dataMap = <String, List<Map<dynamic, dynamic>>>{};
 }

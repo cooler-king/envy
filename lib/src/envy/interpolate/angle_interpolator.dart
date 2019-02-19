@@ -8,12 +8,13 @@ import 'envy_interpolator.dart';
 /// provided range, set [clamped] to true.
 ///
 /// Singleton.
-///
 class AngleInterpolator extends EnvyInterpolator<Angle> {
+  /// This factory constructor return the singleton instance.
   factory AngleInterpolator() => instance;
 
   AngleInterpolator._internal();
 
+  /// The singleton instance.
   static final AngleInterpolator instance = new AngleInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true

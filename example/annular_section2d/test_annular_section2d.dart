@@ -338,7 +338,7 @@ class TestAnnularSection2d implements AfterViewInit {
     s.outerRadius.enter = new NumberConstant(40);
     s.startAngle.enter = new AngleConstant(new Angle(deg: 0));
     s.endAngle.enter = new AngleConstant(new Angle(deg: 270));
-    s.fill.enter = BooleanConstant.TRUE;
+    s.fill.enter = BooleanConstant.trueValue;
     s.anchor.enter = new Anchor2dConstant.array(<Anchor2d>[
       new Anchor2d(),
       new Anchor2d(),

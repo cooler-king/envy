@@ -10,11 +10,11 @@ import 'population/independent_population_strategy.dart';
 import 'population/population_strategy.dart';
 
 /// Common base for all Envy nodes that are rendered in normal HTML.
-///
 abstract class HtmlNode extends GroupNode with DynamicNode {
-  /// Needed to allow use with DynamicNode Mixin
+  /// Needed to allow use with DynamicNode Mixin.
   HtmlNode() : this.population(new IndependentPopulationStrategy());
 
+  /// Constructs a new instance with a particular population strategy.
   HtmlNode.population(this.populationStrategy) {
     _initElementProperties();
 
@@ -24,14 +24,11 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     populationStrategy ??= new IndependentPopulationStrategy();
   }
 
-  //ObservableList<EnvyNode> _observableChildren;
-
-  // The HTML nodes that render the contents of this Envy node
+  /// The HTML nodes that render the contents of this Envy node.
   final Map<DomNodeCoupling, Node> domNodesMap = <DomNodeCoupling, Node>{};
 
   /// The [populationStrategy] determines how an Envy node populates the
   /// DOM nodes of parent Envy node.
-  ///
   PopulationStrategy populationStrategy;
 
   /// The set of parent DOM nodes last update pass
@@ -45,10 +42,8 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   Node generateNode();
 
   /// Initialize properties common to all HTML nodes.
-  ///
   /// Provides a single value for the id.  This makes the default size (number of instances
   /// in the DOM) of an [HtmlNode] equal to one.
-  ///
   void _initElementProperties() {
     //TODO Map<String, String> attributes
     //TODO CssClassSet classes
@@ -73,13 +68,14 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     properties['translate'] = new BooleanProperty();
   }
 
+  /// The DOM nodes associated with this Envy node.
   List<Node> get domNodes => new List<Node>.from(domNodesMap.values);
 
+  /// CSS styling.
   CssStyleProperty get style => properties['style'] as CssStyleProperty;
 
   /// In addition to setting the parent node reference, [HtmlNode]s attach and
   /// detach their DOM nodes as appropriate.
-  ///
   @override
   set parent(EnvyNode node) {
     // Remove DOM nodes if parent has changed
@@ -107,16 +103,13 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     updateDom();
   }
 
-  ///
+  /// Updates the DOM.
   void updateDom() {
     final int newDomSize = size;
 
-    //print('++++ HTML NODE UPDATE DOM DEPENDS ON SIZE... ${newDomSize}/${_prevDomSize}');
-
-    // Only need to manage DOM nodes if the population stategy has changed
-    // or the parent DOM nodes have changed or the nominal size has changed
+    // Only need to manage DOM nodes if the population strategy has changed
+    // or the parent DOM nodes have changed or the nominal size has changed.
     //TODO detect changes in parent DOM lineup
-    //if(newSize != _prevSize || parentDomNodesChanged || _populationStrategyChanged) {
     if (newDomSize != _prevDomSize || _populationStrategyChanged) {
       final HtmlNode parentHtml = htmlParent;
       final int parentDomCount = parentHtml?.domNodesMap?.length ?? 0;
@@ -136,12 +129,11 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
       }
     }
 
-    // Children are updated by GroupNode.update()
+    // Children are updated by GroupNode.update().
   }
 
   /// Sets the style properties in [node] equal to those
   /// represented by [cssStyle].
-  ///
   void _applyStyle(Node node, CssStyle cssStyle) {
     if (node is Element) {
       for (String prop in cssStyle.keys) {
@@ -149,23 +141,6 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
       }
     }
   }
-
-  /*
-  /// Determines whether any parent DOM nodes have changed since the last DOM update.
-  ///
-  bool get parentDomNodesChanged {
-    HtmlNode parentHtml = htmlParent;
-    if(parentHtml == null) return false;
-
-    if(_prevDomNodesMap.length != domNodesMap.length) return true;
-
-    // Each one must be identical
-    for(DomNodeCoupling dnc in domNodesMap.keys) {
-      if(!identical(_prevDomNodesMap[dnc], domNodesMap[dnc])) return true;
-    }
-
-    return false;
-  }*/
 
   /// Mange the DOM nodes, creating/attaching and removing/destoying
   /// nodes as necessary.
@@ -179,10 +154,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   ///
   /// The current [PopulationStrategy] determines how the DOM nodes
   /// are distributed among the parent DOM nodes.
-  ///
   void _manageDomNodes(int parentDomNodeCount, int childCount) {
-    //print('MANAGING DOM NODES ${this}');
-    final List<DomNodeCoupling> couplingList = <DomNodeCoupling>[];
     populationStrategy ??= new IndependentPopulationStrategy();
     final List<DomNodeCoupling> coupling = populationStrategy.determineCoupling(parentDomNodeCount, childCount);
 
@@ -204,18 +176,14 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
       }
     }
 
-    // If any node couplings were not reused, remove associated nodes
+    // If any node couplings were not reused, remove associated nodes.
     for (DomNodeCoupling dnc in remainingCouplings) {
-      // detach the DOM node...
+      // Detach the DOM node...
       domNodesMap[dnc].remove();
       remainingCouplings.remove(dnc);
 
-      // ...and remove from the map
+      // ...and remove from the map.
       domNodesMap.remove(dnc);
     }
-
-    // keep track of Html parent's nodes
-    //_prevDomNodesMap.clear();
-    //_prevDomNodesMap.addAll(_)
   }
 }

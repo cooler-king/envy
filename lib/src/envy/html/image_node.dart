@@ -8,9 +8,9 @@ import 'html_node.dart';
 
 /// [ImageNode] is an Envy scene graph node that manages an
 /// HTML Image element.
-///
 class ImageNode extends HtmlNode implements CanvasImageSourceNode {
-  ImageNode() : super() {
+  /// Constructs a new instance, initializing properties.
+  ImageNode() {
     _initProperties();
   }
 
@@ -41,14 +41,25 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
     properties['width'] = new NumberProperty();
   }
 
+  /// Holds the source of the image.
   StringProperty get src => properties['src'] as StringProperty;
 
+  /// Holds the width of the image.
   NumberProperty get width => properties['width'] as NumberProperty;
+
+  /// Holds the height of the image.
   NumberProperty get height => properties['height'] as NumberProperty;
 
+  /// Holds the alternative text of the image.
   StringProperty get alt => properties['alt'] as StringProperty;
+
+  /// Holds the cross-origin value for the image.
   StringProperty get crossOrigin => properties['crossOrigin'] as StringProperty;
+
+  /// Holds whether the image is a map.
   BooleanProperty get isMap => properties['isMap'] as BooleanProperty;
+
+  /// Holds the useMap values of the image.
   StringProperty get useMap => properties['useMap'] as StringProperty;
 
   @override

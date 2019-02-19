@@ -7,19 +7,21 @@ import 'enum/anchor_mode2d.dart';
 /// Each shape has a default origin, but a non-default anchor can
 /// override that setting.
 class Anchor2d {
+  /// Constructs a new instance.
   Anchor2d({this.mode = AnchorMode2d.defaultMode, this.offsetX = 0, this.offsetY = 0});
 
   /// Which point to use as a shape's origin for placement and rotation:
-  /// default, center, or a particular side or corner
+  /// default, center, or a particular side or corner.
   AnchorMode2d mode;
 
-  // Allow an arbitrary offset relative to the point indicated by the anchor mode
+  /// A horizontal offset, in pixels, relative to the point indicated by the anchor mode.
   num offsetX;
+
+  /// A vertical offset, in pixels, relative to the point indicated by the anchor mode.
   num offsetY;
 
   /// Calculates the adjustments that should be added to the vertices of
   /// a `graphic2d` object based on this anchor's current settings.
-  ///
   /// The [top], [right], [bottom] and [left] values represent the nominal
   /// bounds of the `graphic2d` in the coordinate system of that object.
   List<num> calcAdjustments(num top, num right, num bottom, num left) {
@@ -41,7 +43,9 @@ class Anchor2d {
     return <num>[0, 0];
   }
 
+  /// Whether this anchor is the default mode with zero offsets.
   bool get isDefault => mode == AnchorMode2d.defaultMode && offsetX == 0 && offsetY == 0;
 
+  /// Whether this anchor is not the default mode with zero offsets.
   bool get isNotDefault => !isDefault;
 }

@@ -265,7 +265,7 @@ class TestStar2d implements AfterViewInit {
     s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.yellow));
     s.rotation.enter = new AngleConstant.array(
         <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
-    s.fill.enter = BooleanConstant.TRUE;
+    s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
       new DrawingStyle2d(color: Color.blue),
       new DrawingStyle2d(color: Color.blue),

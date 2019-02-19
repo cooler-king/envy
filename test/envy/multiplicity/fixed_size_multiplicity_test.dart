@@ -13,7 +13,7 @@ void main() {
     test('Values', () {
       final FixedSize fs = new FixedSize(5);
 
-      final List<EnvyProperty<dynamic>> props = <EnvyProperty<dynamic>>[]..add(new NumberProperty());
+      //final List<EnvyProperty<dynamic>> props = <EnvyProperty<dynamic>>[]..add(new NumberProperty());
 
       expect(fs != null, true);
     });
