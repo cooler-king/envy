@@ -616,30 +616,14 @@ class GeoJsonMultiPolygon extends GeoJsonGeometry {
     if (polys != null) polygons.addAll(polys);
   }
 
-  //TODO
   /// Constructs a new instance from the values in [map].
   GeoJsonMultiPolygon.fromJson(Map<String, dynamic> map) {
     if (map['coordinates'] is List) {
-      /*
-      final List<List<GeoJsonPolygon>> polys = m['coordinates'] as List<List<GeoJsonPolygon>>;
+      final List<dynamic> polys = map['coordinates'] as List<dynamic>;
       if (polys.isEmpty) return;
-      for (List<dynamic> poly in polys) {
-        final Iterable<dynamic> holes =
-            poly.length > 1 ? poly.where((dynamic ring) => ring != poly.first) : <dynamic>[];
-        final GeoJsonLinearRing exterior = new GeoJsonLinearRing();
-        for (GeoJsonPolygon c in poly.first) {
-          exterior.coordinates.add(new GeoJsonCoordinate(c[0] as num, c[1] as num));
-        }
-        final List<GeoJsonLinearRing> interior = <GeoJsonLinearRing>[];
-        for (dynamic h in holes) {
-          final GeoJsonLinearRing inRing = new GeoJsonLinearRing();
-          for (dynamic hc in h) {
-            inRing.coordinates.add(new GeoJsonCoordinate(hc[0] as num, hc[1] as num));
-          }
-          interior.add(inRing);
-        }
-        polygons.add(new GeoJsonPolygon(exterior, interior));
-      }*/
+      for (dynamic poly in polys) {
+        polygons.add(new GeoJsonPolygon.fromJson(<String, dynamic>{'coordinates': poly}));
+      }
     }
     if (map['bbox'] is List<num>)
       _bbox = new GeoJsonBoundingBox(

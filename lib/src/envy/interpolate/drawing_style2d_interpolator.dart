@@ -32,11 +32,12 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
   @override
   DrawingStyle2d interpolate(DrawingStyle2d a, DrawingStyle2d b, num fraction) {
     if (identical(a, b)) return a;
-    // Get the pattern, gradient or color in the style (first non-null, in that order)
+
+    // Get the pattern, gradient or color in the style (first non-null, in that order).
     final dynamic obj1 = a.styleObj;
     final dynamic obj2 = b.styleObj;
 
-    // Handle interpolation between same type (color, gradient or pattern)
+    // Handle interpolation between same type (color, gradient or pattern).
     if (obj1 is Color && obj2 is Color) {
       if (identical(obj1, obj2) || obj1.matches(obj2)) return a;
       return new DrawingStyle2d(color: colorInterpolator.interpolate(obj1, obj2, fraction));

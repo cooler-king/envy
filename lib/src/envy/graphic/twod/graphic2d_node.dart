@@ -329,7 +329,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
       _hitTest
         ..x = x
-        ..y = y;
+        ..y = y
+        ..hit = false;
       renderIndex(_i, ctx, hitTest: _hitTest);
       if (_hitTest.hit) {
         ctx.restore();
@@ -356,7 +357,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
       _hitTest
         ..x = x
-        ..y = y;
+        ..y = y
+        ..hit = false;
       renderIndex(_i, ctx, hitTest: _hitTest);
       if (_hitTest.hit) hitIndices.add(_i);
       ctx.restore();

@@ -74,7 +74,6 @@ class Player {
     seek(prevTime);
   }
 
-
   /// Whether the player is currently paused.
   bool get paused => _paused;
 

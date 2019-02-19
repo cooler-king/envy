@@ -1,4 +1,3 @@
-import 'dart:collection';
 import '../util/logger.dart';
 
 /// DataAccessor provides a road map into a dataset to select a
@@ -104,7 +103,7 @@ class DataAccessor {
   }
 
   /// A list of [Indices], [KeyedProperty]s and/or Strings, where ints indicate an index into
-  /// an array and String indicate a property in a map.
+  /// an array and Strings indicate a property in a map.
   final List<dynamic> steps = <dynamic>[];
 
   /// Keep track of any keyed property ordering (key prop -> map of key value to index).
@@ -152,12 +151,7 @@ class DataAccessor {
             } else {
               // Populate the values in the data list using previous order
               //TODO create this list as class variable and grow as necessary
-              //dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
-
-              dataList = <dynamic>[];
-              for (int i = 0; i < keyValueIndexMap.length; i++) {
-                dataList.add(null);
-              }
+              dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
 
               dataUnavailableIndices.clear();
               for (int i = 0; i < dataList.length; i++) {
@@ -212,27 +206,21 @@ class DataAccessor {
       }
     }
 
-    //_lastData = dataCursor;
     return dataCursor;
   }
 
-  /// Removes any `dataNotAvailable` entries from the propOrderingMaps and adjusts indices as necessary.
+  /// Removes any data unavailable entries from the propOrderingMap and adjusts indices as necessary.
   void cullUnavailableData() {
+    if (dataUnavailableIndices.isEmpty) return;
     for (String propKey in propOrderingMap.keys) {
-      final LinkedHashMap<dynamic, int> m = propOrderingMap[propKey];
+      final Map<dynamic, int> m = propOrderingMap[propKey];
+      m.removeWhere((dynamic key, int value) => dataUnavailableIndices.containsKey(m[key]));
 
-      final Iterable<dynamic> keysToRemove = m.keys.where((dynamic key) => dataUnavailableIndices.containsKey(m[key]));
-
-      // If no removals, no need for compaction.
-      if (keysToRemove.isEmpty) continue;
-
-      //new List<dynamic>.from(keysToRemove).forEach(m.remove);
-      keysToRemove.forEach(m.remove);
-
-      // Sort keys by index
+      //TODO if it's true they are always already in order then can just rewrite indices.
+      // Sort keys by index.
       final List<dynamic> list = new List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
-      // Change indices to consecutive positive integers
+      // Change indices to consecutive positive integers.
       int index = 0;
       for (dynamic key in list) {
         m[key] = index++;

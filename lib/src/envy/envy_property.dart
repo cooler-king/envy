@@ -147,7 +147,7 @@ abstract class EnvyProperty<T> {
   /// at that index or the enter value for that index where a previous current value
   /// is not available.
   void _updateStartValues() {
-    //TODO make more efficient w/ replace?
+    //TODO make more efficient w/ replace
     _startValues.length = _currentValues.length;
     for (_i = 0; _i < _currentValues.length; _i++) {
       _startValues[_i] = _currentValues[_i];
