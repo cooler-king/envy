@@ -1,3 +1,6 @@
+### 0.2.2
+  * Address new analyzer warnings for Dart 2.1.1.
+
 ### 0.2.1
   * Additional documentation and analyzer warning cleanup.
 
