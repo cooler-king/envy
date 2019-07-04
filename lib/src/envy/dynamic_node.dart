@@ -4,7 +4,7 @@ import 'multiplicity/multiplicity.dart';
 
 /// Anything with updatable Envy Properties is Dynamic.
 /// This class is meant to be used as a Mixin.
-class DynamicNode {
+mixin DynamicNode {
   /// Properties -- self-optimizing.
   final HashMap<String, EnvyProperty<dynamic>> properties = new HashMap<String, EnvyProperty<dynamic>>();
 
@@ -16,7 +16,7 @@ class DynamicNode {
 
   /// Updates all property values.
   void updateProperties(num timeFraction, {bool finish = false}) {
-    for (EnvyProperty<dynamic> prop in properties.values) {
+    for (final EnvyProperty<dynamic> prop in properties.values) {
       prop.updateValues(timeFraction, finish: finish);
     }
   }
@@ -31,7 +31,7 @@ class DynamicNode {
   }
 
   void _refreshDataSources() {
-    for (EnvyProperty<dynamic> envyProp in properties.values) {
+    for (final EnvyProperty<dynamic> envyProp in properties.values) {
       envyProp.refreshDataSources();
     }
   }
@@ -45,7 +45,7 @@ class DynamicNode {
   void preparePropertiesForAnimation() {
     _refreshDataSources();
     _updateSize();
-    for (EnvyProperty<dynamic> prop in properties.values) {
+    for (final EnvyProperty<dynamic> prop in properties.values) {
       prop.preparePropertyForAnimation(size);
     }
   }

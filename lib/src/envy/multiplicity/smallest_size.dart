@@ -16,7 +16,7 @@ class SmallestSize extends Multiplicity {
   @override
   int sizeOf(Iterable<EnvyProperty<dynamic>> props) {
     int smallest = 99999999;
-    for (EnvyProperty<dynamic> prop in props) {
+    for (final EnvyProperty<dynamic> prop in props) {
       smallest = min(smallest, prop.rawSize);
     }
 

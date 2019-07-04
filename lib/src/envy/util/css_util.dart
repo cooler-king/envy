@@ -58,9 +58,7 @@ class CssUtil {
       pixels = _parsePixels(value) * conversion;
     } else if ((unit == 'em' || unit == 'rem') && !force) {
       // use the correct element for rem or fontSize + em or em
-      elem = (unit == 'rem')
-          ? document.documentElement
-          : (prop == 'font-size') ? (elem.parent != null ? elem.parent : elem) : elem;
+      elem = (unit == 'rem') ? document.documentElement : (prop == 'font-size') ? (elem.parent ?? elem) : elem;
 
       // use fontSize of the element for rem and em
       conversion = _parsePixels(CssUtil.curCSS(elem, 'font-size'));

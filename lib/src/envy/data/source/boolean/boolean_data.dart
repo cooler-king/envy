@@ -61,7 +61,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       // warn and do best to convert to bool
       logger.warning('Unexpected data type for BooleanData: $data');
       if (data is List) {
-        for (dynamic d in data) {
+        for (final dynamic d in data) {
           values.add(_anythingToBool(d));
         }
       } else {

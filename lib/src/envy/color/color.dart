@@ -29,31 +29,31 @@ class Color implements CssAdapter {
             (0.114 * Color.hexStrToDecimal(hexStr, 2));
 
   /// White.
-  static const Color white = const Color(1.0, 1.0, 1.0);
+  static const Color white = const Color(1, 1, 1);
 
   /// Black.
-  static const Color black = const Color(0.0, 0.0, 0.0);
+  static const Color black = const Color(0, 0, 0);
 
   /// Gray.
   static const Color gray = const Color(0.5, 0.5, 0.5);
 
   /// Red.
-  static const Color red = const Color(1.0, 0.0, 0.0);
+  static const Color red = const Color(1, 0, 0);
 
   /// Green.
-  static const Color green = const Color(0.0, 1.0, 0.0);
+  static const Color green = const Color(0, 1, 0);
 
   /// Blue.
-  static const Color blue = const Color(0.0, 0.0, 1.0);
+  static const Color blue = const Color(0, 0, 1);
 
   /// Yellow.
-  static const Color yellow = const Color(1.0, 1.0, 0.0);
+  static const Color yellow = const Color(1, 1, 0);
 
   /// Cyan.
-  static const Color cyan = const Color(0.0, 1.0, 1.0);
+  static const Color cyan = const Color(0, 1, 1);
 
   /// Magenta.
-  static const Color magenta = const Color(1.0, 0.0, 1.0);
+  static const Color magenta = const Color(1, 0, 1);
 
   /// Gray (#eee).
   static const Color grayEEE = const Color(0.9375, 0.9375, 0.9375);
@@ -98,7 +98,7 @@ class Color implements CssAdapter {
   static const Color gray111 = const Color(0.0625, 0.0625, 0.0625);
 
   /// Transparent.
-  static const Color transparentBlack = const Color(0.0, 0.0, 0.0, 0.0);
+  static const Color transparentBlack = const Color(0, 0, 0, 0);
 
   /// The available values.
   static const List<Color> values = const <Color>[
@@ -316,16 +316,16 @@ class Color implements CssAdapter {
   /// [pos]: 0 extracts red, 1 extracts green, 2 extracts blue.
   static double hexStrToDecimal(String hexStr, int pos) {
     try {
-      if (hexStr == null) return 0.0;
+      if (hexStr == null) return 0;
       if (hexStr.length == 4) return int.parse('${hexStr[pos + 1]}${hexStr[pos + 1]}', radix: 16) / 255.0;
       if (hexStr.length == 7) return int.parse('${hexStr[pos * 2 + 1]}${hexStr[pos * 2 + 2]}', radix: 16) / 255.0;
 
       logger.warning('Malformed hex string: $hexStr');
     } catch (e) {
       logger.warning('Problem converting hex string to decimal:  $e');
-      return 0.0;
+      return 0;
     }
-    return 0.0;
+    return 0;
   }
 
   //--------------------

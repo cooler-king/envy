@@ -44,7 +44,7 @@ class LinearGradient2d extends Gradient2d {
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createLinearGradient(x0, y0, x1, y1);
-    for (num stop in stops.keys) {
+    for (final num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }
@@ -78,7 +78,7 @@ class RadialGradient2d extends Gradient2d {
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
-    for (num stop in stops.keys) {
+    for (final num stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }

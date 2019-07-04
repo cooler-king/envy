@@ -63,7 +63,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
       logger.warning('Unexpected data type for ColorData: $data');
       if (data is List) {
         // try to parse entries as numbers; assume degrees
-        for (dynamic d in data) {
+        for (final dynamic d in data) {
           values.add(_colorFromAnything(d));
         }
       } else {

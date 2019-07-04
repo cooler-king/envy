@@ -29,7 +29,7 @@ class SequenceTimingGroup extends TimingGroup {
   ///
   void calcStartTimes() {
     num prevEnd = 0;
-    for (EnvyNode child in children) {
+    for (final EnvyNode child in children) {
       if (child is TimedItemGroup) {
         child.startTime = prevEnd;
         prevEnd = child.endTime;
@@ -72,7 +72,7 @@ class ParallelTimingGroup extends TimingGroup {
 
     num maxEndTime = 0;
     num endTime;
-    for (dynamic child in children) {
+    for (final dynamic child in children) {
       if (child is TimedItemGroup) {
         endTime = child.endTime;
         if (endTime > maxEndTime) maxEndTime = endTime;

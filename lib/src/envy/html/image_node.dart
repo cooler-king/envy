@@ -1,3 +1,4 @@
+import 'dart:convert' show HtmlEscape;
 import 'dart:html';
 import '../data/source/string/string_source.dart';
 import '../envy_property.dart';
@@ -73,7 +74,13 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
       final ImageElement imageEl = elementAt(i);
 
       strValue = src.valueAt(i);
-      if (imageEl.src != strValue) imageEl.src = strValue;
+      if (imageEl.src != strValue) {
+        // Make sure no scripts or other security problems are added directly to the DOM.
+        const HtmlEscape sanitizer = const HtmlEscape();
+
+        // ignore: unsafe_html
+        imageEl.src = sanitizer.convert(strValue);
+      }
 
       strValue = alt.valueAt(i);
       if (imageEl.alt != strValue) imageEl.alt = strValue;

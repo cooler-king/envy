@@ -91,7 +91,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     // Clear canvases and store 2D contexts before drawing anything new
     currentContext2DList.clear();
     transform2DStackList.clear();
-    for (Node n in domNodesMap.values) {
+    for (final Node n in domNodesMap.values) {
       if (n is CanvasElement) {
         // Make sure canvas fills its parent
         if (n.parent != null) {
@@ -190,7 +190,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     if (_newHits.isEmpty) {
       if (_prevHits.isNotEmpty) {
         // Leave and out events for all previous.
-        for (Graphic2dIntersection hit in _prevHits) {
+        for (final Graphic2dIntersection hit in _prevHits) {
           hit.event = e;
           hit.graphic2d
             ..fireMouseLeaveEvent(hit)
@@ -209,7 +209,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     // Compare prev to new hit list, firing leave and out events
     // as appropriate.
     _outs.clear();
-    for (Graphic2dIntersection prevHit in _prevHits) {
+    for (final Graphic2dIntersection prevHit in _prevHits) {
       if (!_newHits.contains(prevHit)) {
         prevHit.graphic2d.fireMouseLeaveEvent(prevHit..event = e);
 
@@ -218,7 +218,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
         prevHit.graphic2d.fireMouseOutEvent(prevHit..event = e);
       } else {
         if (_outs.isNotEmpty) {
-          for (Graphic2dIntersection out in _outs) {
+          for (final Graphic2dIntersection out in _outs) {
             prevHit.graphic2d.fireMouseOutEvent(out..event = e);
           }
         }
@@ -228,7 +228,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
     // Compare new to previous hit list, firing enter and over events.
     // as appropriate
     _overs.clear();
-    for (Graphic2dIntersection newHit in _newHits) {
+    for (final Graphic2dIntersection newHit in _newHits) {
       if (!_prevHits.contains(newHit)) {
         newHit.graphic2d.fireMouseEnterEvent(newHit..event = e);
 
@@ -237,7 +237,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
         newHit.graphic2d.fireMouseOverEvent(newHit..event = e);
       } else {
         if (_overs.isNotEmpty) {
-          for (Graphic2dIntersection over in _overs) {
+          for (final Graphic2dIntersection over in _overs) {
             newHit.graphic2d.fireMouseOverEvent(over..event = e);
           }
         }
@@ -333,7 +333,7 @@ class CanvasNode extends HtmlNode implements CanvasImageSourceNode {
       if (child is Graphic2dNode) {
         _intersectionIndices.clear();
         child.allIndicesContainingPoint(pt.x, pt.y, ctx, listToUse: _intersectionIndices);
-        for (int z in _intersectionIndices) {
+        for (final int z in _intersectionIndices) {
           list.add(new Graphic2dIntersection(child, z));
         }
       }

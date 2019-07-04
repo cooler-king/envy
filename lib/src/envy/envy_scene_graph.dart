@@ -33,7 +33,7 @@ class EnvySceneGraph {
     //print("html host = ${e}");
 
     if (_htmlHost != null && _htmlHost != e) {
-      for (Node n in root.domNodes) {
+      for (final Node n in root.domNodes) {
         n.remove();
       }
     }
@@ -77,7 +77,7 @@ class EnvySceneGraph {
   /// either in [seconds], [millis]econds or [t]ime quantity.
   /// Only one of the values should be provided.
   void setAnimationDuration({Time t, num seconds, num millis}) {
-    final num secs = t != null ? t.mks.toDouble() : seconds != null ? seconds : millis != null ? millis / 1000 : 0;
+    final num secs = t != null ? t.mks.toDouble() : seconds ?? (millis != null ? millis / 1000 : 0);
     root.rootAnimation.timing.iterationDuration = secs;
   }
 }

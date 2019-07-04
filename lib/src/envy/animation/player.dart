@@ -176,13 +176,13 @@ class Player {
   }
 
   void _prepareForAnimation() {
-    for (TimedItemGroup tig in _registered) {
+    for (final TimedItemGroup tig in _registered) {
       tig.prepareForAnimation();
     }
   }
 
   void _updateRegisteredGroups() {
-    for (TimedItemGroup group in _registered) {
+    for (final TimedItemGroup group in _registered) {
       try {
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);

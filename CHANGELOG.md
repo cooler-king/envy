@@ -1,3 +1,6 @@
+### 0.3.0
+  * Requires Dart 2.3.0 or later.
+
 ### 0.2.2
   * Address new analyzer warnings for Dart 2.1.1.
 

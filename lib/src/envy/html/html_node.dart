@@ -80,7 +80,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   set parent(EnvyNode node) {
     // Remove DOM nodes if parent has changed
     if (node != super.parent && super.parent != null) {
-      for (Node n in domNodesMap.values) {
+      for (final Node n in domNodesMap.values) {
         n.remove();
       }
     }
@@ -136,7 +136,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   /// represented by [cssStyle].
   void _applyStyle(Node node, CssStyle cssStyle) {
     if (node is Element) {
-      for (String prop in cssStyle.keys) {
+      for (final String prop in cssStyle.keys) {
         node.style.setProperty(prop, cssStyle[prop].css);
       }
     }
@@ -160,7 +160,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
     final List<DomNodeCoupling> remainingCouplings = new List<DomNodeCoupling>.from(domNodesMap.keys);
 
-    for (DomNodeCoupling dnc in coupling) {
+    for (final DomNodeCoupling dnc in coupling) {
       // Create new nodes as necessary
       if (!domNodesMap.containsKey(dnc)) {
         final Node newNode = generateNode();
@@ -177,7 +177,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     }
 
     // If any node couplings were not reused, remove associated nodes.
-    for (DomNodeCoupling dnc in remainingCouplings) {
+    for (final DomNodeCoupling dnc in remainingCouplings) {
       // Detach the DOM node...
       domNodesMap[dnc].remove();
       remainingCouplings.remove(dnc);

@@ -33,10 +33,10 @@ import 'multiplicity/multiplicity.dart';
 import 'text/font.dart';
 
 /// A two-dimensional vector with zero magnitude.
-final Vector2 vec2zero = new Vector2(0.0, 0.0);
+final Vector2 vec2zero = new Vector2(0, 0);
 
 /// A two-dimensional vector with both x and y components equal to one.
-final Vector2 vec2one = new Vector2(1.0, 1.0);
+final Vector2 vec2one = new Vector2(1, 1);
 
 /// The base class for all Envy properties.
 abstract class EnvyProperty<T> {

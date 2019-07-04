@@ -64,7 +64,7 @@ abstract class TimedItemGroup extends GroupNode {
     if (parentTimingGroup is SequenceTimingGroup && _startTime == null)
       (parentTimingGroup as SequenceTimingGroup).calcStartTimes();
 
-    return _startTime == null ? 0 : _startTime;
+    return _startTime ?? 0;
   }
 
   set startTime(num time) => _startTime = time;

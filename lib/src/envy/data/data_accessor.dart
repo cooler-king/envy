@@ -84,7 +84,7 @@ class DataAccessor {
     if (accessPath == null) return;
     try {
       final List<String> accessSteps = accessPath.split('.');
-      for (String step in accessSteps) {
+      for (final String step in accessSteps) {
         if (step.startsWith('[') && step.endsWith(']')) {
           final Indices ind = new Indices.parse(step.substring(1, step.length - 1));
           if (ind != null) steps.add(ind);
@@ -119,14 +119,14 @@ class DataAccessor {
     if (dataset == null) return null;
 
     dynamic dataCursor = dataset;
-    for (dynamic step in steps) {
+    for (final dynamic step in steps) {
       if (dataCursor is List<Map<dynamic, dynamic>>) {
         List<dynamic> dataList = <dynamic>[];
         if (step is! Indices || (step as Indices).isAll) {
           // Shortcut! (Assume [*] for List of Maps when
           // no indices are provided)
           if (step is String) {
-            for (Map<dynamic, dynamic> m in dataCursor) {
+            for (final Map<dynamic, dynamic> m in dataCursor) {
               dataList.add(m[step]);
             }
             dataCursor = dataList;
@@ -142,7 +142,7 @@ class DataAccessor {
               // List of key values ... null out and append as necessary
               // special value for exited?
               int index = 0;
-              for (Map<dynamic, dynamic> m in dataCursor) {
+              for (final Map<dynamic, dynamic> m in dataCursor) {
                 keyValueIndexMap[m[stepKeyProp]] = index;
                 dataList.add(m[stepProp]);
                 index++;
@@ -159,7 +159,7 @@ class DataAccessor {
               }
 
               int index;
-              for (Map<dynamic, dynamic> m in dataCursor) {
+              for (final Map<dynamic, dynamic> m in dataCursor) {
                 final dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
@@ -177,7 +177,7 @@ class DataAccessor {
           }
         } else {
           // Indices
-          for (int i in step.values) {
+          for (final int i in step.values) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;
@@ -193,7 +193,7 @@ class DataAccessor {
       } else if (dataCursor is List) {
         final List<dynamic> dataList = <dynamic>[];
         if (step is Indices) {
-          for (int i in step.values) {
+          for (final int i in step.values) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;
@@ -212,7 +212,7 @@ class DataAccessor {
   /// Removes any data unavailable entries from the propOrderingMap and adjusts indices as necessary.
   void cullUnavailableData() {
     if (dataUnavailableIndices.isEmpty) return;
-    for (String propKey in propOrderingMap.keys) {
+    for (final String propKey in propOrderingMap.keys) {
       final Map<dynamic, int> m = propOrderingMap[propKey];
       m.removeWhere((dynamic key, int value) => dataUnavailableIndices.containsKey(m[key]));
 
@@ -222,7 +222,7 @@ class DataAccessor {
 
       // Change indices to consecutive positive integers.
       int index = 0;
-      for (dynamic key in list) {
+      for (final dynamic key in list) {
         m[key] = index++;
       }
     }
@@ -250,7 +250,7 @@ class Indices {
   Indices.parse(String str) {
     try {
       final List<String> list = str.split(',');
-      for (String s in list) {
+      for (final String s in list) {
         final List<String> intList = s.split('-');
         if (intList.isEmpty) {
           throw new Exception('No indices found');
@@ -278,7 +278,7 @@ class Indices {
   /// Returns a flat list of all of the indices.
   List<int> get values {
     final List<int> indexList = <int>[];
-    for (dynamic v in _list) {
+    for (final dynamic v in _list) {
       if (v is int) {
         indexList.add(v);
       } else if (v is List<int>) {
