@@ -126,7 +126,7 @@ class DataAccessor {
           // Shortcut! (Assume [*] for List of Maps when
           // no indices are provided)
           if (step is String) {
-            for (final Map<dynamic, dynamic> m in dataCursor) {
+            for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
               dataList.add(m[step]);
             }
             dataCursor = dataList;
@@ -142,7 +142,7 @@ class DataAccessor {
               // List of key values ... null out and append as necessary
               // special value for exited?
               int index = 0;
-              for (final Map<dynamic, dynamic> m in dataCursor) {
+              for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
                 keyValueIndexMap[m[stepKeyProp]] = index;
                 dataList.add(m[stepProp]);
                 index++;
@@ -159,7 +159,7 @@ class DataAccessor {
               }
 
               int index;
-              for (final Map<dynamic, dynamic> m in dataCursor) {
+              for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
                 final dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
@@ -177,7 +177,7 @@ class DataAccessor {
           }
         } else {
           // Indices
-          for (final int i in step.values) {
+          for (final int i in step.values as Iterable<int>) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;

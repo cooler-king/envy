@@ -668,7 +668,7 @@ class GeoJsonGeometryCollection extends GeoJsonGeometry {
   /// Constructs a new instance from the values in [map].
   GeoJsonGeometryCollection.fromJson(Map<String, dynamic> map) {
     if (map['geometries'] is List) {
-      for (final Map<String, dynamic> g in map['geometries']) {
+      for (final Map<String, dynamic> g in map['geometries'] as List<Map<String, dynamic>>) {
         geometries.add(new GeoJsonGeometry.fromJson(g));
       }
     }
