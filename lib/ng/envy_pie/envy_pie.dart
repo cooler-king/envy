@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
+import 'package:envy/src/envy/util/logger.dart';
 import 'package:quantity/quantity.dart' show Angle;
 import '../../ng/envy_scene.dart';
 import '../../src/envy/data/source/boolean/boolean_source.dart';
@@ -33,8 +34,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   set slices(List<PieSlice> value) {
     if (value != _slices) {
       _slices = value;
-      _updateData();
-      _change.markForCheck();
+      Timer.run(_updateData);
     }
   }
 
@@ -46,7 +46,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   @Input()
   num outerRadius;
 
-  /// The start angle of the first slice (defaults to zero).
+  /// The start angle of the first slice (defaults to zero, the x-axis).
   @Input()
   Angle startAngle = new Angle(deg: 0);
 
@@ -80,10 +80,18 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     final AnnularSection2d s = new AnnularSection2d();
     canvas.attach(s);
 
-    //s.x.update = new NumberConstant.array(<num>[75, 225, 375]);
-    //s.y.update = new NumberConstant.array(<num>[55]);
-    s.innerRadius.update = new NumberConstant(innerRadius);
-    s.outerRadius.update = new NumberConstant(outerRadius);
+    final num radius = outerRadius ?? 50;
+
+    s.startAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
+    s.endAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
+    s.outerRadius.enter = new NumberData.keyed(dataset, 'innerRadius');
+    s.innerRadius.enter = new NumberData.keyed(dataset, 'innerRadius');
+    s.opacity.enter = new NumberConstant(0.1);
+
+    s.x.update = new NumberConstant(radius);
+    s.y.update = new NumberConstant(radius);
+    s.innerRadius.update = new NumberData.keyed(dataset, 'innerRadius');
+    s.outerRadius.update = new NumberConstant(radius);
     s.startAngle.update = new AngleData.keyed(dataset, 'startAngle');
     s.endAngle.update = new AngleData.keyed(dataset, 'endAngle');
     s.lineWidth.update = new NumberConstant(2);
@@ -91,6 +99,12 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.strokeStyle.update = new DrawingStyle2dData.keyed(dataset, 'strokeStyle');
     s.fill.update = new BooleanConstant(true);
     s.stroke.update = new BooleanConstant(true);
+    s.opacity.update = new NumberData.keyed(dataset, 'opacity');
+
+    s.startAngle.exit = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
+    s.endAngle.exit = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
+    s.outerRadius.exit = new NumberData.keyed(dataset, 'innerRadius');
+    s.opacity.exit = new NumberConstant(0.01);
 
     // Forward mouse events.
     s.onClick.listen(_sliceEvent.add);
@@ -102,34 +116,47 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.onMouseDown.listen(_sliceEvent.add);
     s.onMouseUp.listen(_sliceEvent.add);
 
+
+
     esg.updateGraph();
   }
 
   void _updateData() {
-    final EnvySceneGraph esg = scene?.sceneGraph;
+    try {
+      final EnvySceneGraph esg = scene?.sceneGraph;
 
-    final List<Map<String, dynamic>> data = <Map<String, dynamic>>[];
+      final List<Map<String, dynamic>> data = <Map<String, dynamic>>[];
 
-    final num total =
-        slices.map<num>((PieSlice slice) => slice.value ?? 0).reduce((num value, num element) => value + element);
+      final num total =
+          slices.map<num>((PieSlice slice) => slice.value ?? 0).reduce((num value, num element) => value + element);
+      if (total == 0) {
+        esg.updateGraph();
+        return;
+      }
 
-    Angle cursor = new Angle(rad: startAngle.mks);
-    for (final PieSlice slice in _slices) {
-      final Map<String, dynamic> sliceData = <String, dynamic>{
-        'key': slice.key,
-        'fillStyle': slice.fillStyle,
-        'strokeStyle': slice.strokeStyle,
-        'startAngle': cursor,
-      };
-      final double fraction = slice.value / total;
-      cursor = cursor + new Angle(deg: 360 * fraction) as Angle;
-      sliceData['endAngle'] = cursor;
+      Angle cursor = new Angle(rad: startAngle.mks);
+      for (final PieSlice slice in _slices) {
+        final Map<String, dynamic> sliceData = <String, dynamic>{
+          'key': slice.key,
+          'fillStyle': slice.fillStyle,
+          'strokeStyle': slice.strokeStyle,
+          'startAngle': cursor,
+          'innerRadius': innerRadius,
+          'opacity': slice.opacity,
+        };
+        final double fraction = slice.value / total;
+        final Angle delta = new Angle(deg: 360 * fraction);
+        cursor = (clockwise ? cursor + delta : cursor - delta) as Angle;
+        sliceData['endAngle'] = cursor;
 
-      data.add(sliceData);
+        data.add(sliceData);
+      }
+
+      esg.root.addDataset('pieData', list: data);
+      esg.updateGraph();
+    } catch (e, s) {
+      logger.severe('Unable to update pie data', e, s);
     }
-
-    esg.root.addDataset('pieData', list: data);
-    esg.updateGraph();
   }
 
   @override

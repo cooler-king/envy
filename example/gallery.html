@@ -7,6 +7,7 @@
     <div class="nav-option" (click)="page = 'html_node_population'">HTML Node Population</div>
     <div class="nav-option" (click)="page = 'image2d'">Image</div>
     <div class="nav-option" (click)="page = 'path2d'">Path</div>
+    <div class="nav-option" (click)="page = 'pie'">Pie</div>
     <div class="nav-option" (click)="page = 'rect2d'">Rect</div>
     <div class="nav-option" (click)="page = 'star2d'">Star</div>
     <div class="nav-option" (click)="page = 'text2d'">Text</div>
@@ -21,6 +22,7 @@
     <test-html-node-population *ngIf="page == 'html_node_population'"></test-html-node-population>
     <test-image2d *ngIf="page == 'image2d'"></test-image2d>
     <test-path2d *ngIf="page == 'path2d'"></test-path2d>
+    <test-pie2d *ngIf="page == 'pie'"></test-pie2d>
     <test-rect2d *ngIf="page == 'rect2d'"></test-rect2d>
     <test-star2d *ngIf="page == 'star2d'"></test-star2d>
     <test-text2d *ngIf="page == 'text2d'"></test-text2d>

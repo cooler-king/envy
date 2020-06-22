@@ -20,6 +20,9 @@ class PieSlice {
   /// How to render the border of the slice.
   final DrawingStyle2d strokeStyle;
 
+  /// THe opacity of the slice.
+  final num opacity = 1;
+
   /// The optional tooltip to display when hovering over the slice.
   final String tooltip;
 }

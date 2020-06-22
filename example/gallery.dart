@@ -7,6 +7,7 @@ import 'div_node/test_div_node.dart';
 import 'html_node_population/test_html_node_population.dart';
 import 'image2d/test_image2d.dart';
 import 'path2d/test_path2d.dart';
+import 'pie2d/test_pie2d.dart';
 import 'rect2d/test_rect2d.dart';
 import 'star2d/test_star2d.dart';
 import 'text2d/test_text2d.dart';
@@ -26,6 +27,7 @@ import 'triangle2d/test_triangle2d.dart';
     TestHtmlNodePopulation,
     TestImage2d,
     TestPath2d,
+    TestPie2d,
     TestRect2d,
     TestStar2d,
     TestText2d,
