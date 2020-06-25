@@ -1,6 +1,6 @@
 name: envy
 description: An information visualization framework.
-version: 0.3.0
+version: 1.0.0
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:

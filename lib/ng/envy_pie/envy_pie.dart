@@ -3,6 +3,7 @@ import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/src/envy/util/logger.dart';
 import 'package:quantity/quantity.dart' show Angle;
+import 'package:vector_math/vector_math.dart' show Vector2;
 import '../../ng/envy_scene.dart';
 import '../../src/envy/data/source/boolean/boolean_source.dart';
 import '../../src/envy/data/source/number/number_source.dart';
@@ -54,6 +55,17 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   @Input()
   bool clockwise = true;
 
+  /// The center of the pie, in pixels.
+  Vector2 get origin => _origin;
+  Vector2 _origin = new Vector2.zero();
+  @Input()
+  set origin(Vector2 value) {
+    if (value != _origin) {
+      _origin = value;
+      _updateData();
+    }
+  }
+
   /// Broadcasts mouse events for the pie slices.
   @Output()
   Stream<Graphic2dIntersection> get sliceEvent => _sliceEvent.stream;
@@ -81,6 +93,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     canvas.attach(s);
 
     final num radius = outerRadius ?? 50;
+    print('RADIUS  $radius');
 
     s.startAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
     s.endAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
@@ -88,10 +101,10 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.innerRadius.enter = new NumberData.keyed(dataset, 'innerRadius');
     s.opacity.enter = new NumberConstant(0.1);
 
-    s.x.update = new NumberConstant(radius);
-    s.y.update = new NumberConstant(radius);
+    s.x.update = new NumberData.keyed(dataset, 'x');
+    s.y.update = new NumberData.keyed(dataset, 'y');
     s.innerRadius.update = new NumberData.keyed(dataset, 'innerRadius');
-    s.outerRadius.update = new NumberConstant(radius);
+    s.outerRadius.update = new NumberData.keyed(dataset, 'outerRadius');
     s.startAngle.update = new AngleData.keyed(dataset, 'startAngle');
     s.endAngle.update = new AngleData.keyed(dataset, 'endAngle');
     s.lineWidth.update = new NumberConstant(2);
@@ -116,8 +129,6 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.onMouseDown.listen(_sliceEvent.add);
     s.onMouseUp.listen(_sliceEvent.add);
 
-
-
     esg.updateGraph();
   }
 
@@ -141,7 +152,10 @@ class EnvyPie implements AfterViewInit, OnDestroy {
           'fillStyle': slice.fillStyle,
           'strokeStyle': slice.strokeStyle,
           'startAngle': cursor,
+          'x': origin?.x ?? outerRadius / 2,
+          'y': origin?.y ?? outerRadius / 2,
           'innerRadius': innerRadius,
+          'outerRadius': outerRadius,
           'opacity': slice.opacity,
         };
         final double fraction = slice.value / total;
