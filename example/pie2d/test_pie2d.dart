@@ -52,6 +52,7 @@ class TestPie2d implements AfterViewInit {
           fillStyle: new DrawingStyle2d(color: Color.blue),
           strokeStyle: new DrawingStyle2d(color: Color.white))
     ];
+    _change.markForCheck();
   }
 
   void testDynamic() {
