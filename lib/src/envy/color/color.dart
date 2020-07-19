@@ -23,7 +23,7 @@ class Color implements CssAdapter {
       : r = Color.hexStrToDecimal(hexStr, 0),
         g = Color.hexStrToDecimal(hexStr, 1),
         b = Color.hexStrToDecimal(hexStr, 2),
-        alpha = 1.0,
+        alpha = hexStr.length == 8 ? Color.hexStrToDecimal(hexStr, 3) : 1.0,
         perceptiveLuminance = (0.299 * Color.hexStrToDecimal(hexStr, 0)) +
             (0.587 * Color.hexStrToDecimal(hexStr, 1)) +
             (0.114 * Color.hexStrToDecimal(hexStr, 2));
@@ -312,13 +312,14 @@ class Color implements CssAdapter {
     return str;
   }
 
-  /// The hex string is assumed to start with '#'.  It may be either 4 or 7 character in length.
-  /// [pos]: 0 extracts red, 1 extracts green, 2 extracts blue.
+  /// The hex string is assumed to start with '#'.  It may be either 4, 7 or 9 character in length.
+  /// [pos]: 0 extracts red, 1 extracts green, 2 extracts blue, 3 extracts alpha.
   static double hexStrToDecimal(String hexStr, int pos) {
     try {
       if (hexStr == null) return 0;
       if (hexStr.length == 4) return int.parse('${hexStr[pos + 1]}${hexStr[pos + 1]}', radix: 16) / 255.0;
-      if (hexStr.length == 7) return int.parse('${hexStr[pos * 2 + 1]}${hexStr[pos * 2 + 2]}', radix: 16) / 255.0;
+      if (hexStr.length == 7 || hexStr.length == 9)
+        return int.parse('${hexStr[pos * 2 + 1]}${hexStr[pos * 2 + 2]}', radix: 16) / 255.0;
 
       logger.warning('Malformed hex string: $hexStr');
     } catch (e) {

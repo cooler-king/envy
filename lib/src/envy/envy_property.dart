@@ -123,7 +123,6 @@ abstract class EnvyProperty<T> {
   }
 
   /// Subclasses must provide a default interpolator.
-  ///
   EnvyInterpolator<T> get defaultInterpolator;
 
   /// Prepares for an animation cycle by updating the start and target

@@ -1,4 +1,4 @@
-### 1.0.0
+### 0.4.0
   * Requires Dart SDK 2.8.4 or later.
   * Added the `envy-pie` component.
 

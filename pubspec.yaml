@@ -1,10 +1,10 @@
 name: envy
 description: An information visualization framework.
-version: 1.0.0
+version: 0.4.0
 homepage: https://github.com/cooler-king/envy
 documentation: https://github.com/cooler-king/envy/wiki
 environment:
-  sdk: '>=2.3.0 <3.0.0'
+  sdk: '>=2.8.4 <3.0.0'
 dependencies:
   angular: ^6.0.0-alpha
   collection: ^1.14.0

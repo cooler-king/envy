@@ -42,13 +42,11 @@ class TestPie2d implements AfterViewInit {
       new PieSlice(
           key: 'slice1',
           value: 7,
-          label: 'seven',
           fillStyle: new DrawingStyle2d(color: Color.cyan),
           strokeStyle: new DrawingStyle2d(color: Color.white)),
       new PieSlice(
           key: 'slice2',
           value: 3,
-          label: 'three',
           fillStyle: new DrawingStyle2d(color: Color.blue),
           strokeStyle: new DrawingStyle2d(color: Color.white))
     ];
@@ -60,13 +58,11 @@ class TestPie2d implements AfterViewInit {
       new PieSlice(
           key: 'slice1',
           value: 7,
-          label: 'seven',
           fillStyle: new DrawingStyle2d(color: Color.cyan),
           strokeStyle: new DrawingStyle2d(color: Color.white)),
       new PieSlice(
           key: 'slice2',
           value: 3,
-          label: 'three',
           fillStyle: new DrawingStyle2d(color: Color.blue),
           strokeStyle: new DrawingStyle2d(color: Color.white))
     ];
@@ -76,11 +72,10 @@ class TestPie2d implements AfterViewInit {
 
       final Random rand = new Random();
       final int count = 1 + rand.nextInt(7);
-      for ( int i = 0; i < count; i++) {
+      for (int i = 0; i < count; i++) {
         final PieSlice slice = new PieSlice(
             key: 'slice$i',
             value: rand.nextInt(50),
-            label: 'slice $i',
             fillStyle: new DrawingStyle2d(color: Color.blue),
             strokeStyle: new DrawingStyle2d(color: Color.white));
 
