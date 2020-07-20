@@ -21,5 +21,5 @@ Future<int> serve() async {
       runInShell: true);
   process.stdout.transform(utf8.decoder).listen(print);
   process.stderr.transform(utf8.decoder).listen(print);
-  return await process.exitCode;
+  return process.exitCode;
 }

@@ -50,7 +50,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
     }
 
     if (data is List) {
-      for (dynamic entry in data) {
+      for (final dynamic entry in data) {
         if (entry is String) {
           values.add(entry);
         } else {
@@ -64,7 +64,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
       // warn and do best to convert to string
       logger.warning('Unexpected data type for StringData: $data');
       if (data is List) {
-        for (Object d in data) {
+        for (final Object d in data) {
           values.add(d.toString());
         }
       } else {

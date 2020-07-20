@@ -17,7 +17,7 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
     CssProperty aValue, bValue, iValue;
     final List<String> bOnlyProps = new List<String>.from(b.keys);
     bool bHas;
-    for (String prop in a.keys) {
+    for (final String prop in a.keys) {
       bHas = bOnlyProps.remove(prop);
 
       aValue = a[prop];
@@ -28,7 +28,7 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
     }
 
     // Do the b-only props.
-    for (String prop in bOnlyProps) {
+    for (final String prop in bOnlyProps) {
       aValue = CssStyle.defaultValueForProp(prop);
       iValue = aValue.interpolator.interpolate(aValue, b[prop], fraction);
 

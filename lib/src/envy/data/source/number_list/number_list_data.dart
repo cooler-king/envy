@@ -52,7 +52,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
     }
 
     if (data is List) {
-      for (dynamic d in data) {
+      for (final dynamic d in data) {
         if (d is List<dynamic>) {
           values.add(new NumberList(d as List<num>));
         } else if (d is NumberList) {

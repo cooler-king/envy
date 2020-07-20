@@ -15,7 +15,7 @@ class NumberList extends DelegatingList<num> {
   num get min {
     if (isEmpty) return double.nan;
     num x = double.infinity;
-    for (num n in this) {
+    for (final num n in this) {
       if (n < x) x = n;
     }
     return x;
@@ -25,7 +25,7 @@ class NumberList extends DelegatingList<num> {
   num get max {
     if (isEmpty) return double.nan;
     num x = double.negativeInfinity;
-    for (num n in this) {
+    for (final num n in this) {
       if (n > x) x = n;
     }
     return x;

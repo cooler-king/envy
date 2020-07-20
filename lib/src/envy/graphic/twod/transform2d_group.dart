@@ -54,7 +54,7 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
 
         // Column major order.
         final Matrix3 myTransform =
-            new Matrix3(sx * cosTheta, sy * sinTheta, 0.0, -sx * sinTheta, sy * cosTheta, 0.0, tx, ty, 1.0)
+            new Matrix3(sx * cosTheta, sy * sinTheta, 0, -sx * sinTheta, sy * cosTheta, 0, tx, ty, 1)
               ..multiply(currentTransform);
         transform2DStack.addFirst(myTransform);
         _replaceTransform(myTransform, ctx);

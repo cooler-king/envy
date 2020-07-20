@@ -68,14 +68,16 @@ class TestCircle2d implements AfterViewInit {
     final GeoJson geoJson = new GeoJson.map(nevada);
 
     final List<dynamic> coordData = <dynamic>[];
-    for (var feature in geoJson.featureCollection.features) {
+    for (final dynamic feature in geoJson.featureCollection.features) {
       if (feature.geometry is GeoJsonPolygon) {
-        final List<dynamic> rings = <dynamic>[(feature.geometry as GeoJsonPolygon).exteriorRing]
-          ..addAll((feature.geometry as GeoJsonPolygon).interiorRings);
-        for (var ring in rings) {
+        final List<dynamic> rings = <dynamic>[
+          (feature.geometry as GeoJsonPolygon).exteriorRing,
+          ...(feature.geometry as GeoJsonPolygon).interiorRings,
+        ];
+        for (final dynamic ring in rings) {
           final List<dynamic> latitudes = <dynamic>[];
           final List<dynamic> longitudes = <dynamic>[];
-          for (var coord in ring.coordinates) {
+          for (final dynamic coord in ring.coordinates) {
             longitudes.add(coord.longitude);
             latitudes.add(coord.latitude);
           }

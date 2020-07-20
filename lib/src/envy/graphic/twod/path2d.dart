@@ -65,13 +65,13 @@ class Path2d extends Graphic2dNode {
         _interpolation == PathInterpolation2d.linear ||
         _interpolation == PathInterpolation2d.linearClosed) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
-      for (Point<num> pt in _points) {
+      for (final Point<num> pt in _points) {
         ctx.lineTo(pt.x + adj[0], pt.y + adj[1]);
       }
     } else if (_interpolation == PathInterpolation2d.stepBefore) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       num x = _points[0].x + adj[0];
-      for (Point<num> pt in _points) {
+      for (final Point<num> pt in _points) {
         final num y = pt.y + adj[1];
         ctx.lineTo(x, y);
         x = pt.x + adj[0];
@@ -80,7 +80,7 @@ class Path2d extends Graphic2dNode {
     } else if (_interpolation == PathInterpolation2d.stepAfter) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       num y = _points[0].y + adj[1];
-      for (Point<num> pt in _points) {
+      for (final Point<num> pt in _points) {
         final num x = pt.x + adj[0];
         ctx.lineTo(x, y);
         y = pt.y + adj[1];

@@ -230,7 +230,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // 2 - render in each one (INDEPENDENT population only implementation)
 
     // _currentContext2DList contains the contexts for the CanvasElements currently being updated.
-    for (CanvasRenderingContext2D context in currentContext2DList) {
+    for (final CanvasRenderingContext2D context in currentContext2DList) {
       // Update dynamic properties.
       super.update(fraction, context: context, finish: finish);
       _render(context, finish);
