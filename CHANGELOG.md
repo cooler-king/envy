@@ -1,3 +1,6 @@
+### 0.4.0+1
+  * EnvyPie: handle slice-less pie.
+ 
 ### 0.4.0
   * Requires Dart SDK 2.8.4 or later.
   * Added the `envy-pie` component.

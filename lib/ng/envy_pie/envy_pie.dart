@@ -242,57 +242,59 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
       final List<Map<String, dynamic>> data = <Map<String, dynamic>>[];
 
-      final num total =
-          slices.map<num>((PieSlice slice) => slice.value ?? 0).reduce((num value, num element) => value + element);
-      if (total == 0) {
-        esg.updateGraph();
-        return;
-      }
-
-      Angle cursor = new Angle(rad: startAngle.mks);
-      for (final PieSlice slice in _slices) {
-        final Map<String, dynamic> sliceData = <String, dynamic>{
-          'key': slice.key,
-          'fillStyle': slice.fillStyle,
-          'strokeStyle': slice.strokeStyle,
-          'startAngle': cursor,
-          'x': origin?.x ?? outerRadius / 2,
-          'y': origin?.y ?? outerRadius / 2,
-          'innerRadius': innerRadius,
-          'outerRadius': outerRadius,
-          'opacity': slice.opacity,
-          'labelText': slice.label?.text ?? '',
-        };
-        final double fraction = slice.value / total;
-        Angle delta = new Angle(deg: 360 * fraction);
-        if (counterclockwise) delta = delta * -1 as Angle;
-
-        final num labelRadius = innerRadius + 0.01 * (slice.label.radialPct ?? 50) * (outerRadius - innerRadius);
-        final Angle labelAngle = cursor + delta * 0.01 * (slice.label.spanPct ?? 50) as Angle;
-
-        if (counterclockwise) {
-          sliceData['endAngle'] = cursor;
-        } else {
-          sliceData['startAngle'] = cursor;
+      if (slices?.isNotEmpty == true) {
+        final num total =
+            slices.map<num>((PieSlice slice) => slice.value ?? 0).reduce((num value, num element) => value + element);
+        if (total == 0) {
+          esg.updateGraph();
+          return;
         }
 
-        cursor = cursor + delta as Angle;
+        Angle cursor = new Angle(rad: startAngle.mks);
+        for (final PieSlice slice in _slices) {
+          final Map<String, dynamic> sliceData = <String, dynamic>{
+            'key': slice.key,
+            'fillStyle': slice.fillStyle,
+            'strokeStyle': slice.strokeStyle,
+            'startAngle': cursor,
+            'x': origin?.x ?? outerRadius / 2,
+            'y': origin?.y ?? outerRadius / 2,
+            'innerRadius': innerRadius,
+            'outerRadius': outerRadius,
+            'opacity': slice.opacity,
+            'labelText': slice.label?.text ?? '',
+          };
+          final double fraction = slice.value / total;
+          Angle delta = new Angle(deg: 360 * fraction);
+          if (counterclockwise) delta = delta * -1 as Angle;
 
-        if (counterclockwise) {
-          sliceData['startAngle'] = cursor;
-        } else {
-          sliceData['endAngle'] = cursor;
+          final num labelRadius = innerRadius + 0.01 * (slice.label.radialPct ?? 50) * (outerRadius - innerRadius);
+          final Angle labelAngle = cursor + delta * 0.01 * (slice.label.spanPct ?? 50) as Angle;
+
+          if (counterclockwise) {
+            sliceData['endAngle'] = cursor;
+          } else {
+            sliceData['startAngle'] = cursor;
+          }
+
+          cursor = cursor + delta as Angle;
+
+          if (counterclockwise) {
+            sliceData['startAngle'] = cursor;
+          } else {
+            sliceData['endAngle'] = cursor;
+          }
+
+          sliceData['labelText'] = slice.label?.text ?? '';
+          sliceData['labelX'] = sliceData['x'] + labelRadius * labelAngle.cosine();
+          sliceData['labelY'] = sliceData['y'] + labelRadius * labelAngle.sine();
+          sliceData['labelFill'] = slice.label?.fillStyle ?? DrawingStyle2d.black;
+          sliceData['labelOpacity'] = slice.label?.opacity ?? 1;
+          sliceData['labelRotation'] = slice.label?.rotation ?? new Angle(deg: 0);
+          sliceData['labelAnchor'] = slice.label?.anchor ?? new Anchor2d(mode: AnchorMode2d.center);
+
+          data.add(sliceData);
         }
-
-        sliceData['labelText'] = slice.label?.text ?? '';
-        sliceData['labelX'] = sliceData['x'] + labelRadius * labelAngle.cosine();
-        sliceData['labelY'] = sliceData['y'] + labelRadius * labelAngle.sine();
-        sliceData['labelFill'] = slice.label?.fillStyle ?? DrawingStyle2d.black;
-        sliceData['labelOpacity'] = slice.label?.opacity ?? 1;
-        sliceData['labelRotation'] = slice.label?.rotation ?? new Angle(deg: 0);
-        sliceData['labelAnchor'] = slice.label?.anchor ?? new Anchor2d(mode: AnchorMode2d.center);
-
-        data.add(sliceData);
       }
 
       esg.root.addDataset('pieData', list: data);
