@@ -4,7 +4,7 @@ import 'envy_interpolator.dart';
 
 /// Interpolation between two fonts.
 class FontInterpolator extends EnvyInterpolator<Font> {
-  /// Constructs a new instance, with all component interpolators
+  /// Constructs a instance, with all component interpolators
   /// defaulting to binary.
   FontInterpolator(
       {this.styleInterpolator,
@@ -40,7 +40,7 @@ class FontInterpolator extends EnvyInterpolator<Font> {
   /// based on the time [fraction].
   @override
   Font interpolate(Font a, Font b, num fraction) {
-    final Font f = new Font()
+    final f = Font()
       ..style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator) as FontStyle
       ..variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator) as FontVariant
       ..weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator) as FontWeight

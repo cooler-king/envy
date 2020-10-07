@@ -3,10 +3,10 @@ import 'number_source.dart';
 
 /// Generates a random number in the range defined by two numerical data sources.
 class RandomNumber extends NumberSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   RandomNumber(this.minSource, this.maxSource);
 
-  final Random _generator = new Random(new DateTime.now().millisecond);
+  final Random _generator = Random(DateTime.now().millisecond);
 
   /// The numerical data source for the minimum value of the range.
   final NumberSource minSource;
@@ -16,7 +16,7 @@ class RandomNumber extends NumberSource {
 
   @override
   num valueAt(int index) {
-    final num minValue = minSource.valueAt(index);
+    final minValue = minSource.valueAt(index);
     return minValue + _generator.nextDouble() * (maxSource.valueAt(index) - minValue);
   }
 

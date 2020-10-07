@@ -33,14 +33,14 @@ import 'multiplicity/multiplicity.dart';
 import 'text/font.dart';
 
 /// A two-dimensional vector with zero magnitude.
-final Vector2 vec2zero = new Vector2(0, 0);
+final Vector2 vec2zero = Vector2(0, 0);
 
 /// A two-dimensional vector with both x and y components equal to one.
-final Vector2 vec2one = new Vector2(1, 1);
+final Vector2 vec2one = Vector2(1, 1);
 
 /// The base class for all Envy properties.
 abstract class EnvyProperty<T> {
-  /// Constructs a new instance.  Extending classes must provide a default value.
+  /// Constructs a instance.  Extending classes must provide a default value.
   EnvyProperty(this.defaultValue, {this.optional = false});
 
   int _size = 0;
@@ -61,7 +61,7 @@ abstract class EnvyProperty<T> {
   T _value;
 
   /// Used when no data is available.
-  NullDataSource<T> nullDataSource = new NullDataSource<T>();
+  NullDataSource<T> nullDataSource = NullDataSource<T>();
 
   /// An optional payload that may be used for things like identifying a property during debugging.
   dynamic payload;
@@ -115,7 +115,7 @@ abstract class EnvyProperty<T> {
   int get rawSize => max(enter.rawSize, update.rawSize);
 
   /// The interpolator calculates intermediate values at fractions between
-  /// a value during a previous cycle and the value at the end of the new cycle.
+  /// a value during a previous cycle and the value at the end of the cycle.
   EnvyInterpolator<T> get interpolator => _interpolator ??= defaultInterpolator;
   EnvyInterpolator<T> _interpolator;
   set interpolator(EnvyInterpolator<T> interp) {
@@ -162,7 +162,6 @@ abstract class EnvyProperty<T> {
         _value = _value ?? (_update == null || _update.dataNotAvailableAt(_i) ? null : _update.valueAt(_i));
         _value = _value ?? defaultValue;
 
-        //print('_updateStartValues... adding value ${_value}');
         _startValues.add(_value);
       }
     }
@@ -171,7 +170,7 @@ abstract class EnvyProperty<T> {
   /// The target value for a given index will be the update value,
   /// enter value or default value (whichever is found first)
   /// at that index or the exit value for indices greater than the
-  /// new size (up to the number of current values).
+  /// size (up to the number of current values).
   void _updateTargetValues() {
     _targetValues.clear();
 
@@ -183,7 +182,7 @@ abstract class EnvyProperty<T> {
 
       if (val == null) {
         // If the value (of a keyed property) is no longer available, use exit value.
-        final bool dataNotAvailable =
+        final dataNotAvailable =
             (_update?.dataNotAvailableAt(_i) ?? false) || (_enter?.dataNotAvailableAt(_i) ?? false);
         if (dataNotAvailable) {
           val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
@@ -230,7 +229,7 @@ abstract class EnvyProperty<T> {
   /// Calculate the current values based on the start and target values,
   /// the timing [fraction] and the interpolator.
   void updateValues(num fraction, {bool finish = false}) {
-    final EnvyInterpolator<T> interp = interpolator;
+    final interp = interpolator;
     _currentValues.clear();
     if (!finish) {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
@@ -239,7 +238,7 @@ abstract class EnvyProperty<T> {
     } else {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
         // For finish values, only include available update or enter data
-        T val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
+        var val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
         val = val ?? (_enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i));
         if (val != null) {
           _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
@@ -258,7 +257,7 @@ abstract class EnvyProperty<T> {
 
 /// A generic untyped property.
 class GenericProperty extends EnvyProperty<dynamic> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   GenericProperty({dynamic defaultValue = 0, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
@@ -267,198 +266,198 @@ class GenericProperty extends EnvyProperty<dynamic> {
 
 /// Holds [num] values.
 class NumberProperty extends EnvyProperty<num> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   NumberProperty({num defaultValue = 0, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
-  EnvyInterpolator<num> get defaultInterpolator => new NumberInterpolator();
+  EnvyInterpolator<num> get defaultInterpolator => NumberInterpolator();
 }
 
 /// Holds String values.
 class StringProperty extends EnvyProperty<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   StringProperty({String defaultValue = '', bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
-  EnvyInterpolator<String> get defaultInterpolator => new BinaryInterpolator<String>();
+  EnvyInterpolator<String> get defaultInterpolator => BinaryInterpolator<String>();
 }
 
 /// Holds Boolean values.
 class BooleanProperty extends EnvyProperty<bool> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   BooleanProperty({bool defaultValue = false, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
-  EnvyInterpolator<bool> get defaultInterpolator => new BooleanInterpolator();
+  EnvyInterpolator<bool> get defaultInterpolator => BooleanInterpolator();
 }
 
 /// Holds Color values.
 class ColorProperty extends EnvyProperty<Color> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   ColorProperty({Color defaultValue = Color.black, bool optional = false}) : super(defaultValue, optional: optional);
 
   @override
-  EnvyInterpolator<Color> get defaultInterpolator => new RgbaInterpolator();
+  EnvyInterpolator<Color> get defaultInterpolator => RgbaInterpolator();
 }
 
 /// Holds TextAlign2d values.
 class TextAlign2dProperty extends EnvyProperty<TextAlign2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   TextAlign2dProperty({bool optional = false}) : super(TextAlign2d.start, optional: optional);
 
   @override
-  EnvyInterpolator<TextAlign2d> get defaultInterpolator => new BinaryInterpolator<TextAlign2d>();
+  EnvyInterpolator<TextAlign2d> get defaultInterpolator => BinaryInterpolator<TextAlign2d>();
 }
 
 /// Holds TextBaseline2d values.
 class TextBaseline2dProperty extends EnvyProperty<TextBaseline2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   TextBaseline2dProperty({bool optional = false}) : super(TextBaseline2d.alphabetic, optional: optional);
 
   @override
-  EnvyInterpolator<TextBaseline2d> get defaultInterpolator => new BinaryInterpolator<TextBaseline2d>();
+  EnvyInterpolator<TextBaseline2d> get defaultInterpolator => BinaryInterpolator<TextBaseline2d>();
 }
 
 /// Holds LineCap2d values.
 class LineCap2dProperty extends EnvyProperty<LineCap2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   LineCap2dProperty({bool optional = false}) : super(LineCap2d.butt, optional: optional);
 
   @override
-  EnvyInterpolator<LineCap2d> get defaultInterpolator => new BinaryInterpolator<LineCap2d>();
+  EnvyInterpolator<LineCap2d> get defaultInterpolator => BinaryInterpolator<LineCap2d>();
 }
 
 /// Holds LineJoin2d values.
 class LineJoin2dProperty extends EnvyProperty<LineJoin2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   LineJoin2dProperty({bool optional = false}) : super(LineJoin2d.miter, optional: optional);
 
   @override
-  EnvyInterpolator<LineJoin2d> get defaultInterpolator => new BinaryInterpolator<LineJoin2d>();
+  EnvyInterpolator<LineJoin2d> get defaultInterpolator => BinaryInterpolator<LineJoin2d>();
 }
 
 /// Holds CompositeOperation2d values.
 class CompositeOperation2dProperty extends EnvyProperty<CompositeOperation2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   CompositeOperation2dProperty({bool optional = false}) : super(CompositeOperation2d.sourceOver, optional: optional);
 
   @override
-  EnvyInterpolator<CompositeOperation2d> get defaultInterpolator => new BinaryInterpolator<CompositeOperation2d>();
+  EnvyInterpolator<CompositeOperation2d> get defaultInterpolator => BinaryInterpolator<CompositeOperation2d>();
 }
 
 /// Holds DrawingStyle2d values.
 class DrawingStyle2dProperty extends EnvyProperty<DrawingStyle2d> {
-  /// Constructs a new instance.
-  DrawingStyle2dProperty({bool optional = false}) : super(new DrawingStyle2d(), optional: optional);
+  /// Constructs a instance.
+  DrawingStyle2dProperty({bool optional = false}) : super(DrawingStyle2d(), optional: optional);
 
   @override
-  EnvyInterpolator<DrawingStyle2d> get defaultInterpolator => new DrawingStyle2dInterpolator();
+  EnvyInterpolator<DrawingStyle2d> get defaultInterpolator => DrawingStyle2dInterpolator();
 }
 
 /// Holds Anchor2d values.
 class Anchor2dProperty extends EnvyProperty<Anchor2d> {
-  /// Constructs a new instance.
-  Anchor2dProperty({bool optional = false}) : super(new Anchor2d(), optional: optional);
+  /// Constructs a instance.
+  Anchor2dProperty({bool optional = false}) : super(Anchor2d(), optional: optional);
 
   @override
-  EnvyInterpolator<Anchor2d> get defaultInterpolator => new Anchor2dInterpolator();
+  EnvyInterpolator<Anchor2d> get defaultInterpolator => Anchor2dInterpolator();
 }
 
 /// Holds Angle values.
 class AngleProperty extends EnvyProperty<Angle> {
-  /// Constructs a new instance.
-  AngleProperty({bool optional = false}) : super(new Angle(rad: 0), optional: optional);
+  /// Constructs a instance.
+  AngleProperty({bool optional = false}) : super(Angle(rad: 0), optional: optional);
 
   @override
-  EnvyInterpolator<Angle> get defaultInterpolator => new AngleInterpolator();
+  EnvyInterpolator<Angle> get defaultInterpolator => AngleInterpolator();
 }
 
 /// Holds Point values.
 class PointProperty extends EnvyProperty<Point<num>> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   PointProperty({bool optional = false}) : super(const Point<num>(0, 0), optional: optional);
 
   @override
-  EnvyInterpolator<Point<num>> get defaultInterpolator => new PointInterpolator();
+  EnvyInterpolator<Point<num>> get defaultInterpolator => PointInterpolator();
 }
 
 /// Holds PointLists.
 class PointListProperty extends EnvyProperty<PointList> {
-  /// Constructs a new instance.
-  PointListProperty({bool optional = false}) : super(new PointList(), optional: optional);
+  /// Constructs a instance.
+  PointListProperty({bool optional = false}) : super(PointList(), optional: optional);
 
   @override
-  EnvyInterpolator<PointList> get defaultInterpolator => new PointListInterpolator();
+  EnvyInterpolator<PointList> get defaultInterpolator => PointListInterpolator();
 }
 
 /// Holds NumberLists.
 class NumberListProperty extends EnvyProperty<NumberList> {
-  /// Constructs a new instance.
-  NumberListProperty({bool optional = false}) : super(new NumberList(), optional: optional);
+  /// Constructs a instance.
+  NumberListProperty({bool optional = false}) : super(NumberList(), optional: optional);
 
   @override
-  EnvyInterpolator<NumberList> get defaultInterpolator => new NumberListInterpolator();
+  EnvyInterpolator<NumberList> get defaultInterpolator => NumberListInterpolator();
 }
 
 /// Holds CssStyle values.
 class CssStyleProperty extends EnvyProperty<CssStyle> {
-  /// Constructs a new instance.
-  CssStyleProperty({bool optional = false}) : super(new CssStyle(), optional: optional);
+  /// Constructs a instance.
+  CssStyleProperty({bool optional = false}) : super(CssStyle(), optional: optional);
 
   @override
-  EnvyInterpolator<CssStyle> get defaultInterpolator => new CssStyleInterpolator();
+  EnvyInterpolator<CssStyle> get defaultInterpolator => CssStyleInterpolator();
 }
 
 /// Holds Font values.
 class FontProperty extends EnvyProperty<Font> {
-  /// Constructs a new instance.
-  FontProperty({bool optional = false}) : super(new Font(), optional: optional);
+  /// Constructs a instance.
+  FontProperty({bool optional = false}) : super(Font(), optional: optional);
 
   @override
-  EnvyInterpolator<Font> get defaultInterpolator => new FontInterpolator();
+  EnvyInterpolator<Font> get defaultInterpolator => FontInterpolator();
 }
 
 /// Holds Vector2 values.
 class Vector2Property extends EnvyProperty<Vector2> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Vector2Property({bool optional = false}) : super(vec2zero, optional: optional);
 
   @override
-  EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
+  EnvyInterpolator<Vector2> get defaultInterpolator => Vector2Interpolator();
 }
 
 /// Holds Scale2 values.
 class Scale2Property extends EnvyProperty<Vector2> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Scale2Property({bool optional = false}) : super(vec2one, optional: optional);
 
   @override
-  EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
+  EnvyInterpolator<Vector2> get defaultInterpolator => Vector2Interpolator();
 }
 
 /// Holds Skew2 values.
 class Skew2Property extends EnvyProperty<Vector2> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Skew2Property({bool optional = false}) : super(vec2zero, optional: optional);
 
   @override
-  EnvyInterpolator<Vector2> get defaultInterpolator => new Vector2Interpolator();
+  EnvyInterpolator<Vector2> get defaultInterpolator => Vector2Interpolator();
 }
 
 /// Holds PathInterpolation2d values.
 class PathInterpolation2dProperty extends EnvyProperty<PathInterpolation2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   PathInterpolation2dProperty({bool optional = false}) : super(PathInterpolation2d.linear, optional: optional);
 
   @override
-  EnvyInterpolator<PathInterpolation2d> get defaultInterpolator => new BinaryInterpolator<PathInterpolation2d>();
+  EnvyInterpolator<PathInterpolation2d> get defaultInterpolator => BinaryInterpolator<PathInterpolation2d>();
 }
 
 /// A generic EnvyProperty that exposes its internals.
 /// This facilitates testing private methods and may have other potential uses
 /// in situations where direct manipulation of values is desired.
 class NakedProperty extends EnvyProperty<dynamic> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   NakedProperty({dynamic defaultValue = 0}) : super(defaultValue);
 
   @override

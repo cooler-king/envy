@@ -7,11 +7,11 @@ class LineCap2d extends Enumeration<String> {
   const LineCap2d(String value) : super(value);
 
   /// A butt line cap.
-  static const LineCap2d butt = const LineCap2d('butt');
+  static const LineCap2d butt = LineCap2d('butt');
 
   /// A round line cap.
-  static const LineCap2d round = const LineCap2d('round');
+  static const LineCap2d round = LineCap2d('round');
 
   /// A square line cap.
-  static const LineCap2d square = const LineCap2d('square');
+  static const LineCap2d square = LineCap2d('square');
 }

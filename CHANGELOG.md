@@ -1,3 +1,10 @@
+### 0.4.1
+  * Changed dependency `quantity ^1.0.0`.
+  * Converted to standard analysis_options from the pedantic package.
+
+### 0.4.0+1
+  * EnvyPie:  handle a slice-less pie.
+
 ### 0.4.0
   * Requires Dart SDK 2.8.4 or later.
   * Added the `envy-pie` component.

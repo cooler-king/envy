@@ -1,11 +1,10 @@
 import 'dart:html';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A point to be drawn on an HTML canvas.
 class Point2d extends Graphic2dNode {
-  /// Constructs a new instance, optionally specifying the marker to draw.
+  /// Constructs a instance, optionally specifying the marker to draw.
   Point2d([this.marker]) : super(null) {
     _initProperties();
   }
@@ -14,7 +13,7 @@ class Point2d extends Graphic2dNode {
   Graphic2dNode marker;
 
   void _initProperties() {
-    properties['pixelSize'] = new NumberProperty();
+    properties['pixelSize'] = NumberProperty();
   }
 
   /// The pixel size of the point.
@@ -23,18 +22,18 @@ class Point2d extends Graphic2dNode {
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x, _y;
-    final Anchor2d _anchor = anchor.valueAt(index);
-    final num _pixelSize = pixelSize.valueAt(index);
+    final _anchor = anchor.valueAt(index);
+    final _pixelSize = pixelSize.valueAt(index);
     _y = y.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     _x = 0;
     _y = 0;
     if (anchor != null) {
       // Adjust based on anchor (default origin is x, y).
       final num halfSize = _pixelSize / 2;
-      final List<num> adj = _anchor?.calcAdjustments(halfSize, halfSize, -halfSize, -halfSize) ?? <num>[0, 0];
+      final adj = _anchor?.calcAdjustments(halfSize, halfSize, -halfSize, -halfSize) ?? <num>[0, 0];
       _x += adj[0];
       _y += adj[1];
     }

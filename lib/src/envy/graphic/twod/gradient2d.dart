@@ -26,7 +26,7 @@ abstract class Gradient2d {
 
 /// A gradient that changes linearly along a line defined by two endpoints.
 class LinearGradient2d extends Gradient2d {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   LinearGradient2d({this.x0 = 0, this.y0 = 0, this.x1 = 0, this.y1 = 0});
 
   /// The x-coordinate of the line's first endpoint.
@@ -44,7 +44,7 @@ class LinearGradient2d extends Gradient2d {
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createLinearGradient(x0, y0, x1, y1);
-    for (final num stop in stops.keys) {
+    for (final stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }
@@ -54,7 +54,7 @@ class LinearGradient2d extends Gradient2d {
 /// ending circle, in which the gradient starts with the start circle and moves towards
 /// the end circle.
 class RadialGradient2d extends Gradient2d {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   RadialGradient2d({this.x0 = 0, this.y0 = 0, this.r0 = 0, this.x1 = 0, this.y1 = 0, this.r1 = 0});
 
   /// The starting circle origin x-coordinate.
@@ -78,7 +78,7 @@ class RadialGradient2d extends Gradient2d {
   @override
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
-    for (final num stop in stops.keys) {
+    for (final stop in stops.keys) {
       _canvasGradient.addColorStop(stop, stops[stop].css);
     }
   }

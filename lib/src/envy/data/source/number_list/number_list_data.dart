@@ -22,7 +22,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
   /// as a whole.
   ///
   NumberListData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
-    this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
+    this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
   /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
@@ -34,7 +34,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -45,7 +45,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
@@ -54,7 +54,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
     if (data is List) {
       for (final dynamic d in data) {
         if (d is List<dynamic>) {
-          values.add(new NumberList(d as List<num>));
+          values.add(NumberList(d as List<num>));
         } else if (d is NumberList) {
           values.add(d);
         }
@@ -62,11 +62,11 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
     } else if (data is NumberList) {
       values.add(data);
     } else if (data is List<num>) {
-      values.add(new NumberList(data));
+      values.add(NumberList(data));
     } else {
       // Warn and return empty NumberList
       logger.warning('Unexpected data type for NumberListData: $data');
-      values.add(new NumberList());
+      values.add(NumberList());
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:logging/logging.dart';
 
 /// Package-wide logger.
-Logger logger = new Logger('envy')
+Logger logger = Logger('envy')
   ..onRecord.listen((LogRecord record) {
     // ignore: avoid_print
     print('${record.level}: ${record.message}');

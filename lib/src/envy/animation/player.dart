@@ -6,7 +6,7 @@ import 'timeline.dart';
 /// Players provide an elapsed time relative to a specific
 /// time on a specific [Timeline].
 class Player {
-  /// Create a new Player bound to [timeline] with the specified
+  /// Create a Player bound to [timeline] with the specified
   /// [startTime], in seconds, on that timeline.
   Player(this.timeline, this.startTime) {
     //TODO add delay for start time
@@ -57,7 +57,7 @@ class Player {
   ///
   /// Time drifts due to pausing the player are taken into account.
   num get effectiveCurrentTime {
-    final num current = currentTime;
+    final current = currentTime;
     return current ?? 0;
   }
 
@@ -69,7 +69,7 @@ class Player {
   /// player's current time is unaffected by the change to the playback rate.
   num get playbackRate => _playbackRate;
   set playbackRate(num rate) {
-    final num prevTime = effectiveCurrentTime;
+    final prevTime = effectiveCurrentTime;
     _playbackRate = rate;
     seek(prevTime);
   }
@@ -161,14 +161,14 @@ class Player {
   void _initTimer([num delayMillis]) {
     if (delayMillis == null) {
       _prepareForAnimation();
-      timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
+      timer = Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
         _updateRegisteredGroups();
       });
     } else {
       // Wait before creating animation timer.
-      new Timer(new Duration(milliseconds: delayMillis.round()), () {
+      Timer(Duration(milliseconds: delayMillis.round()), () {
         _prepareForAnimation();
-        timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
+        timer = Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
           _updateRegisteredGroups();
         });
       });
@@ -176,13 +176,13 @@ class Player {
   }
 
   void _prepareForAnimation() {
-    for (final TimedItemGroup tig in _registered) {
+    for (final tig in _registered) {
       tig.prepareForAnimation();
     }
   }
 
   void _updateRegisteredGroups() {
-    for (final TimedItemGroup group in _registered) {
+    for (final group in _registered) {
       try {
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);

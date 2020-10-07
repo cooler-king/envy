@@ -1,6 +1,5 @@
 import 'dart:html' show CanvasRenderingContext2D;
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional bar (rectangle) to be drawn on an HTML canvas.
@@ -11,14 +10,14 @@ import 'graphic2d_node.dart';
 ///
 /// The default anchor is the bottom middle.
 class Bar2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Bar2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['width'] = new NumberProperty(optional: true)..payload = 'bar width';
-    properties['height'] = new NumberProperty(optional: true)..payload = 'bar height';
+    properties['width'] = NumberProperty(optional: true)..payload = 'bar width';
+    properties['height'] = NumberProperty(optional: true)..payload = 'bar height';
   }
 
   /// Holds the width of the bar in pixels.
@@ -29,21 +28,21 @@ class Bar2d extends Graphic2dNode {
 
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _width = width.valueAt(index);
-    final num _height = height.valueAt(index);
-    final Anchor2d _anchor = anchor.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _width = width.valueAt(index);
+    final _height = height.valueAt(index);
+    final _anchor = anchor.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Adjust for anchor (default origin is bottom middle)
     num _x = 0;
     num _y = 0;
-    final num halfWidth = _width / 2.0;
-    final List<num> adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? <num>[0, 0];
+    final halfWidth = _width / 2.0;
+    final adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? <num>[0, 0];
     _x += adj[0];
     _y += adj[1];
 
-    //Path2D p = new Path2D();
+    //Path2D p = Path2D();
     ctx
       ..beginPath()
       ..rect(_x - halfWidth, _y - _height, _width, _height)

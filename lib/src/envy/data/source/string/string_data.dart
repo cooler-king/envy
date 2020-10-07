@@ -21,7 +21,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   StringData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
-    this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
+    this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
   /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
@@ -32,7 +32,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -43,7 +43,7 @@ class StringData extends ArrayDataSource<String> implements StringSource {
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);

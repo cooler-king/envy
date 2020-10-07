@@ -4,7 +4,7 @@ import 'pie_slice_tooltip.dart';
 
 /// Contains information about a single pie slice.
 class PieSlice {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   PieSlice(
       {this.key,
       this.value,

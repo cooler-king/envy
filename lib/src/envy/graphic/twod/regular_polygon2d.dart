@@ -1,21 +1,20 @@
 import 'dart:html';
 import 'dart:math';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional regular polygon to be drawn on an HTML canvas.
 /// The regular polygon's number of points, radius
 /// and rotation can be set dynamically.
 class RegularPolygon2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   RegularPolygon2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['pointCount'] = new NumberProperty();
-    properties['radius'] = new NumberProperty();
+    properties['pointCount'] = NumberProperty();
+    properties['radius'] = NumberProperty();
   }
 
   /// The number of vertices (and sides) in the polygon.
@@ -37,24 +36,24 @@ class RegularPolygon2d extends Graphic2dNode {
     // Adjust for anchor (default is center of RegularPolygon)
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
+      final adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
       _x += adj[0];
       _y += adj[1];
     }
 
-    final num halfAngleStepRad = pi / _pointCount;
-    final num angleStepRad = 2.0 * halfAngleStepRad;
-    num preAngleRad = -halfAngleStepRad;
+    final halfAngleStepRad = pi / _pointCount;
+    final angleStepRad = 2.0 * halfAngleStepRad;
+    var preAngleRad = -halfAngleStepRad;
     num postAngleRad = halfAngleStepRad;
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     ctx
       ..beginPath()
       ..moveTo(_x + sin(preAngleRad) * _radius, _y + cos(preAngleRad) * _radius);
-    for (int i = 0; i < _pointCount; i++) {
+    for (var i = 0; i < _pointCount; i++) {
       ctx.lineTo(sin(postAngleRad) * _radius, cos(postAngleRad) * _radius);
 
       preAngleRad += angleStepRad;

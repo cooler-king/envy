@@ -5,21 +5,21 @@ abstract class BooleanSource extends DataSource<bool> {}
 
 /// A constant Boolean value.
 class BooleanConstant extends ArrayDataSource<bool> implements BooleanSource {
-  /// Constructs a new instance from an existing value.
+  /// Constructs a instance from an existing value.
   BooleanConstant(bool tf) {
     values.add(tf);
   }
 
-  /// Constructs a new instance from a list of existing values.
+  /// Constructs a instance from a list of existing values.
   BooleanConstant.array(List<bool> bools) {
     values.addAll(bools);
   }
 
   /// Constant true.
-  static final BooleanConstant trueValue = new BooleanConstant(true);
+  static final BooleanConstant trueValue = BooleanConstant(true);
 
   /// Constant false.
-  static final BooleanConstant falseValue = new BooleanConstant(false);
+  static final BooleanConstant falseValue = BooleanConstant(false);
 
   // No-op refresh.
   @override

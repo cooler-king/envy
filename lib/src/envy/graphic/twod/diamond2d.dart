@@ -5,14 +5,14 @@ import 'graphic2d_node.dart';
 
 /// A 2-dimensional diamond to be drawn on an HTML canvas.
 class Diamond2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Diamond2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['width'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
+    properties['width'] = NumberProperty();
+    properties['height'] = NumberProperty();
   }
 
   /// Holds the diamond's width at its vertical center.
@@ -28,8 +28,8 @@ class Diamond2d extends Graphic2dNode {
     _width = width.valueAt(index);
     _height = height.valueAt(index);
     _anchor = anchor.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     final num halfWidth = _width / 2;
     final num halfHeight = _height / 2;
@@ -38,7 +38,7 @@ class Diamond2d extends Graphic2dNode {
     _x = 0;
     _y = 0;
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-halfHeight, halfWidth, halfHeight, -halfWidth);
+      final adj = _anchor.calcAdjustments(-halfHeight, halfWidth, halfHeight, -halfWidth);
       _x += adj[0];
       _y += adj[1];
     }

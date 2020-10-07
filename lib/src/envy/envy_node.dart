@@ -48,9 +48,9 @@ abstract class EnvyNode {
   /// Add a dataset to this node.
   /// The dataset must be a List, Map, String, num or bool.
   /// If this node already contains a dataset named [name] then the
-  /// new dataset will replace it.
+  /// dataset will replace it.
   void addDataset(String name, {List<dynamic> list, Map<dynamic, dynamic> map, String text, num number, bool boolean}) {
-    _datasetMap ??= new HashMap<String, dynamic>();
+    _datasetMap ??= HashMap<String, dynamic>();
     _datasetMap[name] = list ?? (map ?? (text ?? (number ?? boolean)));
   }
 

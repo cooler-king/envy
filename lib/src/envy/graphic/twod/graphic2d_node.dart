@@ -14,7 +14,7 @@ import 'number_list.dart';
 
 /// The abstract base class for all two-dimensional graphic nodes.
 abstract class Graphic2dNode extends GraphicLeaf {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Graphic2dNode(this.htmlNode) {
     _initContextProperties();
     initBaseProperties();
@@ -74,10 +74,10 @@ abstract class Graphic2dNode extends GraphicLeaf {
   LineCap2d _ctxLineCap2d;
   LineJoin2d _ctxLineJoin2d;
   Color _ctxColor;
-  final HitTest _hitTest = new HitTest(0, 0);
+  final HitTest _hitTest = HitTest(0, 0);
 
   /// The default dash pattern is a dotted line.
-  static const List<int> defaultLineDash = const <int>[1, 0];
+  static const List<int> defaultLineDash = <int>[1, 0];
 
   void _initContextProperties() {
     // Fill style and stroke style can be CSS color, gradient or pattern.
@@ -85,36 +85,36 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // DON'T GIVE THESE INITIAL ENTER VALUES (causes exit properties to have rawSize of 1 unless manually cleared).
     // Use property default values in constructors.
 
-    properties['fillStyle'] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
-    properties['strokeStyle'] = new DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
+    properties['fillStyle'] = DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
+    properties['strokeStyle'] = DrawingStyle2dProperty(optional: true); //..enter = DrawingStyle2dConstant.black;
 
-    properties['globalAlpha'] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
-    properties['globalCompositeOperation'] = new StringProperty(optional: true); //..enter =
-    //new StringConstant.enumerationValue(CompositeOperation2d.SOURCE_OVER);
+    properties['globalAlpha'] = NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
+    properties['globalCompositeOperation'] = StringProperty(optional: true); //..enter =
+    //StringConstant.enumerationValue(CompositeOperation2d.SOURCE_OVER);
 
     // Line properties
-    properties['lineWidth'] = new NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
+    properties['lineWidth'] = NumberProperty(defaultValue: 1, optional: true); //..enter = NumberConstant.one;
 
-    properties['lineCap'] = new LineCap2dProperty(optional: true);
-    properties['lineJoin'] = new LineJoin2dProperty(optional: true);
-    properties['miterLimit'] = new NumberProperty(defaultValue: 10, optional: true); //..enter = new NumberConstant(10);
-    properties['lineDashOffset'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['lineCap'] = LineCap2dProperty(optional: true);
+    properties['lineJoin'] = LineJoin2dProperty(optional: true);
+    properties['miterLimit'] = NumberProperty(defaultValue: 10, optional: true); //..enter = NumberConstant(10);
+    properties['lineDashOffset'] = NumberProperty(optional: true); //..enter = NumberConstant.zero;
 
-    properties['lineDash'] = new NumberListProperty(optional: true);
+    properties['lineDash'] = NumberListProperty(optional: true);
 
     // Text properties
-    properties['font'] = new FontProperty(optional: true);
-    properties['textAlign'] = new TextAlign2dProperty(optional: true);
-    properties['textBaseline'] = new TextBaseline2dProperty(optional: true);
+    properties['font'] = FontProperty(optional: true);
+    properties['textAlign'] = TextAlign2dProperty(optional: true);
+    properties['textBaseline'] = TextBaseline2dProperty(optional: true);
 
     // Image Properties
-    properties['imageSmoothingEnabled'] = new BooleanProperty(); //..enter = BooleanConstant.TRUE;
+    properties['imageSmoothingEnabled'] = BooleanProperty(); //..enter = BooleanConstant.TRUE;
 
     // Shadow properties
-    properties['shadowBlur'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties['shadowOffsetX'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties['shadowOffsetY'] = new NumberProperty(optional: true); //..enter = NumberConstant.zero;
-    properties['shadowColor'] = new ColorProperty(optional: true); //..enter = ColorConstant.transparentBlack;
+    properties['shadowBlur'] = NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowOffsetX'] = NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowOffsetY'] = NumberProperty(optional: true); //..enter = NumberConstant.zero;
+    properties['shadowColor'] = ColorProperty(optional: true); //..enter = ColorConstant.transparentBlack;
   }
 
   /// Initialize the set of base properties that every Graphic2d includes.
@@ -126,17 +126,17 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// y: the y coordinate of the anchor
   /// rotation: the rotation about the anchor
   void initBaseProperties() {
-    properties['anchor'] = new Anchor2dProperty(optional: true);
-    properties['fill'] = new BooleanProperty(defaultValue: true, optional: true);
-    properties['stroke'] = new BooleanProperty(defaultValue: true, optional: true);
-    properties['x'] = new NumberProperty()..payload = 'x';
-    properties['y'] = new NumberProperty()..payload = 'y';
-    properties['rotation'] = new AngleProperty(optional: true);
-    properties['scale'] = new Scale2Property(optional: true);
-    properties['skew'] = new Skew2Property(optional: true);
+    properties['anchor'] = Anchor2dProperty(optional: true);
+    properties['fill'] = BooleanProperty(defaultValue: true, optional: true);
+    properties['stroke'] = BooleanProperty(defaultValue: true, optional: true);
+    properties['x'] = NumberProperty()..payload = 'x';
+    properties['y'] = NumberProperty()..payload = 'y';
+    properties['rotation'] = AngleProperty(optional: true);
+    properties['scale'] = Scale2Property(optional: true);
+    properties['skew'] = Skew2Property(optional: true);
 
     // Arbitrary data payload.
-    properties['data'] = new GenericProperty();
+    properties['data'] = GenericProperty();
   }
 
   // Context properties.
@@ -221,7 +221,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   NumberProperty get opacity => globalAlpha;
 
   /// Updates this 2D graphic.
-  /// If [finish] is true, the new size will be used, making any exiting
+  /// If [finish] is true, the size will be used, making any exiting
   /// graphics disappear.
   @override
   void update(num fraction, {dynamic context, bool finish = false}) {
@@ -230,7 +230,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // 2 - render in each one (INDEPENDENT population only implementation)
 
     // _currentContext2DList contains the contexts for the CanvasElements currently being updated.
-    for (final CanvasRenderingContext2D context in currentContext2DList) {
+    for (final context in currentContext2DList) {
       // Update dynamic properties.
       super.update(fraction, context: context, finish: finish);
       _render(context, finish);
@@ -242,12 +242,12 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   /// Renders a graphic for each index up to the current rendering size.
   ///
-  /// If [finish] is true, the rendering size will be the new size (and therefore any exiting
+  /// If [finish] is true, the rendering size will be the size (and therefore any exiting
   /// graphics will not be drawn).  Otherwise the rendering size will be the larger of the
-  /// current size and the new size (that is, everything is drawn including new graphics and
+  /// current size and the size (that is, everything is drawn including graphics and
   /// graphics on their way out).
   void _render(CanvasRenderingContext2D context, bool finish) {
-    final int renderSize = finish ? size : max(size, prevSize);
+    final renderSize = finish ? size : max(size, prevSize);
     for (_i = 0; _i < renderSize; _i++) {
       context.save();
       _apply2dContext(_i, context);
@@ -349,7 +349,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   ///
   /// The indices will be appended to [listToUse], if provided.
   List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
-    final List<int> hitIndices = listToUse ?? <int>[];
+    final hitIndices = listToUse ?? <int>[];
     //for (_i = paths.length - 1; _i >= 0; _i--) {
     for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();
@@ -367,31 +367,31 @@ abstract class Graphic2dNode extends GraphicLeaf {
   }
 
   void _initStreams() {
-    _onClickController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onClickController = StreamController<Graphic2dIntersection>.broadcast();
     onClick = _onClickController.stream;
 
-    _onDoubleClickController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onDoubleClickController = StreamController<Graphic2dIntersection>.broadcast();
     onDoubleClick = _onDoubleClickController.stream;
 
-    _onMouseEnterController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseEnterController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseEnter = _onMouseEnterController.stream;
 
-    _onMouseOverController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseOverController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseOver = _onMouseOverController.stream;
 
-    _onMouseMoveController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseMoveController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseMove = _onMouseMoveController.stream;
 
-    _onMouseOutController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseOutController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseOut = _onMouseOutController.stream;
 
-    _onMouseLeaveController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseLeaveController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseLeave = _onMouseLeaveController.stream;
 
-    _onMouseDownController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseDownController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseDown = _onMouseDownController.stream;
 
-    _onMouseUpController = new StreamController<Graphic2dIntersection>.broadcast();
+    _onMouseUpController = StreamController<Graphic2dIntersection>.broadcast();
     onMouseUp = _onMouseUpController.stream;
   }
 
@@ -463,7 +463,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
 /// Optionally passed into renderIndex to request a hit test rather than a render.
 class HitTest {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   HitTest(this.x, this.y);
 
   /// The x-value of the point to test.

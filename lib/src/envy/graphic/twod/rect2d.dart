@@ -1,19 +1,18 @@
 import 'dart:html';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional rectangle to be drawn on an HTML canvas.
 /// The default anchor is the top left corner.
 class Rect2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Rect2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['width'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
+    properties['width'] = NumberProperty();
+    properties['height'] = NumberProperty();
   }
 
   /// The width of the rectangle, in pixels.
@@ -24,14 +23,14 @@ class Rect2d extends Graphic2dNode {
 
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _width = width.valueAt(index);
-    final num _height = height.valueAt(index);
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _width = width.valueAt(index);
+    final _height = height.valueAt(index);
+    final _anchor = anchor.valueAt(index);
 
     // Adjust for anchor (default origin is upper left).
-    final List<num> adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? const <num>[0, 0];
-    final num _x = adj[0];
-    final num _y = adj[1];
+    final adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? const <num>[0, 0];
+    final _x = adj[0];
+    final _y = adj[1];
 
     ctx
       ..beginPath()

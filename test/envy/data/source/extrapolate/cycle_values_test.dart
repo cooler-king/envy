@@ -5,16 +5,16 @@ import 'package:envy/envy.dart';
 void main() {
   group('Cycle Values', () {
     test('null and empty values', () {
-      CycleValues<int> cv = new CycleValues<int>(true);
+      var cv = CycleValues<int>(true);
       expect(cv.valueAt(0, null), null);
       expect(cv.valueAt(0, <int>[]), null);
-      cv = new CycleValues<int>(false);
+      cv = CycleValues<int>(false);
       expect(cv.valueAt(0, null), null);
       expect(cv.valueAt(0, <int>[]), null);
     });
 
     test('index >= values.length... one way', () {
-      final CycleValues<num> cv = new CycleValues<num>(true);
+      final cv = CycleValues<num>(true);
       expect(cv.valueAt(1, <num>[13]), 13);
       expect(cv.valueAt(2, <num>[13]), 13);
 
@@ -37,7 +37,7 @@ void main() {
     });
 
     test('index >= values.length... two way', () {
-      final CycleValues<num> cv = new CycleValues<num>(false);
+      final cv = CycleValues<num>(false);
       expect(cv.valueAt(1, <num>[13]), 13);
       expect(cv.valueAt(2, <num>[13]), 13);
 

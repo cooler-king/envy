@@ -4,27 +4,27 @@ import 'html_node.dart';
 /// [MediaNode] is an abstract Envy scene graph node that provides a common base for specific media node types
 /// such as VideoNode and AudioNode.
 abstract class MediaNode extends HtmlNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   MediaNode() : super() {
     _initMediaProperties();
   }
 
   void _initMediaProperties() {
-    properties['autoplay'] = new BooleanProperty();
-    properties['closedCaptionsVisible'] = new BooleanProperty();
+    properties['autoplay'] = BooleanProperty();
+    properties['closedCaptionsVisible'] = BooleanProperty();
     //TODO controller?
-    properties['controls'] = new BooleanProperty();
-    properties['currentTime'] = new NumberProperty();
-    properties['defaultMuted'] = new BooleanProperty();
-    properties['defaultPlaybackRate'] = new NumberProperty();
-    properties['loop'] = new BooleanProperty();
-    properties['mediaGroup'] = new StringProperty();
-    properties['muted'] = new BooleanProperty();
-    properties['playbackRate'] = new NumberProperty();
-    properties['preload'] = new StringProperty();
-    properties['preservesPitch'] = new BooleanProperty();
-    properties['src'] = new StringProperty();
-    properties['volume'] = new NumberProperty();
+    properties['controls'] = BooleanProperty();
+    properties['currentTime'] = NumberProperty();
+    properties['defaultMuted'] = BooleanProperty();
+    properties['defaultPlaybackRate'] = NumberProperty();
+    properties['loop'] = BooleanProperty();
+    properties['mediaGroup'] = StringProperty();
+    properties['muted'] = BooleanProperty();
+    properties['playbackRate'] = NumberProperty();
+    properties['preload'] = StringProperty();
+    properties['preservesPitch'] = BooleanProperty();
+    properties['src'] = StringProperty();
+    properties['volume'] = NumberProperty();
   }
 
   /// Holds the autoplay values.

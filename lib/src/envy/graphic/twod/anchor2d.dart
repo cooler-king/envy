@@ -7,7 +7,7 @@ import 'enum/anchor_mode2d.dart';
 /// Each shape has a default origin, but a non-default anchor can
 /// override that setting.
 class Anchor2d {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Anchor2d({this.mode = AnchorMode2d.defaultMode, this.offsetX = 0, this.offsetY = 0});
 
   /// Which point to use as a shape's origin for placement and rotation:
@@ -26,9 +26,9 @@ class Anchor2d {
   /// bounds of the `graphic2d` in the coordinate system of that object.
   List<num> calcAdjustments(num top, num right, num bottom, num left) {
     if (mode == AnchorMode2d.defaultMode) return <num>[offsetX, offsetY];
-    if (mode == AnchorMode2d.center)
+    if (mode == AnchorMode2d.center) {
       return <num>[-(left + (right - left) / 2 + offsetX), -(top + (bottom - top) / 2 + offsetY)];
-
+    }
     if (mode == AnchorMode2d.top) return <num>[-(left + (right - left) / 2 + offsetX), -(top + offsetY)];
     if (mode == AnchorMode2d.right) return <num>[-(right + offsetX), -(top + (bottom - top) / 2 + offsetY)];
     if (mode == AnchorMode2d.bottom) return <num>[-(left + (right - left) / 2 + offsetX), -(bottom + offsetY)];

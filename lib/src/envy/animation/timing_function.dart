@@ -10,8 +10,8 @@ abstract class TimingFunction {
 
 /// Linear timing.
 class LinearFunction extends TimingFunction {
-  /// Constructs a new instance.
-  factory LinearFunction() => _instance ?? (new LinearFunction._internal());
+  /// Constructs a instance.
+  factory LinearFunction() => _instance ?? (LinearFunction._internal());
 
   LinearFunction._internal() {
     _instance = this;
@@ -25,20 +25,20 @@ class LinearFunction extends TimingFunction {
 
 /// Non-linear timing.
 class CubicBezierCurve extends TimingFunction {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   CubicBezierCurve(this.cpx1, this.cpy1, this.cpx2, this.cpy2);
 
   /// Ease.
-  static final CubicBezierCurve ease = new CubicBezierCurve(0.25, 0.1, 0.25, 1);
+  static final CubicBezierCurve ease = CubicBezierCurve(0.25, 0.1, 0.25, 1);
 
   /// Starts slowly.
-  static final CubicBezierCurve easeIn = new CubicBezierCurve(0.42, 0, 1, 1);
+  static final CubicBezierCurve easeIn = CubicBezierCurve(0.42, 0, 1, 1);
 
   /// Ends slowly.
-  static final CubicBezierCurve easeOut = new CubicBezierCurve(0, 0, 0.58, 1);
+  static final CubicBezierCurve easeOut = CubicBezierCurve(0, 0, 0.58, 1);
 
   /// Fastest in the middle.
-  static final CubicBezierCurve easeInOut = new CubicBezierCurve(0.42, 0, 0.58, 1);
+  static final CubicBezierCurve easeInOut = CubicBezierCurve(0.42, 0, 0.58, 1);
 
   /// The x-value of the first curve parameter.
   final num cpx1;
@@ -54,12 +54,12 @@ class CubicBezierCurve extends TimingFunction {
 
   @override
   num output(num input) {
-    final num inputSquared = input * input;
-    final num inputCubed = inputSquared * input;
+    final inputSquared = input * input;
+    final inputCubed = inputSquared * input;
 
-    final num c = 3 * cpy1;
-    final num b = 3 * (cpy2 - cpy1) - c;
-    final num a = 1 - c - b;
+    final c = 3 * cpy1;
+    final b = 3 * (cpy2 - cpy1) - c;
+    final a = 1 - c - b;
 
     return a * inputCubed + b * inputSquared + c * input;
   }
@@ -67,14 +67,14 @@ class CubicBezierCurve extends TimingFunction {
 
 /// Changes values abruptly.
 class StepFunction extends TimingFunction {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   StepFunction(this.intervalCount, [this.end = true]) : delta = 1 / intervalCount;
 
   /// Steps at the start.
-  static final StepFunction stepStart = new StepFunction(1, false);
+  static final StepFunction stepStart = StepFunction(1, false);
 
   /// Steps at the end.
-  static final StepFunction stepEnd = new StepFunction(1, true);
+  static final StepFunction stepEnd = StepFunction(1, true);
 
   /// The number of steps.
   final int intervalCount;

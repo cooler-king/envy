@@ -9,11 +9,11 @@ import 'gradient2d_interpolator.dart';
 
 /// Interpolates between two drawing styles.
 class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   DrawingStyle2dInterpolator({this.colorInterpolator, this.gradient2dInterpolator, this.pattern2dInterpolator}) {
-    colorInterpolator ??= new RgbaInterpolator();
-    gradient2dInterpolator ??= new Gradient2dInterpolator();
-    pattern2dInterpolator ??= new BinaryInterpolator<Pattern2d>();
+    colorInterpolator ??= RgbaInterpolator();
+    gradient2dInterpolator ??= Gradient2dInterpolator();
+    pattern2dInterpolator ??= BinaryInterpolator<Pattern2d>();
   }
 
   /// The color interpolator.
@@ -25,7 +25,7 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
   /// the pattern interpolator.
   EnvyInterpolator<Pattern2d> pattern2dInterpolator;
 
-  final BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = new BinaryInterpolator<DrawingStyle2d>();
+  final BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = BinaryInterpolator<DrawingStyle2d>();
 
   /// Returns a [DrawingStyle2d] having values between those of DrawingStyle2ds [a] and [b]
   /// based on the time [fraction].
@@ -40,15 +40,15 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
     // Handle interpolation between same type (color, gradient or pattern).
     if (obj1 is Color && obj2 is Color) {
       if (identical(obj1, obj2) || obj1.matches(obj2)) return a;
-      return new DrawingStyle2d(color: colorInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(color: colorInterpolator.interpolate(obj1, obj2, fraction));
     }
     if (obj1 is Gradient2d && obj2 is Gradient2d) {
       if (identical(obj1, obj2)) return a;
-      return new DrawingStyle2d(gradient: gradient2dInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(gradient: gradient2dInterpolator.interpolate(obj1, obj2, fraction));
     }
     if (obj1 is Pattern2d && obj2 is Pattern2d) {
       if (identical(obj1, obj2)) return a;
-      return new DrawingStyle2d(pattern: pattern2dInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(pattern: pattern2dInterpolator.interpolate(obj1, obj2, fraction));
     }
 
     //TODO more elegant?  blend as images?

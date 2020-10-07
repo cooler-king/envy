@@ -23,7 +23,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
   final List<num> _thresholds = <num>[];
 
   /// The default binary interpolator switches values in the middle (fraction of 0.5).
-  static final BinaryInterpolator<dynamic> middle = new BinaryInterpolator<dynamic>();
+  static final BinaryInterpolator<dynamic> middle = BinaryInterpolator<dynamic>();
 
   // For efficiency.
   bool _odd;
@@ -32,7 +32,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
   T interpolate(T a, T b, num fraction) {
     if (identical(a, b)) return a;
     _odd = false;
-    for (final num threshold in _thresholds) {
+    for (final threshold in _thresholds) {
       if (fraction < threshold) return _odd ? b : a;
       _odd = !_odd;
     }
@@ -44,7 +44,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
 /// Flips between two boolean values at specified fraction thresholds.
 /// TODO this seems to add nothing
 class BooleanInterpolator extends BinaryInterpolator<bool> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   BooleanInterpolator([List<num> thresholds]) : super(thresholds);
 
   /// Provides a boolean value for the time [fraction].

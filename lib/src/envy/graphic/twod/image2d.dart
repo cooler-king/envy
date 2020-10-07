@@ -1,12 +1,11 @@
 import 'dart:html';
 import '../../envy_property.dart';
 import '../../html/canvas_image_source_node.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
 class Image2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Image2d(this.source) : super(null) {
     _initProperties();
   }
@@ -34,12 +33,12 @@ class Image2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   void _initProperties() {
-    properties['sourceX'] = new NumberProperty();
-    properties['sourceY'] = new NumberProperty();
-    properties['sourceWidth'] = new NumberProperty();
-    properties['sourceHeight'] = new NumberProperty();
-    properties['width'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
+    properties['sourceX'] = NumberProperty();
+    properties['sourceY'] = NumberProperty();
+    properties['sourceWidth'] = NumberProperty();
+    properties['sourceHeight'] = NumberProperty();
+    properties['width'] = NumberProperty();
+    properties['height'] = NumberProperty();
   }
 
   @override
@@ -55,7 +54,7 @@ class Image2d extends Graphic2dNode {
     // Fill and stroke don't apply.
 
     if (source != null) {
-      final CanvasImageSource imgSource = source.elementAt(index);
+      final imgSource = source.elementAt(index);
 
       if (_width == 0 || _height == 0) {
         // If width and height are not explicitly set (non-zero) then use actual dimensions.
@@ -67,9 +66,9 @@ class Image2d extends Graphic2dNode {
       // Adjust for anchor (default is upper left)
       _x = 0;
       _y = 0;
-      final Anchor2d _anchor = anchor.valueAt(index);
+      final _anchor = anchor.valueAt(index);
       if (_anchor != null) {
-        final List<num> adj = _anchor.calcAdjustments(0, _width, _height, 0);
+        final adj = _anchor.calcAdjustments(0, _width, _height, 0);
         _x += adj[0];
         _y += adj[1];
       }

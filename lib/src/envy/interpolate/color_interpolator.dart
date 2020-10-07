@@ -11,7 +11,7 @@ abstract class ColorInterpolator extends EnvyInterpolator<Color> {
 /// individually.
 class RgbaInterpolator extends ColorInterpolator {
   @override
-  Color interpolate(Color a, Color b, num fraction) => new Color.rgba(a.r + (b.r - a.r) * fraction,
+  Color interpolate(Color a, Color b, num fraction) => Color.rgba(a.r + (b.r - a.r) * fraction,
       a.g + (b.g - a.g) * fraction, a.b + (b.b - a.b) * fraction, a.alpha + (b.alpha - a.alpha) * fraction);
 }
 
@@ -22,5 +22,5 @@ class RgbaInterpolator extends ColorInterpolator {
 class RgbInterpolator extends ColorInterpolator {
   @override
   Color interpolate(Color a, Color b, num fraction) =>
-      new Color.rgb(a.r + (b.r - a.r) * fraction, a.g + (b.g - a.g) * fraction, a.b + (b.b - a.b) * fraction);
+      Color.rgb(a.r + (b.r - a.r) * fraction, a.g + (b.g - a.g) * fraction, a.b + (b.b - a.b) * fraction);
 }

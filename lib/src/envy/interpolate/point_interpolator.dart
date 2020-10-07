@@ -15,7 +15,7 @@ class PointInterpolator extends EnvyInterpolator<Point<num>> {
   PointInterpolator._internal();
 
   /// The singleton instance.
-  static final PointInterpolator instance = new PointInterpolator._internal();
+  static final PointInterpolator instance = PointInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true.
   bool clamped = false;
@@ -35,6 +35,6 @@ class PointInterpolator extends EnvyInterpolator<Point<num>> {
       y = (fraction < 0) ? a.y : b.y;
     }
 
-    return new Point<num>(x, y);
+    return Point<num>(x, y);
   }
 }

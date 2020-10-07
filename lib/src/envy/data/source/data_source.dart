@@ -48,13 +48,13 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
 
 /// Provides no data.
 class NullDataSource<T> extends ArrayDataSource<T> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   factory NullDataSource() {
-    if (!_perType.containsKey(T)) _perType[T] = new NullDataSource<T>._internal();
+    if (!_perType.containsKey(T)) _perType[T] = NullDataSource<T>._internal();
     return _perType[T] as NullDataSource<T>;
   }
 
-  /// Construct a new instance with a fixed-size empty list.
+  /// Construct a instance with a fixed-size empty list.
   NullDataSource._internal() : super._internal(<T>[]);
 
   // For efficiency.

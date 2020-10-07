@@ -24,7 +24,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
   BooleanData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     accessor = dataAccessor;
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      accessor = DataAccessor.prop(prop);
     }
   }
 
@@ -37,7 +37,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
   String _datasetName;
@@ -47,7 +47,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
@@ -76,7 +76,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       if (d == 0) return false;
       return true;
     } else if (d is String) {
-      final String lc = d.trim().toLowerCase();
+      final lc = d.trim().toLowerCase();
       if (lc == 'true' || lc == 'yes' || lc == 'y' || lc == 'on' || lc == '1') return true;
       return false;
     } else if (d is Quantity) {

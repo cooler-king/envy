@@ -1,10 +1,6 @@
 import 'dart:html';
 import '../../envy_property.dart';
-import '../../text/font.dart';
 import '../../util/logger.dart';
-import 'anchor2d.dart';
-import 'enum/text_align2d.dart';
-import 'enum/text_baseline2d.dart';
 import 'graphic2d_node.dart';
 
 /// Text to be drawn on an HTML canvas.
@@ -27,10 +23,10 @@ class Text2d extends Graphic2dNode {
   NumberProperty get maxWidth => properties['maxWidth'] as NumberProperty;
 
   void _initProperties() {
-    properties['dx'] = new NumberProperty();
-    properties['dy'] = new NumberProperty();
-    properties['text'] = new StringProperty();
-    properties['maxWidth'] = new NumberProperty();
+    properties['dx'] = NumberProperty();
+    properties['dy'] = NumberProperty();
+    properties['text'] = StringProperty();
+    properties['maxWidth'] = NumberProperty();
   }
 
   /// Overrides to make default stroke value false (text is not
@@ -38,13 +34,13 @@ class Text2d extends Graphic2dNode {
   @override
   void initBaseProperties() {
     super.initBaseProperties();
-    properties['stroke'] = new BooleanProperty(defaultValue: false);
+    properties['stroke'] = BooleanProperty(defaultValue: false);
   }
 
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _dx, _dy, _maxWidth;
-    final String _text = text.valueAt(index);
+    final _text = text.valueAt(index);
 
     // Nothing to render?
     if (_text?.isEmpty == true) return;
@@ -52,25 +48,25 @@ class Text2d extends Graphic2dNode {
     _dx = dx.valueAt(index);
     _dy = dy.valueAt(index);
     _maxWidth = maxWidth.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Set the text-related properties in the global context
-    final TextAlign2d _align = textAlign.valueAt(index);
+    final _align = textAlign.valueAt(index);
     if (_align != null) ctx.textAlign = _align.value;
 
-    final TextBaseline2d _baseline = textBaseline.valueAt(index);
+    final _baseline = textBaseline.valueAt(index);
     if (_baseline != null) ctx.textBaseline = _baseline.value;
 
-    final Font _font = font.valueAt(index);
+    final _font = font.valueAt(index);
     if (_font != null) ctx.font = _font.css;
 
     // Adjust for anchor (default is top left)
-    final TextMetrics metrics = ctx.measureText(_text);
-    final num approxHeight = ctx.measureText('x').width * 1.25;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final metrics = ctx.measureText(_text);
+    final approxHeight = ctx.measureText('x').width * 1.25;
+    final _anchor = anchor.valueAt(index);
     if (_anchor?.isNotDefault == true) {
-      final List<num> adj = _anchor.calcAdjustments(-approxHeight, metrics.width, 0, 0);
+      final adj = _anchor.calcAdjustments(-approxHeight, metrics.width, 0, 0);
       _dx += adj[0];
       _dy += adj[1];
     }

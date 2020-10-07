@@ -6,7 +6,7 @@ import 'envy_node.dart';
 class GroupNode extends EnvyNode {
   /// The group's child nodes.
   /// DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
+  final List<EnvyNode> children = List<EnvyNode>.from(<EnvyNode>[]);
 
   /// Subclasses must override to execute any updates prior to child updates
   /// (but after property updates).
@@ -24,7 +24,7 @@ class GroupNode extends EnvyNode {
   @override
   void prepareForAnimation() {
     if (this is DynamicNode) (this as DynamicNode).preparePropertiesForAnimation();
-    for (final EnvyNode child in children) {
+    for (final child in children) {
       if (child is DynamicNode) (child as DynamicNode).preparePropertiesForAnimation();
       if (child is GroupNode) child.prepareForAnimation();
     }
@@ -41,7 +41,7 @@ class GroupNode extends EnvyNode {
     groupUpdatePre(timeFraction, context: context, finish: finish);
 
     // Update children
-    for (final EnvyNode child in children) {
+    for (final child in children) {
       child.update(timeFraction, context: context, finish: finish);
     }
 
@@ -80,7 +80,7 @@ class GroupNode extends EnvyNode {
   /// return false.
   bool detach(EnvyNode node) {
     if (node == null) return false;
-    final bool tf = children.remove(node);
+    final tf = children.remove(node);
     node.parent = null;
     return tf;
   }

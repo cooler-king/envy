@@ -21,7 +21,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   /// as a whole.
   ///
   FontData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
-    this.accessor = accessor ?? (prop != null ? new DataAccessor.prop(prop) : null);
+    this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
   /// Find the dataset named `keyedDataset.name`, starting with `keyedDataset.node`
@@ -33,7 +33,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -44,7 +44,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
@@ -57,7 +57,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
     } else {
       //TODO do some font parsing?
       logger.warning('Unexpected data type for FontData: $data');
-      values.add(new Font());
+      values.add(Font());
     }
   }
 }

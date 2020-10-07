@@ -20,7 +20,7 @@ abstract class TimedItemGroup extends GroupNode {
   num _startDelay;
 
   /// The timing.
-  final Timing timing = new Timing();
+  final Timing timing = Timing();
 
   /// Optional parent group
   TimingGroup parentTimingGroup;
@@ -61,9 +61,9 @@ abstract class TimedItemGroup extends GroupNode {
   /// section 3.13.4.1 of the Web Animation spec:
   /// The start time of children of a sequence timing group.
   num get startTime {
-    if (parentTimingGroup is SequenceTimingGroup && _startTime == null)
+    if (parentTimingGroup is SequenceTimingGroup && _startTime == null) {
       (parentTimingGroup as SequenceTimingGroup).calcStartTimes();
-
+    }
     return _startTime ?? 0;
   }
 
@@ -76,7 +76,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// inherited time -- and add their start time to establish their own
   /// local time space.
   num get localTime {
-    final num inherited = inheritedTime;
+    final inherited = inheritedTime;
     return inherited != null ? inherited - startTime : null;
   }
 
@@ -90,7 +90,7 @@ abstract class TimedItemGroup extends GroupNode {
       return null;
     }
 
-    final num activeDur = _calcActiveDuration(iterDur);
+    final activeDur = _calcActiveDuration(iterDur);
     if (local < startTime + activeDur) {
       return local - startDelay;
     }
@@ -155,7 +155,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// Calculate the scaled active time with the specified iteration duration
   /// and local time.
   num _calcScaledActiveTime(num iterDur, num local) {
-    final num active = _calcActiveTime(iterDur, local);
+    final active = _calcActiveTime(iterDur, local);
     if (active == null) return null;
     if (timing.playbackRate < 0) {
       print(
@@ -209,17 +209,17 @@ abstract class TimedItemGroup extends GroupNode {
   /// Calculates the directed time with the specified iteration duration
   /// and local time.
   num _calcDirectedTime(num iterDur, num local) {
-    final num scaledActive = _calcScaledActiveTime(iterDur, local);
-    final num iterTime = _calcIterationTime(iterDur, local, scaledActive);
+    final scaledActive = _calcScaledActiveTime(iterDur, local);
+    final iterTime = _calcIterationTime(iterDur, local, scaledActive);
     if (iterTime == null) return null;
 
     // Determine current playback direction
-    bool forwards = true;
+    var forwards = true;
     if (timing.direction == PlaybackDirection.reverse) {
       forwards = false;
     } else {
       // Alternate or alternate-reverse
-      num d = _calcCurrentIteration(iterDur, local, scaledActive, iterTime);
+      var d = _calcCurrentIteration(iterDur, local, scaledActive, iterTime);
       if (timing.direction == PlaybackDirection.alternateReverse) d += 1;
       if (d % 2 != 0) forwards = false;
     }
@@ -234,10 +234,10 @@ abstract class TimedItemGroup extends GroupNode {
   /// Calculate the transformed time with the specified iteration duration
   /// and local time.
   num _calcTransformedTime(num iterDur, num local) {
-    final num directed = _calcDirectedTime(iterDur, local);
+    final directed = _calcDirectedTime(iterDur, local);
     if (directed == null) return null;
-    final num iterFraction = (iterDur == 0) ? 0 : directed / iterDur;
-    final num scaledFraction = timing.timingFunction.output(iterFraction);
+    final iterFraction = (iterDur == 0) ? 0 : directed / iterDur;
+    final scaledFraction = timing.timingFunction.output(iterFraction);
     return scaledFraction * iterDur;
   }
 
@@ -248,11 +248,11 @@ abstract class TimedItemGroup extends GroupNode {
   num get timeFraction {
     //TODO store time fraction for frame (keyed to global time or frame number?)
 
-    final num iterDur = iterationDuration;
+    final iterDur = iterationDuration;
 
     // Special calc if iteration duration is zero
     if (iterDur == 0) {
-      final num local = localTime;
+      final local = localTime;
       if (local < startDelay) {
         // Transformed time with iteration duration of 1 and local = startTime - 1
         return _calcTransformedTime(1, startTime - 1);
@@ -261,7 +261,7 @@ abstract class TimedItemGroup extends GroupNode {
         return _calcTransformedTime(1, normalizedActiveDuration);
       }
     }
-    final num transformed = transformedTime;
+    final transformed = transformedTime;
     return (transformed == null) ? null : transformed / iterDur;
   }
 
@@ -274,7 +274,7 @@ abstract class TimedItemGroup extends GroupNode {
   @override
   void update(num timeFraction, {dynamic context = false, bool finish = false}) {
     // If this TimedItemGroup has its own player then ignore indirect updates from other players
-    final bool direct = context is bool && context;
+    final direct = context is bool && context;
     if (player != null && !direct) return;
     super.update(timeFraction, finish: finish);
   }

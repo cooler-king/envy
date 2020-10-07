@@ -1,13 +1,12 @@
 import 'dart:html';
 import 'package:quantity/quantity.dart';
-import 'animation/player.dart';
 import 'animation/timeline.dart';
 import 'envy_node.dart';
 import 'envy_root.dart';
 
 /// Holds all of the nodes that define an Envy scene.
 class EnvySceneGraph {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   EnvySceneGraph([String spec]) {
     //TODO build scene graph nodes from spec
     if (spec != null) applySpec(spec);
@@ -19,10 +18,10 @@ class EnvySceneGraph {
   }
 
   /// Master timeline (can be thought of as the document timeline)
-  Timeline masterTimeline = new Timeline.now();
+  Timeline masterTimeline = Timeline.now();
 
   /// The Envy root node is a DataGroup node
-  final EnvyRoot root = new EnvyRoot();
+  final EnvyRoot root = EnvyRoot();
 
   /// The HTML node under which this scene graph will add its contents.
   Element get htmlHost => _htmlHost;
@@ -33,7 +32,7 @@ class EnvySceneGraph {
     //print("html host = ${e}");
 
     if (_htmlHost != null && _htmlHost != e) {
-      for (final Node n in root.domNodes) {
+      for (final n in root.domNodes) {
         n.remove();
       }
     }
@@ -49,9 +48,9 @@ class EnvySceneGraph {
   /// Updates all scene graph nodes including all property values
   /// based on animation time fractions.
   void updateGraph() {
-    // Create a new Player having current time (plus a little bit) as start time
+    // Create a Player having current time (plus a little bit) as start time
     // This starts the update loop.
-    final Player player = masterTimeline.play();
+    final player = masterTimeline.play();
 
     /*
      *  Tell the masterAnimationGroup to use it (this will make the masterAnimationGroup
@@ -77,7 +76,7 @@ class EnvySceneGraph {
   /// either in [seconds], [millis]econds or [t]ime quantity.
   /// Only one of the values should be provided.
   void setAnimationDuration({Time t, num seconds, num millis}) {
-    final num secs = t != null ? t.mks.toDouble() : seconds ?? (millis != null ? millis / 1000 : 0);
+    final secs = t != null ? t.mks.toDouble() : seconds ?? (millis != null ? millis / 1000 : 0);
     root.rootAnimation.timing.iterationDuration = secs;
   }
 }

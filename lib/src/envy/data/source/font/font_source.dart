@@ -6,12 +6,12 @@ abstract class FontSource extends DataSource<Font> {}
 
 /// A constant font value.
 class FontConstant extends ArrayDataSource<Font> implements FontSource {
-  /// Constructs a new instance from an existing value.
+  /// Constructs a instance from an existing value.
   FontConstant(Font c) {
     values.add(c);
   }
 
-  /// Constructs a new instance from a list of existing values.
+  /// Constructs a instance from a list of existing values.
   FontConstant.array(List<Font> fonts) {
     values.addAll(fonts);
   }

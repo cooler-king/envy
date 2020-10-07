@@ -1,6 +1,4 @@
 import 'dart:math' show min, max;
-import '../../../geo/projections.dart';
-import '../../../graphic/twod/number_list.dart';
 import '../../../graphic/twod/point_list.dart';
 import '../data_source.dart';
 import '../geo/projection_source.dart';
@@ -20,7 +18,7 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
     projSource.valueAt(i).toPoint(latSource.valueAt(i));
 
     //TODO check for nulls?
-    //return new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
+    //return Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
   }
 
   int get rawSize => Math.max(Math.max(projSource.rawSize, latSource.rawSize), longSource.rawSize);
@@ -34,7 +32,7 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
 /// Generates a list of two-dimensional coordinates from a geographic projection
 /// and numerical list latitude and longitude sources (degrees).
 class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointListSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource});
 
   /// The geographic projection used to convert to pixel coordinates.
@@ -48,7 +46,7 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
 
   /* TODO GeoPointList values
   PointList valueAt(int i) {
-    var pts = new PointList();
+    var pts = PointList();
     var proj = projSource.valueAt(i);
     var lats = latListSource.valueAt(i);
     var longs = longListSource.valueAt(i);
@@ -75,19 +73,19 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
     longListSource.refresh();
 
     values.clear();
-    final int size = max(projSource.rawSize, max(latListSource.rawSize, longListSource.rawSize));
-    for (int i = 0; i < size; i++) {
-      final PointList pts = new PointList();
-      final Projection proj = projSource.valueAt(i);
-      final NumberList lats = latListSource.valueAt(i);
-      final NumberList longs = longListSource.valueAt(i);
+    final size = max(projSource.rawSize, max(latListSource.rawSize, longListSource.rawSize));
+    for (var i = 0; i < size; i++) {
+      final pts = PointList();
+      final proj = projSource.valueAt(i);
+      final lats = latListSource.valueAt(i);
+      final longs = longListSource.valueAt(i);
 
       // Only create points for which both lat and long are available.
-      int numPoints = lats?.length ?? 0;
+      var numPoints = lats?.length ?? 0;
       if (numPoints > 0 && numPoints != longs.length) {
         numPoints = min(lats.length, longs.length);
       }
-      for (int p = 0; p < numPoints; p++) {
+      for (var p = 0; p < numPoints; p++) {
         pts.addPoint(proj.degreesToPoint(latDeg: lats[p], longDeg: longs[p]));
       }
       values.add(pts);

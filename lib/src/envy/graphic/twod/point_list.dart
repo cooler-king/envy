@@ -3,8 +3,8 @@ import 'package:collection/collection.dart';
 
 /// A collection of points.
 class PointList extends DelegatingList<Point<num>> {
-  /// Constructs a new instance.
-  PointList([Iterable<Point<num>> points]) : super(new List<Point<num>>.from(points ?? <Point<num>>[]));
+  /// Constructs a instance.
+  PointList([Iterable<Point<num>> points]) : super(List<Point<num>>.from(points ?? <Point<num>>[]));
 
   /// Adds a point to the end of the list.
   void addPoint(Point<num> value) => add(value);
@@ -16,7 +16,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get minX {
     if (isEmpty) return double.nan;
     num min = double.infinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.x < min) min = pt.x;
     }
     return min;
@@ -26,7 +26,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get maxX {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.x > max) max = pt.x;
     }
     return max;
@@ -36,7 +36,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get minY {
     if (isEmpty) return double.nan;
     num min = double.infinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.y < min) min = pt.y;
     }
     return min;
@@ -46,7 +46,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get maxY {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.y > max) max = pt.y;
     }
     return max;
@@ -54,8 +54,8 @@ class PointList extends DelegatingList<Point<num>> {
 
   @override
   String toString() {
-    final StringBuffer buf = new StringBuffer()..writeln('[');
-    for (int i = 0; i < length; i++) {
+    final buf = StringBuffer()..writeln('[');
+    for (var i = 0; i < length; i++) {
       buf.writeln('  [$i]  ${this[i]}');
     }
     buf.writeln(']');

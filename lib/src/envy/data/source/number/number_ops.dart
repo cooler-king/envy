@@ -3,7 +3,7 @@ import 'number_source.dart';
 
 /// Unary operations take a single number source.
 abstract class UnaryOp extends NumberSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   UnaryOp(this.ns);
 
   /// The sole number source.
@@ -20,7 +20,7 @@ abstract class UnaryOp extends NumberSource {
 
 /// Binary operations take two number sources.
 abstract class BinaryOp extends NumberSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   BinaryOp(this.ns1, this.ns2);
 
   /// The first number source.
@@ -41,12 +41,12 @@ abstract class BinaryOp extends NumberSource {
 
 /// Multiple operations take an arbitrary number of number sources.
 abstract class MultipleOp extends NumberSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   MultipleOp(NumberSource num1, NumberSource num2) {
     _list..add(num1)..add(num2);
   }
 
-  /// Constructs a new instance from a list of number sources.
+  /// Constructs a instance from a list of number sources.
   MultipleOp.list(List<NumberSource> list) {
     _list.addAll(list);
   }
@@ -55,8 +55,8 @@ abstract class MultipleOp extends NumberSource {
 
   @override
   int get rawSize {
-    int mx = 0;
-    for (final NumberSource ns in _list) {
+    var mx = 0;
+    for (final ns in _list) {
       mx = max(mx, ns.rawSize);
     }
     return mx;
@@ -71,7 +71,7 @@ abstract class MultipleOp extends NumberSource {
 
 /// Supplies the negative of [ns].
 class Neg extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Neg(NumberSource ns) : super(ns);
 
   @override
@@ -80,7 +80,7 @@ class Neg extends UnaryOp {
 
 /// Supplies the absolute value of [ns].
 class Abs extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Abs(NumberSource ns) : super(ns);
 
   @override
@@ -89,7 +89,7 @@ class Abs extends UnaryOp {
 
 /// Supplies the least integer no smaller than [ns].
 class Ceil extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Ceil(NumberSource ns) : super(ns);
 
   @override
@@ -98,7 +98,7 @@ class Ceil extends UnaryOp {
 
 /// Supplies the greatest integer no greater than [ns].
 class Floor extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Floor(NumberSource ns) : super(ns);
 
   @override
@@ -107,7 +107,7 @@ class Floor extends UnaryOp {
 
 /// Supplies the the natural exponent, e, to the power of [ns].
 class Exp extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Exp(NumberSource ns) : super(ns);
 
   @override
@@ -116,7 +116,7 @@ class Exp extends UnaryOp {
 
 /// Supplies the the natural logarithm of [ns].
 class Log extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Log(NumberSource ns) : super(ns);
 
   @override
@@ -126,7 +126,7 @@ class Log extends UnaryOp {
 /// Supplies the integer closest to [ns].
 /// Rounds away from zero in case of a tie (x.5).
 class Round extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Round(NumberSource ns) : super(ns);
 
   @override
@@ -135,7 +135,7 @@ class Round extends UnaryOp {
 
 /// Supplies the square root of [ns].
 class Sqrt extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Sqrt(NumberSource ns) : super(ns);
 
   @override
@@ -144,7 +144,7 @@ class Sqrt extends UnaryOp {
 
 /// Supplies the integer obtained by discarding any fractional digits from [ns].
 class Truncate extends UnaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Truncate(NumberSource ns) : super(ns);
 
   @override
@@ -153,16 +153,16 @@ class Truncate extends UnaryOp {
 
 /// Supplies the sum of an arbitrary number of numbers.
 class Sum extends MultipleOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Sum(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
-  /// Constructs a new instance from a list of number sources.
+  /// Constructs a instance from a list of number sources.
   Sum.list(List<NumberSource> list) : super.list(list);
 
   @override
   num valueAt(int index) {
     num total = 0;
-    for (final NumberSource ns in _list) {
+    for (final ns in _list) {
       total += ns.valueAt(index);
     }
     return total;
@@ -171,7 +171,7 @@ class Sum extends MultipleOp {
 
 /// Supplies the value of [ns2] subtracted from [ns1].
 class Diff extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Diff(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -180,16 +180,16 @@ class Diff extends BinaryOp {
 
 /// Supplies the product of an arbitrary number of numbers.
 class Product extends MultipleOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Product(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
-  /// Constructs a new instance from a list of number sources.
+  /// Constructs a instance from a list of number sources.
   Product.list(List<NumberSource> list) : super.list(list);
 
   @override
   num valueAt(int index) {
     num total = 1;
-    for (final NumberSource ns in _list) {
+    for (final ns in _list) {
       total *= ns.valueAt(index);
     }
     return total;
@@ -198,7 +198,7 @@ class Product extends MultipleOp {
 
 /// Supplies the value of [ns1] divided by [ns2].
 class Quotient extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Quotient(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -207,7 +207,7 @@ class Quotient extends BinaryOp {
 
 /// Supplies the remainder of the truncating division of [ns1] by [ns2].
 class Remainder extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Remainder(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -217,7 +217,7 @@ class Remainder extends BinaryOp {
 /// Supplies the value of [ns1] raised to the power of [ns2].
 ///
 class Pow extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Pow(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -226,17 +226,17 @@ class Pow extends BinaryOp {
 
 /// Supplies the minimum value found in an arbitrary set of numbers.
 class Min extends MultipleOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Min(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
-  /// Constructs a new instance from a list of number sources.
+  /// Constructs a instance from a list of number sources.
   Min.list(List<NumberSource> list) : super.list(list);
 
   @override
   num valueAt(int index) {
     num min = double.infinity;
-    for (final NumberSource ns in _list) {
-      final num value = ns.valueAt(index);
+    for (final ns in _list) {
+      final value = ns.valueAt(index);
       if (value < min) min = value;
     }
     return min;
@@ -245,17 +245,17 @@ class Min extends MultipleOp {
 
 /// Supplies the maximum value found in an arbitrary set of numbers.
 class Max extends MultipleOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Max(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
-  /// Constructs a new instance from a list of number sources.
+  /// Constructs a instance from a list of number sources.
   Max.list(List<NumberSource> list) : super.list(list);
 
   @override
   num valueAt(int index) {
     num max = double.negativeInfinity;
-    for (final NumberSource ns in _list) {
-      final num value = ns.valueAt(index);
+    for (final ns in _list) {
+      final value = ns.valueAt(index);
       if (value > max) max = value;
     }
     return max;
@@ -264,7 +264,7 @@ class Max extends MultipleOp {
 
 /// Supplies the result of the Euclidean modulo (ns1 % ns2) operator.
 class Modulo extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Modulo(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -273,7 +273,7 @@ class Modulo extends BinaryOp {
 
 /// Supplies the result of the truncating division (ns1 ~/ ns2) operator.
 class TruncDiv extends BinaryOp {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   TruncDiv(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
@@ -283,7 +283,7 @@ class TruncDiv extends BinaryOp {
 /// Supplies the result of clamping [ns1] to the range defined
 /// by [ns2] (lower limit) and [ns3] (upper limit).
 class Clamp extends NumberSource {
-  /// Constructs a new instance from three number sources.
+  /// Constructs a instance from three number sources.
   Clamp(this.ns1, this.ns2, this.ns3);
 
   /// The value to be clamped.

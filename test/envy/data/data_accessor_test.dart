@@ -5,16 +5,16 @@ import 'package:envy/envy.dart' show DataAccessor;
 void main() {
   group('getData', () {
     test('keyed property', () {
-      final DataAccessor a = new DataAccessor.prop('x', keyProp: 'id');
+      final a = DataAccessor.prop('x', keyProp: 'id');
 
       final Object dataset = <Map<String, dynamic>>[
         <String, dynamic>{'id': 'id1', 'x': 10},
         <String, dynamic>{'id': 'id2', 'x': 20},
         <String, dynamic>{'id': 'id3', 'x': 30},
       ];
-      Object data = a.getData(dataset);
+      var data = a.getData(dataset);
       expect(data is List, true);
-      List<dynamic> dataList = data as List<dynamic>;
+      var dataList = data as List<dynamic>;
       expect(dataList.length, 3);
       expect(dataList[0], 10);
       expect(dataList[1], 20);
@@ -103,7 +103,7 @@ void main() {
     });
 
     test('cullUnavailableData', () {
-      final DataAccessor a = new DataAccessor.prop('x', keyProp: 'id');
+      final a = DataAccessor.prop('x', keyProp: 'id');
 
       final Object dataset = <Map<String, dynamic>>[
         <String, dynamic>{'id': 'id1', 'x': 10},

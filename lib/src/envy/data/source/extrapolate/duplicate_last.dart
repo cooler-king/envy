@@ -2,7 +2,7 @@ import 'extrapolation.dart';
 
 /// Extrapolates from existing data by repeating the last value.
 class DuplicateLast<T> extends Extrapolation<T> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   DuplicateLast() : super('duplicateLast', 'Duplicate the last value');
 
   /// Returns the last value in set of current [values]

@@ -3,7 +3,7 @@ import 'extrapolation.dart';
 /// Extrapolates from existing data by cycling back through the data,
 /// either round trip or starting over from the beginning.
 class CycleValues<T> extends Extrapolation<T> {
-  /// Constructs a new instance, either round trip ([oneWay] = false)
+  /// Constructs a instance, either round trip ([oneWay] = false)
   /// or repeat ([oneWay] = true).
   CycleValues(this.oneWay) : super('cycle', 'Cycle through existing values');
 
@@ -26,7 +26,7 @@ class CycleValues<T> extends Extrapolation<T> {
     if (oneWay) {
       return values[index % values.length];
     } else {
-      int x = index % ((values.length - 1) * 2);
+      var x = index % ((values.length - 1) * 2);
       if (x >= values.length) x = 2 * values.length - 2 - x;
       return values[x];
     }

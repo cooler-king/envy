@@ -3,7 +3,7 @@ import '../../../util/enumeration.dart';
 /// Supported values: top, hanging, middle, alphabetic (default),
 /// ideographic, or bottom.
 class TextBaseline2d extends Enumeration<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   const TextBaseline2d(String value) : super(value);
 
   /// Attempts to convert [d] into a TextBaseline2d object.
@@ -11,7 +11,7 @@ class TextBaseline2d extends Enumeration<String> {
   static TextBaseline2d from(dynamic d) {
     if (d is TextBaseline2d) return d;
     if (d is String) {
-      final String lc = d.trim().toLowerCase();
+      final lc = d.trim().toLowerCase();
       if (lc == 'alphabetic') return TextBaseline2d.alphabetic;
       if (lc == 'top') return TextBaseline2d.top;
       if (lc == 'hanging') return TextBaseline2d.hanging;
@@ -24,20 +24,20 @@ class TextBaseline2d extends Enumeration<String> {
   }
 
   /// Alphabetic text baseline.
-  static const TextBaseline2d alphabetic = const TextBaseline2d('alphabetic');
+  static const TextBaseline2d alphabetic = TextBaseline2d('alphabetic');
 
   /// Top text baseline.
-  static const TextBaseline2d top = const TextBaseline2d('top');
+  static const TextBaseline2d top = TextBaseline2d('top');
 
   /// Hanging text baseline.
-  static const TextBaseline2d hanging = const TextBaseline2d('hanging');
+  static const TextBaseline2d hanging = TextBaseline2d('hanging');
 
   /// Middle text baseline.
-  static const TextBaseline2d middle = const TextBaseline2d('middle');
+  static const TextBaseline2d middle = TextBaseline2d('middle');
 
   /// Ideographic text baseline.
-  static const TextBaseline2d ideographic = const TextBaseline2d('ideographic');
+  static const TextBaseline2d ideographic = TextBaseline2d('ideographic');
 
   /// Bottom text baseline.
-  static const TextBaseline2d bottom = const TextBaseline2d('bottom');
+  static const TextBaseline2d bottom = TextBaseline2d('bottom');
 }

@@ -23,7 +23,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   /// as a whole.
   Anchor2dData(this.datasetName, this.node, {DataAccessor accessor, String prop}) {
     if (prop != null && accessor == null) {
-      this.accessor = new DataAccessor.prop(prop);
+      this.accessor = DataAccessor.prop(prop);
     }
   }
 
@@ -35,7 +35,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
       : datasetName = keyedDataset?.name,
         node = keyedDataset?.node {
     if (prop != null && keyedDataset != null) {
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -49,7 +49,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   void refresh() {
     values.clear();
 
-    Object data = node.getDataset(datasetName);
+    var data = node.getDataset(datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
@@ -65,5 +65,5 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   }
 
   /// Converts [d] into an Anchor2d.
-  Anchor2d fromAnything(dynamic d) => new Anchor2d(mode: d is String ? new AnchorMode2d(d) : AnchorMode2d.defaultMode);
+  Anchor2d fromAnything(dynamic d) => Anchor2d(mode: d is String ? AnchorMode2d(d) : AnchorMode2d.defaultMode);
 }

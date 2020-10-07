@@ -16,8 +16,8 @@ import 'triangle2d/test_triangle2d.dart';
 @Component(
   selector: 'gallery',
   templateUrl: 'gallery.html',
-  styleUrls: const <String>['gallery.css'],
-  directives: const <Object>[
+  styleUrls: <String>['gallery.css'],
+  directives: <Object>[
     coreDirectives,
     TestAnnularSection2d,
     TestBar2d,

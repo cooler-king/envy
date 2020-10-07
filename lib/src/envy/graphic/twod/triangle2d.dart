@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional triangle to be drawn on an HTML canvas.
@@ -9,35 +8,35 @@ import 'graphic2d_node.dart';
 /// The triangle is defined by an origin, a base length, a height and a rotation angle
 /// (0 degrees is straight up, clockwise).  The default anchor point is the center of the base.
 class Triangle2d extends Graphic2dNode {
-  /// Constructs a new instance, with the triangle pointing up.
+  /// Constructs a instance, with the triangle pointing up.
   Triangle2d()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing up.
+  /// Constructs a instance, with the triangle pointing up.
   Triangle2d.up()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing to the right.
+  /// Constructs a instance, with the triangle pointing to the right.
   Triangle2d.right()
       : offsetAngle = 90,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing to the left.
+  /// Constructs a instance, with the triangle pointing to the left.
   Triangle2d.left()
       : offsetAngle = -90,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing down.
+  /// Constructs a instance, with the triangle pointing down.
   Triangle2d.down()
       : offsetAngle = 180,
         super(null) {
@@ -48,9 +47,9 @@ class Triangle2d extends Graphic2dNode {
   final num offsetAngle;
 
   void _initProperties() {
-    properties['base'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
-    //properties['angle'] = new NumberProperty();
+    properties['base'] = NumberProperty();
+    properties['height'] = NumberProperty();
+    //properties['angle'] = NumberProperty();
   }
 
   @override
@@ -71,18 +70,18 @@ class Triangle2d extends Graphic2dNode {
     num _x, _y, _base, _height;
     _base = base.valueAt(index);
     _height = height.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     final num halfBase = _base / 2.0;
     final num effectiveAngleRad = offsetAngle * pi / 180.0;
 
     // Adjust for anchor (default is center of base)
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     _x = 0;
     _y = 0;
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
+      final adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
       _x += adj[0];
       _y += adj[1];
     }
@@ -105,18 +104,18 @@ class Triangle2d extends Graphic2dNode {
 
 /// A 2-dimensional triangle defined by three arbitrary vertices, to be drawn on an HTML canvas.
 class TriangleVertices2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   TriangleVertices2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['x1'] = new NumberProperty();
-    properties['y1'] = new NumberProperty();
-    properties['x2'] = new NumberProperty();
-    properties['y2'] = new NumberProperty();
-    properties['x3'] = new NumberProperty();
-    properties['y3'] = new NumberProperty();
+    properties['x1'] = NumberProperty();
+    properties['y1'] = NumberProperty();
+    properties['x2'] = NumberProperty();
+    properties['y2'] = NumberProperty();
+    properties['x3'] = NumberProperty();
+    properties['y3'] = NumberProperty();
   }
 
   /// Holds the x-value of the first vertex.
@@ -146,8 +145,8 @@ class TriangleVertices2d extends Graphic2dNode {
     _y2 = y2.valueAt(index);
     _x3 = x3.valueAt(index);
     _y3 = y3.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     ctx
       ..beginPath()

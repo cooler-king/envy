@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 
 /// A numerical list.
 class NumberList extends DelegatingList<num> {
-  /// Constructs a new instance.
-  NumberList([Iterable<num> numbers]) : super(new List<num>.from(numbers ?? <num>[]));
+  /// Constructs a instance.
+  NumberList([Iterable<num> numbers]) : super(List<num>.from(numbers ?? <num>[]));
 
   /// Adds [value] to the end of the list.
   void addNumber(num value) => add(value);
@@ -15,7 +15,7 @@ class NumberList extends DelegatingList<num> {
   num get min {
     if (isEmpty) return double.nan;
     num x = double.infinity;
-    for (final num n in this) {
+    for (final n in this) {
       if (n < x) x = n;
     }
     return x;
@@ -25,7 +25,7 @@ class NumberList extends DelegatingList<num> {
   num get max {
     if (isEmpty) return double.nan;
     num x = double.negativeInfinity;
-    for (final num n in this) {
+    for (final n in this) {
       if (n > x) x = n;
     }
     return x;

@@ -24,7 +24,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
   ColorData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     accessor = dataAccessor;
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      accessor = DataAccessor.prop(prop);
     }
   }
 
@@ -37,7 +37,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -48,7 +48,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);
@@ -76,7 +76,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
     if (d is Color) return d;
 
     if (d is String) {
-      if (d.startsWith('#')) return new Color.hex(d);
+      if (d.startsWith('#')) return Color.hex(d);
       return Color.black.fromCss(d);
     }
 
