@@ -24,14 +24,14 @@ class Rect2d extends Graphic2dNode {
 
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _width = width.valueAt(index);
-    final num _height = height.valueAt(index);
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _width = width.valueAt(index);
+    final _height = height.valueAt(index);
+    final _anchor = anchor.valueAt(index);
 
     // Adjust for anchor (default origin is upper left).
-    final List<num> adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? const <num>[0, 0];
-    final num _x = adj[0];
-    final num _y = adj[1];
+    final adj = _anchor?.calcAdjustments(0, _width, _height, 0) ?? const <num>[0, 0];
+    final _x = adj[0];
+    final _y = adj[1];
 
     ctx
       ..beginPath()

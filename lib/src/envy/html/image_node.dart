@@ -21,8 +21,8 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
   @override
   ImageElement elementAt(int index) {
     if (domNodesMap.isNotEmpty) {
-      final int i = index % domNodesMap.length;
-      final List<Node> list = List<Node>.from(domNodesMap.values);
+      final i = index % domNodesMap.length;
+      final list = List<Node>.from(domNodesMap.values);
       return list[i] as ImageElement;
     } else {
       logger.warning('ImageNode detected empty domNodesMap in elementAt(); returning null');
@@ -32,8 +32,7 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
 
   void _initProperties() {
     properties['alt'] = StringProperty();
-    properties['crossOrigin'] = StringProperty()
-      ..enter = StringConstant.enumerationValue(CrossOrigin.anonymous);
+    properties['crossOrigin'] = StringProperty()..enter = StringConstant.enumerationValue(CrossOrigin.anonymous);
     properties['height'] = NumberProperty();
     properties['isMap'] = BooleanProperty();
     properties['src'] = StringProperty();
@@ -70,13 +69,13 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
     String strValue;
     num numValue;
     bool tf;
-    for (int i = 0; i < domNodes.length; i++) {
-      final ImageElement imageEl = elementAt(i);
+    for (var i = 0; i < domNodes.length; i++) {
+      final imageEl = elementAt(i);
 
       strValue = src.valueAt(i);
       if (imageEl.src != strValue) {
         // Make sure no scripts or other security problems are added directly to the DOM.
-        const HtmlEscape sanitizer = const HtmlEscape();
+        const sanitizer = HtmlEscape();
 
         // ignore: unsafe_html
         imageEl.src = sanitizer.convert(strValue);

@@ -8,7 +8,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-rect2d',
   templateUrl: 'test_rect2d.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -92,8 +92,8 @@ class TestRect2d implements AfterViewInit {
     s.y.enter = NumberConstant(50);
     s.width.enter = NumberConstant(40);
     s.height.enter = NumberConstant(20);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
@@ -281,8 +281,8 @@ class TestRect2d implements AfterViewInit {
     s.y.enter = NumberConstant(50);
     s.width.enter = NumberConstant(40);
     s.height.enter = NumberConstant(20);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
       DrawingStyle2d(color: Color.blue),
@@ -293,8 +293,8 @@ class TestRect2d implements AfterViewInit {
     ]);
     s.data.enter = NumberConstant.array(<num>[10, 20, 30, 40, 50]);
 
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml =
         'CLICKED $g2di... data = ${g2di.graphic2d.data.valueAt(g2di.index)}');
     s.onDoubleClick

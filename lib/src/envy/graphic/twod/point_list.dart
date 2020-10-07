@@ -46,7 +46,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get maxY {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.y > max) max = pt.y;
     }
     return max;
@@ -54,8 +54,8 @@ class PointList extends DelegatingList<Point<num>> {
 
   @override
   String toString() {
-    final StringBuffer buf = StringBuffer()..writeln('[');
-    for (int i = 0; i < length; i++) {
+    final buf = StringBuffer()..writeln('[');
+    for (var i = 0; i < length; i++) {
       buf.writeln('  [$i]  ${this[i]}');
     }
     buf.writeln(']');

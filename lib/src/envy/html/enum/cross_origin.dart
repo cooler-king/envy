@@ -10,9 +10,9 @@ class CrossOrigin extends Enumeration<String> {
   const CrossOrigin(String value) : super(value);
 
   /// CORS requests for this element will not have the credentials flag set
-  static const CrossOrigin anonymous = const CrossOrigin('anonymous');
+  static const CrossOrigin anonymous = CrossOrigin('anonymous');
 
   /// CORS requests for this element will have the credentials flag set; this means
   /// the request will provide credentials
-  static const CrossOrigin useCredentials = const CrossOrigin('use_credentials');
+  static const CrossOrigin useCredentials = CrossOrigin('use_credentials');
 }

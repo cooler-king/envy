@@ -21,8 +21,8 @@ class VideoNode extends MediaNode implements CanvasImageSourceNode {
 
   @override
   VideoElement elementAt(int index) {
-    final int i = index % domNodesMap.length;
-    final List<Node> list = List<Node>.from(domNodesMap.values);
+    final i = index % domNodesMap.length;
+    final list = List<Node>.from(domNodesMap.values);
     return list[i] as VideoElement;
   }
 

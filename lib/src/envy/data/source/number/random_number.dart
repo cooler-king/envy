@@ -16,7 +16,7 @@ class RandomNumber extends NumberSource {
 
   @override
   num valueAt(int index) {
-    final num minValue = minSource.valueAt(index);
+    final minValue = minSource.valueAt(index);
     return minValue + _generator.nextDouble() * (maxSource.valueAt(index) - minValue);
   }
 

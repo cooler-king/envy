@@ -37,8 +37,7 @@ void main() {
       Font a = Font(size: FontSize.px(17), family: FontFamily.custom('qwerty asdf'));
       expect(a.css, '17px \'qwerty asdf\'');
 
-      a = Font(
-          style: FontStyle.italic, weight: FontWeight.bold, size: FontSize.px(12), family: FontFamily.monospace);
+      a = Font(style: FontStyle.italic, weight: FontWeight.bold, size: FontSize.px(12), family: FontFamily.monospace);
       expect(a.css, 'italic bold 12px monospace');
     });
   });

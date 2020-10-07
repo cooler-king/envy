@@ -67,9 +67,9 @@ class Image2d extends Graphic2dNode {
       // Adjust for anchor (default is upper left)
       _x = 0;
       _y = 0;
-      final Anchor2d _anchor = anchor.valueAt(index);
+      final _anchor = anchor.valueAt(index);
       if (_anchor != null) {
-        final List<num> adj = _anchor.calcAdjustments(0, _width, _height, 0);
+        final adj = _anchor.calcAdjustments(0, _width, _height, 0);
         _x += adj[0];
         _y += adj[1];
       }

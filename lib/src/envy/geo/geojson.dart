@@ -157,9 +157,10 @@ class GeoJsonFeatureCollection {
         if (x is Map<String, dynamic>) features.add(GeoJsonFeature.fromJson(x));
       }
     }
-    if (map['bbox'] is List<num>)
+    if (map['bbox'] is List<num>) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// Returns the JSON format that GeoJSON uses to model a feature collection.
@@ -221,9 +222,10 @@ class GeoJsonFeature {
     if (map == null) return;
     if (map['geometry'] is Map) geometry = GeoJsonGeometry.fromJson(map['geometry'] as Map<String, dynamic>);
     if (map['properties'] is Map) properties = map['properties'] as Map<String, dynamic>;
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// Returns a map, the JSON format that GeoJSON uses to model a feature.
@@ -319,9 +321,10 @@ class GeoJsonPoint extends GeoJsonGeometry {
     if (map['coordinates'] is List) {
       coordinate = GeoJsonCoordinate(map['coordinates'][0] as num, map['coordinates'][1] as num);
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// Construct a instance, using the values in [array], .
@@ -339,8 +342,7 @@ class GeoJsonPoint extends GeoJsonGeometry {
 
   @override
   void _calculateBoundingBox() {
-    _bbox =
-        GeoJsonBoundingBox(coordinate.latitude, coordinate.longitude, coordinate.latitude, coordinate.longitude);
+    _bbox = GeoJsonBoundingBox(coordinate.latitude, coordinate.longitude, coordinate.latitude, coordinate.longitude);
   }
 }
 
@@ -356,9 +358,10 @@ class GeoJsonMultiPoint extends GeoJsonGeometry {
         if (c is List && c.length > 1) coordinates.add(GeoJsonCoordinate(c[0] as num, c[1] as num));
       }
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// The point coordinates.
@@ -409,9 +412,10 @@ class GeoJsonLineString extends GeoJsonGeometry {
         if (c is List && c.length > 1) coordinates.add(GeoJsonCoordinate(c[0] as num, c[1] as num));
       }
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// The line coordinates.
@@ -468,9 +472,10 @@ class GeoJsonMultiLineString extends GeoJsonGeometry {
         }
       }
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// This geometry's component line string geometry's.
@@ -575,9 +580,10 @@ class GeoJsonPolygon extends GeoJsonGeometry {
         interiorRings.add(GeoJsonLinearRing.fromJson(rings[i]));
       }
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// A single exterior ring.
@@ -625,9 +631,10 @@ class GeoJsonMultiPolygon extends GeoJsonGeometry {
         polygons.add(GeoJsonPolygon.fromJson(<String, dynamic>{'coordinates': poly}));
       }
     }
-    if (map['bbox'] is List<num>)
+    if (map['bbox'] is List<num>) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// This geometry's component polygon geometries.
@@ -672,9 +679,10 @@ class GeoJsonGeometryCollection extends GeoJsonGeometry {
         geometries.add(GeoJsonGeometry.fromJson(g));
       }
     }
-    if (map['bbox'] is List)
+    if (map['bbox'] is List) {
       _bbox = GeoJsonBoundingBox(
           map['bbox'][0] as num, map['bbox'][1] as num, map['bbox'][2] as num, map['bbox'][3] as num);
+    }
   }
 
   /// This geometry's component geometries.

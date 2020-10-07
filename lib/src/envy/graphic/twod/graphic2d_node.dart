@@ -77,7 +77,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   final HitTest _hitTest = HitTest(0, 0);
 
   /// The default dash pattern is a dotted line.
-  static const List<int> defaultLineDash = const <int>[1, 0];
+  static const List<int> defaultLineDash = <int>[1, 0];
 
   void _initContextProperties() {
     // Fill style and stroke style can be CSS color, gradient or pattern.

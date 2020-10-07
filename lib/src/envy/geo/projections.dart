@@ -21,14 +21,14 @@ abstract class Projection {
   /// The scale of the projection may be set indirectly by specifying the
   /// desired height of the projection in pixels (at 0 longitude).
   void setPixelHeight(num height) {
-    final Point<num> top = degreesToPoint(latDeg: 89.99, longDeg: 0);
-    final Point<num> bottom = degreesToPoint(latDeg: -89.99, longDeg: 0);
+    final top = degreesToPoint(latDeg: 89.99, longDeg: 0);
+    final bottom = degreesToPoint(latDeg: -89.99, longDeg: 0);
     _scale = height / (bottom.x - top.x).abs();
   }
 
   /// The anchor coordinate, if specified, will be at pixel location 0, 0.
   void setAnchorCoord(GeoCoord coord) {
-    final Point<num> anchor = toPoint(latRad: coord.latRad, longRad: coord.longRad);
+    final anchor = toPoint(latRad: coord.latRad, longRad: coord.longRad);
     _offset = Point<num>(-anchor.x, -anchor.y);
   }
 

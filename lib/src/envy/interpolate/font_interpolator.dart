@@ -40,7 +40,7 @@ class FontInterpolator extends EnvyInterpolator<Font> {
   /// based on the time [fraction].
   @override
   Font interpolate(Font a, Font b, num fraction) {
-    final Font f = Font()
+    final f = Font()
       ..style = _interpolateProperty(a.style, b.style, fraction, styleInterpolator) as FontStyle
       ..variant = _interpolateProperty(a.variant, b.variant, fraction, variantInterpolator) as FontVariant
       ..weight = _interpolateProperty(a.weight, b.weight, fraction, weightInterpolator) as FontWeight

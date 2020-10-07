@@ -238,7 +238,7 @@ abstract class EnvyProperty<T> {
     } else {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
         // For finish values, only include available update or enter data
-        T val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
+        var val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
         val = val ?? (_enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i));
         if (val != null) {
           _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));

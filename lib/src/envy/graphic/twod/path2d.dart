@@ -7,7 +7,7 @@ import 'graphic2d_node.dart';
 import 'point_list.dart';
 
 /// A constant list with two zero values.
-const List<num> zeroZero = const <num>[0, 0];
+const List<num> zeroZero = <num>[0, 0];
 
 /// A 2-dimensional path (to be drawn on an HTML canvas).
 class Path2d extends Graphic2dNode {

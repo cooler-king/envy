@@ -23,7 +23,7 @@ class Font implements CssAdapter {
 
   @override
   String get css {
-    final  buf = StringBuffer();
+    final buf = StringBuffer();
     if (style != null) buf..write(style.css)..write(' ');
     if (variant != null) buf..write(variant.css)..write(' ');
     if (weight != null) buf..write(weight.css)..write(' ');

@@ -15,8 +15,8 @@ class LargestSize extends Multiplicity {
 
   @override
   int sizeOf(Iterable<EnvyProperty<dynamic>> props) {
-    int largest = 0;
-    for (final EnvyProperty<dynamic> prop in props) {
+    var largest = 0;
+    for (final prop in props) {
       if (prop.optional != true) largest = max(largest, prop.rawSize);
     }
 

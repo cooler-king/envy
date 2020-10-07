@@ -33,7 +33,7 @@ class Timeline {
   /// A small amount of delay before starting is added so that the timing setup can complete
   /// before the animation loop begins.
   Player play() {
-    final num current = currentTime;
+    final current = currentTime;
 
     // Add 10 milliseconds for a little setup time
     return Player(this, current != null ? current + 0.01 : 0);

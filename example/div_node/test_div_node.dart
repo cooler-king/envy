@@ -5,7 +5,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-div-node',
   templateUrl: 'test_div_node.html',
-  directives: const <Object>[EnvyScene],
+  directives: <Object>[EnvyScene],
 )
 class TestDivNode implements AfterViewInit {
   @ViewChild('basic')
@@ -17,14 +17,14 @@ class TestDivNode implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
+    final esg = e.sceneGraph;
 
-    final DivNode div1 = DivNode()..id = 'test-div';
+    final div1 = DivNode()..id = 'test-div';
     //div1.style.border = '1px solid black';
     esg.attachToRoot(div1);
 
     //div1.x.enter = NumberConstant.array([300, 100]);
-    final CssStyle style = CssStyle();
+    final style = CssStyle();
     //style['background-color'] = CssColor(0.5);
     style['opacity'] = CssNumber(0.5);
     style['width'] = CssLength.pixels(200);

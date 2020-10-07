@@ -146,8 +146,8 @@ class TriangleVertices2d extends Graphic2dNode {
     _y2 = y2.valueAt(index);
     _x3 = x3.valueAt(index);
     _y3 = y3.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     ctx
       ..beginPath()

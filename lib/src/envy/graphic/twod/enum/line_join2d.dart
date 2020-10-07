@@ -7,11 +7,11 @@ class LineJoin2d extends Enumeration<String> {
   const LineJoin2d(String value) : super(value);
 
   /// A miter line join.
-  static const LineJoin2d miter = const LineJoin2d('miter');
+  static const LineJoin2d miter = LineJoin2d('miter');
 
   /// A round line join.
-  static const LineJoin2d round = const LineJoin2d('round');
+  static const LineJoin2d round = LineJoin2d('round');
 
   /// A bevel line join.
-  static const LineJoin2d bevel = const LineJoin2d('bevel');
+  static const LineJoin2d bevel = LineJoin2d('bevel');
 }

@@ -122,9 +122,9 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     }
 
     // Apply the updated properties
-    for (int i = 0; i < domNodes.length; i++) {
+    for (var i = 0; i < domNodes.length; i++) {
       if (style.rawSize > 0) {
-        final CssStyle style = this.style.valueAt(i);
+        final style = this.style.valueAt(i);
         _applyStyle(domNodes[i], style);
       }
     }

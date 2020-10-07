@@ -26,7 +26,7 @@ class CycleValues<T> extends Extrapolation<T> {
     if (oneWay) {
       return values[index % values.length];
     } else {
-      int x = index % ((values.length - 1) * 2);
+      var x = index % ((values.length - 1) * 2);
       if (x >= values.length) x = 2 * values.length - 2 - x;
       return values[x];
     }

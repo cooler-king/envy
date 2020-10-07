@@ -6,14 +6,14 @@ class FillMode extends Enumeration<String> {
   const FillMode(String value) : super(value);
 
   /// Not filled.
-  static const FillMode none = const FillMode('none');
+  static const FillMode none = FillMode('none');
 
   /// Forwards fill mode.
-  static const FillMode forwards = const FillMode('forwards');
+  static const FillMode forwards = FillMode('forwards');
 
   /// Backwards fill mode.
-  static const FillMode backwards = const FillMode('backwards');
+  static const FillMode backwards = FillMode('backwards');
 
   /// Both forwards and backwards fill mode.
-  static const FillMode both = const FillMode('both');
+  static const FillMode both = FillMode('both');
 }

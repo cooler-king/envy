@@ -40,14 +40,14 @@ class Line2d extends Graphic2dNode {
     _y2 = y2.valueAt(index);
     // fill doesn't apply?
     //bool _fill = fill.valueAt(i);
-    final bool _stroke = stroke.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Adjust based on anchor (default origin is x1, y1)
     if (_anchor != null) {
-      final num deltaX = _x2 - _x1;
-      final num deltaY = _y2 - _y1;
+      final deltaX = _x2 - _x1;
+      final deltaY = _y2 - _y1;
 
-      final List<num> adj = _anchor.calcAdjustments(min(0, deltaY), max(0, deltaX), max(0, deltaY), min(0, deltaX));
+      final adj = _anchor.calcAdjustments(min(0, deltaY), max(0, deltaX), max(0, deltaY), min(0, deltaX));
       _x1 += adj[0];
       _y1 += adj[1];
       _x2 += adj[0];

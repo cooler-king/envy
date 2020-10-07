@@ -22,7 +22,7 @@ class Anchor2dInterpolator extends EnvyInterpolator<Anchor2d> {
 
   @override
   Anchor2d interpolate(Anchor2d a, Anchor2d b, num fraction) {
-    final Anchor2d _anchor2d = Anchor2d()
+    final _anchor2d = Anchor2d()
       ..mode = modeInterpolator.interpolate(a.mode, b.mode, fraction)
       ..offsetX = offsetInterpolator.interpolate(a.offsetX, b.offsetX, fraction)
       ..offsetY = offsetInterpolator.interpolate(a.offsetY, b.offsetY, fraction);

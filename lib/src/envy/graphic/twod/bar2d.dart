@@ -29,17 +29,17 @@ class Bar2d extends Graphic2dNode {
 
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
-    final num _width = width.valueAt(index);
-    final num _height = height.valueAt(index);
-    final Anchor2d _anchor = anchor.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _width = width.valueAt(index);
+    final _height = height.valueAt(index);
+    final _anchor = anchor.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Adjust for anchor (default origin is bottom middle)
     num _x = 0;
     num _y = 0;
-    final num halfWidth = _width / 2.0;
-    final List<num> adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? <num>[0, 0];
+    final halfWidth = _width / 2.0;
+    final adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? <num>[0, 0];
     _x += adj[0];
     _y += adj[1];
 

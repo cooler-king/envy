@@ -36,26 +36,25 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
   @override
   void groupUpdatePre(num timeFraction, {dynamic context, bool finish = false}) {
     try {
-      for (int index = 0; index < currentContext2DList.length; index++) {
-        final CanvasRenderingContext2D ctx = currentContext2DList[index];
-        final ListQueue<Matrix3> transform2DStack = transform2DStackList[index];
+      for (var index = 0; index < currentContext2DList.length; index++) {
+        final ctx = currentContext2DList[index];
+        final transform2DStack = transform2DStackList[index];
 
-        final Matrix3 currentTransform = transform2DStack.first;
+        final currentTransform = transform2DStack.first;
 
-        final Vector2 _scale = scale.valueAt(index);
-        final double sx = _scale.x;
-        final double sy = _scale.y;
-        final Angle theta = rotate.valueAt(index);
-        final double cosTheta = theta.cosine();
-        final double sinTheta = theta.sine();
-        final Vector2 _translate = translate.valueAt(index);
-        final double tx = _translate.x;
-        final double ty = _translate.y;
+        final _scale = scale.valueAt(index);
+        final sx = _scale.x;
+        final sy = _scale.y;
+        final theta = rotate.valueAt(index);
+        final cosTheta = theta.cosine();
+        final sinTheta = theta.sine();
+        final _translate = translate.valueAt(index);
+        final tx = _translate.x;
+        final ty = _translate.y;
 
         // Column major order.
-        final Matrix3 myTransform =
-            Matrix3(sx * cosTheta, sy * sinTheta, 0, -sx * sinTheta, sy * cosTheta, 0, tx, ty, 1)
-              ..multiply(currentTransform);
+        final myTransform = Matrix3(sx * cosTheta, sy * sinTheta, 0, -sx * sinTheta, sy * cosTheta, 0, tx, ty, 1)
+          ..multiply(currentTransform);
         transform2DStack.addFirst(myTransform);
         _replaceTransform(myTransform, ctx);
       }
@@ -68,10 +67,10 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
   @override
   void groupUpdatePost(num timeFraction, {dynamic context, bool finish = false}) {
     // Set back to the incoming transform.
-    for (int index = 0; index < currentContext2DList.length; index++) {
-      final CanvasRenderingContext2D ctx = currentContext2DList[index];
+    for (var index = 0; index < currentContext2DList.length; index++) {
+      final ctx = currentContext2DList[index];
       if (transform2DStackList.length > index) {
-        final ListQueue<Matrix3> transform2DStack = transform2DStackList[index]..removeFirst();
+        final transform2DStack = transform2DStackList[index]..removeFirst();
         _replaceTransform(transform2DStack.first, ctx);
       } else {
         logger.warning('Attempt to revert transform at index $index ignored; out of range');

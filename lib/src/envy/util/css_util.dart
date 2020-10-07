@@ -41,18 +41,18 @@ class CssUtil {
     if (convert.isEmpty) CssUtil._initAbsoluteUnitConversions();
 
     // If no element is provided, create a test element and add to DOM
-    Element elem = element;
-    bool dummyElement = false;
+    var elem = element;
+    var dummyElement = false;
     if (elem == null) {
       elem = document.createElement('test');
       document.documentElement.append(elem);
       dummyElement = true;
     }
 
-    final List<Match> matches = List<Match>.from(runit.allMatches(value));
-    final String unit = matches.isNotEmpty ? matches.first.group(0)[2] : '';
+    final matches = List<Match>.from(runit.allMatches(value));
+    final unit = matches.isNotEmpty ? matches.first.group(0)[2] : '';
     //String unit = (value.match(runit)||[])[2],
-    num conversion = (unit == 'px') ? 1 : convert['${unit}toPx'];
+    var conversion = (unit == 'px') ? 1 : convert['${unit}toPx'];
 
     if (conversion != null) {
       pixels = _parsePixels(value) * conversion;

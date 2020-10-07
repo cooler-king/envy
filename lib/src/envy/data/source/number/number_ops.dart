@@ -235,8 +235,8 @@ class Min extends MultipleOp {
   @override
   num valueAt(int index) {
     num min = double.infinity;
-    for (final NumberSource ns in _list) {
-      final num value = ns.valueAt(index);
+    for (final ns in _list) {
+      final value = ns.valueAt(index);
       if (value < min) min = value;
     }
     return min;

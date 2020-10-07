@@ -50,24 +50,24 @@ class Cross2d extends Graphic2dNode {
     _horizontalHeight = horizontalHeight.valueAt(index);
     _percent = percent.valueAt(index);
     _anchor = anchor.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
-    final num halfVerticalWidth = _verticalWidth / 2;
+    final halfVerticalWidth = _verticalWidth / 2;
 
-    final num width = max(_verticalWidth, _horizontalWidth);
-    final num height = _verticalHeight;
+    final width = max(_verticalWidth, _horizontalWidth);
+    final height = _verticalHeight;
 
-    final num halfWidth = width / 2;
-    final num halfHeight = height / 2;
+    final halfWidth = width / 2;
+    final halfHeight = height / 2;
 
-    num minY = -halfHeight;
-    num maxY = halfHeight;
-    final num hbarY = (_percent - 50) * 0.01 * height;
-    final num hbarTop = hbarY - (_horizontalHeight / 2);
-    final num hbarBottom = hbarY + (_horizontalHeight / 2);
-    bool outTop = false;
-    bool outBottom = false;
+    var minY = -halfHeight;
+    var maxY = halfHeight;
+    final hbarY = (_percent - 50) * 0.01 * height;
+    final hbarTop = hbarY - (_horizontalHeight / 2);
+    final hbarBottom = hbarY + (_horizontalHeight / 2);
+    var outTop = false;
+    var outBottom = false;
     if (hbarTop < minY) {
       minY = hbarTop;
       outTop = true;
@@ -80,7 +80,7 @@ class Cross2d extends Graphic2dNode {
     _x = 0;
     _y = 0;
     if (anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(minY, halfWidth, maxY, -halfWidth);
+      final adj = _anchor.calcAdjustments(minY, halfWidth, maxY, -halfWidth);
       _x += adj[0];
       _y += adj[1];
     }

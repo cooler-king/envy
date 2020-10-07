@@ -32,7 +32,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
   T interpolate(T a, T b, num fraction) {
     if (identical(a, b)) return a;
     _odd = false;
-    for (final num threshold in _thresholds) {
+    for (final threshold in _thresholds) {
       if (fraction < threshold) return _odd ? b : a;
       _odd = !_odd;
     }

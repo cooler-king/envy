@@ -5,7 +5,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-html-node-population',
   templateUrl: 'test_html_node_population.html',
-  directives: const <Object>[EnvyScene],
+  directives: <Object>[EnvyScene],
 )
 class TestHtmlNodePopulation implements AfterViewInit {
   @ViewChild('basic')
@@ -17,9 +17,9 @@ class TestHtmlNodePopulation implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
+    final esg = e.sceneGraph;
 
-    final DivNode div = DivNode();
+    final div = DivNode();
 
     //final DivNode n1 = DivNode()..populationStrategy = IndependentPopulationStrategy();
     // TODO make multiple -- need style working

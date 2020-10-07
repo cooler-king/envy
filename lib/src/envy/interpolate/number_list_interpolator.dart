@@ -31,9 +31,9 @@ class NumberListInterpolator extends EnvyInterpolator<NumberList> {
   /// then a or b will be returned as appropriate.
   @override
   NumberList interpolate(NumberList a, NumberList b, num fraction) {
-    final int numEntries = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
-    final NumberList newEntries = NumberList();
-    for (int i = 0; i < numEntries; i++) {
+    final numEntries = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
+    final newEntries = NumberList();
+    for (var i = 0; i < numEntries; i++) {
       newEntries.add(_numInterp.interpolate(i < a.length ? a[i] : 0, i < b.length ? b[i] : 0, fraction));
     }
 

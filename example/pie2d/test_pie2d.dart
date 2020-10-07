@@ -10,7 +10,7 @@ import 'package:envy/ng/envy_pie/pie_slice.dart';
   templateUrl: 'test_pie2d.html',
   styleUrls: <String>['test_pie2d.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  directives: const <Object>[EnvyPie],
+  directives: <Object>[EnvyPie],
 )
 class TestPie2d implements AfterViewInit {
   TestPie2d(this._change);

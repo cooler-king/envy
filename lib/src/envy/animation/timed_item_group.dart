@@ -61,9 +61,9 @@ abstract class TimedItemGroup extends GroupNode {
   /// section 3.13.4.1 of the Web Animation spec:
   /// The start time of children of a sequence timing group.
   num get startTime {
-    if (parentTimingGroup is SequenceTimingGroup && _startTime == null)
+    if (parentTimingGroup is SequenceTimingGroup && _startTime == null) {
       (parentTimingGroup as SequenceTimingGroup).calcStartTimes();
-
+    }
     return _startTime ?? 0;
   }
 

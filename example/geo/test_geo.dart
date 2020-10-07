@@ -8,7 +8,7 @@ import 'package:quantity/quantity.dart';
 @Component(
   selector: 'test-geo',
   templateUrl: 'test_geo.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -26,26 +26,26 @@ class TestCircle2d implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final List<num> latitudes = <num>[10, 20, 30, 20, -10, 10];
-    final List<num> longitudes = <num>[-120, -60, 0, 60, 10, -120];
+    final latitudes = <num>[10, 20, 30, 20, -10, 10];
+    final longitudes = <num>[-120, -60, 0, 60, 10, -120];
 
-    final List<Map<String, List<num>>> coordData = <Map<String, List<num>>>[
+    final coordData = <Map<String, List<num>>>[
       <String, List<num>>{'lats': latitudes, 'longs': longitudes}
     ];
 
     // Path
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas
       ..addDataset('coords', list: coordData)
       ..attach(s);
 
-    final ProjectionConstant projSource = ProjectionConstant(Equirectangular(Angle(deg: 45)));
-    final NumberListData latSource = NumberListData('coords', canvas, prop: 'lats');
-    final NumberListData longSource = NumberListData('coords', canvas, prop: 'longs');
+    final projSource = ProjectionConstant(Equirectangular(Angle(deg: 45)));
+    final latSource = NumberListData('coords', canvas, prop: 'lats');
+    final longSource = NumberListData('coords', canvas, prop: 'longs');
 
     s.points.enter = GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
     s.x.enter = NumberConstant.array([200, 500, 800]);
@@ -61,22 +61,22 @@ class TestCircle2d implements AfterViewInit {
   }
 
   void testGeoJson(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final GeoJson geoJson = GeoJson.map(nevada);
+    final geoJson = GeoJson.map(nevada);
 
-    final List<dynamic> coordData = <dynamic>[];
+    final coordData = <dynamic>[];
     for (final dynamic feature in geoJson.featureCollection.features) {
       if (feature.geometry is GeoJsonPolygon) {
-        final List<dynamic> rings = <dynamic>[
+        final rings = <dynamic>[
           (feature.geometry as GeoJsonPolygon).exteriorRing,
           ...(feature.geometry as GeoJsonPolygon).interiorRings,
         ];
         for (final dynamic ring in rings) {
-          final List<dynamic> latitudes = <dynamic>[];
-          final List<dynamic> longitudes = <dynamic>[];
+          final latitudes = <dynamic>[];
+          final longitudes = <dynamic>[];
           for (final dynamic coord in ring.coordinates) {
             longitudes.add(coord.longitude);
             latitudes.add(coord.latitude);
@@ -87,21 +87,21 @@ class TestCircle2d implements AfterViewInit {
     }
 
     // Path
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas
       ..addDataset('coords', list: coordData)
       ..attach(s);
 
-    final AngleRange longRange = geoJson.longitudeRange;
-    final num factor = 360 / longRange.span.valueInUnits(Angle.degrees).toDouble();
+    final longRange = geoJson.longitudeRange;
+    final factor = 360 / longRange.span.valueInUnits(Angle.degrees).toDouble();
 
-    final GeoCoord center = geoJson.center;
+    final center = geoJson.center;
 
-    final ProjectionConstant projSource = ProjectionConstant(Equirectangular(Angle(deg: 45),
+    final projSource = ProjectionConstant(Equirectangular(Angle(deg: 45),
         width: 100 * factor,
         anchor: GeoCoord.degrees(latDeg: center.degreesLatitude, longDeg: center.degreesLongitude)));
-    final NumberListData latSource = NumberListData('coords', canvas, prop: 'lats');
-    final NumberListData longSource = NumberListData('coords', canvas, prop: 'longs');
+    final latSource = NumberListData('coords', canvas, prop: 'lats');
+    final longSource = NumberListData('coords', canvas, prop: 'longs');
 
     s.points.enter = GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
     s.x.enter = NumberConstant(200);

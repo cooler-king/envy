@@ -6,11 +6,11 @@ class DirAttribute extends Enumeration<String> {
   const DirAttribute(String value) : super(value);
 
   /// Left to right.
-  static const DirAttribute ltr = const DirAttribute('ltr');
+  static const DirAttribute ltr = DirAttribute('ltr');
 
   /// Right to left.
-  static const DirAttribute rtl = const DirAttribute('rtl');
+  static const DirAttribute rtl = DirAttribute('rtl');
 
   /// Automatic direction determination.
-  static const DirAttribute auto = const DirAttribute('auto');
+  static const DirAttribute auto = DirAttribute('auto');
 }

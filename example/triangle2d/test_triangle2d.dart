@@ -7,7 +7,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-triangle2d',
   templateUrl: 'test_triangle2d.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -80,8 +80,8 @@ class TestTriangle2d implements AfterViewInit {
     s.y.enter = NumberConstant(50);
     s.base.enter = NumberConstant(40);
     s.height.enter = NumberConstant(40);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
@@ -230,8 +230,8 @@ class TestTriangle2d implements AfterViewInit {
     s.lineWidth.enter = NumberConstant(5);
     s.lineDash.update = NumberListConstant(NumberList(<num>[3, 3]));
     s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.gray));
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
       DrawingStyle2d(color: Color.blue),
@@ -241,8 +241,8 @@ class TestTriangle2d implements AfterViewInit {
       DrawingStyle2d(color: Color.red)
     ]);
 
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'CLICKED $g2di');
     s.onDoubleClick
         .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'DOUBLE-CLICKED $g2di');

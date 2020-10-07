@@ -57,7 +57,7 @@ class Player {
   ///
   /// Time drifts due to pausing the player are taken into account.
   num get effectiveCurrentTime {
-    final num current = currentTime;
+    final current = currentTime;
     return current ?? 0;
   }
 
@@ -69,7 +69,7 @@ class Player {
   /// player's current time is unaffected by the change to the playback rate.
   num get playbackRate => _playbackRate;
   set playbackRate(num rate) {
-    final num prevTime = effectiveCurrentTime;
+    final prevTime = effectiveCurrentTime;
     _playbackRate = rate;
     seek(prevTime);
   }
@@ -176,13 +176,13 @@ class Player {
   }
 
   void _prepareForAnimation() {
-    for (final TimedItemGroup tig in _registered) {
+    for (final tig in _registered) {
       tig.prepareForAnimation();
     }
   }
 
   void _updateRegisteredGroups() {
-    for (final TimedItemGroup group in _registered) {
+    for (final group in _registered) {
       try {
         // Set the context to true to indicate a direct update
         group.update(group.timeFraction, context: true);

@@ -79,7 +79,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
       return Angle(deg: d);
     } else {
       try {
-        final num val = num.parse(d.toString());
+        final val = num.parse(d.toString());
         return Angle(deg: val);
       } catch (e) {
         return angle0;

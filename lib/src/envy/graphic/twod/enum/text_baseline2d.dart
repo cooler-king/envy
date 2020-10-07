@@ -24,20 +24,20 @@ class TextBaseline2d extends Enumeration<String> {
   }
 
   /// Alphabetic text baseline.
-  static const TextBaseline2d alphabetic = const TextBaseline2d('alphabetic');
+  static const TextBaseline2d alphabetic = TextBaseline2d('alphabetic');
 
   /// Top text baseline.
-  static const TextBaseline2d top = const TextBaseline2d('top');
+  static const TextBaseline2d top = TextBaseline2d('top');
 
   /// Hanging text baseline.
-  static const TextBaseline2d hanging = const TextBaseline2d('hanging');
+  static const TextBaseline2d hanging = TextBaseline2d('hanging');
 
   /// Middle text baseline.
-  static const TextBaseline2d middle = const TextBaseline2d('middle');
+  static const TextBaseline2d middle = TextBaseline2d('middle');
 
   /// Ideographic text baseline.
-  static const TextBaseline2d ideographic = const TextBaseline2d('ideographic');
+  static const TextBaseline2d ideographic = TextBaseline2d('ideographic');
 
   /// Bottom text baseline.
-  static const TextBaseline2d bottom = const TextBaseline2d('bottom');
+  static const TextBaseline2d bottom = TextBaseline2d('bottom');
 }

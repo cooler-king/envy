@@ -6,7 +6,7 @@ import 'package:envy/envy.dart';
 @Component(
   selector: 'envy-scene',
   templateUrl: 'envy_scene.html',
-  styleUrls: const <String>['envy_scene.css'],
+  styleUrls: <String>['envy_scene.css'],
 )
 class EnvyScene implements AfterViewInit {
   ///TODO input spec

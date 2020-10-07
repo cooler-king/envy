@@ -19,12 +19,12 @@ import 'pie_slice.dart';
 @Component(
   selector: 'envy-pie',
   templateUrl: 'envy_pie.html',
-  styleUrls: const <String>['envy_pie.css'],
-  directives: const <Object>[
+  styleUrls: <String>['envy_pie.css'],
+  directives: <Object>[
     coreDirectives,
     EnvyScene,
   ],
-  pipes: const <Object>[
+  pipes: <Object>[
     KeepHtmlPipe,
   ],
 )
@@ -190,8 +190,8 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
     label2d.text.enter = StringData.keyed(dataset, 'labelText');
     label2d.text.interpolator = BinaryInterpolator<String>(<num>[0.0]);
-    label2d.font.enter = FontConstant(Font(
-        family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.px(11)), weight: FontWeight.normal));
+    label2d.font.enter = FontConstant(
+        Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.px(11)), weight: FontWeight.normal));
 
     label2d.x.update = NumberData.keyed(dataset, 'labelX');
     label2d.x.interpolator = BinaryInterpolator<num>(<num>[0.0]);

@@ -7,7 +7,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-text2d',
   templateUrl: 'test_text2d.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -61,8 +61,8 @@ class TestText2d implements AfterViewInit {
     s.text.enter = StringConstant.array(<String>['abc', 'def', 'xyz']);
     s.x.enter = NumberConstant.array(<num>[75, 225, 375]);
     s.y.enter = NumberConstant.array(<num>[55]);
-    s.font.enter = FontConstant(Font(
-        family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
+    s.font.enter = FontConstant(
+        Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
     s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
     s.fill.enter = BooleanConstant.array(<bool>[true, true, false]);
     s.stroke.enter = BooleanConstant.array(<bool>[true, false, true]);
@@ -83,20 +83,16 @@ class TestText2d implements AfterViewInit {
     s.x.enter = NumberConstant.array(<int>[75, 225, 375, 525, 675, 825, 975]);
     s.y.enter = NumberConstant.array(<int>[55]);
     s.font.enter = FontConstant.array(<Font>[
-      Font(
-          family: FontFamily.sansSerif, size: FontSize.px(20), weight: FontWeight.bold, style: FontStyle.normal),
+      Font(family: FontFamily.sansSerif, size: FontSize.px(20), weight: FontWeight.bold, style: FontStyle.normal),
       Font(family: FontFamily.serif, size: FontSize.px(12), weight: FontWeight.normal, style: FontStyle.italic),
-      Font(
-          family: FontFamily.monospace, size: FontSize.px(14), weight: FontWeight.normal, style: FontStyle.normal),
-      Font(
-          family: FontFamily.cursive, size: FontSize.px(14), weight: FontWeight.bolder, style: FontStyle.normal),
+      Font(family: FontFamily.monospace, size: FontSize.px(14), weight: FontWeight.normal, style: FontStyle.normal),
+      Font(family: FontFamily.cursive, size: FontSize.px(14), weight: FontWeight.bolder, style: FontStyle.normal),
       Font(
           family: FontFamily.custom('Ubuntu Mono'),
           size: FontSize.px(28),
           weight: FontWeight.bold,
           style: FontStyle.normal),
-      Font(
-          family: FontFamily.fantasy, size: FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique),
+      Font(family: FontFamily.fantasy, size: FontSize.px(16), weight: FontWeight.normal, style: FontStyle.oblique),
       Font(size: FontSize.px(30), weight: FontWeight.bold, style: FontStyle.oblique)
     ]);
     s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
@@ -116,8 +112,8 @@ class TestText2d implements AfterViewInit {
     s.text.enter = StringConstant('12345');
     s.x.enter = NumberConstant.array(<num>[50, 100, 150, 200, 250]);
     s.y.enter = NumberConstant(50);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
@@ -135,8 +131,8 @@ class TestText2d implements AfterViewInit {
     s.text.enter = StringConstant('yXy');
     s.x.enter = NumberConstant.array(xList);
     s.y.enter = NumberConstant(100);
-    s.font.enter = FontConstant(Font(
-        family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(14)), weight: FontWeight.bold));
+    s.font.enter = FontConstant(
+        Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(14)), weight: FontWeight.bold));
     s.lineWidth.enter = NumberConstant(1);
     s.rotation.enter = AngleConstant(Angle(deg: 0));
     s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
@@ -177,8 +173,8 @@ class TestText2d implements AfterViewInit {
       t.text.enter = StringConstant('qwerty');
       t.x.enter = NumberConstant.array(<num>[75]);
       t.y.enter = NumberConstant.array(<num>[55]);
-      t.font.enter = FontConstant(Font(
-          family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
+      t.font.enter = FontConstant(
+          Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
       t.rotation.enter = AngleConstant(Angle(deg: 0));
       t.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
       t.opacity.enter = NumberConstant(0.3);
@@ -199,8 +195,8 @@ class TestText2d implements AfterViewInit {
       t.text.enter = StringConstant('qwerty');
       t.x.enter = NumberConstant(50);
       t.y.enter = NumberConstant(50);
-      t.font.enter = FontConstant(Font(
-          family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(12)), weight: FontWeight.normal));
+      t.font.enter = FontConstant(
+          Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(12)), weight: FontWeight.normal));
       t.rotation.enter = AngleConstant(Angle(deg: 0));
       t.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
       t.opacity.enter = NumberConstant(1);
@@ -208,8 +204,8 @@ class TestText2d implements AfterViewInit {
       t.text.update = StringConstant('qwerty2');
       t.x.update = NumberConstant(200);
       t.y.update = NumberConstant(100);
-      t.font.update = FontConstant(Font(
-          family: FontFamily.cursive, size: FontSize.cssLength(CssLength.pt(20)), weight: FontWeight.bold));
+      t.font.update = FontConstant(
+          Font(family: FontFamily.cursive, size: FontSize.cssLength(CssLength.pt(20)), weight: FontWeight.bold));
       t.rotation.update = AngleConstant(Angle(deg: 720));
       t.fillStyle.update = DrawingStyle2dConstant(DrawingStyle2d(color: Color.red));
       t.opacity.update = NumberConstant(1);
@@ -256,10 +252,10 @@ class TestText2d implements AfterViewInit {
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 360]);
     s.y.enter = NumberConstant(50);
     s.text.enter = StringConstant.array(<String>['abc', 'def', 'xyz', 'pdq', 'omg']);
-    s.font.enter = FontConstant(Font(
-        family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.font.enter = FontConstant(
+        Font(family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.pt(16)), weight: FontWeight.bold));
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
       DrawingStyle2d(color: Color.blue),

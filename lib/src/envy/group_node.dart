@@ -80,7 +80,7 @@ class GroupNode extends EnvyNode {
   /// return false.
   bool detach(EnvyNode node) {
     if (node == null) return false;
-    final bool tf = children.remove(node);
+    final tf = children.remove(node);
     node.parent = null;
     return tf;
   }

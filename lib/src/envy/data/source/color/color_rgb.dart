@@ -10,8 +10,8 @@ class ColorRgb extends ColorSource {
 
   //TODO -- array length considerations???
   @override
-  Color valueAt(int index) => Color(red?.valueAt(index)?.toDouble() ?? 0.0,
-      green?.valueAt(index)?.toDouble() ?? 0.0, blue?.valueAt(index)?.toDouble() ?? 0.0);
+  Color valueAt(int index) => Color(red?.valueAt(index)?.toDouble() ?? 0.0, green?.valueAt(index)?.toDouble() ?? 0.0,
+      blue?.valueAt(index)?.toDouble() ?? 0.0);
 
   /// The source of the red value (0-1).
   NumberSource red;

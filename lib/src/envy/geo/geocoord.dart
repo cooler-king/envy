@@ -35,7 +35,7 @@ class GeoCoord {
 
   @override
   String toString() {
-    final StringBuffer buf = StringBuffer()
+    final buf = StringBuffer()
       ..write(degreesLatitude)
       ..write(degreesLatitude < 0 ? 'S' : 'N')
       ..write(', ')

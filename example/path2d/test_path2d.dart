@@ -8,7 +8,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-path2d',
   templateUrl: 'test_path2d.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -66,12 +66,12 @@ class TestPath2d implements AfterViewInit {
   ]);
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Path
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas
       ..addDataset('points', list: pointData)
       ..attach(s);
@@ -89,32 +89,32 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testRotation(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100)..addDataset('points', list: pointData);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
     // Path
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas.attach(s);
 
     s.points.enter = PointListData('points', canvas);
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = NumberConstant(50);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
 
   void testAnchors(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 200)..addDataset('points', list: pointData);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 200)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas.attach(s);
 
-    final List<num> xList = <num>[50, 250, 450, 650, 850, 1050, 1250, 1450, 1650, 1850];
+    final xList = <num>[50, 250, 450, 650, 850, 1050, 1250, 1450, 1650, 1850];
 
     s.points.enter = PointListData('points', canvas);
     s.x.enter = NumberConstant.array(xList);
@@ -137,7 +137,7 @@ class TestPath2d implements AfterViewInit {
     ]);
 
     // Circles to mark the anchors
-    final Circle2d c = Circle2d();
+    final c = Circle2d();
     canvas.attach(c);
     c.x.enter = NumberConstant.array(xList);
     c.y.enter = NumberConstant(100);
@@ -150,10 +150,10 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testLifecycle(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode()..addDataset('points', list: pointData);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode()..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas.attach(s);
 
     enterButton.onClick.listen((_) {
@@ -227,11 +227,11 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testDataDriven(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode()..addDataset('points', list: pointData);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode()..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    final Path2d s = Path2d();
+    final s = Path2d();
     s.points.enter = PointListData('points', canvas);
     s.x.enter = NumberConstant(50);
     s.y.enter = NumberConstant(50);
@@ -244,8 +244,8 @@ class TestPath2d implements AfterViewInit {
     esg.updateGraph();
 
     dataButton.onClick.listen((_) {
-      final Random rand = Random();
-      final PointList newPointData = PointList(<Point<num>>[
+      final rand = Random();
+      final newPointData = PointList(<Point<num>>[
         Point<num>(1, rand.nextDouble() * 300),
         Point<num>(20, rand.nextDouble() * 300),
         Point<num>(40, rand.nextDouble() * 300),
@@ -260,12 +260,12 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testInterpolation(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Path
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas
       ..addDataset('points', list: pointData)
       ..attach(s);
@@ -290,11 +290,11 @@ class TestPath2d implements AfterViewInit {
   }
 
   void testHit(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 500)..addDataset('points', list: pointData);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 500)..addDataset('points', list: pointData);
     esg.attachToRoot(canvas);
 
-    final Path2d s = Path2d();
+    final s = Path2d();
     canvas.attach(s);
 
     s.x.enter = NumberConstant.array(<num>[50, 200, 350, 500, 550]);
@@ -310,8 +310,8 @@ class TestPath2d implements AfterViewInit {
       DrawingStyle2d(color: Color.red)
     ]);
 
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'CLICKED $g2di');
     s.onDoubleClick
         .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'DOUBLE-CLICKED $g2di');

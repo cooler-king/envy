@@ -56,21 +56,21 @@ class Text2d extends Graphic2dNode {
     final bool _stroke = stroke.valueAt(index);
 
     // Set the text-related properties in the global context
-    final TextAlign2d _align = textAlign.valueAt(index);
+    final _align = textAlign.valueAt(index);
     if (_align != null) ctx.textAlign = _align.value;
 
-    final TextBaseline2d _baseline = textBaseline.valueAt(index);
+    final _baseline = textBaseline.valueAt(index);
     if (_baseline != null) ctx.textBaseline = _baseline.value;
 
-    final Font _font = font.valueAt(index);
+    final _font = font.valueAt(index);
     if (_font != null) ctx.font = _font.css;
 
     // Adjust for anchor (default is top left)
-    final TextMetrics metrics = ctx.measureText(_text);
-    final num approxHeight = ctx.measureText('x').width * 1.25;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final metrics = ctx.measureText(_text);
+    final approxHeight = ctx.measureText('x').width * 1.25;
+    final _anchor = anchor.valueAt(index);
     if (_anchor?.isNotDefault == true) {
-      final List<num> adj = _anchor.calcAdjustments(-approxHeight, metrics.width, 0, 0);
+      final adj = _anchor.calcAdjustments(-approxHeight, metrics.width, 0, 0);
       _dx += adj[0];
       _dy += adj[1];
     }

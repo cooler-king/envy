@@ -46,7 +46,7 @@ class DrawingStyle2dData extends ArrayDataSource<DrawingStyle2d> implements Draw
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);

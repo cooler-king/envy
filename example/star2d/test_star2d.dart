@@ -7,7 +7,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-star2d',
   templateUrl: 'test_star2d.html',
-  directives: const <Object>[
+  directives: <Object>[
     EnvyScene,
   ],
 )
@@ -105,8 +105,8 @@ class TestStar2d implements AfterViewInit {
     s.y.enter = NumberConstant(50);
     s.innerRadius.enter = NumberConstant(10);
     s.outerRadius.enter = NumberConstant(20);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
@@ -263,8 +263,8 @@ class TestStar2d implements AfterViewInit {
     s.outerRadius.enter = NumberConstant(50);
     s.lineWidth.enter = NumberConstant(5);
     s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.yellow));
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.fill.enter = BooleanConstant.trueValue;
     s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
       DrawingStyle2d(color: Color.blue),
@@ -274,8 +274,8 @@ class TestStar2d implements AfterViewInit {
       DrawingStyle2d(color: Color.red)
     ]);
 
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'CLICKED $g2di');
     s.onDoubleClick
         .listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml = 'DOUBLE-CLICKED $g2di');

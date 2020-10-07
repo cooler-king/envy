@@ -10,7 +10,7 @@ class EnvyRoot extends HtmlNode {
   /// Constructs a instance.
   EnvyRoot() {
     // Root only ever has a single DivElement DOM node; create it here.
-    final DomNodeCoupling c = DomNodeCoupling(parentIndex: 0, propIndex: 0);
+    final c = DomNodeCoupling(parentIndex: 0, propIndex: 0);
     domNodesMap[c] = generateNode();
 
     _initAnimationNode();

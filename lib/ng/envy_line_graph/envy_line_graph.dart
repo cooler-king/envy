@@ -18,8 +18,8 @@ import 'line_series.dart';
 @Component(
   selector: 'envy-line-graph',
   templateUrl: 'envy_line_graph.html',
-  styleUrls:  <String>['envy_line_graph.css'],
-  directives:  <Object>[
+  styleUrls: <String>['envy_line_graph.css'],
+  directives: <Object>[
     coreDirectives,
     EnvyScene,
   ],
@@ -77,14 +77,14 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
   }
 
   void _createGraphic() {
-    final  esg = scene?.sceneGraph;
+    final esg = scene?.sceneGraph;
     _canvas = CanvasNode(1000, 100);
     esg.attachToRoot(_canvas);
 
-    final  dataset = KeyedDataset('vertexData', esg.root, 'key');
+    final dataset = KeyedDataset('vertexData', esg.root, 'key');
 
     // One path for each line series.
-    final  s = Path2d();
+    final s = Path2d();
     _canvas.attach(s);
 
     s.points.enter = PointListData('points', _canvas);
@@ -95,20 +95,18 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
     s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.cyan));
     s.opacity.enter = NumberConstant(1);
 
-
-
     esg.updateGraph();
   }
 
   void _updateData() {
     try {
-      final  esg = scene?.sceneGraph;
+      final esg = scene?.sceneGraph;
 
-      final  data = <Map<String, dynamic>>[];
+      final data = <Map<String, dynamic>>[];
 
       if (seriesList?.isNotEmpty == true) {
         final rand = Random();
-        final  newPointData = PointList(<Point<num>>[
+        final newPointData = PointList(<Point<num>>[
           Point<num>(1, rand.nextDouble() * 300),
           Point<num>(20, rand.nextDouble() * 300),
           Point<num>(40, rand.nextDouble() * 300),

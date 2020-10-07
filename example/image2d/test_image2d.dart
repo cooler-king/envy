@@ -8,7 +8,7 @@ import 'package:angular/angular.dart';
 @Component(
   selector: 'test-image2d',
   templateUrl: 'test_image2d.html',
-  directives: const <Object>[EnvyScene],
+  directives: <Object>[EnvyScene],
 )
 class TestImage2d implements AfterViewInit {
   final String imageUrl = 'packages/envy/resources/morgan_silver_dollar.png';
@@ -57,21 +57,21 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
       // Image has to be part of scene graph
       ..attach(image);
 
-    final CssStyle css = CssStyle();
+    final css = CssStyle();
     css['opacity'] = CssNumber(0.5);
     image.style.enter = CssStyleConstant(css);
 
@@ -85,14 +85,14 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testRotation(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
@@ -103,28 +103,28 @@ class TestImage2d implements AfterViewInit {
     s.y.enter = NumberConstant(10);
     s.width.enter = NumberConstant(40);
     s.height.enter = NumberConstant(40);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
 
   void testAnchors(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 200);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
       // Image has to be part of scene graph
       ..attach(image);
 
-    final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+    final xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
     s.x.enter = NumberConstant.array(xList);
     s.y.enter = NumberConstant(100);
@@ -144,7 +144,7 @@ class TestImage2d implements AfterViewInit {
     ]);
 
     // Circles to mark the anchors
-    final Circle2d c = Circle2d();
+    final c = Circle2d();
     canvas.attach(c);
     c.x.enter = NumberConstant.array(xList);
     c.y.enter = NumberConstant(100);
@@ -157,14 +157,14 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testLifecycle(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode();
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode();
     esg.attachToRoot(canvas);
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
@@ -235,22 +235,16 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testDataDriven(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode();
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode();
     esg.attachToRoot(canvas);
-    final Map<String, int> datamap = <String, int>{
-      'xcoord': 100,
-      'ycoord': 50,
-      'width': 50,
-      'height': 20,
-      'opacity': 1
-    };
+    final datamap = <String, int>{'xcoord': 100, 'ycoord': 50, 'width': 50, 'height': 20, 'opacity': 1};
     canvas.addDataset('imagedata', map: datamap);
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
@@ -267,8 +261,8 @@ class TestImage2d implements AfterViewInit {
     esg.updateGraph();
 
     dataButton.onClick.listen((_) {
-      final Random rand = Random();
-      final Map<String, dynamic> randomData = <String, dynamic>{
+      final rand = Random();
+      final randomData = <String, dynamic>{
         'xcoord': 150 + rand.nextDouble() * 100,
         'ycoord': 140 + rand.nextDouble() * 50,
         'width': 40 + rand.nextDouble() * 100,
@@ -282,16 +276,16 @@ class TestImage2d implements AfterViewInit {
   }
 
   void testHit(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 500);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 500);
     esg.attachToRoot(canvas);
 
     canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    final ImageNode image = ImageNode()..src.enter = StringConstant(imageUrl);
+    final image = ImageNode()..src.enter = StringConstant(imageUrl);
 
     // Image
-    final Image2d s = Image2d(image);
+    final s = Image2d(image);
     canvas
       ..attach(s)
 
@@ -302,12 +296,12 @@ class TestImage2d implements AfterViewInit {
     s.y.enter = NumberConstant(50);
     s.width.enter = NumberConstant(40);
     s.height.enter = NumberConstant(40);
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.data.enter = NumberConstant.array(<num>[10, 20, 30, 40, 50]);
 
-    s.rotation.enter = AngleConstant.array(
-        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
+    s.rotation.enter =
+        AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml =
         'CLICKED $g2di... data = ${g2di.graphic2d.data.valueAt(g2di.index)}');
     s.onDoubleClick

@@ -4,7 +4,7 @@ import 'envy_interpolator.dart';
 import 'point_interpolator.dart';
 
 /// A constant point at zero, zero.
-const Point<num> ptZeroZero = const Point<num>(0, 0);
+const Point<num> ptZeroZero = Point<num>(0, 0);
 
 /// Interpolates between a two lists containing points.
 ///
