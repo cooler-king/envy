@@ -5,7 +5,7 @@ import 'package:envy/envy.dart';
 void main() {
   group('Timing Functions', () {
     test('Linear Function', () {
-      final LinearFunction linear = LinearFunction();
+      final linear = LinearFunction();
       expect(linear.output(0), 0);
       expect(linear.output(1), 1);
       expect(linear.output(0.2), 0.2);
@@ -15,7 +15,7 @@ void main() {
 
     group('Step Functions', () {
       test('end', () {
-        StepFunction steps = StepFunction(2);
+        var steps = StepFunction(2);
         expect(steps.output(0), 0);
         expect(steps.output(0.000001), 0);
         expect(steps.output(0.1), 0);
@@ -47,7 +47,7 @@ void main() {
       });
 
       test('start', () {
-        StepFunction steps = StepFunction(2, false);
+        var steps = StepFunction(2, false);
         expect(steps.output(0), 0.5);
         expect(steps.output(0.000001), 0.5);
         expect(steps.output(0.1), 0.5);
@@ -81,7 +81,7 @@ void main() {
 
     group('Cubic Bezier Functions', () {
       test('end', () {
-        final CubicBezierCurve curve = CubicBezierCurve.easeInOut;
+        final curve = CubicBezierCurve.easeInOut;
         expect(curve.output(0), 0);
         expect(curve.output(0.25) < 0.25, true);
         expect(curve.output(0.5), 0.5);

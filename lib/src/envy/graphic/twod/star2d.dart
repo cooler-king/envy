@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional star to be drawn on an HTML canvas.
@@ -39,14 +38,14 @@ class Star2d extends Graphic2dNode {
     _outerRadius = outerRadius.valueAt(index);
     _innerRadius = innerRadius.valueAt(index);
 
-    final List<num> xRaw = <num>[];
-    final List<num> yRaw = <num>[];
+    final xRaw = <num>[];
+    final yRaw = <num>[];
 
     final num halfAngleStepRad = pi / _pointCount;
     final num angleStepRad = 2.0 * halfAngleStepRad;
     num angleRad = 0;
-    num preAngleRad = angleRad - halfAngleStepRad;
-    num postAngleRad = angleRad + halfAngleStepRad;
+    var preAngleRad = angleRad - halfAngleStepRad;
+    var postAngleRad = angleRad + halfAngleStepRad;
 
     num maxX = double.negativeInfinity;
     num maxY = double.negativeInfinity;
@@ -57,7 +56,7 @@ class Star2d extends Graphic2dNode {
     yRaw.add(-cos(preAngleRad) * _innerRadius);
     maxY = max(maxY, yRaw.last);
 
-    for (int i = 0; i < _pointCount; i++) {
+    for (var i = 0; i < _pointCount; i++) {
       xRaw.add(sin(angleRad) * _outerRadius);
       maxX = max(maxX, xRaw.last);
       yRaw.add(-cos(angleRad) * _outerRadius);
@@ -76,21 +75,21 @@ class Star2d extends Graphic2dNode {
     // Adjust for anchor (default is center of Star).
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-maxY, maxX, maxY, -maxX);
+      final adj = _anchor.calcAdjustments(-maxY, maxX, maxY, -maxX);
       _x += adj[0];
       _y += adj[1];
     }
 
     if (xRaw.isNotEmpty) {
-      final bool _fill = fill.valueAt(index);
-      final bool _stroke = stroke.valueAt(index);
+      final _fill = fill.valueAt(index);
+      final _stroke = stroke.valueAt(index);
 
       ctx
         ..beginPath()
         ..moveTo(_x + xRaw[0], _y + yRaw[0]);
-      for (int i = 1; i < xRaw.length; i++) {
+      for (var i = 1; i < xRaw.length; i++) {
         ctx.lineTo(_x + xRaw[i], _y + yRaw[i]);
       }
       ctx.closePath();

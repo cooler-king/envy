@@ -35,9 +35,9 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
   /// then a or b is returned as appropriate.
   @override
   PointList interpolate(PointList a, PointList b, num fraction) {
-    final int numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
-    final PointList newPoints = PointList();
-    for (int i = 0; i < numPoints; i++) {
+    final numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
+    final newPoints = PointList();
+    for (var i = 0; i < numPoints; i++) {
       newPoints
           .add(_pointInterp.interpolate(i < a.length ? a[i] : ptZeroZero, i < b.length ? b[i] : ptZeroZero, fraction));
     }

@@ -13,8 +13,8 @@ abstract class Projection {
   /// The scale of the projection may be set indirectly by specifying the
   /// desired width of the projection in pixels (at 0 latitude).
   void setPixelWidth(num width) {
-    final Point<num> left = degreesToPoint(latDeg: 0, longDeg: -180);
-    final Point<num> right = degreesToPoint(latDeg: 0, longDeg: 180);
+    final left = degreesToPoint(latDeg: 0, longDeg: -180);
+    final right = degreesToPoint(latDeg: 0, longDeg: 180);
     _scale = width / (right.x - left.x).abs();
   }
 

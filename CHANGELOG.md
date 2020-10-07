@@ -1,5 +1,5 @@
-### 0.5.0
-  * Added the `envy-line-graph` component.
+### 0.4.1
+  * Changed dependency `quantity ^1.0.0`.
   * Converted to standard analysis_options from the pedantic package.
 
 ### 0.4.0+1

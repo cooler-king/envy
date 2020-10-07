@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math' show min, max;
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional line to be drawn on an HTML canvas.
@@ -33,7 +32,7 @@ class Line2d extends Graphic2dNode {
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _x1, _y1, _x2, _y2;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     _x1 = x1.valueAt(index);
     _y1 = y1.valueAt(index);
     _x2 = x2.valueAt(index);

@@ -76,7 +76,7 @@ class BooleanData extends ArrayDataSource<bool> implements BooleanSource {
       if (d == 0) return false;
       return true;
     } else if (d is String) {
-      final String lc = d.trim().toLowerCase();
+      final lc = d.trim().toLowerCase();
       if (lc == 'true' || lc == 'yes' || lc == 'y' || lc == 'on' || lc == '1') return true;
       return false;
     } else if (d is Quantity) {

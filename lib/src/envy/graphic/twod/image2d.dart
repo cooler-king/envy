@@ -1,7 +1,6 @@
 import 'dart:html';
 import '../../envy_property.dart';
 import '../../html/canvas_image_source_node.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
@@ -55,7 +54,7 @@ class Image2d extends Graphic2dNode {
     // Fill and stroke don't apply.
 
     if (source != null) {
-      final CanvasImageSource imgSource = source.elementAt(index);
+      final imgSource = source.elementAt(index);
 
       if (_width == 0 || _height == 0) {
         // If width and height are not explicitly set (non-zero) then use actual dimensions.

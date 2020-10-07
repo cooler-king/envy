@@ -16,7 +16,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get minX {
     if (isEmpty) return double.nan;
     num min = double.infinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.x < min) min = pt.x;
     }
     return min;
@@ -26,7 +26,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get maxX {
     if (isEmpty) return double.nan;
     num max = double.negativeInfinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.x > max) max = pt.x;
     }
     return max;
@@ -36,7 +36,7 @@ class PointList extends DelegatingList<Point<num>> {
   num get minY {
     if (isEmpty) return double.nan;
     num min = double.infinity;
-    for (final Point<num> pt in this) {
+    for (final pt in this) {
       if (pt.y < min) min = pt.y;
     }
     return min;

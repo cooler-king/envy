@@ -16,7 +16,7 @@ mixin DynamicNode {
 
   /// Updates all property values.
   void updateProperties(num timeFraction, {bool finish = false}) {
-    for (final EnvyProperty<dynamic> prop in properties.values) {
+    for (final prop in properties.values) {
       prop.updateValues(timeFraction, finish: finish);
     }
   }
@@ -31,7 +31,7 @@ mixin DynamicNode {
   }
 
   void _refreshDataSources() {
-    for (final EnvyProperty<dynamic> envyProp in properties.values) {
+    for (final envyProp in properties.values) {
       envyProp.refreshDataSources();
     }
   }
@@ -45,7 +45,7 @@ mixin DynamicNode {
   void preparePropertiesForAnimation() {
     _refreshDataSources();
     _updateSize();
-    for (final EnvyProperty<dynamic> prop in properties.values) {
+    for (final prop in properties.values) {
       prop.preparePropertyForAnimation(size);
     }
   }

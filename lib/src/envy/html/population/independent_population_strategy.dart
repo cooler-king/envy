@@ -16,10 +16,10 @@ class IndependentPopulationStrategy extends PopulationStrategy {
   /// Generate the coupling list.
   @override
   List<DomNodeCoupling> determineCoupling(int parentCount, int childCount) {
-    final List<DomNodeCoupling> list = <DomNodeCoupling>[];
+    final list = <DomNodeCoupling>[];
 
     int c;
-    for (int p = 0; p < parentCount; p++) {
+    for (var p = 0; p < parentCount; p++) {
       for (c = 0; c < childCount; c++) {
         list.add(DomNodeCoupling(parentIndex: p, propIndex: c));
       }

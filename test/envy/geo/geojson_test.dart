@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 void main() {
   group('GeoJson', () {
     test('Point', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'Point',
         'coordinates': <num>[100.0, 0.0]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonPoint, true);
       expect(g.feature, isNull);
@@ -17,7 +17,7 @@ void main() {
       expect((g.geometry as GeoJsonPoint).coordinate.latitude, 0);
       expect((g.geometry as GeoJsonPoint).coordinate.longitude, 100);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'Point');
       expect(json['coordinates'] is List, true);
@@ -25,14 +25,14 @@ void main() {
     });
 
     test('MultiPoint', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'MultiPoint',
         'coordinates': <List<num>>[
           <num>[100.0, 0.0],
           <num>[101.0, 1.0]
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiPoint, true);
       expect(g.feature, isNull);
@@ -43,7 +43,7 @@ void main() {
       expect((g.geometry as GeoJsonMultiPoint).coordinates[1].latitude, 1);
       expect((g.geometry as GeoJsonMultiPoint).coordinates[1].longitude, 101);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'MultiPoint');
       expect(json['coordinates'] is List, true);
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('LineString', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'LineString',
         'coordinates': <List<num>>[
           <num>[100.0, 0.0],
@@ -62,7 +62,7 @@ void main() {
           <num>[102.0, 2.0]
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonLineString, true);
       expect(g.feature, isNull);
@@ -75,7 +75,7 @@ void main() {
       expect((g.geometry as GeoJsonLineString).coordinates[2].latitude, 2);
       expect((g.geometry as GeoJsonLineString).coordinates[2].longitude, 102);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'LineString');
       expect(json['coordinates'] is List, true);
@@ -87,7 +87,7 @@ void main() {
     });
 
     test('MultiLineString', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'MultiLineString',
         'coordinates': <List<List<num>>>[
           <List<num>>[
@@ -100,7 +100,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiLineString, true);
       expect(g.feature, isNull);
@@ -132,7 +132,7 @@ void main() {
     });
 
     test('Polygon', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'Polygon',
         'coordinates': <List<List<num>>>[
           <List<num>>[
@@ -144,7 +144,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonPolygon, true);
       expect(g.feature, isNull);
@@ -155,7 +155,7 @@ void main() {
       expect((g.geometry as GeoJsonPolygon).exteriorRing.coordinates[2].latitude, 7);
       expect((g.geometry as GeoJsonPolygon).exteriorRing.coordinates[2].longitude, 107);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'Polygon');
       expect(json['coordinates'] is List, true);
@@ -171,7 +171,7 @@ void main() {
     });
 
     test('MultiPolygon', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'MultiPolygon',
         'coordinates': <List<List<List<num>>>>[
           <List<List<num>>>[
@@ -201,7 +201,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiPolygon, true);
       expect(g.feature, isNull);
@@ -212,7 +212,7 @@ void main() {
       expect((g.geometry as GeoJsonMultiPolygon).polygons[0].exteriorRing.coordinates[0].longitude, 102);
       expect((g.geometry as GeoJsonMultiPolygon).polygons[0].interiorRings, isEmpty);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'MultiPolygon');
       expect(json['coordinates'].length, 2);
@@ -246,7 +246,7 @@ void main() {
     });
 
     test('GeometryCollection', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'GeometryCollection',
         'geometries': <Map<String, dynamic>>[
           <String, dynamic>{
@@ -262,7 +262,7 @@ void main() {
           }
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonGeometryCollection, true);
       expect(g.feature, isNull);
@@ -271,7 +271,7 @@ void main() {
       expect((g.geometry as GeoJsonGeometryCollection).geometries[0] is GeoJsonPoint, true);
       expect((g.geometry as GeoJsonGeometryCollection).geometries[1] is GeoJsonLineString, true);
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'GeometryCollection');
       expect(json['geometries'].length, 2);
@@ -289,7 +289,7 @@ void main() {
     });
 
     test('Feature', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'Feature',
         'geometry': <String, dynamic>{
           'type': 'Polygon',
@@ -308,7 +308,7 @@ void main() {
           'prop1': <String, dynamic>{'this': 'that'}
         }
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.feature is GeoJsonFeature, true);
       expect(g.geometry, isNull);
@@ -321,7 +321,7 @@ void main() {
         'prop1': <String, dynamic>{'this': 'that'}
       });
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'Feature');
       expect(json['geometry'], <String, dynamic>{
@@ -343,7 +343,7 @@ void main() {
     });
 
     test('FeatureCollection', () {
-      final Map<String, dynamic> m = <String, dynamic>{
+      final m = <String, dynamic>{
         'type': 'FeatureCollection',
         'features': <Map<String, dynamic>>[
           <String, dynamic>{
@@ -388,7 +388,7 @@ void main() {
           }
         ]
       };
-      final GeoJson g = GeoJson.map(m);
+      final g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.featureCollection is GeoJsonFeatureCollection, true);
       expect(g.geometry, isNull);
@@ -404,7 +404,7 @@ void main() {
         'prop1': <String, dynamic>{'this': 'that'}
       });
 
-      final Map<dynamic, dynamic> json = g.toJson() as Map<dynamic, dynamic>;
+      final json = g.toJson() as Map<dynamic, dynamic>;
       expect(json is Map, true);
       expect(json['type'], 'FeatureCollection');
       expect(json['features'], <Map<String, dynamic>>[

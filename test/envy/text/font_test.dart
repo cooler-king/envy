@@ -5,7 +5,7 @@ import 'package:envy/envy.dart';
 void main() {
   group('FontSize', () {
     test('to css string', () {
-      FontSize a = FontSize.px(17);
+      var a = FontSize.px(17);
       expect(a.css, '17px');
 
       a = FontSize.px(9.3);
@@ -27,14 +27,14 @@ void main() {
       expect(FontStyle.normal.css, '');
       expect(FontStyle.oblique.css, 'oblique');
 
-      final FontStyle a = FontStyle.custom('foobar');
+      final a = FontStyle.custom('foobar');
       expect(a.css, 'foobar');
     });
   });
 
   group('Font', () {
     test('to css string', () {
-      Font a = Font(size: FontSize.px(17), family: FontFamily.custom('qwerty asdf'));
+      var a = Font(size: FontSize.px(17), family: FontFamily.custom('qwerty asdf'));
       expect(a.css, '17px \'qwerty asdf\'');
 
       a = Font(style: FontStyle.italic, weight: FontWeight.bold, size: FontSize.px(12), family: FontFamily.monospace);

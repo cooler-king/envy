@@ -49,7 +49,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   void refresh() {
     values.clear();
 
-    Object data = node.getDataset(datasetName);
+    var data = node.getDataset(datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);

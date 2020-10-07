@@ -1,6 +1,5 @@
 import 'dart:html';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A point to be drawn on an HTML canvas.

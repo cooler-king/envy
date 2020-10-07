@@ -5,15 +5,15 @@ import 'package:envy/envy.dart';
 void main() {
   group('Scene Graph', () {
     test('Constructors', () {
-      final EnvySceneGraph esg = EnvySceneGraph();
+      final esg = EnvySceneGraph();
       expect(esg.root is EnvyRoot, true);
       expect(esg.root.rootAnimation is AnimationGroup, true);
       expect(identical(esg.root.children.first, esg.root.rootAnimation), true);
     });
 
     test('update empty', () {
-      final EnvySceneGraph esg = EnvySceneGraph();
-      bool ok = true;
+      final esg = EnvySceneGraph();
+      var ok = true;
       try {
         esg.updateGraph();
       } catch (e) {
@@ -38,12 +38,12 @@ void main() {
 */
 
     test('canvas with rect', () {
-      final EnvySceneGraph esg = EnvySceneGraph();
-      final CanvasNode canvas = CanvasNode();
+      final esg = EnvySceneGraph();
+      final canvas = CanvasNode();
       esg.attachToRoot(canvas);
       expect(esg.root.children.first is AnimationGroup, true);
       expect((esg.root.children.first as AnimationGroup).children.first, canvas);
-      final Rect2d rect = Rect2d();
+      final rect = Rect2d();
       canvas.attach(rect);
       expect((esg.root.rootAnimation.children.first as GroupNode).children.first, rect);
 

@@ -11,7 +11,7 @@ class TextBaseline2d extends Enumeration<String> {
   static TextBaseline2d from(dynamic d) {
     if (d is TextBaseline2d) return d;
     if (d is String) {
-      final String lc = d.trim().toLowerCase();
+      final lc = d.trim().toLowerCase();
       if (lc == 'alphabetic') return TextBaseline2d.alphabetic;
       if (lc == 'top') return TextBaseline2d.top;
       if (lc == 'hanging') return TextBaseline2d.hanging;

@@ -83,13 +83,13 @@ class DataAccessor {
   DataAccessor.parse(String accessPath) {
     if (accessPath == null) return;
     try {
-      final List<String> accessSteps = accessPath.split('.');
-      for (final String step in accessSteps) {
+      final accessSteps = accessPath.split('.');
+      for (final step in accessSteps) {
         if (step.startsWith('[') && step.endsWith(']')) {
-          final Indices ind = Indices.parse(step.substring(1, step.length - 1));
+          final ind = Indices.parse(step.substring(1, step.length - 1));
           if (ind != null) steps.add(ind);
         } else {
-          final int slashIndex = step.indexOf('/');
+          final slashIndex = step.indexOf('/');
           if (slashIndex == -1) {
             steps.add(step.trim());
           } else {
@@ -121,19 +121,19 @@ class DataAccessor {
     dynamic dataCursor = dataset;
     for (final dynamic step in steps) {
       if (dataCursor is List<Map<dynamic, dynamic>>) {
-        List<dynamic> dataList = <dynamic>[];
+        var dataList = <dynamic>[];
         if (step is! Indices || (step as Indices).isAll) {
           // Shortcut! (Assume [*] for List of Maps when
           // no indices are provided)
           if (step is String) {
-            for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
+            for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
               dataList.add(m[step]);
             }
             dataCursor = dataList;
           } else if (step is KeyedProperty) {
-            final String stepProp = step.property;
-            final String stepKeyProp = step.keyProp;
-            Map<dynamic, int> keyValueIndexMap = propOrderingMap[stepProp];
+            final stepProp = step.property;
+            final stepKeyProp = step.keyProp;
+            var keyValueIndexMap = propOrderingMap[stepProp];
             if (keyValueIndexMap == null) {
               // First time; save the initial ordering
               keyValueIndexMap = <dynamic, int>{}; // Map literals are ordered  //key value to index???
@@ -141,8 +141,8 @@ class DataAccessor {
 
               // List of key values ... null out and append as necessary
               // special value for exited?
-              int index = 0;
-              for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
+              var index = 0;
+              for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
                 keyValueIndexMap[m[stepKeyProp]] = index;
                 dataList.add(m[stepProp]);
                 index++;
@@ -154,12 +154,12 @@ class DataAccessor {
               dataList = List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
 
               dataUnavailableIndices.clear();
-              for (int i = 0; i < dataList.length; i++) {
+              for (var i = 0; i < dataList.length; i++) {
                 dataUnavailableIndices[i] = true;
               }
 
               int index;
-              for (final Map<dynamic, dynamic> m in dataCursor as List<Map<dynamic, dynamic>>) {
+              for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
                 final dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
@@ -177,7 +177,7 @@ class DataAccessor {
           }
         } else {
           // Indices
-          for (final int i in step.values as Iterable<int>) {
+          for (final i in step.values as Iterable<int>) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;
@@ -191,9 +191,9 @@ class DataAccessor {
           throw StateError('Unable to apply access step ($step) to data ($dataCursor)');
         }
       } else if (dataCursor is List) {
-        final List<dynamic> dataList = <dynamic>[];
+        final dataList = <dynamic>[];
         if (step is Indices) {
-          for (final int i in step.values) {
+          for (final i in step.values) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;
@@ -212,16 +212,16 @@ class DataAccessor {
   /// Removes any data unavailable entries from the propOrderingMap and adjusts indices as necessary.
   void cullUnavailableData() {
     if (dataUnavailableIndices.isEmpty) return;
-    for (final String propKey in propOrderingMap.keys) {
-      final Map<dynamic, int> m = propOrderingMap[propKey];
+    for (final propKey in propOrderingMap.keys) {
+      final m = propOrderingMap[propKey];
       m.removeWhere((dynamic key, int value) => dataUnavailableIndices.containsKey(m[key]));
 
       //TODO if it's true they are always already in order then can just rewrite indices.
       // Sort keys by index.
-      final List<dynamic> list = List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
+      final list = List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
       // Change indices to consecutive positive integers.
-      int index = 0;
+      var index = 0;
       for (final dynamic key in list) {
         m[key] = index++;
       }
@@ -249,9 +249,9 @@ class Indices {
   /// Constructs a instance by parsing an Indices string.
   Indices.parse(String str) {
     try {
-      final List<String> list = str.split(',');
-      for (final String s in list) {
-        final List<String> intList = s.split('-');
+      final list = str.split(',');
+      for (final s in list) {
+        final intList = s.split('-');
         if (intList.isEmpty) {
           throw Exception('No indices found');
         } else if (intList.length == 1) {
@@ -277,7 +277,7 @@ class Indices {
 
   /// Returns a flat list of all of the indices.
   List<int> get values {
-    final List<int> indexList = <int>[];
+    final indexList = <int>[];
     for (final dynamic v in _list) {
       if (v is int) {
         indexList.add(v);

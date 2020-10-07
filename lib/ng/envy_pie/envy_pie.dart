@@ -9,7 +9,6 @@ import 'package:vector_math/vector_math.dart' show Vector2;
 import '../../ng/envy_scene.dart';
 import '../../src/envy/data/source/boolean/boolean_source.dart';
 import '../../src/envy/data/source/number/number_source.dart';
-import '../../src/envy/envy_scene_graph.dart';
 import '../../src/envy/graphic/twod/annular_section2d.dart';
 import '../../src/envy/html/canvas_node.dart';
 import '../../src/envy/util/keep_html_pipe.dart';
@@ -109,14 +108,14 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   }
 
   void _createGraphic() {
-    final EnvySceneGraph esg = scene?.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = scene?.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final KeyedDataset dataset = KeyedDataset('pieData', esg.root, 'key');
+    final dataset = KeyedDataset('pieData', esg.root, 'key');
 
     // Annular Section.
-    final AnnularSection2d s = AnnularSection2d();
+    final s = AnnularSection2d();
     canvas.attach(s);
 
     s.startAngle.enter = AngleConstant(startAngle + Angle(deg: 360) as Angle);
@@ -151,7 +150,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     // Update tooltip visibility on enter and leave.
     s.onMouseEnter.listen((Graphic2dIntersection g2di) {
       try {
-        final PieSlice slice = _slices[g2di.index];
+        final slice = _slices[g2di.index];
         hoverSlice = slice;
         Timer(const Duration(milliseconds: 750), () => _updateTooltip(slice, g2di));
       } catch (e, s) {
@@ -171,7 +170,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     });
     s.onMouseMove.listen((Graphic2dIntersection g2di) {
       if (showTooltip) {
-        final PieSlice slice = _slices[g2di.index];
+        final slice = _slices[g2di.index];
         _updateTooltip(slice, g2di);
       }
     });
@@ -185,7 +184,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.onMouseUp.listen(_sliceEvent.add);
 
     // Text Label
-    final Text2d label2d = Text2d();
+    final label2d = Text2d();
     canvas.attach(label2d);
 
     label2d.text.enter = StringData.keyed(dataset, 'labelText');
@@ -210,20 +209,20 @@ class EnvyPie implements AfterViewInit, OnDestroy {
       showTooltip = true;
       tooltipHtml = slice.tooltip.html;
 
-      final Map<String, String> style =
+      final style =
           slice.tooltip.cssStyle != null ? Map<String, String>.from(slice.tooltip.cssStyle) : <String, String>{};
 
-      final Rectangle<num> wrapperRect = wrapper.getBoundingClientRect();
+      final wrapperRect = wrapper.getBoundingClientRect();
 
       // X
-      final num offsetX = g2di.event.client.x - wrapperRect.left;
-      final num fromRight = wrapperRect.width - offsetX;
-      final num tooltipX = max(0, fromRight < 150 ? wrapperRect.width - 150 : offsetX);
+      final offsetX = g2di.event.client.x - wrapperRect.left;
+      final fromRight = wrapperRect.width - offsetX;
+      final tooltipX = max(0, fromRight < 150 ? wrapperRect.width - 150 : offsetX);
 
       // Y
       String tooltipTop, tooltipBottom;
-      final num offsetY = g2di.event.client.y - wrapperRect.top;
-      final bool topHalf = offsetY < 0.5 * wrapperRect.height;
+      final offsetY = g2di.event.client.y - wrapperRect.top;
+      final topHalf = offsetY < 0.5 * wrapperRect.height;
       if (topHalf) {
         tooltipTop = '${offsetY + 24}px';
         tooltipBottom = 'unset';
@@ -242,21 +241,21 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
   void _updateData() {
     try {
-      final EnvySceneGraph esg = scene?.sceneGraph;
+      final esg = scene?.sceneGraph;
 
-      final List<Map<String, dynamic>> data = <Map<String, dynamic>>[];
+      final data = <Map<String, dynamic>>[];
 
       if (slices?.isNotEmpty == true) {
-        final num total =
+        final total =
             slices.map<num>((PieSlice slice) => slice.value ?? 0).reduce((num value, num element) => value + element);
         if (total == 0) {
           esg.updateGraph();
           return;
         }
 
-        Angle cursor = Angle(rad: startAngle.mks);
-        for (final PieSlice slice in _slices) {
-          final Map<String, dynamic> sliceData = <String, dynamic>{
+        var cursor = Angle(rad: startAngle.mks);
+        for (final slice in _slices) {
+          final sliceData = <String, dynamic>{
             'key': slice.key,
             'fillStyle': slice.fillStyle,
             'strokeStyle': slice.strokeStyle,
@@ -268,12 +267,12 @@ class EnvyPie implements AfterViewInit, OnDestroy {
             'opacity': slice.opacity,
             'labelText': slice.label?.text ?? '',
           };
-          final double fraction = slice.value / total;
-          Angle delta = Angle(deg: 360 * fraction);
+          final fraction = slice.value / total;
+          var delta = Angle(deg: 360 * fraction);
           if (counterclockwise) delta = delta * -1 as Angle;
 
-          final num labelRadius = innerRadius + 0.01 * (slice.label?.radialPct ?? 50) * (outerRadius - innerRadius);
-          final Angle labelAngle = cursor + delta * 0.01 * (slice.label?.spanPct ?? 50) as Angle;
+          final labelRadius = innerRadius + 0.01 * (slice.label?.radialPct ?? 50) * (outerRadius - innerRadius);
+          final labelAngle = cursor + delta * 0.01 * (slice.label?.spanPct ?? 50) as Angle;
 
           if (counterclockwise) {
             sliceData['endAngle'] = cursor;

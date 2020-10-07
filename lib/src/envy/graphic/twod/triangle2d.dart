@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional triangle to be drawn on an HTML canvas.
@@ -71,18 +70,18 @@ class Triangle2d extends Graphic2dNode {
     num _x, _y, _base, _height;
     _base = base.valueAt(index);
     _height = height.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     final num halfBase = _base / 2.0;
     final num effectiveAngleRad = offsetAngle * pi / 180.0;
 
     // Adjust for anchor (default is center of base)
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     _x = 0;
     _y = 0;
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
+      final adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
       _x += adj[0];
       _y += adj[1];
     }

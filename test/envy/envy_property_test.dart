@@ -5,7 +5,7 @@ import 'package:envy/envy.dart';
 void main() {
   group('Envy Property', () {
     test('Constructors', () {
-      GenericProperty p = GenericProperty(defaultValue: 'someValue');
+      var p = GenericProperty(defaultValue: 'someValue');
       expect(p is EnvyProperty, true);
       expect(p.defaultValue, 'someValue');
 
@@ -13,7 +13,7 @@ void main() {
       expect(p.defaultValue, 42);
     });
 
-    final NakedProperty p = NakedProperty(defaultValue: 1234)
+    final p = NakedProperty(defaultValue: 1234)
       ..enter = NumberConstant.array(<num>[1, 2, 3, 4, 5])
       ..update = NumberConstant.array(<num>[66, 77, 88, 99, 110])
       ..exit = NumberConstant.array(<num>[-99, -98, -97, -96, -95]);

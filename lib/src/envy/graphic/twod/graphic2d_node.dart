@@ -230,7 +230,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
     // 2 - render in each one (INDEPENDENT population only implementation)
 
     // _currentContext2DList contains the contexts for the CanvasElements currently being updated.
-    for (final CanvasRenderingContext2D context in currentContext2DList) {
+    for (final context in currentContext2DList) {
       // Update dynamic properties.
       super.update(fraction, context: context, finish: finish);
       _render(context, finish);
@@ -247,7 +247,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// current size and the size (that is, everything is drawn including graphics and
   /// graphics on their way out).
   void _render(CanvasRenderingContext2D context, bool finish) {
-    final int renderSize = finish ? size : max(size, prevSize);
+    final renderSize = finish ? size : max(size, prevSize);
     for (_i = 0; _i < renderSize; _i++) {
       context.save();
       _apply2dContext(_i, context);
@@ -349,7 +349,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   ///
   /// The indices will be appended to [listToUse], if provided.
   List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
-    final List<int> hitIndices = listToUse ?? <int>[];
+    final hitIndices = listToUse ?? <int>[];
     //for (_i = paths.length - 1; _i >= 0; _i--) {
     for (_i = size - 1; _i >= 0; _i--) {
       ctx.save();

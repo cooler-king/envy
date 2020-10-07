@@ -1,10 +1,6 @@
 import 'dart:html';
 import '../../envy_property.dart';
-import '../../text/font.dart';
 import '../../util/logger.dart';
-import 'anchor2d.dart';
-import 'enum/text_align2d.dart';
-import 'enum/text_baseline2d.dart';
 import 'graphic2d_node.dart';
 
 /// Text to be drawn on an HTML canvas.
@@ -44,7 +40,7 @@ class Text2d extends Graphic2dNode {
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     num _dx, _dy, _maxWidth;
-    final String _text = text.valueAt(index);
+    final _text = text.valueAt(index);
 
     // Nothing to render?
     if (_text?.isEmpty == true) return;
@@ -52,8 +48,8 @@ class Text2d extends Graphic2dNode {
     _dx = dx.valueAt(index);
     _dy = dy.valueAt(index);
     _maxWidth = maxWidth.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Set the text-related properties in the global context
     final _align = textAlign.valueAt(index);

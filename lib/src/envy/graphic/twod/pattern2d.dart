@@ -42,7 +42,7 @@ class ImagePattern2d extends Pattern2d {
   int patternHeight;
 
   void _createCanvasPattern(CanvasRenderingContext2D ctx) {
-    String repeatStr = 'repeat';
+    var repeatStr = 'repeat';
     if (repeat == PatternRepeat.repeatX) repeatStr = 'repeat-x';
     if (repeat == PatternRepeat.repeatY) repeatStr = 'repeat-y';
     if (repeat == PatternRepeat.noRepeat) repeatStr = 'no-repeat';

@@ -15,9 +15,9 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
 
     // Interpolate each property in the CssStyle (which is a Map).
     CssProperty aValue, bValue, iValue;
-    final List<String> bOnlyProps = List<String>.from(b.keys);
+    final bOnlyProps = List<String>.from(b.keys);
     bool bHas;
-    for (final String prop in a.keys) {
+    for (final prop in a.keys) {
       bHas = bOnlyProps.remove(prop);
 
       aValue = a[prop];
@@ -28,7 +28,7 @@ class CssStyleInterpolator extends EnvyInterpolator<CssStyle> {
     }
 
     // Do the b-only props.
-    for (final String prop in bOnlyProps) {
+    for (final prop in bOnlyProps) {
       aValue = CssStyle.defaultValueForProp(prop);
       iValue = aValue.interpolator.interpolate(aValue, b[prop], fraction);
 
@@ -58,8 +58,8 @@ class CssLengthInterpolator extends EnvyInterpolator<CssLength> {
       return CssLength(_numberInterpolator.interpolate(a.value, b.value, fraction), a.units);
     } else {
       // Convert both to pixels.
-      final num aPixels = CssUtil.toPixels(null, a.css);
-      final num bPixels = CssUtil.toPixels(null, b.css);
+      final aPixels = CssUtil.toPixels(null, a.css);
+      final bPixels = CssUtil.toPixels(null, b.css);
       return CssLength(_numberInterpolator.interpolate(aPixels, bPixels, fraction), CssLengthUnits.px);
     }
   }

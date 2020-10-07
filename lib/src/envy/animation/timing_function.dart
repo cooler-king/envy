@@ -54,12 +54,12 @@ class CubicBezierCurve extends TimingFunction {
 
   @override
   num output(num input) {
-    final num inputSquared = input * input;
-    final num inputCubed = inputSquared * input;
+    final inputSquared = input * input;
+    final inputCubed = inputSquared * input;
 
-    final num c = 3 * cpy1;
-    final num b = 3 * (cpy2 - cpy1) - c;
-    final num a = 1 - c - b;
+    final c = 3 * cpy1;
+    final b = 3 * (cpy2 - cpy1) - c;
+    final a = 1 - c - b;
 
     return a * inputCubed + b * inputSquared + c * input;
   }

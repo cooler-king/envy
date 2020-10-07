@@ -55,8 +55,8 @@ abstract class MultipleOp extends NumberSource {
 
   @override
   int get rawSize {
-    int mx = 0;
-    for (final NumberSource ns in _list) {
+    var mx = 0;
+    for (final ns in _list) {
       mx = max(mx, ns.rawSize);
     }
     return mx;
@@ -162,7 +162,7 @@ class Sum extends MultipleOp {
   @override
   num valueAt(int index) {
     num total = 0;
-    for (final NumberSource ns in _list) {
+    for (final ns in _list) {
       total += ns.valueAt(index);
     }
     return total;
@@ -189,7 +189,7 @@ class Product extends MultipleOp {
   @override
   num valueAt(int index) {
     num total = 1;
-    for (final NumberSource ns in _list) {
+    for (final ns in _list) {
       total *= ns.valueAt(index);
     }
     return total;
@@ -254,8 +254,8 @@ class Max extends MultipleOp {
   @override
   num valueAt(int index) {
     num max = double.negativeInfinity;
-    for (final NumberSource ns in _list) {
-      final num value = ns.valueAt(index);
+    for (final ns in _list) {
+      final value = ns.valueAt(index);
       if (value > max) max = value;
     }
     return max;

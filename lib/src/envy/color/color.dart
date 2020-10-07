@@ -178,9 +178,9 @@ class Color implements CssAdapter {
     if (saturation == 0.0) {
       hue = 0.0;
     } else {
-      final double redc = (cmax - r).toDouble() / (cmax - cmin).toDouble();
-      final double greenc = (cmax - g).toDouble() / (cmax - cmin).toDouble();
-      final double bluec = (cmax - b).toDouble() / (cmax - cmin).toDouble();
+      final redc = (cmax - r).toDouble() / (cmax - cmin).toDouble();
+      final greenc = (cmax - g).toDouble() / (cmax - cmin).toDouble();
+      final bluec = (cmax - b).toDouble() / (cmax - cmin).toDouble();
       if (r == cmax) {
         hue = bluec - greenc;
       } else if (g == cmax) {
@@ -284,12 +284,12 @@ class Color implements CssAdapter {
       // achromatic (grey)
       return <double>[brightness, brightness, brightness];
     }
-    final double h = hue / 60.0; // sector 0 to 5
-    final int i = h.floor();
-    final double f = h - i; // factorial part of h
-    final double p = brightness * (1 - saturation);
-    final double q = brightness * (1 - saturation * f);
-    final double t = brightness * (1 - saturation * (1 - f));
+    final h = hue / 60.0; // sector 0 to 5
+    final i = h.floor();
+    final f = h - i; // factorial part of h
+    final p = brightness * (1 - saturation);
+    final q = brightness * (1 - saturation * f);
+    final t = brightness * (1 - saturation * (1 - f));
     switch (i) {
       case 0:
         return <double>[brightness, t, p];
@@ -309,7 +309,7 @@ class Color implements CssAdapter {
   /// Returns a two character hex string for a decimal value between 0 and 1
   /// projected onto the integer range 0 to 255.
   static String decimalToHexStr(double dec) {
-    String str = (dec.clamp(0.0, 1.0) * 255.0).round().toRadixString(16);
+    var str = (dec.clamp(0.0, 1.0) * 255.0).round().toRadixString(16);
     if (str.length == 1) str = '0$str';
     return str;
   }
@@ -343,23 +343,23 @@ class Color implements CssAdapter {
       if (css == null || css.isEmpty) return Color.black;
       if (css.startsWith('#')) return Color.hex(css);
       if (css.startsWith('rgba(')) {
-        final int comma1 = css.indexOf(',', 5);
-        final int comma2 = css.indexOf(',', comma1 + 1);
-        final int comma3 = css.indexOf(',', comma2 + 1);
-        final int endParens = css.indexOf(')', comma3);
-        final int r = int.parse(css.substring(5, comma1));
-        final int g = int.parse(css.substring(comma1 + 1, comma2));
-        final int b = int.parse(css.substring(comma2 + 1, comma3));
-        final double a = double.parse(css.substring(comma3 + 1, endParens));
+        final comma1 = css.indexOf(',', 5);
+        final comma2 = css.indexOf(',', comma1 + 1);
+        final comma3 = css.indexOf(',', comma2 + 1);
+        final endParens = css.indexOf(')', comma3);
+        final r = int.parse(css.substring(5, comma1));
+        final g = int.parse(css.substring(comma1 + 1, comma2));
+        final b = int.parse(css.substring(comma2 + 1, comma3));
+        final a = double.parse(css.substring(comma3 + 1, endParens));
         return Color.rgba(r / 255, g / 255, b / 255, a);
       }
       if (css.startsWith('rgb(')) {
-        final int comma1 = css.indexOf(',', 5);
-        final int comma2 = css.indexOf(',', comma1 + 1);
-        final int endParens = css.indexOf(')', comma2);
-        final int r = int.parse(css.substring(5, comma1));
-        final int g = int.parse(css.substring(comma1 + 1, comma2));
-        final int b = int.parse(css.substring(comma2 + 1, endParens));
+        final comma1 = css.indexOf(',', 5);
+        final comma2 = css.indexOf(',', comma1 + 1);
+        final endParens = css.indexOf(')', comma2);
+        final r = int.parse(css.substring(5, comma1));
+        final g = int.parse(css.substring(comma1 + 1, comma2));
+        final b = int.parse(css.substring(comma2 + 1, endParens));
         return Color.rgb(r / 255, g / 255, b / 255);
       }
 

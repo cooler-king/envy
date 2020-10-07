@@ -15,14 +15,14 @@ class CssUtil {
   static const String runit = r'/^(-?[\d+\.\-]+)([a-z]+|%)$/i';
 
   static void _initAbsoluteUnitConversions() {
-    final List<String> units = <String>['mm', 'cm', 'pt', 'pc', 'in', 'mozmm'];
+    final units = <String>['mm', 'cm', 'pt', 'pc', 'in', 'mozmm'];
 
     // Create a test element and add it to the DOM.
-    Element testElem = document.createElement('test');
+    var testElem = document.createElement('test');
     document.documentElement.append(testElem);
 
     // Pre-calculate absolute unit conversions.
-    for (int i = units.length - 1; i >= 0; i--) {
+    for (var i = units.length - 1; i >= 0; i--) {
       convert['${units[i]}toPx'] = i < 4 ? conversions[i] * convert['inToPx'] : toPixels(testElem, '1${units[i]}');
     }
 
@@ -68,7 +68,7 @@ class CssUtil {
     } else {
       // remember the current style
       style = elem.style;
-      final String inlineValue = style.getPropertyValue(prop);
+      final inlineValue = style.getPropertyValue(prop);
 
       // set the style on the target element
       try {
@@ -80,7 +80,7 @@ class CssUtil {
 
       // read the computed value
       // if style is nothing we probably set an unsupported unit
-      final String computedValue = style.getPropertyValue(prop);
+      final computedValue = style.getPropertyValue(prop);
       pixels = (computedValue == null || computedValue.isEmpty) ? 0 : _parsePixels(curCSS(elem, prop));
 
       // reset the style back to what it was or blank it out
@@ -116,11 +116,11 @@ class CssUtil {
     if (convert.isEmpty) CssUtil._initAbsoluteUnitConversions();
 
     // FireFox, Chrome/Safari, Opera and IE9+
-    String value = elem.getComputedStyle().getPropertyValue(prop);
+    var value = elem.getComputedStyle().getPropertyValue(prop);
 
     // check the unit
-    final List<Match> matches = List<Match>.from(runit.allMatches(value));
-    final String unit = matches.isNotEmpty ? matches.first.group(0) : '';
+    final matches = List<Match>.from(runit.allMatches(value));
+    final unit = matches.isNotEmpty ? matches.first.group(0) : '';
     if (value == 'auto' || (unit != null && unit != 'px')) {
       // WebKit and Opera will return auto in some cases
       // Firefox will pass back an unaltered value when it can't be set, like top on a static element

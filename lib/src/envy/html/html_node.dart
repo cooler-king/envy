@@ -80,7 +80,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   set parent(EnvyNode node) {
     // Remove DOM nodes if parent has changed
     if (node != super.parent && super.parent != null) {
-      for (final Node n in domNodesMap.values) {
+      for (final n in domNodesMap.values) {
         n.remove();
       }
     }
@@ -105,14 +105,14 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
 
   /// Updates the DOM.
   void updateDom() {
-    final int newDomSize = size;
+    final newDomSize = size;
 
     // Only need to manage DOM nodes if the population strategy has changed
     // or the parent DOM nodes have changed or the nominal size has changed.
     //TODO detect changes in parent DOM lineup
     if (newDomSize != _prevDomSize || _populationStrategyChanged) {
-      final HtmlNode parentHtml = htmlParent;
-      final int parentDomCount = parentHtml?.domNodesMap?.length ?? 0;
+      final parentHtml = htmlParent;
+      final parentDomCount = parentHtml?.domNodesMap?.length ?? 0;
 
       // Create/attach, remove/destroy nodes as necessary.
       _manageDomNodes(parentDomCount, newDomSize);
@@ -136,7 +136,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   /// represented by [cssStyle].
   void _applyStyle(Node node, CssStyle cssStyle) {
     if (node is Element) {
-      for (final String prop in cssStyle.keys) {
+      for (final prop in cssStyle.keys) {
         node.style.setProperty(prop, cssStyle[prop].css);
       }
     }
@@ -156,18 +156,18 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
   /// are distributed among the parent DOM nodes.
   void _manageDomNodes(int parentDomNodeCount, int childCount) {
     populationStrategy ??= IndependentPopulationStrategy();
-    final List<DomNodeCoupling> coupling = populationStrategy.determineCoupling(parentDomNodeCount, childCount);
+    final coupling = populationStrategy.determineCoupling(parentDomNodeCount, childCount);
 
-    final List<DomNodeCoupling> remainingCouplings = List<DomNodeCoupling>.from(domNodesMap.keys);
+    final remainingCouplings = List<DomNodeCoupling>.from(domNodesMap.keys);
 
-    for (final DomNodeCoupling dnc in coupling) {
+    for (final dnc in coupling) {
       // Create nodes as necessary
       if (!domNodesMap.containsKey(dnc)) {
-        final Node newNode = generateNode();
+        final newNode = generateNode();
         domNodesMap[dnc] = newNode;
 
         // Actually attach to parent DOM node
-        final HtmlNode domParent = htmlParent;
+        final domParent = htmlParent;
         // print('MANAGING DOM NODES ${this}... html parent = ${domParent}');
         if (domParent != null) domParent.domNodes[dnc.parentIndex].append(newNode);
       } else {
@@ -177,7 +177,7 @@ abstract class HtmlNode extends GroupNode with DynamicNode {
     }
 
     // If any node couplings were not reused, remove associated nodes.
-    for (final DomNodeCoupling dnc in remainingCouplings) {
+    for (final dnc in remainingCouplings) {
       // Detach the DOM node...
       domNodesMap[dnc].remove();
       remainingCouplings.remove(dnc);

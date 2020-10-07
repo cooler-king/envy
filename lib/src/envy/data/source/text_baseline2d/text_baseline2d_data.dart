@@ -43,7 +43,7 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   void refresh() {
     values.clear();
 
-    Object data = _node.getDataset(_datasetName);
+    var data = _node.getDataset(_datasetName);
     if (accessor != null) {
       accessor.cullUnavailableData();
       data = accessor.getData(data);

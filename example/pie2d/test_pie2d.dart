@@ -68,12 +68,12 @@ class TestPie2d implements AfterViewInit {
     ];
 
     Timer.periodic(const Duration(seconds: 3), (Timer timer) {
-      final List<PieSlice> list = <PieSlice>[];
+      final list = <PieSlice>[];
 
-      final Random rand = Random();
-      final int count = 1 + rand.nextInt(7);
-      for (int i = 0; i < count; i++) {
-        final PieSlice slice = PieSlice(
+      final rand = Random();
+      final count = 1 + rand.nextInt(7);
+      for (var i = 0; i < count; i++) {
+        final slice = PieSlice(
             key: 'slice$i',
             value: rand.nextInt(50),
             fillStyle: DrawingStyle2d(color: Color.blue),

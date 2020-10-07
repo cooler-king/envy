@@ -24,7 +24,7 @@ class GroupNode extends EnvyNode {
   @override
   void prepareForAnimation() {
     if (this is DynamicNode) (this as DynamicNode).preparePropertiesForAnimation();
-    for (final EnvyNode child in children) {
+    for (final child in children) {
       if (child is DynamicNode) (child as DynamicNode).preparePropertiesForAnimation();
       if (child is GroupNode) child.prepareForAnimation();
     }
@@ -41,7 +41,7 @@ class GroupNode extends EnvyNode {
     groupUpdatePre(timeFraction, context: context, finish: finish);
 
     // Update children
-    for (final EnvyNode child in children) {
+    for (final child in children) {
       child.update(timeFraction, context: context, finish: finish);
     }
 

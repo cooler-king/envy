@@ -1,15 +1,9 @@
 import 'dart:async';
 import 'dart:html';
-import 'dart:math';
 import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/src/envy/util/logger.dart';
-import 'package:quantity/quantity.dart' show Angle;
-import 'package:vector_math/vector_math.dart' show Vector2;
 import '../../ng/envy_scene.dart';
-import '../../src/envy/data/source/boolean/boolean_source.dart';
-import '../../src/envy/data/source/number/number_source.dart';
-import '../../src/envy/envy_scene_graph.dart';
 import '../../src/envy/graphic/twod/path2d.dart';
 import '../../src/envy/html/canvas_node.dart';
 import 'line_series.dart';
@@ -33,11 +27,11 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
 
   /// A list of data series -- one entry for each line.
   List<LineSeries<X, Y>> get seriesList => _seriesList;
-  List<LineSeries<X, Y>> _seriesList;
+  List<LineSeries<X, Y>> _seriesList = <LineSeries<X, Y>>[];
   @Input()
   set seriesList(List<LineSeries<X, Y>> value) {
     if (value != _seriesList) {
-      _seriesList = value;
+      _seriesList = value ?? <LineSeries<X, Y>>[];
       Timer.run(_updateData);
     }
   }
@@ -53,10 +47,10 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
   /// Controls whether the tooltip is displayed.
   bool showTooltip = false;
 
-  /// Controls the HTML displayed in the tooltip
+  /// Controls the HTML displayed in the tooltip.
   String tooltipHtml;
 
-  /// defines the CSS styling of the tooltip.
+  /// Defines the CSS styling of the tooltip.
   Map<String, String> tooltipStyle;
 
   /// Broadcasts mouse events for the markers.
@@ -64,7 +58,7 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
   Stream<Graphic2dIntersection> get markerEvent => _markerEvent.stream;
   final StreamController<Graphic2dIntersection> _markerEvent = StreamController<Graphic2dIntersection>.broadcast();
 
-  /// A reference to the scene component that displays the pie.
+  /// A reference to the scene component that displays the line graph.
   @ViewChild(EnvyScene)
   EnvyScene scene;
 
@@ -88,12 +82,7 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
     _canvas.attach(s);
 
     s.points.enter = PointListData('points', _canvas);
-    s.x.enter = NumberConstant(50);
-    s.y.enter = NumberConstant(50);
-    s.lineWidth.enter = NumberConstant(1);
-    s.rotation.enter = AngleConstant(Angle(deg: 0));
-    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.cyan));
-    s.opacity.enter = NumberConstant(1);
+    PointListData.keyed(dataset, 'points');
 
     esg.updateGraph();
   }
@@ -105,6 +94,16 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
       final data = <Map<String, dynamic>>[];
 
       if (seriesList?.isNotEmpty == true) {
+        for (final series in seriesList) {
+          final map = <String, dynamic>{
+            'key': series.key,
+            'points': seriesToPointList(series),
+          };
+
+          data.add(map);
+        }
+
+        /*
         final rand = Random();
         final newPointData = PointList(<Point<num>>[
           Point<num>(1, rand.nextDouble() * 300),
@@ -113,9 +112,9 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
           Point<num>(60, rand.nextDouble() * 300),
           Point<num>(80, rand.nextDouble() * 300),
           Point<num>(100 + rand.nextDouble() * 100, rand.nextDouble() * 300)
-        ]);
+        ]);*/
 
-        _canvas.addDataset('points', list: newPointData);
+        _canvas.addDataset('vertexData', list: data);
         esg.updateGraph();
       }
     } catch (e, s) {
@@ -129,6 +128,17 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
       showTooltip = false;
       _change.markForCheck();
     });
+  }
+
+  /// Converts a line series to pixel points
+  PointList seriesToPointList(LineSeries series) {
+    final pointList = PointList();
+    for (var i = 0; i < series.length; i++) {
+      //TODO SCALE, custom convert etc
+      pointList.add(Point<num>(series.xList[i] as num, series.yList[i]));
+    }
+
+    return pointList;
   }
 
   @override

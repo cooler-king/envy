@@ -50,12 +50,12 @@ class TestText2d implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Text
-    final Text2d s = Text2d();
+    final s = Text2d();
     canvas.attach(s);
 
     s.text.enter = StringConstant.array(<String>['abc', 'def', 'xyz']);
@@ -71,12 +71,12 @@ class TestText2d implements AfterViewInit {
   }
 
   void testFontVariations(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Text
-    final Text2d s = Text2d();
+    final s = Text2d();
     canvas.attach(s);
 
     s.text.enter = StringConstant('Abcd');
@@ -101,12 +101,12 @@ class TestText2d implements AfterViewInit {
   }
 
   void testRotation(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Text
-    final Text2d s = Text2d();
+    final s = Text2d();
     canvas.attach(s);
 
     s.text.enter = StringConstant('12345');
@@ -119,14 +119,14 @@ class TestText2d implements AfterViewInit {
   }
 
   void testAnchors(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 200);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final Text2d s = Text2d();
+    final s = Text2d();
     canvas.attach(s);
 
-    final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+    final xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
     s.text.enter = StringConstant('yXy');
     s.x.enter = NumberConstant.array(xList);
@@ -150,7 +150,7 @@ class TestText2d implements AfterViewInit {
     ]);
 
     // Circles to mark the anchors
-    final Circle2d c = Circle2d();
+    final c = Circle2d();
     canvas.attach(c);
     c.x.enter = NumberConstant.array(xList);
     c.y.enter = NumberConstant(100);
@@ -163,10 +163,10 @@ class TestText2d implements AfterViewInit {
   }
 
   void testLifecycle(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode();
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode();
     esg.attachToRoot(canvas);
-    final Text2d t = Text2d();
+    final t = Text2d();
     canvas.attach(t);
 
     enterButton.onClick.listen((_) {
@@ -242,11 +242,11 @@ class TestText2d implements AfterViewInit {
   }
 
   void testHit(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 500);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 500);
     esg.attachToRoot(canvas);
 
-    final Text2d s = Text2d();
+    final s = Text2d();
     canvas.attach(s);
 
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 360]);

@@ -1,6 +1,4 @@
-import 'dart:collection';
 import 'dart:html';
-import 'package:quantity/quantity.dart' hide logger;
 import 'package:vector_math/vector_math.dart';
 import '../../dynamic_node.dart';
 import '../../envy_property.dart';

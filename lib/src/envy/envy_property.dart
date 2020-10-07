@@ -182,7 +182,7 @@ abstract class EnvyProperty<T> {
 
       if (val == null) {
         // If the value (of a keyed property) is no longer available, use exit value.
-        final bool dataNotAvailable =
+        final dataNotAvailable =
             (_update?.dataNotAvailableAt(_i) ?? false) || (_enter?.dataNotAvailableAt(_i) ?? false);
         if (dataNotAvailable) {
           val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
@@ -229,7 +229,7 @@ abstract class EnvyProperty<T> {
   /// Calculate the current values based on the start and target values,
   /// the timing [fraction] and the interpolator.
   void updateValues(num fraction, {bool finish = false}) {
-    final EnvyInterpolator<T> interp = interpolator;
+    final interp = interpolator;
     _currentValues.clear();
     if (!finish) {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {

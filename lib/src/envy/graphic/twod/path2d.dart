@@ -1,10 +1,8 @@
 import 'dart:html';
 import 'dart:math' show min, max;
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'enum/path_interpolation2d.dart';
 import 'graphic2d_node.dart';
-import 'point_list.dart';
 
 /// A constant list with two zero values.
 const List<num> zeroZero = <num>[0, 0];
@@ -47,16 +45,16 @@ class Path2d extends Graphic2dNode {
   @override
   void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
     //num _x1, _y1, _x2, _y2;
-    final Anchor2d _anchor = anchor.valueAt(index);
-    final PointList _points = points.valueAt(index);
-    final PathInterpolation2d _interpolation = interpolation.valueAt(index);
+    final _anchor = anchor.valueAt(index);
+    final _points = points.valueAt(index);
+    final _interpolation = interpolation.valueAt(index);
 
     if (_points.isEmpty) return;
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     // Adjust based on anchor (default origin is x1, y1)
-    final List<num> adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
+    final adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
 
     //Path2D p = Path2D();
     //paths.add(p);
@@ -65,23 +63,23 @@ class Path2d extends Graphic2dNode {
         _interpolation == PathInterpolation2d.linear ||
         _interpolation == PathInterpolation2d.linearClosed) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
-      for (final Point<num> pt in _points) {
+      for (final pt in _points) {
         ctx.lineTo(pt.x + adj[0], pt.y + adj[1]);
       }
     } else if (_interpolation == PathInterpolation2d.stepBefore) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
-      num x = _points[0].x + adj[0];
-      for (final Point<num> pt in _points) {
-        final num y = pt.y + adj[1];
+      var x = _points[0].x + adj[0];
+      for (final pt in _points) {
+        final y = pt.y + adj[1];
         ctx.lineTo(x, y);
         x = pt.x + adj[0];
         ctx.lineTo(x, y);
       }
     } else if (_interpolation == PathInterpolation2d.stepAfter) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
-      num y = _points[0].y + adj[1];
-      for (final Point<num> pt in _points) {
-        final num x = pt.x + adj[0];
+      var y = _points[0].y + adj[1];
+      for (final pt in _points) {
+        final x = pt.x + adj[0];
         ctx.lineTo(x, y);
         y = pt.y + adj[1];
         ctx.lineTo(x, y);
@@ -90,18 +88,18 @@ class Path2d extends Graphic2dNode {
       // Cubic Bezier with tension
       // Control point 1 located on same y value as point 1 toward point 2's x value (1 - tension)
       // Control point 2 located on same y value as point 2 toward point 1's x value (1 - tension)
-      num x1 = _points[0].x + adj[0];
-      num y1 = _points[0].y + adj[1];
+      var x1 = _points[0].x + adj[0];
+      var y1 = _points[0].y + adj[1];
       num x2 = 0;
       num y2 = 0;
       num cp1x = 0;
       num cp2x = 0;
       num deltaX = 0;
-      final num _tension = max(0.0, min(1.0, tension.valueAt(index)));
+      final _tension = max(0.0, min(1.0, tension.valueAt(index)));
 
       ctx.moveTo(x1, y1);
 
-      for (int i = 1; i < _points.length; i++) {
+      for (var i = 1; i < _points.length; i++) {
         x2 = _points[i].x + adj[0];
         y2 = _points[i].y + adj[1];
 

@@ -58,12 +58,12 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testBasic(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
     s.x.enter = NumberConstant.array(<num>[75, 225, 375]);
@@ -80,12 +80,12 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testRotation(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
@@ -99,14 +99,14 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testAnchors(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 200);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
-    final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+    final xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
     s.x.enter = NumberConstant.array(xList);
     s.y.enter = NumberConstant(100);
@@ -130,7 +130,7 @@ class TestRect2d implements AfterViewInit {
     ]);
 
     // Circles to mark the anchors
-    final Circle2d c = Circle2d();
+    final c = Circle2d();
     canvas.attach(c);
     c.x.enter = NumberConstant.array(xList);
     c.y.enter = NumberConstant(100);
@@ -143,10 +143,10 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testLifecycle(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode();
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode();
     esg.attachToRoot(canvas);
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
     enterButton.onClick.listen((_) {
@@ -228,19 +228,13 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testDataDriven(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode();
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode();
     esg.attachToRoot(canvas);
-    final Map<String, int> datamap = <String, int>{
-      'xcoord': 100,
-      'ycoord': 50,
-      'width': 50,
-      'height': 20,
-      'opacity': 1
-    };
+    final datamap = <String, int>{'xcoord': 100, 'ycoord': 50, 'width': 50, 'height': 20, 'opacity': 1};
     canvas.addDataset('rectdata', map: datamap);
 
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
 
     canvas.attach(s);
     esg.updateGraph();
@@ -253,8 +247,8 @@ class TestRect2d implements AfterViewInit {
     s.rotation.enter = AngleData('rectdata', canvas, prop: 'rot');
 
     dataButton.onClick.listen((_) {
-      final Random rand = Random();
-      final Map<String, dynamic> randomData = <String, dynamic>{
+      final rand = Random();
+      final randomData = <String, dynamic>{
         'xcoord': 150 + rand.nextDouble() * 75,
         'ycoord': 75 + rand.nextDouble() * 50,
         'width': 50 + rand.nextDouble() * 200,
@@ -268,13 +262,13 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testHit(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 500);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 500);
     esg.attachToRoot(canvas);
 
     canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 375]);
@@ -310,16 +304,15 @@ class TestRect2d implements AfterViewInit {
   }
 
   void testFill(EnvyScene e) {
-    final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = CanvasNode(1000, 100);
+    final esg = e.sceneGraph;
+    final canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = Rect2d();
+    final s = Rect2d();
     canvas.attach(s);
 
-    final ImageElement image =
-        ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
+    final image = ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
 
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = NumberConstant(50);

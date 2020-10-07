@@ -1,7 +1,6 @@
 import 'dart:html';
 import 'dart:math';
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional regular polygon to be drawn on an HTML canvas.
@@ -37,7 +36,7 @@ class RegularPolygon2d extends Graphic2dNode {
     // Adjust for anchor (default is center of RegularPolygon)
     _x = 0;
     _y = 0;
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     if (_anchor != null) {
       final adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
       _x += adj[0];

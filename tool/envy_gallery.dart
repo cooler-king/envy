@@ -9,7 +9,7 @@ void main() {
 
 /// Starts pub run build_runner serve.
 Future<int> serve() async {
-  final Process process = await Process.start(
+  final process = await Process.start(
       'pub',
       <String>[
         'run',

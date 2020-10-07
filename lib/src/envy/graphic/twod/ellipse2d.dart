@@ -1,7 +1,6 @@
 import 'dart:html' show CanvasRenderingContext2D;
 import 'package:quantity/quantity.dart' show twoPi;
 import '../../envy_property.dart';
-import 'anchor2d.dart';
 import 'graphic2d_node.dart';
 
 /// A 2-dimensional ellipse to be drawn on an HTML canvas.
@@ -27,16 +26,16 @@ class Ellipse2d extends Graphic2dNode {
     num _x, _y, _radiusX, _radiusY;
     _radiusX = radiusX.valueAt(index);
     _radiusY = radiusY.valueAt(index);
-    final bool _fill = fill.valueAt(index);
-    final bool _stroke = stroke.valueAt(index);
+    final _fill = fill.valueAt(index);
+    final _stroke = stroke.valueAt(index);
 
     _x = 0;
     _y = 0;
 
     // Adjust for anchor (default is center of ellipse).
-    final Anchor2d _anchor = anchor.valueAt(index);
+    final _anchor = anchor.valueAt(index);
     if (_anchor != null) {
-      final List<num> adj = _anchor.calcAdjustments(-_radiusY, _radiusX, _radiusY, -_radiusX);
+      final adj = _anchor.calcAdjustments(-_radiusY, _radiusX, _radiusY, -_radiusX);
       _x += adj[0];
       _y += adj[1];
     }

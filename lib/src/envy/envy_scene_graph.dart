@@ -1,6 +1,5 @@
 import 'dart:html';
 import 'package:quantity/quantity.dart';
-import 'animation/player.dart';
 import 'animation/timeline.dart';
 import 'envy_node.dart';
 import 'envy_root.dart';
@@ -33,7 +32,7 @@ class EnvySceneGraph {
     //print("html host = ${e}");
 
     if (_htmlHost != null && _htmlHost != e) {
-      for (final Node n in root.domNodes) {
+      for (final n in root.domNodes) {
         n.remove();
       }
     }
@@ -51,7 +50,7 @@ class EnvySceneGraph {
   void updateGraph() {
     // Create a Player having current time (plus a little bit) as start time
     // This starts the update loop.
-    final Player player = masterTimeline.play();
+    final player = masterTimeline.play();
 
     /*
      *  Tell the masterAnimationGroup to use it (this will make the masterAnimationGroup
