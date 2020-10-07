@@ -23,7 +23,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
   ///
   AngleData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
     if (prop != null && accessor == null) {
-      this.accessor = new DataAccessor.prop(prop);
+      this.accessor = DataAccessor.prop(prop);
     }
   }
 
@@ -36,7 +36,7 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 
@@ -76,11 +76,11 @@ class AngleData extends ArrayDataSource<Angle> implements AngleSource {
 
     if (d is num) {
       // Assume degrees
-      return new Angle(deg: d);
+      return Angle(deg: d);
     } else {
       try {
         final num val = num.parse(d.toString());
-        return new Angle(deg: val);
+        return Angle(deg: val);
       } catch (e) {
         return angle0;
       }

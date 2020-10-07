@@ -19,12 +19,12 @@ class TestHtmlNodePopulation implements AfterViewInit {
   void testBasic(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
 
-    final DivNode div = new DivNode();
+    final DivNode div = DivNode();
 
-    //final DivNode n1 = new DivNode()..populationStrategy = new IndependentPopulationStrategy();
+    //final DivNode n1 = DivNode()..populationStrategy = IndependentPopulationStrategy();
     // TODO make multiple -- need style working
-    //div.x.enter = new NumberConstant.array([10, 20, 30, 40]);
-    //div.y.enter = new NumberConstant.array([10, 20, 30 ,40]);
+    //div.x.enter = NumberConstant.array([10, 20, 30, 40]);
+    //div.y.enter = NumberConstant.array([10, 20, 30 ,40]);
 
     esg
       ..attachToRoot(div)

@@ -13,14 +13,14 @@ abstract class TimingGroup extends TimedItemGroup {}
 class SequenceTimingGroup extends TimingGroup {
   @override
   bool attach(EnvyNode node, [int index]) {
-    final bool tf = super.attach(node, index);
+    final tf = super.attach(node, index);
     calcStartTimes();
     return tf;
   }
 
   @override
   bool detach(EnvyNode node) {
-    final bool tf = super.detach(node);
+    final tf = super.detach(node);
     calcStartTimes();
     return tf;
   }
@@ -29,7 +29,7 @@ class SequenceTimingGroup extends TimingGroup {
   ///
   void calcStartTimes() {
     num prevEnd = 0;
-    for (final EnvyNode child in children) {
+    for (final child in children) {
       if (child is TimedItemGroup) {
         child.startTime = prevEnd;
         prevEnd = child.endTime;
@@ -52,7 +52,7 @@ class SequenceTimingGroup extends TimingGroup {
     if (children.isEmpty) return 0;
 
     // Can't assume all children are Timed Items; scroll backwards to find last one
-    for (int i = children.length - 1; i > -1; i--) {
+    for (var i = children.length - 1; i > -1; i--) {
       if (children[i] is TimedItemGroup) {
         return (children[i] as TimedItemGroup).endTime;
       }

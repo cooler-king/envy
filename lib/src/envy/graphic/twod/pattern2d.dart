@@ -24,7 +24,7 @@ abstract class Pattern2d {
 
 /// An image pattern.
 class ImagePattern2d extends Pattern2d {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   ImagePattern2d(this.imageObj, {this.repeat = PatternRepeat.repeat, this.patternWidth, this.patternHeight});
 
   /// The image element to apply as the pattern.
@@ -54,7 +54,7 @@ class ImagePattern2d extends Pattern2d {
       // Scale down the image onto an auxiliary canvas and use that for the pattern
       final int width = patternWidth ?? (imageObj.width);
       final int height = patternHeight ?? (imageObj.height);
-      final CanvasElement patternCanvas = new CanvasElement(width: width, height: height);
+      final CanvasElement patternCanvas = CanvasElement(width: width, height: height);
 
       patternCanvas.context2D.drawImageScaled(imageObj, 0, 0, width, height);
       _canvasPattern = ctx.createPattern(patternCanvas, repeatStr);

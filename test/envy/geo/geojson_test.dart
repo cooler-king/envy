@@ -9,7 +9,7 @@ void main() {
         'type': 'Point',
         'coordinates': <num>[100.0, 0.0]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonPoint, true);
       expect(g.feature, isNull);
@@ -32,7 +32,7 @@ void main() {
           <num>[101.0, 1.0]
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiPoint, true);
       expect(g.feature, isNull);
@@ -62,7 +62,7 @@ void main() {
           <num>[102.0, 2.0]
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonLineString, true);
       expect(g.feature, isNull);
@@ -100,7 +100,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiLineString, true);
       expect(g.feature, isNull);
@@ -144,7 +144,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonPolygon, true);
       expect(g.feature, isNull);
@@ -201,7 +201,7 @@ void main() {
           ]
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonMultiPolygon, true);
       expect(g.feature, isNull);
@@ -262,7 +262,7 @@ void main() {
           }
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.geometry is GeoJsonGeometryCollection, true);
       expect(g.feature, isNull);
@@ -308,7 +308,7 @@ void main() {
           'prop1': <String, dynamic>{'this': 'that'}
         }
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.feature is GeoJsonFeature, true);
       expect(g.geometry, isNull);
@@ -388,7 +388,7 @@ void main() {
           }
         ]
       };
-      final GeoJson g = new GeoJson.map(m);
+      final GeoJson g = GeoJson.map(m);
       expect(g is GeoJson, true);
       expect(g.featureCollection is GeoJsonFeatureCollection, true);
       expect(g.geometry, isNull);

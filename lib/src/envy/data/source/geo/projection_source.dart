@@ -6,12 +6,12 @@ abstract class ProjectionSource extends DataSource<Projection> {}
 
 /// A constant projection.
 class ProjectionConstant extends ArrayDataSource<Projection> implements ProjectionSource {
-  /// Constructs a new instance from an existing projection.
+  /// Constructs a instance from an existing projection.
   ProjectionConstant(Projection proj) {
     values.add(proj);
   }
 
-  /// Constructs a new instance from a list of existing projections.
+  /// Constructs a instance from a list of existing projections.
   ProjectionConstant.array(List<Projection> projList) {
     values.addAll(projList);
   }

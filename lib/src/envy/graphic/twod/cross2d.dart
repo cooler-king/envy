@@ -11,17 +11,17 @@ import 'graphic2d_node.dart';
 /// means the horizontal bar's center is located at the top
 /// of the vertical bar).
 class Cross2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Cross2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['verticalWidth'] = new NumberProperty();
-    properties['verticalHeight'] = new NumberProperty();
-    properties['horizontalWidth'] = new NumberProperty();
-    properties['horizontalHeight'] = new NumberProperty();
-    properties['percent'] = new NumberProperty();
+    properties['verticalWidth'] = NumberProperty();
+    properties['verticalHeight'] = NumberProperty();
+    properties['horizontalWidth'] = NumberProperty();
+    properties['horizontalHeight'] = NumberProperty();
+    properties['percent'] = NumberProperty();
   }
 
   /// Holds the width of the vertical piece of the cross.

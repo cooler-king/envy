@@ -10,19 +10,19 @@ import 'html_node.dart';
 /// [ImageNode] is an Envy scene graph node that manages an
 /// HTML Image element.
 class ImageNode extends HtmlNode implements CanvasImageSourceNode {
-  /// Constructs a new instance, initializing properties.
+  /// Constructs a instance, initializing properties.
   ImageNode() {
     _initProperties();
   }
 
   @override
-  ImageElement generateNode() => new ImageElement();
+  ImageElement generateNode() => ImageElement();
 
   @override
   ImageElement elementAt(int index) {
     if (domNodesMap.isNotEmpty) {
       final int i = index % domNodesMap.length;
-      final List<Node> list = new List<Node>.from(domNodesMap.values);
+      final List<Node> list = List<Node>.from(domNodesMap.values);
       return list[i] as ImageElement;
     } else {
       logger.warning('ImageNode detected empty domNodesMap in elementAt(); returning null');
@@ -31,15 +31,15 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
   }
 
   void _initProperties() {
-    properties['alt'] = new StringProperty();
-    properties['crossOrigin'] = new StringProperty()
-      ..enter = new StringConstant.enumerationValue(CrossOrigin.anonymous);
-    properties['height'] = new NumberProperty();
-    properties['isMap'] = new BooleanProperty();
-    properties['src'] = new StringProperty();
+    properties['alt'] = StringProperty();
+    properties['crossOrigin'] = StringProperty()
+      ..enter = StringConstant.enumerationValue(CrossOrigin.anonymous);
+    properties['height'] = NumberProperty();
+    properties['isMap'] = BooleanProperty();
+    properties['src'] = StringProperty();
     //TODO srcset (List of src strings plus width/height thresholds)
-    properties['useMap'] = new StringProperty();
-    properties['width'] = new NumberProperty();
+    properties['useMap'] = StringProperty();
+    properties['width'] = NumberProperty();
   }
 
   /// Holds the source of the image.

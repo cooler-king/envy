@@ -1,6 +1,6 @@
 /// Defines the content and style of a tooltip displayed when mousing over a pie slice.
 class PieSliceTooltip {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   PieSliceTooltip({this.html, this.cssStyle});
 
   /// The HTML content of the tooltip.

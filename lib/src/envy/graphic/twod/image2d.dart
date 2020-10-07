@@ -6,7 +6,7 @@ import 'graphic2d_node.dart';
 
 /// A 2-dimensional image to be drawn on an HTML canvas.
 class Image2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Image2d(this.source) : super(null) {
     _initProperties();
   }
@@ -34,12 +34,12 @@ class Image2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   void _initProperties() {
-    properties['sourceX'] = new NumberProperty();
-    properties['sourceY'] = new NumberProperty();
-    properties['sourceWidth'] = new NumberProperty();
-    properties['sourceHeight'] = new NumberProperty();
-    properties['width'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
+    properties['sourceX'] = NumberProperty();
+    properties['sourceY'] = NumberProperty();
+    properties['sourceWidth'] = NumberProperty();
+    properties['sourceHeight'] = NumberProperty();
+    properties['width'] = NumberProperty();
+    properties['height'] = NumberProperty();
   }
 
   @override

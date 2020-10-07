@@ -20,7 +20,7 @@ abstract class TimedItemGroup extends GroupNode {
   num _startDelay;
 
   /// The timing.
-  final Timing timing = new Timing();
+  final Timing timing = Timing();
 
   /// Optional parent group
   TimingGroup parentTimingGroup;

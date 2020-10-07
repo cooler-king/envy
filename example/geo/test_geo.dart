@@ -27,7 +27,7 @@ class TestCircle2d implements AfterViewInit {
 
   void testBasic(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     final List<num> latitudes = <num>[10, 20, 30, 20, -10, 10];
@@ -38,34 +38,34 @@ class TestCircle2d implements AfterViewInit {
     ];
 
     // Path
-    final Path2d s = new Path2d();
+    final Path2d s = Path2d();
     canvas
       ..addDataset('coords', list: coordData)
       ..attach(s);
 
-    final ProjectionConstant projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45)));
-    final NumberListData latSource = new NumberListData('coords', canvas, prop: 'lats');
-    final NumberListData longSource = new NumberListData('coords', canvas, prop: 'longs');
+    final ProjectionConstant projSource = ProjectionConstant(Equirectangular(Angle(deg: 45)));
+    final NumberListData latSource = NumberListData('coords', canvas, prop: 'lats');
+    final NumberListData longSource = NumberListData('coords', canvas, prop: 'longs');
 
-    s.points.enter = new GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
-    s.x.enter = new NumberConstant.array([200, 500, 800]);
-    s.y.enter = new NumberConstant(100);
-    s.lineWidth.enter = new NumberConstant(3);
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
-    s.fill.enter = new BooleanConstant.array([true, true, false]);
-    s.stroke.enter = new BooleanConstant.array([true, false, true]);
-    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
+    s.points.enter = GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
+    s.x.enter = NumberConstant.array([200, 500, 800]);
+    s.y.enter = NumberConstant(100);
+    s.lineWidth.enter = NumberConstant(3);
+    s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.gray999));
+    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
+    s.fill.enter = BooleanConstant.array([true, true, false]);
+    s.stroke.enter = BooleanConstant.array([true, false, true]);
+    s.interpolation.enter = PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
 
     esg.updateGraph();
   }
 
   void testGeoJson(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final GeoJson geoJson = new GeoJson.map(nevada);
+    final GeoJson geoJson = GeoJson.map(nevada);
 
     final List<dynamic> coordData = <dynamic>[];
     for (final dynamic feature in geoJson.featureCollection.features) {
@@ -87,7 +87,7 @@ class TestCircle2d implements AfterViewInit {
     }
 
     // Path
-    final Path2d s = new Path2d();
+    final Path2d s = Path2d();
     canvas
       ..addDataset('coords', list: coordData)
       ..attach(s);
@@ -97,21 +97,21 @@ class TestCircle2d implements AfterViewInit {
 
     final GeoCoord center = geoJson.center;
 
-    final ProjectionConstant projSource = new ProjectionConstant(new Equirectangular(new Angle(deg: 45),
+    final ProjectionConstant projSource = ProjectionConstant(Equirectangular(Angle(deg: 45),
         width: 100 * factor,
-        anchor: new GeoCoord.degrees(latDeg: center.degreesLatitude, longDeg: center.degreesLongitude)));
-    final NumberListData latSource = new NumberListData('coords', canvas, prop: 'lats');
-    final NumberListData longSource = new NumberListData('coords', canvas, prop: 'longs');
+        anchor: GeoCoord.degrees(latDeg: center.degreesLatitude, longDeg: center.degreesLongitude)));
+    final NumberListData latSource = NumberListData('coords', canvas, prop: 'lats');
+    final NumberListData longSource = NumberListData('coords', canvas, prop: 'longs');
 
-    s.points.enter = new GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
-    s.x.enter = new NumberConstant(200);
-    s.y.enter = new NumberConstant(100);
-    s.lineWidth.enter = new NumberConstant(1);
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.gray999));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
+    s.points.enter = GeoPointListDegrees(projSource, latListSource: latSource, longListSource: longSource);
+    s.x.enter = NumberConstant(200);
+    s.y.enter = NumberConstant(100);
+    s.lineWidth.enter = NumberConstant(1);
+    s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.gray999));
+    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
     s.fill.enter = BooleanConstant.trueValue;
     s.stroke.enter = BooleanConstant.trueValue;
-    s.interpolation.enter = new PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
+    s.interpolation.enter = PathInterpolation2dConstant(PathInterpolation2d.linearClosed);
 
     esg.updateGraph();
   }

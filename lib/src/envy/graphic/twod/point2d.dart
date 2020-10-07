@@ -5,7 +5,7 @@ import 'graphic2d_node.dart';
 
 /// A point to be drawn on an HTML canvas.
 class Point2d extends Graphic2dNode {
-  /// Constructs a new instance, optionally specifying the marker to draw.
+  /// Constructs a instance, optionally specifying the marker to draw.
   Point2d([this.marker]) : super(null) {
     _initProperties();
   }
@@ -14,7 +14,7 @@ class Point2d extends Graphic2dNode {
   Graphic2dNode marker;
 
   void _initProperties() {
-    properties['pixelSize'] = new NumberProperty();
+    properties['pixelSize'] = NumberProperty();
   }
 
   /// The pixel size of the point.

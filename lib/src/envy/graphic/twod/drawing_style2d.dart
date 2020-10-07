@@ -7,7 +7,7 @@ import 'pattern2d.dart';
 /// If more than one type of value is present, a pattern takes precedence over the others and
 /// a gradient takes precedence over a color.
 class DrawingStyle2d {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   DrawingStyle2d({this.color, this.gradient, this.pattern});
 
   /// The color to use during fill or stroke operations.
@@ -22,10 +22,10 @@ class DrawingStyle2d {
   Pattern2d pattern;
 
   /// The color black as a drawing style.
-  static final DrawingStyle2d black = new DrawingStyle2d(color: Color.black);
+  static final DrawingStyle2d black = DrawingStyle2d(color: Color.black);
 
   /// The color white as a drawing style.
-  static final DrawingStyle2d white = new DrawingStyle2d(color: Color.white);
+  static final DrawingStyle2d white = DrawingStyle2d(color: Color.white);
 
   /// Returns a `CanvasPattern`, `CanvasGradient` or CSS style representing the color, as appropriate.
   dynamic style(CanvasRenderingContext2D ctx) =>

@@ -3,7 +3,7 @@ import 'playback_direction.dart';
 import 'timing_function.dart';
 
 /// Default timing.
-Timing defaultTiming = new Timing();
+Timing defaultTiming = Timing();
 
 /// WebIDL:
 /// interface Timing {
@@ -21,7 +21,7 @@ class Timing {
   /// Automatic.
   static const num auto = double.infinity;
 
-  //static final Timing defaultTiming = new Timing();
+  //static final Timing defaultTiming = Timing();
 
   /// The number of seconds from a timed item's start time to the start of the active interval.
   num startDelay = 0;
@@ -54,5 +54,5 @@ class Timing {
   String direction = PlaybackDirection.normal;
 
   /// The timing function.
-  TimingFunction timingFunction = new LinearFunction();
+  TimingFunction timingFunction = LinearFunction();
 }

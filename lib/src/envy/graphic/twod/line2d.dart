@@ -6,16 +6,16 @@ import 'graphic2d_node.dart';
 
 /// A 2-dimensional line to be drawn on an HTML canvas.
 class Line2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Line2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['x1'] = new NumberProperty();
-    properties['y1'] = new NumberProperty();
-    properties['x2'] = new NumberProperty();
-    properties['y2'] = new NumberProperty();
+    properties['x1'] = NumberProperty();
+    properties['y1'] = NumberProperty();
+    properties['x2'] = NumberProperty();
+    properties['y2'] = NumberProperty();
   }
 
   /// Holds the x-coordinate of the first vertex.
@@ -54,7 +54,7 @@ class Line2d extends Graphic2dNode {
       _y2 += adj[1];
     }
 
-    //Path2D p = new Path2D();
+    //Path2D p = Path2D();
     //paths.add(p);
     ctx
       ..beginPath()

@@ -8,17 +8,17 @@ class Color implements CssAdapter {
   const Color(this.r, this.g, this.b, [this.alpha = 1.0])
       : perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
 
-  /// Constructs a new instance from red, green and blue components.
+  /// Constructs a instance from red, green and blue components.
   /// The color will be opaque.
   Color.rgb(this.r, this.g, this.b)
       : alpha = 1.0,
         perceptiveLuminance = (0.299 * r) + (0.587 * g) + (0.114 * b);
 
-  /// Constructs a new instance from red, green, blue and alpha components.
+  /// Constructs a instance from red, green, blue and alpha components.
   Color.rgba(this.r, this.g, this.b, this.alpha)
       : perceptiveLuminance = alpha * ((0.299 * r) + (0.587 * g) + (0.114 * b));
 
-  /// Constructs a new instance from a CSS hex value.
+  /// Constructs a instance from a CSS hex value.
   Color.hex(String hexStr)
       : r = Color.hexStrToDecimal(hexStr, 0),
         g = Color.hexStrToDecimal(hexStr, 1),
@@ -151,14 +151,14 @@ class Color implements CssAdapter {
     return true;
   }
 
-  /// Derives a new color from the this color by modifying its [brightness] and/or [saturation].
+  /// Derives a color from the this color by modifying its [brightness] and/or [saturation].
   Color derive({double brightness, double saturation}) {
     final List<double> hueSatBr = hsb;
     final double s = saturation ?? hueSatBr[1];
     final double b = brightness ?? hueSatBr[2];
 
     final List<double> rgb = hsbToRgb(hueSatBr[0], s, b);
-    return new Color.rgb(rgb[0], rgb[1], rgb[2]);
+    return Color.rgb(rgb[0], rgb[1], rgb[2]);
   }
 
   /// Get the hue [0-360], saturation [0-1] and brightness [0-1] values for this color.
@@ -339,7 +339,7 @@ class Color implements CssAdapter {
   Color fromCss(String css) {
     try {
       if (css == null || css.isEmpty) return Color.black;
-      if (css.startsWith('#')) return new Color.hex(css);
+      if (css.startsWith('#')) return Color.hex(css);
       if (css.startsWith('rgba(')) {
         final int comma1 = css.indexOf(',', 5);
         final int comma2 = css.indexOf(',', comma1 + 1);
@@ -349,7 +349,7 @@ class Color implements CssAdapter {
         final int g = int.parse(css.substring(comma1 + 1, comma2));
         final int b = int.parse(css.substring(comma2 + 1, comma3));
         final double a = double.parse(css.substring(comma3 + 1, endParens));
-        return new Color.rgba(r / 255, g / 255, b / 255, a);
+        return Color.rgba(r / 255, g / 255, b / 255, a);
       }
       if (css.startsWith('rgb(')) {
         final int comma1 = css.indexOf(',', 5);
@@ -358,7 +358,7 @@ class Color implements CssAdapter {
         final int r = int.parse(css.substring(5, comma1));
         final int g = int.parse(css.substring(comma1 + 1, comma2));
         final int b = int.parse(css.substring(comma2 + 1, endParens));
-        return new Color.rgb(r / 255, g / 255, b / 255);
+        return Color.rgb(r / 255, g / 255, b / 255);
       }
 
       //TODO handle all predefined CSS color names too

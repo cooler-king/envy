@@ -14,7 +14,7 @@ class NumberInterpolator extends EnvyInterpolator<num> {
   NumberInterpolator._internal();
 
   /// The singleton instance.
-  static final NumberInterpolator instance = new NumberInterpolator._internal();
+  static final NumberInterpolator instance = NumberInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;

@@ -1,0 +1,12 @@
+<!-- The parent element of an envy-scene should have a relative or absolute position
+     and manage its own height -->
+<div #wrapper
+     class="wrapper"
+     (mouseleave)="handleExit()">
+    <envy-scene style="height:100%;"></envy-scene>
+    <div #tooltipEl
+         *ngIf="showTooltip"
+         class="tooltip"
+         [ngStyle]="tooltipStyle"
+         [innerHtml]="tooltipHtml"></div>
+</div>

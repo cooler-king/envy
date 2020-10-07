@@ -3,7 +3,7 @@ import 'package:collection/collection.dart';
 import 'css_property.dart';
 
 /// The default set of CSS properties.
-Map<String, CssProperty> defaultProps = <String, CssProperty>{'opacity': new CssNumber(1)};
+Map<String, CssProperty> defaultProps = <String, CssProperty>{'opacity': CssNumber(1)};
 
 /// Parallels CssStyleDeclaration.
 ///
@@ -12,9 +12,9 @@ Map<String, CssProperty> defaultProps = <String, CssProperty>{'opacity': new Css
 ///
 /// { 'opacity': <CssNumber> }
 class CssStyle extends DelegatingMap<String, CssProperty> {
-  /// Constructs a new instance.
-  CssStyle() : super(new HashMap<String, CssProperty>());
+  /// Constructs a instance.
+  CssStyle() : super(HashMap<String, CssProperty>());
 
   /// Retrieves the default CssProperty for the named property.
-  static CssProperty defaultValueForProp(String prop) => new CssString()..initial = true;
+  static CssProperty defaultValueForProp(String prop) => CssString()..initial = true;
 }

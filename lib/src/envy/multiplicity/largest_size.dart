@@ -6,7 +6,7 @@ import 'multiplicity.dart';
 /// Implemented as a singleton.
 class LargestSize extends Multiplicity {
   /// Returns the singleton instance.
-  factory LargestSize() => _instance ??= new LargestSize._internal();
+  factory LargestSize() => _instance ??= LargestSize._internal();
 
   LargestSize._internal();
 

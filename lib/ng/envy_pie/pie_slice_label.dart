@@ -4,7 +4,7 @@ import '../../src/envy/graphic/twod/drawing_style2d.dart';
 
 /// Defines a label to render associated with a pie slice.
 class PieSliceLabel {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   PieSliceLabel(
       {this.text = '',
       this.anchor,

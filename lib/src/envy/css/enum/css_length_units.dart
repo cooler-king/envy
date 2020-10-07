@@ -2,7 +2,7 @@ import '../../util/enumeration.dart';
 
 /// Enumerates the length units used in CSS.
 class CssLengthUnits extends Enumeration<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   const CssLengthUnits(String value) : super(value);
 
   /// Pixels.

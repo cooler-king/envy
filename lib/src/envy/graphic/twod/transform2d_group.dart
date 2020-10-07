@@ -1,6 +1,6 @@
 import 'dart:collection';
 import 'dart:html';
-import 'package:quantity/quantity.dart';
+import 'package:quantity/quantity.dart' hide logger;
 import 'package:vector_math/vector_math.dart';
 import '../../dynamic_node.dart';
 import '../../envy_property.dart';
@@ -12,15 +12,15 @@ import '../graphic_node.dart';
 
 /// Transforms its child nodes.
 class Transform2dGroup extends GraphicGroup with DynamicNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Transform2dGroup() : super() {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['rotate'] = new AngleProperty();
-    properties['scale'] = new Scale2Property();
-    properties['translate'] = new Vector2Property();
+    properties['rotate'] = AngleProperty();
+    properties['scale'] = Scale2Property();
+    properties['translate'] = Vector2Property();
   }
 
   /// The scaling element of the transform.
@@ -54,7 +54,7 @@ class Transform2dGroup extends GraphicGroup with DynamicNode {
 
         // Column major order.
         final Matrix3 myTransform =
-            new Matrix3(sx * cosTheta, sy * sinTheta, 0, -sx * sinTheta, sy * cosTheta, 0, tx, ty, 1)
+            Matrix3(sx * cosTheta, sy * sinTheta, 0, -sx * sinTheta, sy * cosTheta, 0, tx, ty, 1)
               ..multiply(currentTransform);
         transform2DStack.addFirst(myTransform);
         _replaceTransform(myTransform, ctx);

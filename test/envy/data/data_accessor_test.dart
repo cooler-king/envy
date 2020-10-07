@@ -5,7 +5,7 @@ import 'package:envy/envy.dart' show DataAccessor;
 void main() {
   group('getData', () {
     test('keyed property', () {
-      final DataAccessor a = new DataAccessor.prop('x', keyProp: 'id');
+      final DataAccessor a = DataAccessor.prop('x', keyProp: 'id');
 
       final Object dataset = <Map<String, dynamic>>[
         <String, dynamic>{'id': 'id1', 'x': 10},
@@ -103,7 +103,7 @@ void main() {
     });
 
     test('cullUnavailableData', () {
-      final DataAccessor a = new DataAccessor.prop('x', keyProp: 'id');
+      final DataAccessor a = DataAccessor.prop('x', keyProp: 'id');
 
       final Object dataset = <Map<String, dynamic>>[
         <String, dynamic>{'id': 'id1', 'x': 10},

@@ -27,10 +27,10 @@ class Text2d extends Graphic2dNode {
   NumberProperty get maxWidth => properties['maxWidth'] as NumberProperty;
 
   void _initProperties() {
-    properties['dx'] = new NumberProperty();
-    properties['dy'] = new NumberProperty();
-    properties['text'] = new StringProperty();
-    properties['maxWidth'] = new NumberProperty();
+    properties['dx'] = NumberProperty();
+    properties['dy'] = NumberProperty();
+    properties['text'] = StringProperty();
+    properties['maxWidth'] = NumberProperty();
   }
 
   /// Overrides to make default stroke value false (text is not
@@ -38,7 +38,7 @@ class Text2d extends Graphic2dNode {
   @override
   void initBaseProperties() {
     super.initBaseProperties();
-    properties['stroke'] = new BooleanProperty(defaultValue: false);
+    properties['stroke'] = BooleanProperty(defaultValue: false);
   }
 
   @override

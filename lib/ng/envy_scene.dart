@@ -13,7 +13,7 @@ class EnvyScene implements AfterViewInit {
   String spec;
 
   /// Defines the scene components.
-  final EnvySceneGraph sceneGraph = new EnvySceneGraph();
+  final EnvySceneGraph sceneGraph = EnvySceneGraph();
 
   /// A reference to the wrapper element.
   @ViewChild('envyWrapper', read: Element)

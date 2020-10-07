@@ -2,8 +2,8 @@ import 'package:collection/collection.dart';
 
 /// A numerical list.
 class NumberList extends DelegatingList<num> {
-  /// Constructs a new instance.
-  NumberList([Iterable<num> numbers]) : super(new List<num>.from(numbers ?? <num>[]));
+  /// Constructs a instance.
+  NumberList([Iterable<num> numbers]) : super(List<num>.from(numbers ?? <num>[]));
 
   /// Adds [value] to the end of the list.
   void addNumber(num value) => add(value);

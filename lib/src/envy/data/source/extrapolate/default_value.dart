@@ -2,7 +2,7 @@ import 'extrapolation.dart';
 
 /// Extrapolates from existing data providing a default value.
 class DefaultValue<T> extends Extrapolation<T> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   DefaultValue(this.value) : super('default', 'Use default value');
 
   /// The default value.

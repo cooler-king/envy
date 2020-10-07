@@ -2,7 +2,7 @@ import '../../util/enumeration.dart';
 
 /// CSS font style enumerated values.
 class CssFontStyle extends Enumeration<String> {
-  /// Construct a new instance.
+  /// Construct a instance.
   const CssFontStyle(String value) : super(value);
 
   /// Normal font style.

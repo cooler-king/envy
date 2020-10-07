@@ -49,7 +49,7 @@ class CssUtil {
       dummyElement = true;
     }
 
-    final List<Match> matches = new List<Match>.from(runit.allMatches(value));
+    final List<Match> matches = List<Match>.from(runit.allMatches(value));
     final String unit = matches.isNotEmpty ? matches.first.group(0)[2] : '';
     //String unit = (value.match(runit)||[])[2],
     num conversion = (unit == 'px') ? 1 : convert['${unit}toPx'];
@@ -119,7 +119,7 @@ class CssUtil {
     String value = elem.getComputedStyle().getPropertyValue(prop);
 
     // check the unit
-    final List<Match> matches = new List<Match>.from(runit.allMatches(value));
+    final List<Match> matches = List<Match>.from(runit.allMatches(value));
     final String unit = matches.isNotEmpty ? matches.first.group(0) : '';
     if (value == 'auto' || (unit != null && unit != 'px')) {
       // WebKit and Opera will return auto in some cases

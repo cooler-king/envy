@@ -4,7 +4,7 @@ import 'multiplicity.dart';
 /// Implements a fixed size multiplicity that returns the same size
 /// regardless of the raw sizes of a set of properties.
 class FixedSize extends Multiplicity {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   FixedSize(this.size);
 
   /// The fixed size.

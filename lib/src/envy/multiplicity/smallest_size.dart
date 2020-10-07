@@ -6,7 +6,7 @@ import 'multiplicity.dart';
 /// Implemented as a singleton.
 class SmallestSize extends Multiplicity {
   /// Returns the singleton instance.
-  factory SmallestSize() => _instance ??= new SmallestSize._internal();
+  factory SmallestSize() => _instance ??= SmallestSize._internal();
 
   SmallestSize._internal();
 

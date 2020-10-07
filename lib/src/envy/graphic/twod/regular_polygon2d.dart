@@ -8,14 +8,14 @@ import 'graphic2d_node.dart';
 /// The regular polygon's number of points, radius
 /// and rotation can be set dynamically.
 class RegularPolygon2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   RegularPolygon2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['pointCount'] = new NumberProperty();
-    properties['radius'] = new NumberProperty();
+    properties['pointCount'] = NumberProperty();
+    properties['radius'] = NumberProperty();
   }
 
   /// The number of vertices (and sides) in the polygon.

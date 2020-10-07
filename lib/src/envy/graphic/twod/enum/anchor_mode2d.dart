@@ -6,41 +6,41 @@ class AnchorMode2d extends Enumeration<String> {
   const AnchorMode2d(String value) : super(value);
 
   /// Default, as interpreted by a particular graphic.
-  static const AnchorMode2d defaultMode = const AnchorMode2d('default');
+  static const AnchorMode2d defaultMode =  AnchorMode2d('default');
 
   /// The center of the graphic.
-  static const AnchorMode2d center = const AnchorMode2d('center');
+  static const AnchorMode2d center =  AnchorMode2d('center');
 
   /// The top of the graphic's bounding box.
-  static const AnchorMode2d top = const AnchorMode2d('top');
+  static const AnchorMode2d top =  AnchorMode2d('top');
 
   /// The rightmost extent of the graphic's bounding box.
-  static const AnchorMode2d right = const AnchorMode2d('right');
+  static const AnchorMode2d right =  AnchorMode2d('right');
 
   /// The bottom of the graphic's bounding box.
-  static const AnchorMode2d bottom = const AnchorMode2d('bottom');
+  static const AnchorMode2d bottom =  AnchorMode2d('bottom');
 
   /// The leftmost extent of the graphic's bounding box.
-  static const AnchorMode2d left = const AnchorMode2d('left');
+  static const AnchorMode2d left =  AnchorMode2d('left');
 
   /// The top left corner of the graphic's bounding box.
-  static const AnchorMode2d topLeft = const AnchorMode2d('topleft');
+  static const AnchorMode2d topLeft =  AnchorMode2d('topleft');
 
   /// The top right corner of the graphic's bounding box.
-  static const AnchorMode2d topRight = const AnchorMode2d('topright');
+  static const AnchorMode2d topRight =  AnchorMode2d('topright');
 
   /// The bottom left corner of the graphic's bounding box.
-  static const AnchorMode2d bottomLeft = const AnchorMode2d('bottomleft');
+  static const AnchorMode2d bottomLeft =  AnchorMode2d('bottomleft');
 
   /// The bottom right corner of the graphic's bounding box.
-  static const AnchorMode2d bottomRight = const AnchorMode2d('bottomright');
+  static const AnchorMode2d bottomRight =  AnchorMode2d('bottomright');
 
   /// Attempts to convert [d] into an AnchorMode2d, returning the [defaultMode]
   /// if it is unable to interpret the value.
   static AnchorMode2d from(dynamic d) {
     if (d is AnchorMode2d) return d;
     if (d is String) {
-      final String lc = d.toLowerCase();
+      final  lc = d.toLowerCase();
       if (lc == 'center') return AnchorMode2d.center;
 
       if (lc.contains('top')) {

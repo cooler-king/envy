@@ -6,7 +6,7 @@ import 'envy_node.dart';
 class GroupNode extends EnvyNode {
   /// The group's child nodes.
   /// DO NOT MODIFY THE CONTENTS OF children DIRECTLY.  Use only attach() and detach().
-  final List<EnvyNode> children = new List<EnvyNode>.from(<EnvyNode>[]);
+  final List<EnvyNode> children = List<EnvyNode>.from(<EnvyNode>[]);
 
   /// Subclasses must override to execute any updates prior to child updates
   /// (but after property updates).

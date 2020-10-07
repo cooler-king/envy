@@ -26,7 +26,7 @@ class TextAlign2d extends Enumeration<String> {
   static TextAlign2d from(dynamic d) {
     if (d is TextAlign2d) return d;
     if (d is String) {
-      final String lc = d.trim().toLowerCase();
+      final  lc = d.trim().toLowerCase();
       if (lc == 'left') return TextAlign2d.left;
       if (lc == 'right') return TextAlign2d.right;
       if (lc == 'center') return TextAlign2d.center;

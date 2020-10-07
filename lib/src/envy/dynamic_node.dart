@@ -6,7 +6,7 @@ import 'multiplicity/multiplicity.dart';
 /// This class is meant to be used as a Mixin.
 mixin DynamicNode {
   /// Properties -- self-optimizing.
-  final HashMap<String, EnvyProperty<dynamic>> properties = new HashMap<String, EnvyProperty<dynamic>>();
+  final HashMap<String, EnvyProperty<dynamic>> properties = HashMap<String, EnvyProperty<dynamic>>();
 
   /// The size of the values array.
   int size = 0;

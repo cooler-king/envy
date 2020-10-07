@@ -9,35 +9,35 @@ import 'graphic2d_node.dart';
 /// The triangle is defined by an origin, a base length, a height and a rotation angle
 /// (0 degrees is straight up, clockwise).  The default anchor point is the center of the base.
 class Triangle2d extends Graphic2dNode {
-  /// Constructs a new instance, with the triangle pointing up.
+  /// Constructs a instance, with the triangle pointing up.
   Triangle2d()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing up.
+  /// Constructs a instance, with the triangle pointing up.
   Triangle2d.up()
       : offsetAngle = 0,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing to the right.
+  /// Constructs a instance, with the triangle pointing to the right.
   Triangle2d.right()
       : offsetAngle = 90,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing to the left.
+  /// Constructs a instance, with the triangle pointing to the left.
   Triangle2d.left()
       : offsetAngle = -90,
         super(null) {
     _initProperties();
   }
 
-  /// Constructs a new instance, with the triangle pointing down.
+  /// Constructs a instance, with the triangle pointing down.
   Triangle2d.down()
       : offsetAngle = 180,
         super(null) {
@@ -48,9 +48,9 @@ class Triangle2d extends Graphic2dNode {
   final num offsetAngle;
 
   void _initProperties() {
-    properties['base'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
-    //properties['angle'] = new NumberProperty();
+    properties['base'] = NumberProperty();
+    properties['height'] = NumberProperty();
+    //properties['angle'] = NumberProperty();
   }
 
   @override
@@ -105,18 +105,18 @@ class Triangle2d extends Graphic2dNode {
 
 /// A 2-dimensional triangle defined by three arbitrary vertices, to be drawn on an HTML canvas.
 class TriangleVertices2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   TriangleVertices2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['x1'] = new NumberProperty();
-    properties['y1'] = new NumberProperty();
-    properties['x2'] = new NumberProperty();
-    properties['y2'] = new NumberProperty();
-    properties['x3'] = new NumberProperty();
-    properties['y3'] = new NumberProperty();
+    properties['x1'] = NumberProperty();
+    properties['y1'] = NumberProperty();
+    properties['x2'] = NumberProperty();
+    properties['y2'] = NumberProperty();
+    properties['x3'] = NumberProperty();
+    properties['y3'] = NumberProperty();
   }
 
   /// Holds the x-value of the first vertex.

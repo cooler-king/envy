@@ -20,7 +20,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
   /// as a whole.
   NumberData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      accessor = DataAccessor.prop(prop);
     } else {
       accessor = dataAccessor;
     }
@@ -34,7 +34,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 

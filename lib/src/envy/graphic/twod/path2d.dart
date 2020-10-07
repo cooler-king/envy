@@ -11,7 +11,7 @@ const List<num> zeroZero = const <num>[0, 0];
 
 /// A 2-dimensional path (to be drawn on an HTML canvas).
 class Path2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Path2d() : super(null) {
     _initProperties();
   }
@@ -22,14 +22,14 @@ class Path2d extends Graphic2dNode {
   @override
   void initBaseProperties() {
     super.initBaseProperties();
-    properties['fill'] = new BooleanProperty(defaultValue: false);
+    properties['fill'] = BooleanProperty(defaultValue: false);
   }
 
   void _initProperties() {
-    properties['points'] = new PointListProperty();
-    properties['drawMarkers'] = new BooleanProperty();
-    properties['interpolation'] = new PathInterpolation2dProperty();
-    properties['tension'] = new NumberProperty(defaultValue: 0.3);
+    properties['points'] = PointListProperty();
+    properties['drawMarkers'] = BooleanProperty();
+    properties['interpolation'] = PathInterpolation2dProperty();
+    properties['tension'] = NumberProperty(defaultValue: 0.3);
   }
 
   /// Holds the path points.
@@ -58,7 +58,7 @@ class Path2d extends Graphic2dNode {
     // Adjust based on anchor (default origin is x1, y1)
     final List<num> adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
 
-    //Path2D p = new Path2D();
+    //Path2D p = Path2D();
     //paths.add(p);
     ctx.beginPath();
     if (_interpolation == null ||

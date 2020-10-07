@@ -3,7 +3,7 @@ import '../../../util/enumeration.dart';
 /// Supported values: top, hanging, middle, alphabetic (default),
 /// ideographic, or bottom.
 class TextBaseline2d extends Enumeration<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   const TextBaseline2d(String value) : super(value);
 
   /// Attempts to convert [d] into a TextBaseline2d object.

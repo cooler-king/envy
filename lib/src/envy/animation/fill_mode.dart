@@ -2,7 +2,7 @@ import '../util/enumeration.dart';
 
 /// Animation fill mode.
 class FillMode extends Enumeration<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   const FillMode(String value) : super(value);
 
   /// Not filled.

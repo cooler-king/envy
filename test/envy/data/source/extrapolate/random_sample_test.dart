@@ -5,13 +5,13 @@ import 'package:envy/envy.dart';
 void main() {
   group('Random Sample', () {
     test('null and empty values', () {
-      final RandomSample<int> rs = new RandomSample<int>();
+      final RandomSample<int> rs = RandomSample<int>();
       expect(rs.valueAt(0, null), null);
       expect(rs.valueAt(0, <int>[]), null);
     });
 
     test('index >= values.length', () {
-      final RandomSample<num> rs = new RandomSample<num>();
+      final RandomSample<num> rs = RandomSample<num>();
       expect(rs.valueAt(1, <num>[13]), 13);
 
       num x = rs.valueAt(2, <num>[13, 54]);

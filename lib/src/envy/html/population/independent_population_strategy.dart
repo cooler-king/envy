@@ -7,7 +7,7 @@ import 'population_strategy.dart';
 /// Singleton:  does not have any state.
 class IndependentPopulationStrategy extends PopulationStrategy {
   /// This factory constructor returns the singleton instance.
-  factory IndependentPopulationStrategy() => _instance ??= new IndependentPopulationStrategy._internal();
+  factory IndependentPopulationStrategy() => _instance ??= IndependentPopulationStrategy._internal();
 
   IndependentPopulationStrategy._internal();
 
@@ -21,7 +21,7 @@ class IndependentPopulationStrategy extends PopulationStrategy {
     int c;
     for (int p = 0; p < parentCount; p++) {
       for (c = 0; c < childCount; c++) {
-        list.add(new DomNodeCoupling(parentIndex: p, propIndex: c));
+        list.add(DomNodeCoupling(parentIndex: p, propIndex: c));
       }
     }
 

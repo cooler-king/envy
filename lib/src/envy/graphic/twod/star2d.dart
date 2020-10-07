@@ -8,15 +8,15 @@ import 'graphic2d_node.dart';
 /// The star's number of points, outer and inner radius
 /// and rotation can be set dynamically.
 class Star2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Star2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['pointCount'] = new NumberProperty();
-    properties['outerRadius'] = new NumberProperty();
-    properties['innerRadius'] = new NumberProperty();
+    properties['pointCount'] = NumberProperty();
+    properties['outerRadius'] = NumberProperty();
+    properties['innerRadius'] = NumberProperty();
   }
 
   /// The number of vertices in the star.

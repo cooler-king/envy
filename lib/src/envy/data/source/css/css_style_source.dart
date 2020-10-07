@@ -6,12 +6,12 @@ abstract class CssStyleSource extends DataSource<CssStyle> {}
 
 /// A constant CSS style.
 class CssStyleConstant extends ArrayDataSource<CssStyle> implements CssStyleSource {
-  /// Constructs a new instance from a single style.
+  /// Constructs a instance from a single style.
   CssStyleConstant(CssStyle style) {
     values.add(style);
   }
 
-  /// Constructs a new instance from an existing style list.
+  /// Constructs a instance from an existing style list.
   CssStyleConstant.array(List<CssStyle> styles) {
     values.addAll(styles);
   }

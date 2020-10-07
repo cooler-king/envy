@@ -39,45 +39,45 @@ class TestPie2d implements AfterViewInit {
 
   void testBasic() {
     basicSlices = <PieSlice>[
-      new PieSlice(
+      PieSlice(
           key: 'slice1',
           value: 7,
-          fillStyle: new DrawingStyle2d(color: Color.cyan),
-          strokeStyle: new DrawingStyle2d(color: Color.white)),
-      new PieSlice(
+          fillStyle: DrawingStyle2d(color: Color.cyan),
+          strokeStyle: DrawingStyle2d(color: Color.white)),
+      PieSlice(
           key: 'slice2',
           value: 3,
-          fillStyle: new DrawingStyle2d(color: Color.blue),
-          strokeStyle: new DrawingStyle2d(color: Color.white))
+          fillStyle: DrawingStyle2d(color: Color.blue),
+          strokeStyle: DrawingStyle2d(color: Color.white))
     ];
     _change.markForCheck();
   }
 
   void testDynamic() {
     dynamicSlices = <PieSlice>[
-      new PieSlice(
+      PieSlice(
           key: 'slice1',
           value: 7,
-          fillStyle: new DrawingStyle2d(color: Color.cyan),
-          strokeStyle: new DrawingStyle2d(color: Color.white)),
-      new PieSlice(
+          fillStyle: DrawingStyle2d(color: Color.cyan),
+          strokeStyle: DrawingStyle2d(color: Color.white)),
+      PieSlice(
           key: 'slice2',
           value: 3,
-          fillStyle: new DrawingStyle2d(color: Color.blue),
-          strokeStyle: new DrawingStyle2d(color: Color.white))
+          fillStyle: DrawingStyle2d(color: Color.blue),
+          strokeStyle: DrawingStyle2d(color: Color.white))
     ];
 
     Timer.periodic(const Duration(seconds: 3), (Timer timer) {
       final List<PieSlice> list = <PieSlice>[];
 
-      final Random rand = new Random();
+      final Random rand = Random();
       final int count = 1 + rand.nextInt(7);
       for (int i = 0; i < count; i++) {
-        final PieSlice slice = new PieSlice(
+        final PieSlice slice = PieSlice(
             key: 'slice$i',
             value: rand.nextInt(50),
-            fillStyle: new DrawingStyle2d(color: Color.blue),
-            strokeStyle: new DrawingStyle2d(color: Color.white));
+            fillStyle: DrawingStyle2d(color: Color.blue),
+            strokeStyle: DrawingStyle2d(color: Color.white));
 
         list.add(slice);
       }

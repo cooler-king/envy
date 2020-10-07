@@ -6,14 +6,14 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional rectangle to be drawn on an HTML canvas.
 /// The default anchor is the top left corner.
 class Rect2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Rect2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['width'] = new NumberProperty();
-    properties['height'] = new NumberProperty();
+    properties['width'] = NumberProperty();
+    properties['height'] = NumberProperty();
   }
 
   /// The width of the rectangle, in pixels.

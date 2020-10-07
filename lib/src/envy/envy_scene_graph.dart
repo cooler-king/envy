@@ -7,7 +7,7 @@ import 'envy_root.dart';
 
 /// Holds all of the nodes that define an Envy scene.
 class EnvySceneGraph {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   EnvySceneGraph([String spec]) {
     //TODO build scene graph nodes from spec
     if (spec != null) applySpec(spec);
@@ -19,10 +19,10 @@ class EnvySceneGraph {
   }
 
   /// Master timeline (can be thought of as the document timeline)
-  Timeline masterTimeline = new Timeline.now();
+  Timeline masterTimeline = Timeline.now();
 
   /// The Envy root node is a DataGroup node
-  final EnvyRoot root = new EnvyRoot();
+  final EnvyRoot root = EnvyRoot();
 
   /// The HTML node under which this scene graph will add its contents.
   Element get htmlHost => _htmlHost;
@@ -49,7 +49,7 @@ class EnvySceneGraph {
   /// Updates all scene graph nodes including all property values
   /// based on animation time fractions.
   void updateGraph() {
-    // Create a new Player having current time (plus a little bit) as start time
+    // Create a Player having current time (plus a little bit) as start time
     // This starts the update loop.
     final Player player = masterTimeline.play();
 

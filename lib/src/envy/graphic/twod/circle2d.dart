@@ -6,13 +6,13 @@ import 'graphic2d_node.dart';
 
 /// A 2-dimensional circle to be drawn on an HTML canvas.
 class Circle2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Circle2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['radius'] = new NumberProperty();
+    properties['radius'] = NumberProperty();
   }
 
   /// Holds the radius of the circle, in pixels.

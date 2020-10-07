@@ -12,6 +12,7 @@ import '../../src/envy/data/source/number/number_source.dart';
 import '../../src/envy/envy_scene_graph.dart';
 import '../../src/envy/graphic/twod/annular_section2d.dart';
 import '../../src/envy/html/canvas_node.dart';
+import '../../src/envy/util/keep_html_pipe.dart';
 import 'pie_slice.dart';
 
 /// Displays and manages a pie chart.
@@ -23,9 +24,12 @@ import 'pie_slice.dart';
     coreDirectives,
     EnvyScene,
   ],
+  pipes: const <Object>[
+    KeepHtmlPipe,
+  ],
 )
 class EnvyPie implements AfterViewInit, OnDestroy {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   EnvyPie(this._change);
 
   // Services.
@@ -52,7 +56,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
   /// The start angle of the first slice (defaults to zero, the x-axis).
   @Input()
-  Angle startAngle = new Angle(deg: 0);
+  Angle startAngle = Angle(deg: 0);
 
   /// The direction around the circle in which slices are drawn (defaults to clockwise).
   @Input()
@@ -80,7 +84,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
   /// The center of the pie, in pixels.
   Vector2 get origin => _origin;
-  Vector2 _origin = new Vector2.zero();
+  Vector2 _origin = Vector2.zero();
   @Input()
   set origin(Vector2 value) {
     if (value != _origin) {
@@ -92,7 +96,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   /// Broadcasts mouse events for the pie slices.
   @Output()
   Stream<Graphic2dIntersection> get sliceEvent => _sliceEvent.stream;
-  final StreamController<Graphic2dIntersection> _sliceEvent = new StreamController<Graphic2dIntersection>.broadcast();
+  final StreamController<Graphic2dIntersection> _sliceEvent = StreamController<Graphic2dIntersection>.broadcast();
 
   /// A reference to the scene component that displays the pie.
   @ViewChild(EnvyScene)
@@ -106,43 +110,43 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
   void _createGraphic() {
     final EnvySceneGraph esg = scene?.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
-    final KeyedDataset dataset = new KeyedDataset('pieData', esg.root, 'key');
+    final KeyedDataset dataset = KeyedDataset('pieData', esg.root, 'key');
 
     // Annular Section.
-    final AnnularSection2d s = new AnnularSection2d();
+    final AnnularSection2d s = AnnularSection2d();
     canvas.attach(s);
 
-    s.startAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
-    s.endAngle.enter = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
-    s.outerRadius.enter = new NumberData.keyed(dataset, 'innerRadius');
-    s.innerRadius.enter = new NumberData.keyed(dataset, 'innerRadius');
-    s.opacity.enter = new NumberConstant(0.1);
+    s.startAngle.enter = AngleConstant(startAngle + Angle(deg: 360) as Angle);
+    s.endAngle.enter = AngleConstant(startAngle + Angle(deg: 360) as Angle);
+    s.outerRadius.enter = NumberData.keyed(dataset, 'innerRadius');
+    s.innerRadius.enter = NumberData.keyed(dataset, 'innerRadius');
+    s.opacity.enter = NumberConstant(0.1);
 
-    s.x.update = new NumberData.keyed(dataset, 'x');
-    s.x.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
-    s.y.update = new NumberData.keyed(dataset, 'y');
-    s.y.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
+    s.x.update = NumberData.keyed(dataset, 'x');
+    s.x.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    s.y.update = NumberData.keyed(dataset, 'y');
+    s.y.interpolator = BinaryInterpolator<num>(<num>[0.0]);
 
-    s.innerRadius.update = new NumberData.keyed(dataset, 'innerRadius');
-    s.innerRadius.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
-    s.outerRadius.update = new NumberData.keyed(dataset, 'outerRadius');
-    s.outerRadius.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
-    s.startAngle.update = new AngleData.keyed(dataset, 'startAngle');
-    s.endAngle.update = new AngleData.keyed(dataset, 'endAngle');
-    s.lineWidth.update = new NumberConstant(2);
-    s.fillStyle.update = new DrawingStyle2dData.keyed(dataset, 'fillStyle');
-    s.strokeStyle.update = new DrawingStyle2dData.keyed(dataset, 'strokeStyle');
-    s.fill.update = new BooleanConstant(true);
-    s.stroke.update = new BooleanConstant(true);
-    s.opacity.update = new NumberData.keyed(dataset, 'opacity');
+    s.innerRadius.update = NumberData.keyed(dataset, 'innerRadius');
+    s.innerRadius.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    s.outerRadius.update = NumberData.keyed(dataset, 'outerRadius');
+    s.outerRadius.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    s.startAngle.update = AngleData.keyed(dataset, 'startAngle');
+    s.endAngle.update = AngleData.keyed(dataset, 'endAngle');
+    s.lineWidth.update = NumberConstant(2);
+    s.fillStyle.update = DrawingStyle2dData.keyed(dataset, 'fillStyle');
+    s.strokeStyle.update = DrawingStyle2dData.keyed(dataset, 'strokeStyle');
+    s.fill.update = BooleanConstant(true);
+    s.stroke.update = BooleanConstant(true);
+    s.opacity.update = NumberData.keyed(dataset, 'opacity');
 
-    s.startAngle.exit = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
-    s.endAngle.exit = new AngleConstant(startAngle + new Angle(deg: 360) as Angle);
-    s.outerRadius.exit = new NumberData.keyed(dataset, 'innerRadius');
-    s.opacity.exit = new NumberConstant(0.01);
+    s.startAngle.exit = AngleConstant(startAngle + Angle(deg: 360) as Angle);
+    s.endAngle.exit = AngleConstant(startAngle + Angle(deg: 360) as Angle);
+    s.outerRadius.exit = NumberData.keyed(dataset, 'innerRadius');
+    s.opacity.exit = NumberConstant(0.01);
 
     // Update tooltip visibility on enter and leave.
     s.onMouseEnter.listen((Graphic2dIntersection g2di) {
@@ -181,22 +185,22 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.onMouseUp.listen(_sliceEvent.add);
 
     // Text Label
-    final Text2d label2d = new Text2d();
+    final Text2d label2d = Text2d();
     canvas.attach(label2d);
 
-    label2d.text.enter = new StringData.keyed(dataset, 'labelText');
-    label2d.text.interpolator = new BinaryInterpolator<String>(<num>[0.0]);
-    label2d.font.enter = new FontConstant(new Font(
-        family: FontFamily.sansSerif, size: new FontSize.cssLength(new CssLength.px(11)), weight: FontWeight.normal));
+    label2d.text.enter = StringData.keyed(dataset, 'labelText');
+    label2d.text.interpolator = BinaryInterpolator<String>(<num>[0.0]);
+    label2d.font.enter = FontConstant(Font(
+        family: FontFamily.sansSerif, size: FontSize.cssLength(CssLength.px(11)), weight: FontWeight.normal));
 
-    label2d.x.update = new NumberData.keyed(dataset, 'labelX');
-    label2d.x.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
-    label2d.y.update = new NumberData.keyed(dataset, 'labelY');
-    label2d.y.interpolator = new BinaryInterpolator<num>(<num>[0.0]);
-    label2d.fillStyle.update = new DrawingStyle2dData.keyed(dataset, 'labelFill');
-    label2d.opacity.update = new NumberData.keyed(dataset, 'labelOpacity');
-    label2d.anchor.update = new Anchor2dData.keyed(dataset, 'labelAnchor');
-    label2d.rotation.update = new AngleData.keyed(dataset, 'labelRotation');
+    label2d.x.update = NumberData.keyed(dataset, 'labelX');
+    label2d.x.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    label2d.y.update = NumberData.keyed(dataset, 'labelY');
+    label2d.y.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    label2d.fillStyle.update = DrawingStyle2dData.keyed(dataset, 'labelFill');
+    label2d.opacity.update = NumberData.keyed(dataset, 'labelOpacity');
+    label2d.anchor.update = Anchor2dData.keyed(dataset, 'labelAnchor');
+    label2d.rotation.update = AngleData.keyed(dataset, 'labelRotation');
 
     esg.updateGraph();
   }
@@ -207,7 +211,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
       tooltipHtml = slice.tooltip.html;
 
       final Map<String, String> style =
-          slice.tooltip.cssStyle != null ? new Map<String, String>.from(slice.tooltip.cssStyle) : <String, String>{};
+          slice.tooltip.cssStyle != null ? Map<String, String>.from(slice.tooltip.cssStyle) : <String, String>{};
 
       final Rectangle<num> wrapperRect = wrapper.getBoundingClientRect();
 
@@ -250,7 +254,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
           return;
         }
 
-        Angle cursor = new Angle(rad: startAngle.mks);
+        Angle cursor = Angle(rad: startAngle.mks);
         for (final PieSlice slice in _slices) {
           final Map<String, dynamic> sliceData = <String, dynamic>{
             'key': slice.key,
@@ -265,11 +269,11 @@ class EnvyPie implements AfterViewInit, OnDestroy {
             'labelText': slice.label?.text ?? '',
           };
           final double fraction = slice.value / total;
-          Angle delta = new Angle(deg: 360 * fraction);
+          Angle delta = Angle(deg: 360 * fraction);
           if (counterclockwise) delta = delta * -1 as Angle;
 
-          final num labelRadius = innerRadius + 0.01 * (slice.label.radialPct ?? 50) * (outerRadius - innerRadius);
-          final Angle labelAngle = cursor + delta * 0.01 * (slice.label.spanPct ?? 50) as Angle;
+          final num labelRadius = innerRadius + 0.01 * (slice.label?.radialPct ?? 50) * (outerRadius - innerRadius);
+          final Angle labelAngle = cursor + delta * 0.01 * (slice.label?.spanPct ?? 50) as Angle;
 
           if (counterclockwise) {
             sliceData['endAngle'] = cursor;
@@ -290,8 +294,8 @@ class EnvyPie implements AfterViewInit, OnDestroy {
           sliceData['labelY'] = sliceData['y'] + labelRadius * labelAngle.sine();
           sliceData['labelFill'] = slice.label?.fillStyle ?? DrawingStyle2d.black;
           sliceData['labelOpacity'] = slice.label?.opacity ?? 1;
-          sliceData['labelRotation'] = slice.label?.rotation ?? new Angle(deg: 0);
-          sliceData['labelAnchor'] = slice.label?.anchor ?? new Anchor2d(mode: AnchorMode2d.center);
+          sliceData['labelRotation'] = slice.label?.rotation ?? Angle(deg: 0);
+          sliceData['labelAnchor'] = slice.label?.anchor ?? Anchor2d(mode: AnchorMode2d.center);
 
           data.add(sliceData);
         }
@@ -306,7 +310,7 @@ class EnvyPie implements AfterViewInit, OnDestroy {
 
   /// Stand down when the mouse leaves.
   void handleExit() {
-    new Timer(const Duration(milliseconds: 900), () {
+    Timer(const Duration(milliseconds: 900), () {
       hoverSlice = null;
       showTooltip = false;
       _change.markForCheck();

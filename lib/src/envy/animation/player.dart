@@ -6,7 +6,7 @@ import 'timeline.dart';
 /// Players provide an elapsed time relative to a specific
 /// time on a specific [Timeline].
 class Player {
-  /// Create a new Player bound to [timeline] with the specified
+  /// Create a Player bound to [timeline] with the specified
   /// [startTime], in seconds, on that timeline.
   Player(this.timeline, this.startTime) {
     //TODO add delay for start time
@@ -161,14 +161,14 @@ class Player {
   void _initTimer([num delayMillis]) {
     if (delayMillis == null) {
       _prepareForAnimation();
-      timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
+      timer = Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
         _updateRegisteredGroups();
       });
     } else {
       // Wait before creating animation timer.
-      new Timer(new Duration(milliseconds: delayMillis.round()), () {
+      Timer(Duration(milliseconds: delayMillis.round()), () {
         _prepareForAnimation();
-        timer = new Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
+        timer = Timer.periodic(const Duration(milliseconds: 15), (Timer t) {
           _updateRegisteredGroups();
         });
       });

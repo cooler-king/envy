@@ -2,15 +2,15 @@ import 'package:quantity/quantity.dart' show Angle;
 
 /// Represents a geographic coordinate (that is a latitude and longitude).
 class GeoCoord {
-  /// Constructs a new instance with latitude and longitude in radians.
+  /// Constructs a instance with latitude and longitude in radians.
   GeoCoord.radians({this.latRad = 0, this.longRad = 0});
 
-  /// Constructs a new instance with latitude and longitude in degrees.
+  /// Constructs a instance with latitude and longitude in degrees.
   GeoCoord.degrees({num latDeg = 0, num longDeg = 0})
-      : latRad = new Angle(deg: latDeg).valueSI.toDouble(),
-        longRad = new Angle(deg: longDeg).valueSI.toDouble();
+      : latRad = Angle(deg: latDeg).valueSI.toDouble(),
+        longRad = Angle(deg: longDeg).valueSI.toDouble();
 
-  /// Constructs a new instance with latitude and longitude Angles.
+  /// Constructs a instance with latitude and longitude Angles.
   GeoCoord.angles({Angle lat, Angle long})
       : latRad = lat?.valueSI?.toDouble() ?? 0,
         longRad = long?.valueSI?.toDouble() ?? 0;
@@ -22,20 +22,20 @@ class GeoCoord {
   final num longRad;
 
   /// Gets the latitude, as an Angle.
-  Angle get latitude => new Angle(rad: latRad);
+  Angle get latitude => Angle(rad: latRad);
 
   /// Gets the latitude in degrees.
-  num get degreesLatitude => new Angle(rad: latRad).valueInUnits(Angle.degrees).toDouble();
+  num get degreesLatitude => Angle(rad: latRad).valueInUnits(Angle.degrees).toDouble();
 
   /// Gets the longitude, as an Angle.
-  Angle get longitude => new Angle(rad: longRad);
+  Angle get longitude => Angle(rad: longRad);
 
   /// Gets the longitude in degrees.
-  num get degreesLongitude => new Angle(rad: longRad).valueInUnits(Angle.degrees).toDouble();
+  num get degreesLongitude => Angle(rad: longRad).valueInUnits(Angle.degrees).toDouble();
 
   @override
   String toString() {
-    final StringBuffer buf = new StringBuffer()
+    final StringBuffer buf = StringBuffer()
       ..write(degreesLatitude)
       ..write(degreesLatitude < 0 ? 'S' : 'N')
       ..write(', ')

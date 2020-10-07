@@ -20,7 +20,7 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
     projSource.valueAt(i).toPoint(latSource.valueAt(i));
 
     //TODO check for nulls?
-    //return new Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
+    //return Color(red.valueAt(i), green.valueAt(i), blue.valueAt(i));
   }
 
   int get rawSize => Math.max(Math.max(projSource.rawSize, latSource.rawSize), longSource.rawSize);
@@ -34,7 +34,7 @@ class GeoPointListAngles extends ArrayDataSource<PointList> implements PointList
 /// Generates a list of two-dimensional coordinates from a geographic projection
 /// and numerical list latitude and longitude sources (degrees).
 class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointListSource {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   GeoPointListDegrees(this.projSource, {this.latListSource, this.longListSource});
 
   /// The geographic projection used to convert to pixel coordinates.
@@ -48,7 +48,7 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
 
   /* TODO GeoPointList values
   PointList valueAt(int i) {
-    var pts = new PointList();
+    var pts = PointList();
     var proj = projSource.valueAt(i);
     var lats = latListSource.valueAt(i);
     var longs = longListSource.valueAt(i);
@@ -77,7 +77,7 @@ class GeoPointListDegrees extends ArrayDataSource<PointList> implements PointLis
     values.clear();
     final int size = max(projSource.rawSize, max(latListSource.rawSize, longListSource.rawSize));
     for (int i = 0; i < size; i++) {
-      final PointList pts = new PointList();
+      final PointList pts = PointList();
       final Projection proj = projSource.valueAt(i);
       final NumberList lats = latListSource.valueAt(i);
       final NumberList longs = longListSource.valueAt(i);

@@ -59,105 +59,105 @@ class TestRect2d implements AfterViewInit {
 
   void testBasic(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
-    s.x.enter = new NumberConstant.array(<num>[75, 225, 375]);
-    s.y.enter = new NumberConstant.array(<num>[55]);
-    s.width.enter = new NumberConstant(50);
-    s.height.enter = new NumberConstant(30);
-    s.lineWidth.enter = new NumberConstant(5);
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
-    s.strokeStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
-    s.fill.enter = new BooleanConstant.array(<bool>[true, true, false]);
-    s.stroke.enter = new BooleanConstant.array(<bool>[true, false, true]);
+    s.x.enter = NumberConstant.array(<num>[75, 225, 375]);
+    s.y.enter = NumberConstant.array(<num>[55]);
+    s.width.enter = NumberConstant(50);
+    s.height.enter = NumberConstant(30);
+    s.lineWidth.enter = NumberConstant(5);
+    s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
+    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.red));
+    s.fill.enter = BooleanConstant.array(<bool>[true, true, false]);
+    s.stroke.enter = BooleanConstant.array(<bool>[true, false, true]);
 
     esg.updateGraph();
   }
 
   void testRotation(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
-    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
-    s.y.enter = new NumberConstant(50);
-    s.width.enter = new NumberConstant(40);
-    s.height.enter = new NumberConstant(20);
-    s.rotation.enter = new AngleConstant.array(
-        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
+    s.y.enter = NumberConstant(50);
+    s.width.enter = NumberConstant(40);
+    s.height.enter = NumberConstant(20);
+    s.rotation.enter = AngleConstant.array(
+        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
     esg.updateGraph();
   }
 
   void testAnchors(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 200);
+    final CanvasNode canvas = CanvasNode(1000, 200);
     esg.attachToRoot(canvas);
 
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
     final List<num> xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
 
-    s.x.enter = new NumberConstant.array(xList);
-    s.y.enter = new NumberConstant(100);
-    s.width.enter = new NumberConstant(30);
-    s.height.enter = new NumberConstant(10);
-    s.lineWidth.enter = new NumberConstant(1);
-    s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-    s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
-    s.stroke.enter = new BooleanConstant(false);
-    s.anchor.enter = new Anchor2dConstant.array(<Anchor2d>[
-      new Anchor2d(mode: AnchorMode2d.defaultMode),
-      new Anchor2d(mode: AnchorMode2d.center),
-      new Anchor2d(mode: AnchorMode2d.bottom),
-      new Anchor2d(mode: AnchorMode2d.bottomLeft),
-      new Anchor2d(mode: AnchorMode2d.bottomRight),
-      new Anchor2d(mode: AnchorMode2d.left),
-      new Anchor2d(mode: AnchorMode2d.right),
-      new Anchor2d(mode: AnchorMode2d.top),
-      new Anchor2d(mode: AnchorMode2d.topLeft),
-      new Anchor2d(mode: AnchorMode2d.topRight)
+    s.x.enter = NumberConstant.array(xList);
+    s.y.enter = NumberConstant(100);
+    s.width.enter = NumberConstant(30);
+    s.height.enter = NumberConstant(10);
+    s.lineWidth.enter = NumberConstant(1);
+    s.rotation.enter = AngleConstant(Angle(deg: 0));
+    s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
+    s.stroke.enter = BooleanConstant(false);
+    s.anchor.enter = Anchor2dConstant.array(<Anchor2d>[
+      Anchor2d(mode: AnchorMode2d.defaultMode),
+      Anchor2d(mode: AnchorMode2d.center),
+      Anchor2d(mode: AnchorMode2d.bottom),
+      Anchor2d(mode: AnchorMode2d.bottomLeft),
+      Anchor2d(mode: AnchorMode2d.bottomRight),
+      Anchor2d(mode: AnchorMode2d.left),
+      Anchor2d(mode: AnchorMode2d.right),
+      Anchor2d(mode: AnchorMode2d.top),
+      Anchor2d(mode: AnchorMode2d.topLeft),
+      Anchor2d(mode: AnchorMode2d.topRight)
     ]);
 
     // Circles to mark the anchors
-    final Circle2d c = new Circle2d();
+    final Circle2d c = Circle2d();
     canvas.attach(c);
-    c.x.enter = new NumberConstant.array(xList);
-    c.y.enter = new NumberConstant(100);
-    c.radius.enter = new NumberConstant(2);
-    c.lineWidth.enter = new NumberConstant(1);
-    c.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
-    c.stroke.enter = new BooleanConstant(false);
+    c.x.enter = NumberConstant.array(xList);
+    c.y.enter = NumberConstant(100);
+    c.radius.enter = NumberConstant(2);
+    c.lineWidth.enter = NumberConstant(1);
+    c.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.red));
+    c.stroke.enter = BooleanConstant(false);
 
     esg.updateGraph();
   }
 
   void testLifecycle(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode();
+    final CanvasNode canvas = CanvasNode();
     esg.attachToRoot(canvas);
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
     enterButton.onClick.listen((_) {
-      s.x.enter = new NumberConstant(50);
-      s.y.enter = new NumberConstant(50);
-      s.width.enter = new NumberConstant(50);
-      s.height.enter = new NumberConstant(30);
-      s.lineWidth.enter = new NumberConstant(1);
-      s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-      s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
-      s.opacity.enter = new NumberConstant(1);
+      s.x.enter = NumberConstant(50);
+      s.y.enter = NumberConstant(50);
+      s.width.enter = NumberConstant(50);
+      s.height.enter = NumberConstant(30);
+      s.lineWidth.enter = NumberConstant(1);
+      s.rotation.enter = AngleConstant(Angle(deg: 0));
+      s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
+      s.opacity.enter = NumberConstant(1);
 
       s.x.update = null;
       s.y.update = null;
@@ -173,37 +173,37 @@ class TestRect2d implements AfterViewInit {
 
     // ignore: cascade_invocations
     updateButton.onClick.listen((MouseEvent e) {
-      s.x.enter = new NumberConstant(50);
-      s.y.enter = new NumberConstant(50);
-      s.width.enter = new NumberConstant(50);
-      s.height.enter = new NumberConstant(30);
-      s.lineWidth.enter = new NumberConstant(1);
-      s.rotation.enter = new AngleConstant(new Angle(deg: 0));
-      s.fillStyle.enter = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.black));
-      s.opacity.enter = new NumberConstant(1);
+      s.x.enter = NumberConstant(50);
+      s.y.enter = NumberConstant(50);
+      s.width.enter = NumberConstant(50);
+      s.height.enter = NumberConstant(30);
+      s.lineWidth.enter = NumberConstant(1);
+      s.rotation.enter = AngleConstant(Angle(deg: 0));
+      s.fillStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
+      s.opacity.enter = NumberConstant(1);
 
-      s.x.update = new NumberConstant(200);
-      s.y.update = new NumberConstant(100);
-      s.width.update = new NumberConstant(100);
-      s.height.update = new NumberConstant(10);
-      s.lineWidth.update = new NumberConstant(3);
-      s.rotation.update = new AngleConstant(new Angle(deg: 720));
-      s.fillStyle.update = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.blue));
-      s.opacity.update = new NumberConstant(1);
+      s.x.update = NumberConstant(200);
+      s.y.update = NumberConstant(100);
+      s.width.update = NumberConstant(100);
+      s.height.update = NumberConstant(10);
+      s.lineWidth.update = NumberConstant(3);
+      s.rotation.update = AngleConstant(Angle(deg: 720));
+      s.fillStyle.update = DrawingStyle2dConstant(DrawingStyle2d(color: Color.blue));
+      s.opacity.update = NumberConstant(1);
       esg.updateGraph();
     });
 
     // ignore: cascade_invocations
     exitButton.onClick.listen((_) {
-      s.x.exit = new NumberConstant(400);
-      s.y.exit = new NumberConstant(10);
-      s.width.exit = new NumberConstant(2);
-      s.height.exit = new NumberConstant(2);
-      s.lineWidth.exit = new NumberConstant(3);
-      s.rotation.exit = new AngleConstant(new Angle(deg: 0));
-      s.fillStyle.exit = new DrawingStyle2dConstant(new DrawingStyle2d(color: Color.red));
-      s.stroke.exit = new BooleanConstant(false);
-      s.opacity.exit = new NumberConstant(0);
+      s.x.exit = NumberConstant(400);
+      s.y.exit = NumberConstant(10);
+      s.width.exit = NumberConstant(2);
+      s.height.exit = NumberConstant(2);
+      s.lineWidth.exit = NumberConstant(3);
+      s.rotation.exit = AngleConstant(Angle(deg: 0));
+      s.fillStyle.exit = DrawingStyle2dConstant(DrawingStyle2d(color: Color.red));
+      s.stroke.exit = BooleanConstant(false);
+      s.opacity.exit = NumberConstant(0);
 
       s.x.enter = null;
       s.y.enter = null;
@@ -229,7 +229,7 @@ class TestRect2d implements AfterViewInit {
 
   void testDataDriven(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode();
+    final CanvasNode canvas = CanvasNode();
     esg.attachToRoot(canvas);
     final Map<String, int> datamap = <String, int>{
       'xcoord': 100,
@@ -240,27 +240,27 @@ class TestRect2d implements AfterViewInit {
     };
     canvas.addDataset('rectdata', map: datamap);
 
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
 
     canvas.attach(s);
     esg.updateGraph();
 
-    s.x.enter = new NumberData('rectdata', canvas, prop: 'xcoord');
-    s.y.enter = new NumberData('rectdata', canvas, prop: 'ycoord');
-    s.width.enter = new NumberData('rectdata', canvas, prop: 'width');
-    s.height.enter = new NumberData('rectdata', canvas, prop: 'height');
-    s.opacity.enter = new NumberData('rectdata', canvas, prop: 'opacity');
-    s.rotation.enter = new AngleData('rectdata', canvas, prop: 'rot');
+    s.x.enter = NumberData('rectdata', canvas, prop: 'xcoord');
+    s.y.enter = NumberData('rectdata', canvas, prop: 'ycoord');
+    s.width.enter = NumberData('rectdata', canvas, prop: 'width');
+    s.height.enter = NumberData('rectdata', canvas, prop: 'height');
+    s.opacity.enter = NumberData('rectdata', canvas, prop: 'opacity');
+    s.rotation.enter = AngleData('rectdata', canvas, prop: 'rot');
 
     dataButton.onClick.listen((_) {
-      final Random rand = new Random();
+      final Random rand = Random();
       final Map<String, dynamic> randomData = <String, dynamic>{
         'xcoord': 150 + rand.nextDouble() * 75,
         'ycoord': 75 + rand.nextDouble() * 50,
         'width': 50 + rand.nextDouble() * 200,
         'height': 20 + rand.nextDouble() * 50,
         'opacity': rand.nextDouble(),
-        'rot': new Angle(deg: rand.nextDouble() * 360)
+        'rot': Angle(deg: rand.nextDouble() * 360)
       };
       canvas.addDataset('rectdata', map: randomData);
       esg.updateGraph();
@@ -269,32 +269,32 @@ class TestRect2d implements AfterViewInit {
 
   void testHit(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 500);
+    final CanvasNode canvas = CanvasNode(1000, 500);
     esg.attachToRoot(canvas);
 
     canvas.onClick.listen((MouseEvent e) => querySelector('#hit-feedback').innerHtml = 'CLICKED BACKGROUND $e');
 
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
-    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 375]);
-    s.y.enter = new NumberConstant(50);
-    s.width.enter = new NumberConstant(40);
-    s.height.enter = new NumberConstant(20);
-    s.rotation.enter = new AngleConstant.array(
-        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 375]);
+    s.y.enter = NumberConstant(50);
+    s.width.enter = NumberConstant(40);
+    s.height.enter = NumberConstant(20);
+    s.rotation.enter = AngleConstant.array(
+        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.fill.enter = BooleanConstant.trueValue;
-    s.fillStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
-      new DrawingStyle2d(color: Color.blue),
-      new DrawingStyle2d(color: Color.blue),
-      new DrawingStyle2d(color: Color.blue),
-      new DrawingStyle2d(color: Color.black),
-      new DrawingStyle2d(color: Color.red)
+    s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
+      DrawingStyle2d(color: Color.blue),
+      DrawingStyle2d(color: Color.blue),
+      DrawingStyle2d(color: Color.blue),
+      DrawingStyle2d(color: Color.black),
+      DrawingStyle2d(color: Color.red)
     ]);
-    s.data.enter = new NumberConstant.array(<num>[10, 20, 30, 40, 50]);
+    s.data.enter = NumberConstant.array(<num>[10, 20, 30, 40, 50]);
 
-    s.rotation.enter = new AngleConstant.array(
-        <Angle>[new Angle(deg: 0), new Angle(deg: 30), new Angle(deg: 45), new Angle(deg: 60), new Angle(deg: 90)]);
+    s.rotation.enter = AngleConstant.array(
+        <Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
     s.onClick.listen((Graphic2dIntersection g2di) => querySelector('#hit-feedback').innerHtml =
         'CLICKED $g2di... data = ${g2di.graphic2d.data.valueAt(g2di.index)}');
     s.onDoubleClick
@@ -311,36 +311,36 @@ class TestRect2d implements AfterViewInit {
 
   void testFill(EnvyScene e) {
     final EnvySceneGraph esg = e.sceneGraph;
-    final CanvasNode canvas = new CanvasNode(1000, 100);
+    final CanvasNode canvas = CanvasNode(1000, 100);
     esg.attachToRoot(canvas);
 
     // Rect
-    final Rect2d s = new Rect2d();
+    final Rect2d s = Rect2d();
     canvas.attach(s);
 
     final ImageElement image =
-        new ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
+        ImageElement(width: 30, height: 30, src: 'packages/envy/resources/morgan_silver_dollar.png');
 
-    s.x.enter = new NumberConstant.array(<num>[50, 150, 250, 350, 450]);
-    s.y.enter = new NumberConstant(50);
-    s.width.enter = new NumberConstant(60);
-    s.height.enter = new NumberConstant(40);
+    s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
+    s.y.enter = NumberConstant(50);
+    s.width.enter = NumberConstant(60);
+    s.height.enter = NumberConstant(40);
     s.fill.enter = BooleanConstant.trueValue;
-    s.fillStyle.enter = new DrawingStyle2dConstant.array(<DrawingStyle2d>[
-      new DrawingStyle2d(color: Color.blue),
-      new DrawingStyle2d(
-          gradient: new LinearGradient2d(x0: 5, x1: 50, y0: 0, y1: 40)
+    s.fillStyle.enter = DrawingStyle2dConstant.array(<DrawingStyle2d>[
+      DrawingStyle2d(color: Color.blue),
+      DrawingStyle2d(
+          gradient: LinearGradient2d(x0: 5, x1: 50, y0: 0, y1: 40)
             ..addColorStop(0, Color.gray777)
             ..addColorStop(0.5, Color.blue)
             ..addColorStop(1, Color.cyan)),
-      new DrawingStyle2d(
-          gradient: new RadialGradient2d(x0: 30, y0: 20, r0: 5, x1: 30, y1: 20, r1: 35)
+      DrawingStyle2d(
+          gradient: RadialGradient2d(x0: 30, y0: 20, r0: 5, x1: 30, y1: 20, r1: 35)
             ..addColorStop(0, Color.green)
             ..addColorStop(0.3, Color.blue)
             ..addColorStop(0.7, Color.red)
             ..addColorStop(1, Color.black)),
-      new DrawingStyle2d(pattern: new ImagePattern2d(image, patternWidth: 60, patternHeight: 60)),
-      new DrawingStyle2d(color: Color.transparentBlack)
+      DrawingStyle2d(pattern: ImagePattern2d(image, patternWidth: 60, patternHeight: 60)),
+      DrawingStyle2d(color: Color.transparentBlack)
     ]);
 
     esg.updateGraph();

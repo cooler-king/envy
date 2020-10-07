@@ -15,7 +15,7 @@ class AngleInterpolator extends EnvyInterpolator<Angle> {
   AngleInterpolator._internal();
 
   /// The singleton instance.
-  static final AngleInterpolator instance = new AngleInterpolator._internal();
+  static final AngleInterpolator instance = AngleInterpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
@@ -27,6 +27,6 @@ class AngleInterpolator extends EnvyInterpolator<Angle> {
   ///
   @override
   Angle interpolate(Angle a, Angle b, num fraction) => (!clamped || (fraction > 0 && fraction < 1))
-      ? new Angle(rad: a.mks.toDouble() + (b.mks.toDouble() - a.mks.toDouble()) * fraction)
+      ? Angle(rad: a.mks.toDouble() + (b.mks.toDouble() - a.mks.toDouble()) * fraction)
       : ((fraction <= 0) ? a : b);
 }

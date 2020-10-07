@@ -20,10 +20,10 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
   PointListInterpolator._internal();
 
   /// The singleton instance.
-  static final PointListInterpolator instance = new PointListInterpolator._internal();
+  static final PointListInterpolator instance = PointListInterpolator._internal();
 
   // Internal interpolator for individual points
-  static final PointInterpolator _pointInterp = new PointInterpolator();
+  static final PointInterpolator _pointInterp = PointInterpolator();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true
   bool clamped = false;
@@ -36,7 +36,7 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
   @override
   PointList interpolate(PointList a, PointList b, num fraction) {
     final int numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
-    final PointList newPoints = new PointList();
+    final PointList newPoints = PointList();
     for (int i = 0; i < numPoints; i++) {
       newPoints
           .add(_pointInterp.interpolate(i < a.length ? a[i] : ptZeroZero, i < b.length ? b[i] : ptZeroZero, fraction));

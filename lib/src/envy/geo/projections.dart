@@ -29,7 +29,7 @@ abstract class Projection {
   /// The anchor coordinate, if specified, will be at pixel location 0, 0.
   void setAnchorCoord(GeoCoord coord) {
     final Point<num> anchor = toPoint(latRad: coord.latRad, longRad: coord.longRad);
-    _offset = new Point<num>(-anchor.x, -anchor.y);
+    _offset = Point<num>(-anchor.x, -anchor.y);
   }
 
   /// Concrete implementations need to provide this method that converts
@@ -57,7 +57,7 @@ abstract class Projection {
 /// horizontal straight lines of constant spacing (for constant intervals of parallels).
 /// The projection is neither equal area nor conformal.
 class Equirectangular extends Projection {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Equirectangular(Angle standardParallel, {num width = 500, GeoCoord anchor})
       : cosParallel = standardParallel.cosine() {
     if (width != null) setPixelWidth(width);
@@ -66,7 +66,7 @@ class Equirectangular extends Projection {
 
   @override
   Point<num> toPoint({num latRad, num longRad}) =>
-      new Point<num>(longRad * cosParallel * _scale + _offset.x, -latRad * _scale + _offset.y);
+      Point<num>(longRad * cosParallel * _scale + _offset.x, -latRad * _scale + _offset.y);
 
   /// The cosine of the standard parallel.
   final num cosParallel;
@@ -79,6 +79,6 @@ class Equirectangular extends Projection {
 /// PlateCarree is the special case of an Equirectangular projection where the equator is
 /// used as the standard parallel.
 class PlateCarree extends Equirectangular {
-  /// Constructs a new instance.
-  PlateCarree() : super(new Angle(rad: 0));
+  /// Constructs a instance.
+  PlateCarree() : super(Angle(rad: 0));
 }

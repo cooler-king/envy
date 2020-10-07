@@ -5,7 +5,7 @@ import 'package:envy/envy.dart';
 void main() {
   group('Timed Item Group', () {
     test('constructor', () {
-      final GenericTimedItemGroup tig = new GenericTimedItemGroup();
+      final GenericTimedItemGroup tig = GenericTimedItemGroup();
       expect(tig != null, true);
     });
   });

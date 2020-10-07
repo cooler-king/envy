@@ -1,6 +1,6 @@
 /// The abstract base class for providing missing values at the end of property arrays.
 abstract class Extrapolation<T> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Extrapolation(this.key, this.displayName);
 
   /// A unique identifier.

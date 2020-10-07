@@ -11,9 +11,9 @@ class Pattern2dInterpolator extends EnvyInterpolator<Pattern2d> {
   Pattern2dInterpolator._internal();
 
   /// The singleton instance.
-  static final Pattern2dInterpolator instance = new Pattern2dInterpolator._internal();
+  static final Pattern2dInterpolator instance = Pattern2dInterpolator._internal();
 
-  final BinaryInterpolator<Pattern2d> _binaryInterpolator = new BinaryInterpolator<Pattern2d>();
+  final BinaryInterpolator<Pattern2d> _binaryInterpolator = BinaryInterpolator<Pattern2d>();
 
   /// Returns a Pattern2d value between [a] and [b] based on the time [fraction].
   //TODO blend images instead?

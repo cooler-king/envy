@@ -6,14 +6,14 @@ import '../util/logger.dart';
 /// See the `parse` constructor for examples of how to construct
 /// a multi-step accessor.
 class DataAccessor {
-  /// Constructs a new instance, with a single index.
+  /// Constructs a instance, with a single index.
   DataAccessor.index(int index) {
-    if (index != null) steps.add(new Indices.single(index));
+    if (index != null) steps.add(Indices.single(index));
   }
 
-  /// Constructs a new instance, with an index range.
+  /// Constructs a instance, with an index range.
   DataAccessor.range(int minIndex, int maxIndex) {
-    if (minIndex != null && maxIndex != null) steps.add(new Indices.range(minIndex, maxIndex));
+    if (minIndex != null && maxIndex != null) steps.add(Indices.range(minIndex, maxIndex));
   }
 
   /// Accesses a value in a map by identifying the [property]
@@ -26,7 +26,7 @@ class DataAccessor {
   DataAccessor.prop(String property, {String keyProp}) {
     if (property != null) {
       if (keyProp != null) {
-        steps.add(new KeyedProperty(property, keyProp));
+        steps.add(KeyedProperty(property, keyProp));
       } else {
         steps.add(property);
       }
@@ -86,14 +86,14 @@ class DataAccessor {
       final List<String> accessSteps = accessPath.split('.');
       for (final String step in accessSteps) {
         if (step.startsWith('[') && step.endsWith(']')) {
-          final Indices ind = new Indices.parse(step.substring(1, step.length - 1));
+          final Indices ind = Indices.parse(step.substring(1, step.length - 1));
           if (ind != null) steps.add(ind);
         } else {
           final int slashIndex = step.indexOf('/');
           if (slashIndex == -1) {
             steps.add(step.trim());
           } else {
-            steps.add(new KeyedProperty(step.substring(0, slashIndex).trim(), step.substring(slashIndex + 1)));
+            steps.add(KeyedProperty(step.substring(0, slashIndex).trim(), step.substring(slashIndex + 1)));
           }
         }
       }
@@ -151,7 +151,7 @@ class DataAccessor {
             } else {
               // Populate the values in the data list using previous order
               //TODO create this list as class variable and grow as necessary
-              dataList = new List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
+              dataList = List<dynamic>.filled(keyValueIndexMap.length, null, growable: true);
 
               dataUnavailableIndices.clear();
               for (int i = 0; i < dataList.length; i++) {
@@ -163,7 +163,7 @@ class DataAccessor {
                 final dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
-                  // Found a new key value, add it to keyValueIndexMap
+                  // Found a key value, add it to keyValueIndexMap
                   index = keyValueIndexMap.length;
                   keyValueIndexMap[keyValue] = index;
                   dataList.add(m[stepProp]);
@@ -188,7 +188,7 @@ class DataAccessor {
         } else if (step is KeyedProperty) {
           dataCursor = dataCursor[step.property];
         } else {
-          throw new StateError('Unable to apply access step ($step) to data ($dataCursor)');
+          throw StateError('Unable to apply access step ($step) to data ($dataCursor)');
         }
       } else if (dataCursor is List) {
         final List<dynamic> dataList = <dynamic>[];
@@ -198,11 +198,11 @@ class DataAccessor {
           }
           dataCursor = dataList;
         } else {
-          throw new StateError('Unable to apply property access step ($step) to non-Map List');
+          throw StateError('Unable to apply property access step ($step) to non-Map List');
         }
       } else {
         // primitive (String, num, or bool) -- no accessor allowed
-        throw new StateError('Unable to apply access step ($step) to primitive data type (${dataCursor.runtimeType})');
+        throw StateError('Unable to apply access step ($step) to primitive data type (${dataCursor.runtimeType})');
       }
     }
 
@@ -218,7 +218,7 @@ class DataAccessor {
 
       //TODO if it's true they are always already in order then can just rewrite indices.
       // Sort keys by index.
-      final List<dynamic> list = new List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
+      final List<dynamic> list = List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
 
       // Change indices to consecutive positive integers.
       int index = 0;
@@ -231,35 +231,35 @@ class DataAccessor {
 
 /// Represents some combination of individual indices and index ranges, or all indices.
 class Indices {
-  /// Constructs a new instance, with a single index.
+  /// Constructs a instance, with a single index.
   Indices.single(int index) {
     _list.add(index);
   }
 
-  /// Constructs a new instance, with an index range.
+  /// Constructs a instance, with an index range.
   Indices.range(int minIndex, int maxIndex) {
     _list.add(<int>[minIndex, maxIndex]);
   }
 
-  /// Constructs a new instance that indicates the full collection should be used.
+  /// Constructs a instance that indicates the full collection should be used.
   Indices.all() {
     _all = true;
   }
 
-  /// Constructs a new instance by parsing an Indices string.
+  /// Constructs a instance by parsing an Indices string.
   Indices.parse(String str) {
     try {
       final List<String> list = str.split(',');
       for (final String s in list) {
         final List<String> intList = s.split('-');
         if (intList.isEmpty) {
-          throw new Exception('No indices found');
+          throw Exception('No indices found');
         } else if (intList.length == 1) {
           addIndex(int.parse(intList.first.trim()));
         } else if (intList.length == 2) {
           addRange(int.parse(intList.first.trim()), int.parse(intList.last.trim()));
         } else {
-          throw new Exception('Malformed indices string');
+          throw Exception('Malformed indices string');
         }
       }
     } catch (e, s) {
@@ -293,7 +293,7 @@ class Indices {
     _list.add(index);
   }
 
-  /// Adds a new index range.
+  /// Adds a index range.
   void addRange(int minIndex, int maxIndex) {
     _list.add(<int>[minIndex, maxIndex]);
   }
@@ -302,7 +302,7 @@ class Indices {
 /// A [KeyedProperty] accessor step provides a way to extract values from a Map while attempting to preserve
 /// ordering on subsequent accesses with respect to the Map values for [keyProp].
 class KeyedProperty {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   KeyedProperty(this.property, this.keyProp);
 
   /// The name of the property.

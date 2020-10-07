@@ -2,7 +2,7 @@ import 'extrapolation.dart';
 
 /// Extrapolates from existing data by repeating the first value.
 class DuplicateFirst<T> extends Extrapolation<T> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   DuplicateFirst() : super('duplicateFirst', 'Duplicate the first value');
 
   /// Returns the first value in set of current [values]

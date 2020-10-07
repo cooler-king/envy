@@ -13,7 +13,7 @@ class Vector2Interpolator extends EnvyInterpolator<Vector2> {
   Vector2Interpolator._internal();
 
   /// The singleton instance.
-  static final Vector2Interpolator instance = new Vector2Interpolator._internal();
+  static final Vector2Interpolator instance = Vector2Interpolator._internal();
 
   /// To restrict the minimum and maximum values for overflow fractions, set [clamped] to true.
   bool clamped = false;
@@ -34,6 +34,6 @@ class Vector2Interpolator extends EnvyInterpolator<Vector2> {
       y = (fraction < 0) ? a.y : b.y;
     }
 
-    return new Vector2(x.toDouble(), y.toDouble());
+    return Vector2(x.toDouble(), y.toDouble());
   }
 }

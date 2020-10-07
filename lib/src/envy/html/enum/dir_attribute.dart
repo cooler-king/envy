@@ -2,7 +2,7 @@ import '../../util/enumeration.dart';
 
 /// The dir attribute specifies the text direction of the element's content.
 class DirAttribute extends Enumeration<String> {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   const DirAttribute(String value) : super(value);
 
   /// Left to right.

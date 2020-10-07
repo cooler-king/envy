@@ -5,14 +5,14 @@ import 'package:envy/envy.dart';
 void main() {
   group('Scene Graph', () {
     test('Constructors', () {
-      final EnvySceneGraph esg = new EnvySceneGraph();
+      final EnvySceneGraph esg = EnvySceneGraph();
       expect(esg.root is EnvyRoot, true);
       expect(esg.root.rootAnimation is AnimationGroup, true);
       expect(identical(esg.root.children.first, esg.root.rootAnimation), true);
     });
 
     test('update empty', () {
-      final EnvySceneGraph esg = new EnvySceneGraph();
+      final EnvySceneGraph esg = EnvySceneGraph();
       bool ok = true;
       try {
         esg.updateGraph();
@@ -25,7 +25,7 @@ void main() {
 
     /*
     test('update empty', () {
-      EnvySceneGraph esg = new EnvySceneGraph();
+      EnvySceneGraph esg = EnvySceneGraph();
       bool ok = true;
       try {
         esg.updateGraph();
@@ -38,19 +38,19 @@ void main() {
 */
 
     test('canvas with rect', () {
-      final EnvySceneGraph esg = new EnvySceneGraph();
-      final CanvasNode canvas = new CanvasNode();
+      final EnvySceneGraph esg = EnvySceneGraph();
+      final CanvasNode canvas = CanvasNode();
       esg.attachToRoot(canvas);
       expect(esg.root.children.first is AnimationGroup, true);
       expect((esg.root.children.first as AnimationGroup).children.first, canvas);
-      final Rect2d rect = new Rect2d();
+      final Rect2d rect = Rect2d();
       canvas.attach(rect);
       expect((esg.root.rootAnimation.children.first as GroupNode).children.first, rect);
 
-      rect.x.enter = new NumberConstant(10);
-      rect.y.enter = new NumberConstant(20);
-      rect.width.enter = new NumberConstant(200);
-      rect.height.enter = new NumberConstant(100);
+      rect.x.enter = NumberConstant(10);
+      rect.y.enter = NumberConstant(20);
+      rect.width.enter = NumberConstant(200);
+      rect.height.enter = NumberConstant(100);
 
       expect(rect.x.enter is NumberSource, true);
       expect(rect.y.enter is NumberSource, true);

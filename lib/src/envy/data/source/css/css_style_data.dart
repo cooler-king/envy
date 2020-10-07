@@ -25,7 +25,7 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
   CssStyleData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
     accessor = dataAccessor;
     if (prop != null && accessor == null) {
-      accessor = new DataAccessor.prop(prop);
+      accessor = DataAccessor.prop(prop);
     }
   }
 
@@ -38,7 +38,7 @@ class CssStyleData extends ArrayDataSource<CssStyle> implements CssStyleSource {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
-      accessor = new DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
+      accessor = DataAccessor.prop(prop, keyProp: keyedDataset.keyProp);
     }
   }
 

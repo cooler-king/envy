@@ -6,14 +6,14 @@ import 'graphic2d_node.dart';
 
 /// A 2-dimensional ellipse to be drawn on an HTML canvas.
 class Ellipse2d extends Graphic2dNode {
-  /// Constructs a new instance.
+  /// Constructs a instance.
   Ellipse2d() : super(null) {
     _initProperties();
   }
 
   void _initProperties() {
-    properties['radiusX'] = new NumberProperty();
-    properties['radiusY'] = new NumberProperty();
+    properties['radiusX'] = NumberProperty();
+    properties['radiusY'] = NumberProperty();
   }
 
   /// Holds the ellipse's radius along the x-axis.
