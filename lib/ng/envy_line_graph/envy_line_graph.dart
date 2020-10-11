@@ -11,6 +11,7 @@ import 'line_series.dart';
 /// Displays and manages a line graph.
 @Component(
   selector: 'envy-line-graph',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'envy_line_graph.html',
   styleUrls: <String>['envy_line_graph.css'],
   directives: <Object>[
@@ -35,6 +36,8 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
       Timer.run(_updateData);
     }
   }
+
+  @Input()
 
   /// A reference to the wrapper element.
   @ViewChild('wrapper')
@@ -78,11 +81,16 @@ class EnvyLineGraph<X, Y> implements AfterViewInit, OnDestroy {
     final dataset = KeyedDataset('vertexData', esg.root, 'key');
 
     // One path for each line series.
-    final s = Path2d();
-    _canvas.attach(s);
+    final lines = Path2d();
+    _canvas.attach(lines);
 
-    s.points.enter = PointListData('points', _canvas);
-    PointListData.keyed(dataset, 'points');
+    //lines.points.enter = PointListData('points', _canvas);
+    //PointListData.keyed(dataset, 'points');
+
+    lines.lineWidth.enter = NumberConstant(2);
+    lines.points
+      ..enter = PointListData('vertexData', lines, prop: 'points')
+      ..update = PointListData('vertexData', lines, prop: 'points');
 
     esg.updateGraph();
   }

@@ -4,6 +4,7 @@ import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/ng/envy_pie/envy_pie.dart';
 import 'package:envy/ng/envy_pie/pie_slice.dart';
+import 'package:quantity/quantity.dart';
 
 @Component(
   selector: 'test-pie2d',
@@ -29,6 +30,13 @@ class TestPie2d implements AfterViewInit {
 
   num dynamicInnerRadius = 0;
 
+  Angle ang0 = angle0;
+  Angle ang45 = angle45;
+  Angle ang90 = angle90;
+  Angle ang180 = angle180;
+  Angle ang270 = angle270;
+  Angle angNeg90 = Angle(deg: -90);
+
   @override
   void ngAfterViewInit() {
     Timer.run(() {
@@ -42,7 +50,7 @@ class TestPie2d implements AfterViewInit {
       PieSlice(
           key: 'slice1',
           value: 7,
-          fillStyle: DrawingStyle2d(color: Color.cyan),
+          fillStyle: DrawingStyle2d(color: Color.aliceBlue),
           strokeStyle: DrawingStyle2d(color: Color.white)),
       PieSlice(
           key: 'slice2',
@@ -50,6 +58,9 @@ class TestPie2d implements AfterViewInit {
           fillStyle: DrawingStyle2d(color: Color.blue),
           strokeStyle: DrawingStyle2d(color: Color.white))
     ];
+
+    basicScene.scene.sceneGraph.updateGraph();
+    basicScene.scene.sceneGraph.setAnimationDuration(millis: 300);
     _change.markForCheck();
   }
 
@@ -76,7 +87,7 @@ class TestPie2d implements AfterViewInit {
         final slice = PieSlice(
             key: 'slice$i',
             value: rand.nextInt(50),
-            fillStyle: DrawingStyle2d(color: Color.blue),
+            fillStyle: DrawingStyle2d(color: Color.random()),
             strokeStyle: DrawingStyle2d(color: Color.white));
 
         list.add(slice);

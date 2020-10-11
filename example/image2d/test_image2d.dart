@@ -101,8 +101,8 @@ class TestImage2d implements AfterViewInit {
 
     s.x.enter = NumberConstant.array(<num>[50, 150, 250, 350, 450]);
     s.y.enter = NumberConstant(10);
-    s.width.enter = NumberConstant(40);
-    s.height.enter = NumberConstant(40);
+    s.width.enter = NumberConstant(80);
+    s.height.enter = NumberConstant(80);
     s.rotation.enter =
         AngleConstant.array(<Angle>[Angle(deg: 0), Angle(deg: 30), Angle(deg: 45), Angle(deg: 60), Angle(deg: 90)]);
 
@@ -124,12 +124,12 @@ class TestImage2d implements AfterViewInit {
       // Image has to be part of scene graph
       ..attach(image);
 
-    final xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 850, 950];
+    final xList = <num>[50, 150, 250, 350, 450, 550, 650, 750, 820, 920];
 
     s.x.enter = NumberConstant.array(xList);
     s.y.enter = NumberConstant(100);
-    s.width.enter = NumberConstant(40);
-    s.height.enter = NumberConstant(40);
+    s.width.enter = NumberConstant(60);
+    s.height.enter = NumberConstant(60);
     s.anchor.enter = Anchor2dConstant.array(<Anchor2d>[
       Anchor2d(mode: AnchorMode2d.defaultMode),
       Anchor2d(mode: AnchorMode2d.center),

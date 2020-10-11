@@ -235,9 +235,9 @@ class TestPath2d implements AfterViewInit {
     s.points.enter = PointListData('points', canvas);
     s.x.enter = NumberConstant(50);
     s.y.enter = NumberConstant(50);
-    s.lineWidth.enter = NumberConstant(1);
+    s.lineWidth.enter = NumberConstant(2);
     s.rotation.enter = AngleConstant(Angle(deg: 0));
-    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.cyan));
+    s.strokeStyle.enter = DrawingStyle2dConstant(DrawingStyle2d(color: Color.black));
     s.opacity.enter = NumberConstant(1);
 
     canvas.attach(s);
@@ -245,6 +245,7 @@ class TestPath2d implements AfterViewInit {
 
     dataButton.onClick.listen((_) {
       final rand = Random();
+      /*
       final newPointData = PointList(<Point<num>>[
         Point<num>(1, rand.nextDouble() * 300),
         Point<num>(20, rand.nextDouble() * 300),
@@ -252,9 +253,15 @@ class TestPath2d implements AfterViewInit {
         Point<num>(60, rand.nextDouble() * 300),
         Point<num>(80, rand.nextDouble() * 300),
         Point<num>(100 + rand.nextDouble() * 100, rand.nextDouble() * 300)
-      ]);
+      ]);*/
 
-      canvas.addDataset('points', list: newPointData);
+      final count = 2 + rand.nextInt(10);
+      final points = <Point<num>>[];
+      for (var i = 0; i < count; i++) {
+        points.add(Point<num>(1 + 20 * i, rand.nextDouble() * 300));
+      }
+
+      canvas.addDataset('points', list: PointList(points));
       esg.updateGraph();
     });
   }

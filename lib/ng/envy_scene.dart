@@ -5,6 +5,7 @@ import 'package:envy/envy.dart';
 /// Manages and renders an Envy scene.
 @Component(
   selector: 'envy-scene',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'envy_scene.html',
   styleUrls: <String>['envy_scene.css'],
 )

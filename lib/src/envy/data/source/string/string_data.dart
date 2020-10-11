@@ -53,23 +53,24 @@ class StringData extends ArrayDataSource<String> implements StringSource {
       for (final dynamic entry in data) {
         if (entry is String) {
           values.add(entry);
+        } else if (entry == null) {
+          // Add an empty string for null.
+          values.add('');
         } else {
+          // Warn and convert to string.
           logger.warning('Unexpected data type for StringData: $entry');
           values.add('$entry');
         }
       }
     } else if (data is String) {
       values.add(data);
+    } else if (data == null) {
+      // Add an empty string for null.
+      values.add('');
     } else {
-      // warn and do best to convert to string
+      // Warn and convert to string.
       logger.warning('Unexpected data type for StringData: $data');
-      if (data is List) {
-        for (final Object d in data) {
-          values.add(d.toString());
-        }
-      } else {
-        values.add(data.toString());
-      }
+      values.add(data.toString());
     }
   }
 }

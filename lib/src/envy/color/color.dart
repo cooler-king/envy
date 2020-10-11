@@ -1,3 +1,4 @@
+import 'dart:math' show Random;
 import '../css/css_adapter.dart';
 import '../util/logger.dart';
 
@@ -27,6 +28,16 @@ class Color implements CssAdapter {
         perceptiveLuminance = (0.299 * Color.hexStrToDecimal(hexStr, 0)) +
             (0.587 * Color.hexStrToDecimal(hexStr, 1)) +
             (0.114 * Color.hexStrToDecimal(hexStr, 2));
+
+  /// Constructs a Color with random red, green, blue and (optionally) alpha values.
+  factory Color.random({bool includeAlpha = false}) {
+    final rand = Random();
+    final red = rand.nextDouble();
+    final green = rand.nextDouble();
+    final blue = rand.nextDouble();
+    final alpha = includeAlpha ? rand.nextDouble() : 1.0;
+    return Color.rgba(red, green, blue, alpha);
+  }
 
   /// White.
   static const Color white = Color(1, 1, 1);
@@ -99,6 +110,9 @@ class Color implements CssAdapter {
 
   /// Transparent.
   static const Color transparentBlack = Color(0, 0, 0, 0);
+
+  /// Alice Blue (#F0F8FF)
+  static final Color aliceBlue = Color(240 / 255, 248 / 255, 1);
 
   /// The available values.
   static const List<Color> values = <Color>[

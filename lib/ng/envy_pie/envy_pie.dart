@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:html';
-import 'dart:math' show max;
+import 'dart:math' show min, max;
 import 'package:angular/angular.dart';
 import 'package:envy/envy.dart';
 import 'package:envy/src/envy/util/logger.dart';
@@ -17,6 +17,7 @@ import 'pie_slice.dart';
 /// Displays and manages a pie chart.
 @Component(
   selector: 'envy-pie',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: 'envy_pie.html',
   styleUrls: <String>['envy_pie.css'],
   directives: <Object>[
@@ -45,11 +46,11 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     }
   }
 
-  /// THe inner radius of the pie slices in pixels (defaults to zero).
+  /// The inner radius of the pie slices in pixels (defaults to zero).
   @Input()
   num innerRadius = 0;
 
-  /// THe outer radius of the pie slices in pixels (defaults to max available).
+  /// The outer radius of the pie slices in pixels (defaults to max available).
   @Input()
   num outerRadius;
 
@@ -81,9 +82,9 @@ class EnvyPie implements AfterViewInit, OnDestroy {
   /// The current slice that the mouse is over (if any).
   PieSlice hoverSlice;
 
-  /// The center of the pie, in pixels.
+  /// The center of the pie, in pixels (defaults to the outer radius in both dimensions).
   Vector2 get origin => _origin;
-  Vector2 _origin = Vector2.zero();
+  Vector2 _origin;
   @Input()
   set origin(Vector2 value) {
     if (value != _origin) {
@@ -130,9 +131,9 @@ class EnvyPie implements AfterViewInit, OnDestroy {
     s.y.interpolator = BinaryInterpolator<num>(<num>[0.0]);
 
     s.innerRadius.update = NumberData.keyed(dataset, 'innerRadius');
-    s.innerRadius.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    s.innerRadius.interpolator = NumberInterpolator();
     s.outerRadius.update = NumberData.keyed(dataset, 'outerRadius');
-    s.outerRadius.interpolator = BinaryInterpolator<num>(<num>[0.0]);
+    s.outerRadius.interpolator = NumberInterpolator();
     s.startAngle.update = AngleData.keyed(dataset, 'startAngle');
     s.endAngle.update = AngleData.keyed(dataset, 'endAngle');
     s.lineWidth.update = NumberConstant(2);
@@ -253,25 +254,33 @@ class EnvyPie implements AfterViewInit, OnDestroy {
           return;
         }
 
+        // Use default outer radius, if not provided.
+        var outer = outerRadius;
+        if (outer == null) {
+          final bounds = wrapper?.getBoundingClientRect();
+          if (bounds != null) outer = min(bounds.width, bounds.height) / 2;
+        }
+        outer ??= 0;
+
         var cursor = Angle(rad: startAngle.mks);
+        if (counterclockwise) cursor = -cursor;
         for (final slice in _slices) {
           final sliceData = <String, dynamic>{
             'key': slice.key,
             'fillStyle': slice.fillStyle,
             'strokeStyle': slice.strokeStyle,
             'startAngle': cursor,
-            'x': origin?.x ?? outerRadius / 2,
-            'y': origin?.y ?? outerRadius / 2,
+            'x': origin?.x ?? outer,
+            'y': origin?.y ?? outer,
             'innerRadius': innerRadius,
-            'outerRadius': outerRadius,
+            'outerRadius': outer,
             'opacity': slice.opacity,
-            'labelText': slice.label?.text ?? '',
           };
           final fraction = slice.value / total;
           var delta = Angle(deg: 360 * fraction);
           if (counterclockwise) delta = delta * -1 as Angle;
 
-          final labelRadius = innerRadius + 0.01 * (slice.label?.radialPct ?? 50) * (outerRadius - innerRadius);
+          final labelRadius = innerRadius + 0.01 * (slice.label?.radialPct ?? 50) * (outer - innerRadius);
           final labelAngle = cursor + delta * 0.01 * (slice.label?.spanPct ?? 50) as Angle;
 
           if (counterclockwise) {

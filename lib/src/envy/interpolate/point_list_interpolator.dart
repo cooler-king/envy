@@ -38,8 +38,7 @@ class PointListInterpolator extends EnvyInterpolator<PointList> {
     final numPoints = a.length == b.length ? b.length : (a.length + ((b.length - a.length) * fraction).ceil());
     final newPoints = PointList();
     for (var i = 0; i < numPoints; i++) {
-      newPoints
-          .add(_pointInterp.interpolate(i < a.length ? a[i] : ptZeroZero, i < b.length ? b[i] : ptZeroZero, fraction));
+      newPoints.add(_pointInterp.interpolate(i < a.length ? a[i] : a.last, i < b.length ? b[i] : b.last, fraction));
     }
 
     return newPoints;

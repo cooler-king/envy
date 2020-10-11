@@ -43,7 +43,7 @@ class Text2d extends Graphic2dNode {
     final _text = text.valueAt(index);
 
     // Nothing to render?
-    if (_text?.isEmpty == true) return;
+    if (_text?.isNotEmpty != true) return;
 
     _dx = dx.valueAt(index);
     _dy = dy.valueAt(index);

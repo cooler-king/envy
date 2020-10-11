@@ -1,3 +1,6 @@
+### 0.5.0
+  * Upgrade to `angular ^6.0.0`.
+
 ### 0.4.1
   * Changed dependency `quantity ^1.0.0`.
   * Converted to standard analysis_options from the pedantic package.

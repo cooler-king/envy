@@ -3,13 +3,34 @@
 <div class="vis-container" style="height:150px;">
     <envy-pie #basic [slices]="basicSlices" style="height:100%;"></envy-pie>
 </div>
-
-<!--
+<hr>
+<h2>Start Angle</h2>
+<div class="info">0, 45, 90, 180, 270, -90</div>
+<div class="vis-container" style="height:100px;">
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang0" style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang45" style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang90" style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang180" style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang270" style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="angNeg90" style="height:100%;"></envy-pie>
+</div>
+<hr>
+<h2>Counterclockwise</h2>
+<div class="info">0, 45, 90, 180, 270, -90</div>
+<div class="vis-container" style="height:100px;">
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang0" counterclockwise style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang45" counterclockwise style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang90" counterclockwise style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang180" counterclockwise style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="ang270" counterclockwise style="height:100%;"></envy-pie>
+    <envy-pie #basic [slices]="basicSlices" [startAngle]="angNeg90" counterclockwise style="height:100%;"></envy-pie>
+</div>
+<hr>
 <h2>Dynamic</h2>
 <div class="vis-container" style="height:150px;">
-    <envy-pie #dynamic [slices]="dynamicSlices"
+    <envy-pie #dynamic
+              [slices]="dynamicSlices"
               [innerRadius]="dynamicInnerRadius"
               style="height:100%;"></envy-pie>
 </div>
--->
 

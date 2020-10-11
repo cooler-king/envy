@@ -73,12 +73,10 @@ class ImageNode extends HtmlNode implements CanvasImageSourceNode {
       final imageEl = elementAt(i);
 
       strValue = src.valueAt(i);
-      if (imageEl.src != strValue) {
-        // Make sure no scripts or other security problems are added directly to the DOM.
-        const sanitizer = HtmlEscape();
-
+      if (imageEl.src?.endsWith(strValue) != true) {
+        // Browsers have embedded security for image sources (e.g., scripts will not run)
         // ignore: unsafe_html
-        imageEl.src = sanitizer.convert(strValue);
+        imageEl.src = strValue;
       }
 
       strValue = alt.valueAt(i);
