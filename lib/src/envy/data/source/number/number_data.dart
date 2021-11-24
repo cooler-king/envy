@@ -18,7 +18,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
-  NumberData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+  NumberData(this._datasetName, this._node, {DataAccessor? dataAccessor, String? prop}) {
     if (prop != null && accessor == null) {
       accessor = DataAccessor.prop(prop);
     } else {
@@ -30,7 +30,7 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
   /// and working up the ancestor chain, and use a keyed property data accessor
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
-  NumberData.keyed(KeyedDataset keyedDataset, String prop) {
+  NumberData.keyed(KeyedDataset? keyedDataset, String? prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
@@ -38,18 +38,18 @@ class NumberData extends ArrayDataSource<num> implements NumberSource {
     }
   }
 
-  String _datasetName;
-  EnvyNode _node;
+  String? _datasetName;
+  EnvyNode? _node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = _node.getDataset(_datasetName);
+    var data = _node?.getDataset(_datasetName);
 
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data == null) return;

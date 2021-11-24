@@ -11,7 +11,7 @@ import 'graphic2d_node.dart';
 /// and angles increase in the clockwise direction.
 class AnnularSection2d extends Graphic2dNode {
   /// Constructs a instance.
-  AnnularSection2d() : super(null) {
+  AnnularSection2d() {
     _initProperties();
   }
 
@@ -35,7 +35,7 @@ class AnnularSection2d extends Graphic2dNode {
   AngleProperty get endAngle => properties['endAngle'] as AngleProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x, _y, _innerRadius, _outerRadius, _startAngleRad, _endAngleRad;
     _innerRadius = innerRadius.valueAt(index);
     _outerRadius = outerRadius.valueAt(index);
@@ -54,7 +54,7 @@ class AnnularSection2d extends Graphic2dNode {
     _x = 0;
     _y = 0;
     final _anchor = anchor.valueAt(index);
-    if (_anchor?.isNotDefault == true) {
+    if (_anchor.isNotDefault == true) {
       final x1 = _innerRadius * cosStart;
       final y1 = _innerRadius * sinStart;
 

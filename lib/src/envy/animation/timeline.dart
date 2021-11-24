@@ -22,7 +22,7 @@ class Timeline {
   /// Gets the current time in this Timeline's frame, in seconds.
   /// If the current global time is before the timeline's start time
   /// null will be returned (consistent with the Web Animations spec).
-  num get currentTime => started ? (DateTime.now().millisecondsSinceEpoch - startMillis) / 1000.0 : null;
+  num? get currentTime => started ? (DateTime.now().millisecondsSinceEpoch - startMillis) / 1000.0 : null;
 
   /// A Timeline is considered started if its start time is less than or equal to the
   /// current global time.

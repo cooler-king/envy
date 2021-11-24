@@ -17,7 +17,7 @@ class Player {
   final List<TimedItemGroup> _registered = <TimedItemGroup>[];
 
   /// The timer that triggers updates to registered TimedItemGroups
-  Timer timer;
+  Timer? timer;
 
   /// The timeline with which the player is associated
   Timeline timeline;
@@ -47,7 +47,9 @@ class Player {
   /// The [currentTime] is the elapsed time, in seconds, of the player
   /// relative to the [startTime] on its associated [timeline].
   /// Time drifts due to pausing the player are taken into account.
-  num get currentTime => timeline.started ? (timeline.currentTime - startTime) * _playbackRate - timeDrift : null;
+  num? get currentTime => timeline.started && timeline.currentTime != null
+      ? (timeline.currentTime! - startTime) * _playbackRate - timeDrift
+      : null;
 
   /// The effective current time is the non-null elapsed time of the player
   /// relative to the [startTime] on its associated [timeline].
@@ -145,7 +147,7 @@ class Player {
       _registered.remove(timedItemGroup);
       if (_registered.isEmpty && timer != null) {
         try {
-          timer.cancel();
+          timer!.cancel();
           timer = null;
         } catch (e) {
           logger.warning('Problem canceling timer:  $e');
@@ -158,7 +160,7 @@ class Player {
 
   /// Run a timer at 15 millisecond intervals (just over 60 fps), optionally
   /// waiting [delayMillis] milliseconds before starting.
-  void _initTimer([num delayMillis]) {
+  void _initTimer([num? delayMillis]) {
     if (delayMillis == null) {
       _prepareForAnimation();
       timer = Timer.periodic(const Duration(milliseconds: 15), (Timer t) {

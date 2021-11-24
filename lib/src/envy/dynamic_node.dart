@@ -24,8 +24,8 @@ mixin DynamicNode {
   /// Properties may contribute lists of values of various sizes.
   /// The [multiplicity] controls how those lengths are interpreted
   /// when determining how many DOM nodes or graphics are created.
-  Multiplicity get multiplicity => _multiplicity ?? Multiplicity.defaultMultiplicity;
-  Multiplicity _multiplicity;
+  Multiplicity get multiplicity => _multiplicity;
+  Multiplicity _multiplicity = Multiplicity.defaultMultiplicity;
   set multiplicity(Multiplicity m) {
     _multiplicity = m;
   }

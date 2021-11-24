@@ -112,7 +112,7 @@ class Color implements CssAdapter {
   static const Color transparentBlack = Color(0, 0, 0, 0);
 
   /// Alice Blue (#F0F8FF)
-  static final Color aliceBlue = Color(240 / 255, 248 / 255, 1);
+  static const Color aliceBlue = Color(240 / 255, 248 / 255, 1);
 
   /// The available values.
   static const List<Color> values = <Color>[

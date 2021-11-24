@@ -20,7 +20,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  FontData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
+  FontData(this._datasetName, this._node, {DataAccessor? accessor, String? prop}) {
     this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
@@ -29,7 +29,7 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
-  FontData.keyed(KeyedDataset keyedDataset, String prop) {
+  FontData.keyed(KeyedDataset? keyedDataset, String? prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
@@ -37,17 +37,17 @@ class FontData extends ArrayDataSource<Font> implements FontSource {
     }
   }
 
-  String _datasetName;
-  EnvyNode _node;
+  String? _datasetName;
+  EnvyNode? _node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = _node.getDataset(_datasetName);
+    var data = _node?.getDataset(_datasetName);
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data is List<dynamic>) {

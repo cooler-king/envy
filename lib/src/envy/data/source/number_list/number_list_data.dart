@@ -21,7 +21,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  NumberListData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
+  NumberListData(this._datasetName, this._node, {DataAccessor? accessor, String? prop}) {
     this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
@@ -30,7 +30,7 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
-  NumberListData.keyed(KeyedDataset keyedDataset, String prop) {
+  NumberListData.keyed(KeyedDataset? keyedDataset, String? prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
@@ -38,17 +38,17 @@ class NumberListData extends ArrayDataSource<NumberList> implements NumberListSo
     }
   }
 
-  String _datasetName;
-  EnvyNode _node;
+  String? _datasetName;
+  EnvyNode? _node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = _node.getDataset(_datasetName);
+    var data = _node?.getDataset(_datasetName);
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data is List) {

@@ -8,12 +8,12 @@ import '../util/logger.dart';
 class DataAccessor {
   /// Constructs a instance, with a single index.
   DataAccessor.index(int index) {
-    if (index != null) steps.add(Indices.single(index));
+    steps.add(Indices.single(index));
   }
 
   /// Constructs a instance, with an index range.
   DataAccessor.range(int minIndex, int maxIndex) {
-    if (minIndex != null && maxIndex != null) steps.add(Indices.range(minIndex, maxIndex));
+    steps.add(Indices.range(minIndex, maxIndex));
   }
 
   /// Accesses a value in a map by identifying the [property]
@@ -23,13 +23,11 @@ class DataAccessor {
   /// is provided, then the ordering of the returned data will
   /// be consistent with respect to the values provided by
   /// key property.
-  DataAccessor.prop(String property, {String keyProp}) {
-    if (property != null) {
-      if (keyProp != null) {
-        steps.add(KeyedProperty(property, keyProp));
-      } else {
-        steps.add(property);
-      }
+  DataAccessor.prop(String property, {String? keyProp}) {
+    if (keyProp != null) {
+      steps.add(KeyedProperty(property, keyProp));
+    } else {
+      steps.add(property);
     }
   }
 
@@ -81,13 +79,12 @@ class DataAccessor {
   /// specific data element.
   /// TODO:  allow property lists? (comma separated)
   DataAccessor.parse(String accessPath) {
-    if (accessPath == null) return;
     try {
       final accessSteps = accessPath.split('.');
       for (final step in accessSteps) {
         if (step.startsWith('[') && step.endsWith(']')) {
           final ind = Indices.parse(step.substring(1, step.length - 1));
-          if (ind != null) steps.add(ind);
+          steps.add(ind);
         } else {
           final slashIndex = step.indexOf('/');
           if (slashIndex == -1) {
@@ -115,18 +112,17 @@ class DataAccessor {
   final Map<int, bool> dataUnavailableIndices = <int, bool>{};
 
   /// Returns the data in [dataset] referenced by this accessor.
-  Object getData(Object dataset) {
+  Object? getData(Object? dataset) {
     if (dataset == null) return null;
-
     dynamic dataCursor = dataset;
     for (final dynamic step in steps) {
       if (dataCursor is List<Map<dynamic, dynamic>>) {
         var dataList = <dynamic>[];
-        if (step is! Indices || (step as Indices).isAll) {
+        if (step is! Indices || step.isAll) {
           // Shortcut! (Assume [*] for List of Maps when
           // no indices are provided)
           if (step is String) {
-            for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
+            for (final m in dataCursor) {
               dataList.add(m[step]);
             }
             dataCursor = dataList;
@@ -142,7 +138,7 @@ class DataAccessor {
               // List of key values ... null out and append as necessary
               // special value for exited?
               var index = 0;
-              for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
+              for (final m in dataCursor) {
                 keyValueIndexMap[m[stepKeyProp]] = index;
                 dataList.add(m[stepProp]);
                 index++;
@@ -158,8 +154,8 @@ class DataAccessor {
                 dataUnavailableIndices[i] = true;
               }
 
-              int index;
-              for (final m in dataCursor as List<Map<dynamic, dynamic>>) {
+              int? index;
+              for (final m in dataCursor) {
                 final dynamic keyValue = m[stepKeyProp];
                 index = keyValueIndexMap[keyValue];
                 if (index == null) {
@@ -177,7 +173,7 @@ class DataAccessor {
           }
         } else {
           // Indices
-          for (final i in step.values as Iterable<int>) {
+          for (final i in step.values) {
             dataList.add(dataCursor[i]);
           }
           dataCursor = dataList;
@@ -213,12 +209,13 @@ class DataAccessor {
   void cullUnavailableData() {
     if (dataUnavailableIndices.isEmpty) return;
     for (final propKey in propOrderingMap.keys) {
-      final m = propOrderingMap[propKey];
+      final Map<dynamic, int>? m = propOrderingMap[propKey];
+      if (m == null) continue;
       m.removeWhere((dynamic key, int value) => dataUnavailableIndices.containsKey(m[key]));
 
       //TODO if it's true they are always already in order then can just rewrite indices.
       // Sort keys by index.
-      final list = List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a].compareTo(m[b]));
+      final list = List<dynamic>.from(m.keys)..sort((dynamic a, dynamic b) => m[a]?.compareTo(m[b] ?? -1) ?? 0);
 
       // Change indices to consecutive positive integers.
       var index = 0;

@@ -6,12 +6,12 @@ import 'multiplicity.dart';
 /// Implemented as a singleton.
 class SmallestSize extends Multiplicity {
   /// Returns the singleton instance.
-  factory SmallestSize() => _instance ??= SmallestSize._internal();
+  factory SmallestSize() => _instance;
 
   SmallestSize._internal();
 
   // The singleton instance.
-  static SmallestSize _instance;
+  static final SmallestSize _instance = SmallestSize._internal();
 
   @override
   int sizeOf(Iterable<EnvyProperty<dynamic>> props) {

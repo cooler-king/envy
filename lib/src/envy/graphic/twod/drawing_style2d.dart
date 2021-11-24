@@ -11,15 +11,15 @@ class DrawingStyle2d {
   DrawingStyle2d({this.color, this.gradient, this.pattern});
 
   /// The color to use during fill or stroke operations.
-  Color color;
+  Color? color;
 
   /// The gradient to use during fill or stroke operations.
   /// Takes precedence over color when defined.
-  Gradient2d gradient;
+  Gradient2d? gradient;
 
   /// The pattern to use during fill or stroke operations.
   /// Takes precedence over both color and gradient when defined.
-  Pattern2d pattern;
+  Pattern2d? pattern;
 
   /// The color black as a drawing style.
   static final DrawingStyle2d black = DrawingStyle2d(color: Color.black);

@@ -1,5 +1,5 @@
 ### 0.5.0
-  * Upgrade to `angular ^6.0.0`.
+  * Convert to Flutter.
 
 ### 0.4.1
   * Changed dependency `quantity ^1.0.0`.

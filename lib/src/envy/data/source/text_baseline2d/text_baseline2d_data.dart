@@ -20,7 +20,7 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
-  TextBaseline2dData(this._datasetName, this._node, {DataAccessor accessor, String prop}) {
+  TextBaseline2dData(this._datasetName, this._node, {DataAccessor? accessor, String? prop}) {
     this.accessor = accessor ?? (prop != null ? DataAccessor.prop(prop) : null);
   }
 
@@ -28,7 +28,7 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
   /// and working up the ancestor chain, and use a keyed property data accessor
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
-  TextBaseline2dData.keyed(KeyedDataset keyedDataset, String prop) {
+  TextBaseline2dData.keyed(KeyedDataset? keyedDataset, String? prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
@@ -36,17 +36,17 @@ class TextBaseline2dData extends ArrayDataSource<TextBaseline2d> implements Text
     }
   }
 
-  String _datasetName;
-  EnvyNode _node;
+  String? _datasetName;
+  EnvyNode? _node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = _node.getDataset(_datasetName);
+    var data = _node?.getDataset(_datasetName);
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data is List<dynamic>) {

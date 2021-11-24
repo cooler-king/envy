@@ -1,35 +1,18 @@
 import 'dart:collection';
 import 'dynamic_node.dart';
-import 'html/html_node.dart';
 
 /// The base class for all nodes that can be added to the Envy scene graph.
 /// Every EnvyNode can optionally contain data.
 abstract class EnvyNode {
   /// The unique id of the node.
-  String id;
+  String? id;
 
-  HashMap<String, dynamic> _datasetMap;
-
-  /// Get the HtmlNode ancestor of this EnvyNode.
-  ///
-  /// Not every EnvyNode in the EnvySceneGraph has a
-  /// corresponding DOM node, so this gives a way to
-  /// "skip over" those EnvyNodes during DOM manipulation.
-  ///
-  /// Return null if no HtmlNode ancestor is found in the
-  /// EnvySceneGraph.
-  HtmlNode get htmlParent {
-    if (_parent is HtmlNode) return _parent as HtmlNode;
-    if (_parent == null) return null;
-
-    // ignore: recursive_getters
-    return _parent.htmlParent;
-  }
+  HashMap<String, dynamic>? _datasetMap;
 
   /// The parent node of this node in the Envy scene graph.
-  EnvyNode get parent => _parent;
-  EnvyNode _parent;
-  set parent(EnvyNode node) {
+  EnvyNode? get parent => _parent;
+  EnvyNode? _parent;
+  set parent(EnvyNode? node) {
     if (node != _parent) {
       _parent = node;
       //TODO request update?
@@ -49,24 +32,25 @@ abstract class EnvyNode {
   /// The dataset must be a List, Map, String, num or bool.
   /// If this node already contains a dataset named [name] then the
   /// dataset will replace it.
-  void addDataset(String name, {List<dynamic> list, Map<dynamic, dynamic> map, String text, num number, bool boolean}) {
+  void addDataset(String name,
+      {List<dynamic>? list, Map<dynamic, dynamic>? map, String? text, num? number, bool? boolean}) {
     _datasetMap ??= HashMap<String, dynamic>();
-    _datasetMap[name] = list ?? (map ?? (text ?? (number ?? boolean)));
+    _datasetMap![name] = list ?? (map ?? (text ?? (number ?? boolean)));
   }
 
   /// Removes the [name]d dataset from this node.
   /// If the dataset does not exist, null is returned.  Otherwise
   /// the dataset is returned.
-  Object removeDataset(String name) => _datasetMap?.remove(name);
+  Object? removeDataset(String name) => _datasetMap?.remove(name);
 
   /// Gets a [name]d dataset from this node, or if this node does not contain
   /// a dataset by that name then from the closest ancestor to contain such a dataset.
   /// If no dataset is found, null is returned.
-  Object getDataset(String name) {
-    if (_datasetMap != null && _datasetMap.containsKey(name)) {
-      return _datasetMap[name];
+  Object? getDataset(String? name) {
+    if (_datasetMap != null && _datasetMap!.containsKey(name)) {
+      return _datasetMap![name];
     } else {
-      if (_parent != null) return _parent.getDataset(name);
+      if (_parent != null) return _parent!.getDataset(name);
     }
 
     return null;

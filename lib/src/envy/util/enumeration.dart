@@ -7,5 +7,5 @@ abstract class Enumeration<T> {
   final T value;
 
   @override
-  String toString() => value?.toString();
+  String toString() => value.toString();
 }

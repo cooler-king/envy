@@ -34,14 +34,14 @@ abstract class Projection {
 
   /// Concrete implementations need to provide this method that converts
   /// a latitude and longitude, provided in radians, to a point.
-  Point<num> toPoint({num latRad, num longRad});
+  Point<num> toPoint({required num latRad, required num longRad});
 
   /// Converts a latitude and longitude to a point by applying the projection.
-  Point<num> anglesToPoint({Angle lat, Angle long}) =>
+  Point<num> anglesToPoint({required Angle lat, required Angle long}) =>
       toPoint(latRad: lat.valueSI.toDouble(), longRad: long.valueSI.toDouble());
 
   /// Converts a latitude and longitude, in degrees, to a point by applying the projection.
-  Point<num> degreesToPoint({num latDeg, num longDeg}) =>
+  Point<num> degreesToPoint({required num latDeg, required num longDeg}) =>
       toPoint(latRad: degToRad(latDeg.toDouble()), longRad: degToRad(longDeg.toDouble()));
 
   /// Converts a geocoordinate to a point by applying the projection.
@@ -58,14 +58,14 @@ abstract class Projection {
 /// The projection is neither equal area nor conformal.
 class Equirectangular extends Projection {
   /// Constructs a instance.
-  Equirectangular(Angle standardParallel, {num width = 500, GeoCoord anchor})
+  Equirectangular(Angle standardParallel, {num width = 500, GeoCoord? anchor})
       : cosParallel = standardParallel.cosine() {
-    if (width != null) setPixelWidth(width);
+    setPixelWidth(width);
     if (anchor != null) setAnchorCoord(anchor);
   }
 
   @override
-  Point<num> toPoint({num latRad, num longRad}) =>
+  Point<num> toPoint({required num latRad, required num longRad}) =>
       Point<num>(longRad * cosParallel * _scale + _offset.x, -latRad * _scale + _offset.y);
 
   /// The cosine of the standard parallel.
@@ -73,7 +73,7 @@ class Equirectangular extends Projection {
 
   //TODO equirectangular projection toGeo
   @override
-  GeoCoord toGeo(Point<num> pt) => null;
+  GeoCoord toGeo(Point<num> pt) => GeoCoord.degrees();
 }
 
 /// PlateCarree is the special case of an Equirectangular projection where the equator is

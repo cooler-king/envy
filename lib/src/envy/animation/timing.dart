@@ -41,7 +41,7 @@ class Timing {
   /// The iteration duration which is a real number greater than or equal to zero (including positive infinity)
   /// representing the time taken to complete a single iteration of the timed item.
   /// A null value will be interpreted as "auto".
-  num iterationDuration = 2;
+  num? iterationDuration = 2;
 
   /// The length of its active interval.
   num activeDuration = Timing.auto;

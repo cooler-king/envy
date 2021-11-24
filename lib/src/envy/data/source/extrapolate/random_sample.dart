@@ -12,6 +12,6 @@ class RandomSample<T> extends Extrapolation<T> {
   /// Returns one of the current [values], randomly selected; [index] is not used.
   /// If [values] is null or empty, null will be returned.
   @override
-  T valueAt(int index, List<T> values) =>
+  T? valueAt(int index, List<T>? values) =>
       values != null && values.isNotEmpty ? values[_r.nextInt(values.length)] : null;
 }

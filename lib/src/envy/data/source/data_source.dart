@@ -5,10 +5,10 @@ import 'extrapolate/extrapolation.dart';
 /// Data sources provide an array of values of a specific type.
 abstract class DataSource<T> {
   /// How to fill in missing values at end of array
-  Extrapolation<T> extrapolation;
+  Extrapolation<T>? extrapolation;
 
   /// DataSources must provide values as a function of index
-  T valueAt(int index);
+  T? valueAt(int index);
 
   /// The "preferred" array size of the data source
   int get rawSize;
@@ -16,13 +16,13 @@ abstract class DataSource<T> {
   /// Used to indicate data not available while preserving type semantics.
   //T dataNotAvailable = null;
   //TODO accessor here?
-  DataAccessor accessor;
+  DataAccessor? accessor;
 
   /// Refresh values (called when a dynamic node is preparing for animation)
   void refresh();
 
   /// Whether there is no data at [index] (true) or there is data available (false).
-  bool dataNotAvailableAt(int index) => accessor?.dataUnavailableIndices?.containsKey(index) ?? false;
+  bool dataNotAvailableAt(int index) => accessor?.dataUnavailableIndices.containsKey(index) ?? false;
 }
 
 /// Constant data sources implement an array of values of a specific type.
@@ -40,9 +40,9 @@ abstract class ArrayDataSource<T> extends DataSource<T> {
   @override
   int get rawSize => values.length;
 
-  /// dynamic return type to support dataNotAvailable.
+  /// Returns the value at the specified index.
   @override
-  T valueAt(int i) =>
+  T? valueAt(int i) =>
       (i < values.length) ? values[i] : (extrapolation?.valueAt(i, values) ?? (values.isNotEmpty ? values.last : null));
 }
 

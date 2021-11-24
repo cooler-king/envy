@@ -10,5 +10,5 @@ abstract class Extrapolation<T> {
   final String displayName;
 
   /// Provides a value for [index] given a current set of values.
-  T valueAt(int index, List<T> values);
+  T? valueAt(int index, List<T>? values);
 }

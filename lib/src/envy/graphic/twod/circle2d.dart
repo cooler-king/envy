@@ -6,7 +6,7 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional circle to be drawn on an HTML canvas.
 class Circle2d extends Graphic2dNode {
   /// Constructs a instance.
-  Circle2d() : super(null) {
+  Circle2d() {
     _initProperties();
   }
 
@@ -18,7 +18,7 @@ class Circle2d extends Graphic2dNode {
   NumberProperty get radius => properties['radius'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     final _radius = radius.valueAt(index);
     final _fill = fill.valueAt(index);
     final _stroke = stroke.valueAt(index);
@@ -27,11 +27,9 @@ class Circle2d extends Graphic2dNode {
     final _anchor = anchor.valueAt(index);
     num _x = 0;
     num _y = 0;
-    if (_anchor != null) {
-      final adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
-      _x += adj[0];
-      _y += adj[1];
-    }
+    final adj = _anchor.calcAdjustments(-_radius, _radius, _radius, -_radius);
+    _x += adj[0];
+    _y += adj[1];
 
     ctx
       ..beginPath()

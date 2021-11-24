@@ -11,5 +11,5 @@ class DefaultValue<T> extends Extrapolation<T> {
   /// Provides the default value regardless of the [index]
   /// or current [values].
   @override
-  T valueAt(int index, List<T> values) => value;
+  T? valueAt(int index, List<T>? values) => value;
 }

@@ -11,9 +11,9 @@ class GeoCoord {
         longRad = Angle(deg: longDeg).valueSI.toDouble();
 
   /// Constructs a instance with latitude and longitude Angles.
-  GeoCoord.angles({Angle lat, Angle long})
-      : latRad = lat?.valueSI?.toDouble() ?? 0,
-        longRad = long?.valueSI?.toDouble() ?? 0;
+  GeoCoord.angles({Angle? lat, Angle? long})
+      : latRad = lat?.valueSI.toDouble() ?? 0,
+        longRad = long?.valueSI.toDouble() ?? 0;
 
   /// The latitude, in radians.
   final num latRad;

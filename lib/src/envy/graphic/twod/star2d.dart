@@ -8,7 +8,7 @@ import 'graphic2d_node.dart';
 /// and rotation can be set dynamically.
 class Star2d extends Graphic2dNode {
   /// Constructs a instance.
-  Star2d() : super(null) {
+  Star2d() {
     _initProperties();
   }
 
@@ -28,7 +28,7 @@ class Star2d extends Graphic2dNode {
   NumberProperty get outerRadius => properties['outerRadius'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _pointCount, _x, _y, _outerRadius, _innerRadius;
     _pointCount = pointCount.valueAt(index).toInt();
 
@@ -76,11 +76,9 @@ class Star2d extends Graphic2dNode {
     _x = 0;
     _y = 0;
     final _anchor = anchor.valueAt(index);
-    if (_anchor != null) {
-      final adj = _anchor.calcAdjustments(-maxY, maxX, maxY, -maxX);
-      _x += adj[0];
-      _y += adj[1];
-    }
+    final adj = _anchor.calcAdjustments(-maxY, maxX, maxY, -maxX);
+    _x += adj[0];
+    _y += adj[1];
 
     if (xRaw.isNotEmpty) {
       final _fill = fill.valueAt(index);

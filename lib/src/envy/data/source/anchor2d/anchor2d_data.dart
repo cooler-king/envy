@@ -21,7 +21,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   ///
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
-  Anchor2dData(this.datasetName, this.node, {DataAccessor accessor, String prop}) {
+  Anchor2dData(this.datasetName, this.node, {DataAccessor? accessor, String? prop}) {
     if (prop != null && accessor == null) {
       this.accessor = DataAccessor.prop(prop);
     }
@@ -31,7 +31,7 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   /// and working up the ancestor chain, and use a keyed property data accessor
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
-  Anchor2dData.keyed(KeyedDataset keyedDataset, String prop)
+  Anchor2dData.keyed(KeyedDataset? keyedDataset, String? prop)
       : datasetName = keyedDataset?.name,
         node = keyedDataset?.node {
     if (prop != null && keyedDataset != null) {
@@ -40,19 +40,19 @@ class Anchor2dData extends ArrayDataSource<Anchor2d> implements Anchor2dSource {
   }
 
   /// The name of the data set to access.
-  final String datasetName;
+  final String? datasetName;
 
   ///
-  final EnvyNode node;
+  final EnvyNode? node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = node.getDataset(datasetName);
+    var data = node?.getDataset(datasetName);
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data is List<dynamic>) {

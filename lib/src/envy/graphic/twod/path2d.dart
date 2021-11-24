@@ -10,7 +10,7 @@ const List<num> zeroZero = <num>[0, 0];
 /// A 2-dimensional path (to be drawn on an HTML canvas).
 class Path2d extends Graphic2dNode {
   /// Constructs a instance.
-  Path2d() : super(null) {
+  Path2d() {
     _initProperties();
   }
 
@@ -43,7 +43,7 @@ class Path2d extends Graphic2dNode {
   NumberProperty get tension => properties['tension'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     //num _x1, _y1, _x2, _y2;
     final _anchor = anchor.valueAt(index);
     final _points = points.valueAt(index);
@@ -54,13 +54,12 @@ class Path2d extends Graphic2dNode {
     final _stroke = stroke.valueAt(index);
 
     // Adjust based on anchor (default origin is x1, y1)
-    final adj = _anchor?.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX) ?? zeroZero;
+    final adj = _anchor.calcAdjustments(_points.minY, _points.maxX, _points.maxY, _points.minX);
 
     //Path2D p = Path2D();
     //paths.add(p);
     ctx.beginPath();
-    if (_interpolation == null ||
-        _interpolation == PathInterpolation2d.linear ||
+    if (_interpolation == PathInterpolation2d.linear ||
         _interpolation == PathInterpolation2d.linearClosed) {
       ctx.moveTo(_points[0].x + adj[0], _points[0].y + adj[1]);
       for (final pt in _points) {

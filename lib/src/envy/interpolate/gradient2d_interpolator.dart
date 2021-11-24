@@ -8,7 +8,7 @@ import 'number_interpolator.dart';
 /// Interpolates between two [Gradient2d]s.
 class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
   /// Constructs a instance.
-  Gradient2dInterpolator({ColorInterpolator colorInterpolator}) {
+  Gradient2dInterpolator({ColorInterpolator? colorInterpolator}) {
     _colorInterpolator = colorInterpolator ?? (RgbaInterpolator());
   }
 
@@ -57,8 +57,16 @@ class Gradient2dInterpolator extends EnvyInterpolator<Gradient2d> {
       stopB = i < bStops.length ? bStops[i] : 1.0;
       stop = _numberInterpolator.interpolate(stopA, stopB, fraction);
 
-      colorA = i < aStops.length ? a.stops[stopA] : aStops.isNotEmpty ? a.stops[aStops.last] : Color.black;
-      colorB = i < bStops.length ? b.stops[stopB] : bStops.isNotEmpty ? b.stops[bStops.last] : Color.black;
+      colorA = i < aStops.length
+          ? a.stops[stopA]!
+          : aStops.isNotEmpty
+              ? a.stops[aStops.last]!
+              : Color.black;
+      colorB = i < bStops.length
+          ? b.stops[stopB]!
+          : bStops.isNotEmpty
+              ? b.stops[bStops.last]!
+              : Color.black;
 
       color = _colorInterpolator.interpolate(colorA, colorB, fraction);
 

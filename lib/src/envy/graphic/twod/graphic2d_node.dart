@@ -15,65 +15,68 @@ import 'number_list.dart';
 /// The abstract base class for all two-dimensional graphic nodes.
 abstract class Graphic2dNode extends GraphicLeaf {
   /// Constructs a instance.
-  Graphic2dNode(this.htmlNode) {
+  Graphic2dNode() {
     _initContextProperties();
     initBaseProperties();
-
-    _initStreams();
   }
 
-  /// The HTML node associated with this graphic.
-  final Node htmlNode;
-
   /// Broadcasts when the graphic is single-clicked.
-  Stream<Graphic2dIntersection> onClick;
-  StreamController<Graphic2dIntersection> _onClickController;
+  Stream<Graphic2dIntersection> get onClick => _onClickController.stream;
+  final StreamController<Graphic2dIntersection> _onClickController = StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the graphic is double-clicked.
-  Stream<Graphic2dIntersection> onDoubleClick;
-  StreamController<Graphic2dIntersection> _onDoubleClickController;
+  Stream<Graphic2dIntersection> get onDoubleClick => _onDoubleClickController.stream;
+  final StreamController<Graphic2dIntersection> _onDoubleClickController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the cursor enters the boundary of the graphic
   /// (regardless of whether anything else is on top of it).
-  Stream<Graphic2dIntersection> onMouseEnter;
-  StreamController<Graphic2dIntersection> _onMouseEnterController;
+  Stream<Graphic2dIntersection> get onMouseEnter => _onMouseEnterController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseEnterController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the cursor enters the visible portion of the graphic.
-  Stream<Graphic2dIntersection> onMouseOver;
-  StreamController<Graphic2dIntersection> _onMouseOverController;
+  Stream<Graphic2dIntersection> get onMouseOver => _onMouseOverController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseOverController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the cursor moves over the graphic.
-  Stream<Graphic2dIntersection> onMouseMove;
-  StreamController<Graphic2dIntersection> _onMouseMoveController;
+  Stream<Graphic2dIntersection> get onMouseMove => _onMouseMoveController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseMoveController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the cursor moves out of the graphic.
-  Stream<Graphic2dIntersection> onMouseOut;
-  StreamController<Graphic2dIntersection> _onMouseOutController;
+  Stream<Graphic2dIntersection> get onMouseOut => _onMouseOutController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseOutController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when the cursor leaves the graphic.
-  Stream<Graphic2dIntersection> onMouseLeave;
-  StreamController<Graphic2dIntersection> _onMouseLeaveController;
+  Stream<Graphic2dIntersection> get onMouseLeave => _onMouseLeaveController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseLeaveController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when a mouse button is depressed while over the graphic.
-  Stream<Graphic2dIntersection> onMouseDown;
-  StreamController<Graphic2dIntersection> _onMouseDownController;
+  Stream<Graphic2dIntersection> get onMouseDown => _onMouseDownController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseDownController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   /// Broadcasts when a mouse button is released while over the graphic.
-  Stream<Graphic2dIntersection> onMouseUp;
-  StreamController<Graphic2dIntersection> _onMouseUpController;
+  Stream<Graphic2dIntersection> get onMouseUp => _onMouseUpController.stream;
+  final StreamController<Graphic2dIntersection> _onMouseUpController =
+      StreamController<Graphic2dIntersection>.broadcast();
 
   // For efficiency.
   int _i = 0;
-  Angle _rotation = angle0;
-  Vector2 _scale = vec2one;
-  Vector2 _skew = vec2zero;
-  NumberList _ctxNumberLists;
-  num _ctxNum;
-  DrawingStyle2d _ctxDrawingStyle2d;
-  String _ctxString;
-  LineCap2d _ctxLineCap2d;
-  LineJoin2d _ctxLineJoin2d;
-  Color _ctxColor;
+  Angle? _rotation = angle0;
+  Vector2? _scale = vec2one;
+  Vector2? _skew = vec2zero;
+  NumberList? _ctxNumberLists;
+  num? _ctxNum;
+  DrawingStyle2d? _ctxDrawingStyle2d;
+  String? _ctxString;
+  LineCap2d? _ctxLineCap2d;
+  LineJoin2d? _ctxLineJoin2d;
+  Color? _ctxColor;
   final HitTest _hitTest = HitTest(0, 0);
 
   /// The default dash pattern is a dotted line.
@@ -260,39 +263,39 @@ abstract class Graphic2dNode extends GraphicLeaf {
   //TODO only apply properties that are used for particular types of graphics?
   void _apply2dContext(int index, CanvasRenderingContext2D ctx) {
     _ctxDrawingStyle2d = fillStyle.valueAt(index);
-    if (_ctxDrawingStyle2d != null) ctx.fillStyle = _ctxDrawingStyle2d.style(ctx);
+    if (_ctxDrawingStyle2d != null) ctx.fillStyle = _ctxDrawingStyle2d!.style(ctx);
 
     _ctxDrawingStyle2d = strokeStyle.valueAt(index);
-    if (_ctxDrawingStyle2d != null) ctx.strokeStyle = _ctxDrawingStyle2d.style(ctx);
+    if (_ctxDrawingStyle2d != null) ctx.strokeStyle = _ctxDrawingStyle2d!.style(ctx);
 
-    ctx.globalAlpha = globalAlpha.valueAt(index) ?? 1;
+    ctx.globalAlpha = globalAlpha.valueAt(index);
 
     _ctxString = globalCompositeOperation.valueAt(index);
-    if (_ctxString != null) ctx.globalCompositeOperation = _ctxString;
+    if (_ctxString != null) ctx.globalCompositeOperation = _ctxString!;
 
     _ctxNum = lineWidth.valueAt(index);
-    if (_ctxNum != null) ctx.lineWidth = _ctxNum;
+    if (_ctxNum != null) ctx.lineWidth = _ctxNum!;
 
     _ctxLineCap2d = lineCap.valueAt(index);
-    if (_ctxLineCap2d != null) ctx.lineCap = _ctxLineCap2d.value;
+    if (_ctxLineCap2d != null) ctx.lineCap = _ctxLineCap2d!.value;
 
     _ctxLineJoin2d = lineJoin.valueAt(index);
-    if (_ctxLineJoin2d != null) ctx.lineJoin = _ctxLineJoin2d.value;
+    if (_ctxLineJoin2d != null) ctx.lineJoin = _ctxLineJoin2d!.value;
 
     _ctxNumberLists = lineDash.valueAt(index);
     if (_ctxNumberLists != null) {
-      if (_ctxNumberLists.isEmpty) {
-        if (ctx.getLineDash()?.isNotEmpty == true) ctx.setLineDash(defaultLineDash);
+      if (_ctxNumberLists!.isEmpty) {
+        if (ctx.getLineDash().isNotEmpty == true) ctx.setLineDash(defaultLineDash);
       } else {
-        ctx.setLineDash(_ctxNumberLists);
+        ctx.setLineDash(_ctxNumberLists!);
       }
     }
 
     _ctxNum = shadowBlur.valueAt(index);
-    if (_ctxNum != null) ctx.shadowBlur = _ctxNum;
+    if (_ctxNum != null) ctx.shadowBlur = _ctxNum!;
 
     _ctxColor = shadowColor.valueAt(index);
-    if (_ctxColor != null) ctx.shadowColor = _ctxColor.css;
+    if (_ctxColor != null) ctx.shadowColor = _ctxColor!.css;
 
     _applyTransform(index, ctx);
   }
@@ -313,8 +316,8 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
     // Then rotate, as necessary.
     _rotation = rotation.valueAt(i);
-    if (_rotation != null && _rotation.mks.toDouble() != 0) {
-      ctx.rotate(_rotation.mks.toDouble());
+    if (_rotation != null && _rotation!.mks.toDouble() != 0) {
+      ctx.rotate(_rotation!.mks.toDouble());
     }
   }
 
@@ -348,7 +351,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
   /// point described by x, y.
   ///
   /// The indices will be appended to [listToUse], if provided.
-  List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int> listToUse}) {
+  List<int> allIndicesContainingPoint(num x, num y, CanvasRenderingContext2D ctx, {List<int>? listToUse}) {
     final hitIndices = listToUse ?? <int>[];
     //for (_i = paths.length - 1; _i >= 0; _i--) {
     for (_i = size - 1; _i >= 0; _i--) {
@@ -364,35 +367,6 @@ abstract class Graphic2dNode extends GraphicLeaf {
       ctx.restore();
     }
     return hitIndices;
-  }
-
-  void _initStreams() {
-    _onClickController = StreamController<Graphic2dIntersection>.broadcast();
-    onClick = _onClickController.stream;
-
-    _onDoubleClickController = StreamController<Graphic2dIntersection>.broadcast();
-    onDoubleClick = _onDoubleClickController.stream;
-
-    _onMouseEnterController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseEnter = _onMouseEnterController.stream;
-
-    _onMouseOverController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseOver = _onMouseOverController.stream;
-
-    _onMouseMoveController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseMove = _onMouseMoveController.stream;
-
-    _onMouseOutController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseOut = _onMouseOutController.stream;
-
-    _onMouseLeaveController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseLeave = _onMouseLeaveController.stream;
-
-    _onMouseDownController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseDown = _onMouseDownController.stream;
-
-    _onMouseUpController = StreamController<Graphic2dIntersection>.broadcast();
-    onMouseUp = _onMouseUpController.stream;
   }
 
   /// Broadcasts a click intersection event.
@@ -442,7 +416,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   /// Fills the current path defined in [ctx], unless a [hitTest] is requested.
   /// Returns true only if hitTest is requested and there is a hit.
-  bool fillOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+  bool fillOrHitTest(CanvasRenderingContext2D ctx, HitTest? hitTest) {
     if (hitTest == null) {
       ctx.fill();
       return false;
@@ -452,7 +426,7 @@ abstract class Graphic2dNode extends GraphicLeaf {
 
   /// Strokes the current path defined in [ctx], unless a [hitTest] is requested.
   /// Returns true only if hitTest is requested and there is a hit.
-  bool strokeOrHitTest(CanvasRenderingContext2D ctx, HitTest hitTest) {
+  bool strokeOrHitTest(CanvasRenderingContext2D ctx, HitTest? hitTest) {
     if (hitTest == null) {
       ctx.stroke();
       return false;

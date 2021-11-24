@@ -12,7 +12,7 @@ import 'graphic2d_node.dart';
 /// of the vertical bar).
 class Cross2d extends Graphic2dNode {
   /// Constructs a instance.
-  Cross2d() : super(null) {
+  Cross2d() {
     _initProperties();
   }
 
@@ -41,7 +41,7 @@ class Cross2d extends Graphic2dNode {
   NumberProperty get percent => properties['percent'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x, _y, _verticalWidth, _verticalHeight, _horizontalWidth, _horizontalHeight, _percent;
     Anchor2d _anchor;
     _verticalWidth = verticalWidth.valueAt(index);
@@ -79,11 +79,9 @@ class Cross2d extends Graphic2dNode {
     // Adjust for anchor (default origin is the center of the vertical element)
     _x = 0;
     _y = 0;
-    if (anchor != null) {
-      final adj = _anchor.calcAdjustments(minY, halfWidth, maxY, -halfWidth);
-      _x += adj[0];
-      _y += adj[1];
-    }
+    final adj = _anchor.calcAdjustments(minY, halfWidth, maxY, -halfWidth);
+    _x += adj[0];
+    _y += adj[1];
 
     // Start at top left
     ctx.beginPath();

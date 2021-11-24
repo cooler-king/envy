@@ -18,7 +18,7 @@ class CycleValues<T> extends Extrapolation<T> {
   ///
   /// If [values] is null or empty, null will be returned.
   @override
-  T valueAt(int index, List<T> values) {
+  T? valueAt(int index, List<T>? values) {
     if (values == null || values.isEmpty) return null;
 
     if (values.length == 1) return values.first;

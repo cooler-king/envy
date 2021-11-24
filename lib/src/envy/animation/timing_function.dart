@@ -11,13 +11,13 @@ abstract class TimingFunction {
 /// Linear timing.
 class LinearFunction extends TimingFunction {
   /// Constructs a instance.
-  factory LinearFunction() => _instance ?? (LinearFunction._internal());
+  factory LinearFunction() => _instance;
 
   LinearFunction._internal() {
     _instance = this;
   }
 
-  static LinearFunction _instance;
+  static LinearFunction _instance = LinearFunction._internal();
 
   @override
   num output(num input) => input;

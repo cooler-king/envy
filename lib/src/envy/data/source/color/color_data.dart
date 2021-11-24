@@ -21,7 +21,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
   /// If neither [accessor] and [prop] are provided then the dataset is used
   /// as a whole.
   ///
-  ColorData(this._datasetName, this._node, {DataAccessor dataAccessor, String prop}) {
+  ColorData(this._datasetName, this._node, {DataAccessor? dataAccessor, String? prop}) {
     accessor = dataAccessor;
     if (prop != null && accessor == null) {
       accessor = DataAccessor.prop(prop);
@@ -33,7 +33,7 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
   /// constructed from [prop] and `keyedDataset.keyProp` to select data from that
   /// dataset.
   ///
-  ColorData.keyed(KeyedDataset keyedDataset, String prop) {
+  ColorData.keyed(KeyedDataset? keyedDataset, String? prop) {
     if (prop != null && keyedDataset != null) {
       _datasetName = keyedDataset.name;
       _node = keyedDataset.node;
@@ -41,17 +41,17 @@ class ColorData extends ArrayDataSource<Color> implements ColorSource {
     }
   }
 
-  String _datasetName;
-  EnvyNode _node;
+  String? _datasetName;
+  EnvyNode? _node;
 
   @override
   void refresh() {
     values.clear();
 
-    var data = _node.getDataset(_datasetName);
+    var data = _node?.getDataset(_datasetName);
     if (accessor != null) {
-      accessor.cullUnavailableData();
-      data = accessor.getData(data);
+      accessor!.cullUnavailableData();
+      data = accessor!.getData(data);
     }
 
     if (data is List<dynamic>) {

@@ -6,7 +6,7 @@ abstract class Gradient2d {
   /// The color stops that define the gradient mapped by offset (0-1).
   final Map<num, Color> stops = <num, Color>{};
 
-  CanvasGradient _canvasGradient;
+  CanvasGradient? _canvasGradient;
 
   /// Adds a color stop to this gradient at the offset.
   /// The offset can range between 0.0 and 1.0.
@@ -20,7 +20,7 @@ abstract class Gradient2d {
   /// Returns this gradient as a CanvasGradient object.
   CanvasGradient asCanvasGradient(CanvasRenderingContext2D ctx) {
     if (_canvasGradient == null) _createCanvasGradient(ctx);
-    return _canvasGradient;
+    return _canvasGradient!;
   }
 }
 
@@ -45,7 +45,7 @@ class LinearGradient2d extends Gradient2d {
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createLinearGradient(x0, y0, x1, y1);
     for (final stop in stops.keys) {
-      _canvasGradient.addColorStop(stop, stops[stop].css);
+      _canvasGradient!.addColorStop(stop, stops[stop].css);
     }
   }
 }
@@ -79,7 +79,7 @@ class RadialGradient2d extends Gradient2d {
   void _createCanvasGradient(CanvasRenderingContext2D ctx) {
     _canvasGradient = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
     for (final stop in stops.keys) {
-      _canvasGradient.addColorStop(stop, stops[stop].css);
+      _canvasGradient!.addColorStop(stop, stops[stop].css);
     }
   }
 }

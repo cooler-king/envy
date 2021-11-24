@@ -11,7 +11,7 @@ import 'graphic2d_node.dart';
 /// The default anchor is the bottom middle.
 class Bar2d extends Graphic2dNode {
   /// Constructs a instance.
-  Bar2d() : super(null) {
+  Bar2d() {
     _initProperties();
   }
 
@@ -27,7 +27,7 @@ class Bar2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     final _width = width.valueAt(index);
     final _height = height.valueAt(index);
     final _anchor = anchor.valueAt(index);
@@ -38,7 +38,7 @@ class Bar2d extends Graphic2dNode {
     num _x = 0;
     num _y = 0;
     final halfWidth = _width / 2.0;
-    final adj = _anchor?.calcAdjustments(-_height, halfWidth, 0, -halfWidth) ?? <num>[0, 0];
+    final adj = _anchor.calcAdjustments(-_height, halfWidth, 0, -halfWidth);
     _x += adj[0];
     _y += adj[1];
 

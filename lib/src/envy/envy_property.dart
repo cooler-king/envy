@@ -58,7 +58,7 @@ abstract class EnvyProperty<T> {
 
   // For efficiency
   int _i = 0;
-  T _value;
+  T? _value;
 
   /// Used when no data is available.
   NullDataSource<T> nullDataSource = NullDataSource<T>();
@@ -69,56 +69,56 @@ abstract class EnvyProperty<T> {
   ///  Control over property array length.
   ///  DataSources may contribute arrays of various lengths,
   ///  but the property has final say over the array length.
-  Multiplicity multiplicity;
+  Multiplicity? multiplicity;
 
-  /// The extrapolation that is applied if the data source does not have one
-  Extrapolation<T> extrapolation;
+  /// The extrapolation that is applied if the data source does not have one.
+  Extrapolation<T>? extrapolation;
 
   //TODO category class?
   /// Support optional grouping of properties in UI.
-  String category;
+  String? category;
 
   //TODO can advanced just be a category?
   /// Whether the property is considered for advanced users.
   bool advanced = false;
 
   /// Optional override of alpha for specific property.
-  AnimationGroup animationOverride;
+  AnimationGroup? animationOverride;
 
   /// Defines property values when first entering a scene.
-  DataSource<T> get enter => _enter ?? nullDataSource;
-  DataSource<T> _enter;
-  set enter(DataSource<T> dataSource) {
+  DataSource<T>? get enter => _enter ?? nullDataSource;
+  DataSource<T>? _enter;
+  set enter(DataSource<T>? dataSource) {
     _enter = dataSource;
   }
 
   /// Defines property values during an update cycle.
-  DataSource<T> get update => _update ?? nullDataSource;
-  DataSource<T> _update;
-  set update(DataSource<T> dataSource) {
+  DataSource<T>? get update => _update ?? nullDataSource;
+  DataSource<T>? _update;
+  set update(DataSource<T>? dataSource) {
     _update = dataSource;
   }
 
   /// Defines property values when exiting a scene.
-  DataSource<T> get exit => _exit ?? nullDataSource;
-  DataSource<T> _exit;
-  set exit(DataSource<T> dataSource) {
+  DataSource<T>? get exit => _exit ?? nullDataSource;
+  DataSource<T>? _exit;
+  set exit(DataSource<T>? dataSource) {
     _exit = dataSource;
   }
 
   /// Get the current property value at index [i].
-  T valueAt(int i) => (i < _currentValues.length) ? _currentValues[i] : defaultValue;
+  T valueAt(int i) => (i < _currentValues.length) ? _currentValues[i] ?? defaultValue : defaultValue;
 
   /// The raw size of an Envy property is the maximum unextrapolated size of the
   /// enter and update DataSource values.
   /// Note that [exit] Data Source values do not affect the raw size.
-  int get rawSize => max(enter.rawSize, update.rawSize);
+  int get rawSize => max(enter?.rawSize ?? 0, update?.rawSize ?? 0);
 
   /// The interpolator calculates intermediate values at fractions between
   /// a value during a previous cycle and the value at the end of the cycle.
-  EnvyInterpolator<T> get interpolator => _interpolator ??= defaultInterpolator;
-  EnvyInterpolator<T> _interpolator;
-  set interpolator(EnvyInterpolator<T> interp) {
+  EnvyInterpolator<T>? get interpolator => _interpolator ??= defaultInterpolator;
+  EnvyInterpolator<T>? _interpolator;
+  set interpolator(EnvyInterpolator<T>? interp) {
     _interpolator = interp;
   }
 
@@ -158,11 +158,11 @@ abstract class EnvyProperty<T> {
     if (_size > _currentValues.length) {
       // Size greater than number of current values... some will be entering
       for (_i = _currentValues.length; _i < _size; _i++) {
-        _value = _enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i);
-        _value = _value ?? (_update == null || _update.dataNotAvailableAt(_i) ? null : _update.valueAt(_i));
+        _value = _enter == null || _enter!.dataNotAvailableAt(_i) ? null : _enter!.valueAt(_i);
+        _value = _value ?? (_update == null || _update!.dataNotAvailableAt(_i) ? null : _update!.valueAt(_i));
         _value = _value ?? defaultValue;
 
-        _startValues.add(_value);
+        _startValues.add(_value!);
       }
     }
   }
@@ -175,7 +175,7 @@ abstract class EnvyProperty<T> {
     _targetValues.clear();
 
     // Value may be String ('deadJim')
-    T val;
+    T? val;
 
     for (_i = 0; _i < _size; _i++) {
       val = _update?.valueAt(_i) ?? _enter?.valueAt(_i);
@@ -185,7 +185,7 @@ abstract class EnvyProperty<T> {
         final dataNotAvailable =
             (_update?.dataNotAvailableAt(_i) ?? false) || (_enter?.dataNotAvailableAt(_i) ?? false);
         if (dataNotAvailable) {
-          val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
+          val = _exit == null || _exit!.dataNotAvailableAt(_i) ? null : _exit!.valueAt(_i);
           val = val ?? _update?.valueAt(_i) ?? _enter?.valueAt(_i) ?? defaultValue;
         } else {
           // Regular null value means use default value.
@@ -211,25 +211,25 @@ abstract class EnvyProperty<T> {
       // Debug
       //assert(_value != dataNotAvailable);
 
-      _targetValues.add(_value);
+      _targetValues.add(_value!);
     }
 
     // Set target values for exiting nodes
     for (_i = _size; _i < _currentValues.length; _i++) {
-      val = _exit == null || _exit.dataNotAvailableAt(_i) ? null : _exit.valueAt(_i);
-      _value = val ?? _currentValues[_i];
+      val = _exit == null || _exit!.dataNotAvailableAt(_i) ? null : _exit!.valueAt(_i);
+      _value = val ?? _currentValues[_i] ?? defaultValue;
 
       // Debug
       //assert(_value != dataNotAvailable);
 
-      _targetValues.add(_value);
+      _targetValues.add(_value!);
     }
   }
 
   /// Calculate the current values based on the start and target values,
   /// the timing [fraction] and the interpolator.
   void updateValues(num fraction, {bool finish = false}) {
-    final interp = interpolator;
+    final interp = interpolator ?? defaultInterpolator;
     _currentValues.clear();
     if (!finish) {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
@@ -238,8 +238,8 @@ abstract class EnvyProperty<T> {
     } else {
       for (_i = 0; _i < (finish ? _size : _targetValues.length); _i++) {
         // For finish values, only include available update or enter data
-        var val = _update == null || _update.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
-        val = val ?? (_enter == null || _enter.dataNotAvailableAt(_i) ? null : _enter.valueAt(_i));
+        var val = _update == null || _update!.dataNotAvailableAt(_i) ? null : update?.valueAt(_i);
+        val = val ?? (_enter == null || _enter!.dataNotAvailableAt(_i) ? null : _enter!.valueAt(_i));
         if (val != null) {
           _currentValues.add(interp.interpolate(_startValues[_i], _targetValues[_i], fraction));
         }

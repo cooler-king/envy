@@ -15,17 +15,17 @@ class Anchor2dInterpolator extends EnvyInterpolator<Anchor2d> {
   }
 
   /// Interpolates between anchor modes.
-  BinaryInterpolator<AnchorMode2d> modeInterpolator;
+  BinaryInterpolator<AnchorMode2d>? modeInterpolator;
 
   /// Interpolates between offset coordinate values.
-  NumberInterpolator offsetInterpolator;
+  NumberInterpolator? offsetInterpolator;
 
   @override
   Anchor2d interpolate(Anchor2d a, Anchor2d b, num fraction) {
     final _anchor2d = Anchor2d()
-      ..mode = modeInterpolator.interpolate(a.mode, b.mode, fraction)
-      ..offsetX = offsetInterpolator.interpolate(a.offsetX, b.offsetX, fraction)
-      ..offsetY = offsetInterpolator.interpolate(a.offsetY, b.offsetY, fraction);
+      ..mode = modeInterpolator!.interpolate(a.mode, b.mode, fraction)
+      ..offsetX = offsetInterpolator!.interpolate(a.offsetX, b.offsetX, fraction)
+      ..offsetY = offsetInterpolator!.interpolate(a.offsetY, b.offsetY, fraction);
     return _anchor2d;
   }
 }

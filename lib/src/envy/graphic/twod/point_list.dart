@@ -4,7 +4,7 @@ import 'package:collection/collection.dart';
 /// A collection of points.
 class PointList extends DelegatingList<Point<num>> {
   /// Constructs a instance.
-  PointList([Iterable<Point<num>> points]) : super(List<Point<num>>.from(points ?? <Point<num>>[]));
+  PointList([Iterable<Point<num>> points = const <Point<num>>[]]) : super(List<Point<num>>.from(points));
 
   /// Adds a point to the end of the list.
   void addPoint(Point<num> value) => add(value);

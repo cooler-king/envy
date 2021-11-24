@@ -7,37 +7,50 @@ class Font implements CssAdapter {
   Font({this.style, this.variant, this.weight, this.size, this.family});
 
   /// The font style to apply.
-  FontStyle style;
+  FontStyle? style;
 
   /// The font variant to apply.
-  FontVariant variant;
+  FontVariant? variant;
 
   /// The font weight to apply.
-  FontWeight weight;
+  FontWeight? weight;
 
   /// The font size in which to render text.
-  FontSize size;
+  FontSize? size;
 
   /// The font family to use.
-  FontFamily family;
+  FontFamily? family;
 
   @override
   String get css {
     final buf = StringBuffer();
-    if (style != null) buf..write(style.css)..write(' ');
-    if (variant != null) buf..write(variant.css)..write(' ');
-    if (weight != null) buf..write(weight.css)..write(' ');
+    if (style != null)
+      buf
+        ..write(style!.css)
+        ..write(' ');
+    if (variant != null)
+      buf
+        ..write(variant!.css)
+        ..write(' ');
+    if (weight != null)
+      buf
+        ..write(weight!.css)
+        ..write(' ');
     if (size != null) {
-      buf..write(size.css)..write(' ');
+      buf
+        ..write(size!.css)
+        ..write(' ');
     } else {
       // always write size
-      buf..write('10pt')..write(' ');
+      buf
+        ..write('10pt')
+        ..write(' ');
     }
     if (family != null) {
-      if (family.css.contains(' ')) {
-        buf.write('\'${family.css}\'');
+      if (family!.css.contains(' ')) {
+        buf.write('\'${family!.css}\'');
       } else {
-        buf.write(family.css);
+        buf.write(family!.css);
       }
     } else {
       // default to sans-serif
@@ -158,10 +171,10 @@ class FontSize implements CssAdapter {
         length = CssLength.pt(points);
 
   /// The font size value as a string.
-  final String sizeStr;
+  final String? sizeStr;
 
   /// The font size value as a CSS length.
-  final CssLength length;
+  final CssLength? length;
 
   /// Medium font size.
   static final FontSize medium = FontSize._internal('medium');
@@ -197,7 +210,7 @@ class FontSize implements CssAdapter {
   static final FontSize inherit = FontSize._internal('inherit');
 
   @override
-  String get css => length?.css ?? ((sizeStr != null && sizeStr != 'medium') ? sizeStr : '');
+  String get css => length?.css ?? ((sizeStr != null && sizeStr != 'medium') ? sizeStr! : '');
 }
 
 /// A font family, such as *|initial|inherit
@@ -233,5 +246,5 @@ class FontFamily implements CssAdapter {
   static final FontFamily inherit = FontFamily._internal('inherit');
 
   @override
-  String get css => familyStr ?? '';
+  String get css => familyStr;
 }

@@ -43,7 +43,9 @@ abstract class BinaryOp extends NumberSource {
 abstract class MultipleOp extends NumberSource {
   /// Constructs a instance.
   MultipleOp(NumberSource num1, NumberSource num2) {
-    _list..add(num1)..add(num2);
+    _list
+      ..add(num1)
+      ..add(num2);
   }
 
   /// Constructs a instance from a list of number sources.
@@ -75,7 +77,10 @@ class Neg extends UnaryOp {
   Neg(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => -ns.valueAt(index);
+  num? valueAt(int index) {
+    final num? val = ns.valueAt(index);
+    return val != null ? -val : null;
+  }
 }
 
 /// Supplies the absolute value of [ns].
@@ -84,7 +89,7 @@ class Abs extends UnaryOp {
   Abs(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => ns.valueAt(index).abs();
+  num? valueAt(int index) => ns.valueAt(index)?.abs();
 }
 
 /// Supplies the least integer no smaller than [ns].
@@ -93,7 +98,7 @@ class Ceil extends UnaryOp {
   Ceil(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => ns.valueAt(index).ceil();
+  num? valueAt(int index) => ns.valueAt(index)?.ceil();
 }
 
 /// Supplies the greatest integer no greater than [ns].
@@ -102,7 +107,7 @@ class Floor extends UnaryOp {
   Floor(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => ns.valueAt(index).floor();
+  num? valueAt(int index) => ns.valueAt(index)?.floor();
 }
 
 /// Supplies the the natural exponent, e, to the power of [ns].
@@ -111,7 +116,10 @@ class Exp extends UnaryOp {
   Exp(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => exp(ns.valueAt(index));
+  num? valueAt(int index) {
+    final num? val = ns.valueAt(index);
+    return val != null ? exp(val) : null;
+  }
 }
 
 /// Supplies the the natural logarithm of [ns].
@@ -130,7 +138,7 @@ class Round extends UnaryOp {
   Round(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => ns.valueAt(index).round();
+  num? valueAt(int index) => ns.valueAt(index)?.round();
 }
 
 /// Supplies the square root of [ns].
@@ -148,7 +156,7 @@ class Truncate extends UnaryOp {
   Truncate(NumberSource ns) : super(ns);
 
   @override
-  num valueAt(int index) => ns.valueAt(index).truncate();
+  num? valueAt(int index) => ns.valueAt(index)?.truncate();
 }
 
 /// Supplies the sum of an arbitrary number of numbers.
@@ -163,22 +171,24 @@ class Sum extends MultipleOp {
   num valueAt(int index) {
     num total = 0;
     for (final ns in _list) {
-      total += ns.valueAt(index);
+      total += ns.valueAt(index) ?? 0;
     }
     return total;
   }
 }
 
 /// Supplies the value of [ns2] subtracted from [ns1].
+/// Null values are treated as zero.
 class Diff extends BinaryOp {
   /// Constructs a instance.
   Diff(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
-  num valueAt(int index) => ns1.valueAt(index) - ns2.valueAt(index);
+  num? valueAt(int index) => (ns1.valueAt(index) ?? 0) - (ns2.valueAt(index) ?? 0);
 }
 
 /// Supplies the product of an arbitrary number of numbers.
+/// Null values are treated as one.
 class Product extends MultipleOp {
   /// Constructs a instance.
   Product(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
@@ -190,19 +200,20 @@ class Product extends MultipleOp {
   num valueAt(int index) {
     num total = 1;
     for (final ns in _list) {
-      total *= ns.valueAt(index);
+      total *= (ns.valueAt(index) ?? 1);
     }
     return total;
   }
 }
 
 /// Supplies the value of [ns1] divided by [ns2].
+/// Null values are treated as one.
 class Quotient extends BinaryOp {
   /// Constructs a instance.
   Quotient(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
-  num valueAt(int index) => ns1.valueAt(index) / ns2.valueAt(index);
+  num valueAt(int index) => (ns1.valueAt(index) ?? 1) / (ns2.valueAt(index) ?? 1);
 }
 
 /// Supplies the remainder of the truncating division of [ns1] by [ns2].
@@ -211,20 +222,21 @@ class Remainder extends BinaryOp {
   Remainder(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
-  num valueAt(int index) => ns1.valueAt(index).remainder(ns2.valueAt(index));
+  num valueAt(int index) => ns1.valueAt(index).remainder((ns2.valueAt(index)));
 }
 
 /// Supplies the value of [ns1] raised to the power of [ns2].
-///
+/// Null values are treated as 1 and 0, respectively.
 class Pow extends BinaryOp {
   /// Constructs a instance.
   Pow(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
 
   @override
-  num valueAt(int index) => pow(ns1.valueAt(index), ns2.valueAt(index));
+  num valueAt(int index) => pow((ns1.valueAt(index) ?? 1), (ns2.valueAt(index) ?? 0));
 }
 
 /// Supplies the minimum value found in an arbitrary set of numbers.
+/// Null values are ignored.
 class Min extends MultipleOp {
   /// Constructs a instance.
   Min(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
@@ -237,13 +249,14 @@ class Min extends MultipleOp {
     num min = double.infinity;
     for (final ns in _list) {
       final value = ns.valueAt(index);
-      if (value < min) min = value;
+      if (value != null && value < min) min = value;
     }
     return min;
   }
 }
 
 /// Supplies the maximum value found in an arbitrary set of numbers.
+/// Null values are ignored.
 class Max extends MultipleOp {
   /// Constructs a instance.
   Max(NumberSource ns1, NumberSource ns2) : super(ns1, ns2);
@@ -256,7 +269,7 @@ class Max extends MultipleOp {
     num max = double.negativeInfinity;
     for (final ns in _list) {
       final value = ns.valueAt(index);
-      if (value > max) max = value;
+      if (value != null && value > max) max = value;
     }
     return max;
   }
@@ -282,6 +295,7 @@ class TruncDiv extends BinaryOp {
 
 /// Supplies the result of clamping [ns1] to the range defined
 /// by [ns2] (lower limit) and [ns3] (upper limit).
+/// Null values are treated as zero.
 class Clamp extends NumberSource {
   /// Constructs a instance from three number sources.
   Clamp(this.ns1, this.ns2, this.ns3);
@@ -296,7 +310,7 @@ class Clamp extends NumberSource {
   NumberSource ns3;
 
   @override
-  num valueAt(int index) => ns1.valueAt(index).clamp(ns2.valueAt(index), ns3.valueAt(index));
+  num valueAt(int index) => (ns1.valueAt(index) ?? 0).clamp((ns2.valueAt(index) ?? 0), (ns3.valueAt(index) ?? 0));
 
   @override
   int get rawSize => max(ns1.rawSize, max(ns2.rawSize, ns3.rawSize));

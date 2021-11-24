@@ -6,7 +6,7 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional line to be drawn on an HTML canvas.
 class Line2d extends Graphic2dNode {
   /// Constructs a instance.
-  Line2d() : super(null) {
+  Line2d() {
     _initProperties();
   }
 
@@ -30,7 +30,7 @@ class Line2d extends Graphic2dNode {
   NumberProperty get y2 => properties['y2'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x1, _y1, _x2, _y2;
     final _anchor = anchor.valueAt(index);
     _x1 = x1.valueAt(index);

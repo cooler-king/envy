@@ -12,7 +12,7 @@ abstract class TimingGroup extends TimedItemGroup {}
 ///
 class SequenceTimingGroup extends TimingGroup {
   @override
-  bool attach(EnvyNode node, [int index]) {
+  bool attach(EnvyNode node, [int? index]) {
     final tf = super.attach(node, index);
     calcStartTimes();
     return tf;

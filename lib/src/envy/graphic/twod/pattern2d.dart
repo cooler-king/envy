@@ -33,13 +33,13 @@ class ImagePattern2d extends Pattern2d {
   /// The pattern repetition mode.
   PatternRepeat repeat;
 
-  CanvasPattern _canvasPattern;
+  CanvasPattern? _canvasPattern;
 
-  /// the width of the pattern.
-  int patternWidth;
+  /// The width of the pattern.
+  int? patternWidth;
 
-  /// the height of the pattern.
-  int patternHeight;
+  /// The height of the pattern.
+  int? patternHeight;
 
   void _createCanvasPattern(CanvasRenderingContext2D ctx) {
     var repeatStr = 'repeat';
@@ -64,6 +64,6 @@ class ImagePattern2d extends Pattern2d {
   @override
   CanvasPattern asCanvasPattern(CanvasRenderingContext2D ctx) {
     if (_canvasPattern == null) _createCanvasPattern(ctx);
-    return _canvasPattern;
+    return _canvasPattern!;
   }
 }

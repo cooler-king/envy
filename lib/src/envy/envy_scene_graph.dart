@@ -7,7 +7,7 @@ import 'envy_root.dart';
 /// Holds all of the nodes that define an Envy scene.
 class EnvySceneGraph {
   /// Constructs a instance.
-  EnvySceneGraph([String spec]) {
+  EnvySceneGraph([String? spec]) {
     //TODO build scene graph nodes from spec
     if (spec != null) applySpec(spec);
   }
@@ -64,7 +64,6 @@ class EnvySceneGraph {
   /// Returns true if the node was successfully added.  Rejects null nodes and
   /// duplicate nodes and returns false.
   bool attachToRoot(EnvyNode node, [bool animatable = true]) {
-    if (node == null) return false;
     if (animatable) {
       return root.rootAnimation.attach(node);
     } else {
@@ -75,7 +74,7 @@ class EnvySceneGraph {
   /// A convenience method to change the iteration duration in the root animation group,
   /// either in [seconds], [millis]econds or [t]ime quantity.
   /// Only one of the values should be provided.
-  void setAnimationDuration({Time t, num seconds, num millis}) {
+  void setAnimationDuration({Time? t, num? seconds, num? millis}) {
     final secs = t != null ? t.mks.toDouble() : seconds ?? (millis != null ? millis / 1000 : 0);
     root.rootAnimation.timing.iterationDuration = secs;
   }

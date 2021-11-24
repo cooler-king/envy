@@ -1,3 +1,5 @@
+import 'package:envy/src/envy/util/logger.dart';
+
 import '../group_node.dart';
 import 'fill_mode.dart';
 import 'playback_direction.dart';
@@ -13,31 +15,31 @@ import 'timing_group.dart';
 /// ParallelTimingGroup.
 abstract class TimedItemGroup extends GroupNode {
   /// Only non-null if parent if a SequenceTimingGroup.  In seconds.
-  num _startTime;
+  num? _startTime;
 
   /// The start delay represents the number of seconds from a timed item's
   /// start time to the start of the active interval.
-  num _startDelay;
+  num? _startDelay;
 
   /// The timing.
   final Timing timing = Timing();
 
   /// Optional parent group
-  TimingGroup parentTimingGroup;
+  TimingGroup? parentTimingGroup;
 
   /// This group's player.
   /// Setting the player registers this node with it and
   /// de-registers this node from the previous player, if there was one.
-  Player get player => _player;
-  Player _player;
-  set player(Player p) {
+  Player? get player => _player;
+  Player? _player;
+  set player(Player? p) {
     if (_player == p) return;
 
     // Deregister existing player, if necessary
-    if (_player != null) _player.deregisterTimedItemGroup(this);
+    if (_player != null) _player!.deregisterTimedItemGroup(this);
 
     _player = p;
-    if (p != null) _player.registerTimedItemGroup(this);
+    if (p != null) _player!.registerTimedItemGroup(this);
   }
 
   /// For a timed item, the inherited time at a given moment is based on the
@@ -47,9 +49,9 @@ abstract class TimedItemGroup extends GroupNode {
   /// parent timing group's current transformed time value. If the timed item
   /// is directly associated with a player, the inherited time is the current
   /// time of the player.  Otherwise, the inherited time is null.
-  num get inheritedTime {
-    if (parentTimingGroup != null) return parentTimingGroup.transformedTime;
-    if (player != null) return player.currentTime;
+  num? get inheritedTime {
+    if (parentTimingGroup != null) return parentTimingGroup!.transformedTime;
+    if (player != null) return player!.currentTime;
     return null;
   }
 
@@ -75,15 +77,15 @@ abstract class TimedItemGroup extends GroupNode {
   /// Children take the transformed time values from their parent -- called the
   /// inherited time -- and add their start time to establish their own
   /// local time space.
-  num get localTime {
+  num? get localTime {
     final inherited = inheritedTime;
     return inherited != null ? inherited - startTime : null;
   }
 
   /// The active time.
-  num get activeTime => _calcActiveTime(iterationDuration, localTime);
+  num? get activeTime => _calcActiveTime(iterationDuration, localTime);
 
-  num _calcActiveTime(num iterDur, num local) {
+  num? _calcActiveTime(num? iterDur, num? local) {
     if (local == null) return null;
     if (local < startDelay) {
       if (timing.fillMode == FillMode.backwards || timing.fillMode == FillMode.both) return 0;
@@ -105,7 +107,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// The length of the active interval is called the active duration.
   /// Animation will stop at the end of the active interval and snap to
   /// the end state.
-  num get activeDuration {
+  num? get activeDuration {
     if (timing.activeDuration == Timing.auto) {
       return _calcActiveDuration(iterationDuration);
     } else {
@@ -113,7 +115,7 @@ abstract class TimedItemGroup extends GroupNode {
     }
   }
 
-  num _calcActiveDuration(num iterDur) {
+  num _calcActiveDuration(num? iterDur) {
     if (timing.playbackRate == 0) return double.infinity;
     if (timing.activeDuration == Timing.auto || timing.activeDuration < 0) {
       return _calcRepeatedDuration(iterDur) / timing.playbackRate.abs();
@@ -136,7 +138,7 @@ abstract class TimedItemGroup extends GroupNode {
   num get intrinsicIterationDuration => 0;
 
   /// The length of a single iteration is called the iteration duration.
-  num get iterationDuration {
+  num? get iterationDuration {
     if (timing.iterationDuration == Timing.auto || timing.iterationDuration == null) {
       return intrinsicIterationDuration;
     } else {
@@ -145,20 +147,20 @@ abstract class TimedItemGroup extends GroupNode {
   }
 
   /// Repeated duration = iteration duration * iteration count
-  num get repeatedDuration => _calcRepeatedDuration(iterationDuration);
+  num? get repeatedDuration => _calcRepeatedDuration(iterationDuration);
 
-  num _calcRepeatedDuration(num iterDuration) => iterDuration * timing.iterationCount;
+  num? _calcRepeatedDuration(num? iterDuration) => iterDuration != null ? iterDuration * timing.iterationCount : null;
 
   /// The scale active time.
   num get scaledActiveTime => _calcScaledActiveTime(iterationDuration, localTime);
 
   /// Calculate the scaled active time with the specified iteration duration
   /// and local time.
-  num _calcScaledActiveTime(num iterDur, num local) {
+  num? _calcScaledActiveTime(num? iterDur, num? local) {
     final active = _calcActiveTime(iterDur, local);
     if (active == null) return null;
     if (timing.playbackRate < 0) {
-      print(
+      logger.warning(
           'TimedItemGroup._calcScaledActiveTime neg playback rate... ${(active - _calcActiveDuration(iterDur)) * timing.playbackRate + _calcStartOffset(iterDur)}');
       return (active - _calcActiveDuration(iterDur)) * timing.playbackRate + _calcStartOffset(iterDur);
     }
@@ -171,15 +173,15 @@ abstract class TimedItemGroup extends GroupNode {
   /// The start delay.
   num get startDelay => _startDelay ?? 0;
 
-  num _calcStartOffset(num iterDur) => timing.iterationStart * iterDur;
+  num? _calcStartOffset(num? iterDur) => iterDur != null ? timing.iterationStart * iterDur : null;
 
   /// The iteration time.
-  num get iterationTime => _calcIterationTime(iterationDuration, localTime);
+  num? get iterationTime => _calcIterationTime(iterationDuration, localTime);
 
   /// Calculate the iteration time with the specified iteration duration
   /// and local time.
   ///
-  num _calcIterationTime(num iterDur, num local, [num scaledActive]) {
+  num? _calcIterationTime(num? iterDur, num? local, [num? scaledActive]) {
     scaledActive ??= _calcScaledActiveTime(iterDur, local);
     if (scaledActive == null) return null;
     if (iterDur == 0) return 0;
@@ -192,7 +194,7 @@ abstract class TimedItemGroup extends GroupNode {
   /// The current iteration.
   num get currentIteration => _calcCurrentIteration(iterationDuration, localTime);
 
-  num _calcCurrentIteration(num iterDur, num local, [num scaledActive, num iterTime]) {
+  num? _calcCurrentIteration(num? iterDur, num? local, [num? scaledActive, num? iterTime]) {
     scaledActive ??= _calcScaledActiveTime(iterDur, local);
     if (scaledActive == null) return null;
     if (scaledActive == 0) return 0;
@@ -204,11 +206,11 @@ abstract class TimedItemGroup extends GroupNode {
   }
 
   /// The directed time.
-  num get directedTime => _calcDirectedTime(iterationDuration, localTime);
+  num? get directedTime => _calcDirectedTime(iterationDuration, localTime);
 
   /// Calculates the directed time with the specified iteration duration
   /// and local time.
-  num _calcDirectedTime(num iterDur, num local) {
+  num? _calcDirectedTime(num? iterDur, num? local) {
     final scaledActive = _calcScaledActiveTime(iterDur, local);
     final iterTime = _calcIterationTime(iterDur, local, scaledActive);
     if (iterTime == null) return null;
@@ -225,15 +227,15 @@ abstract class TimedItemGroup extends GroupNode {
     }
 
     if (forwards) return iterTime;
-    return iterDur - iterTime;
+    return iterDur - iterTime!;
   }
 
   /// The transformed time.
-  num get transformedTime => _calcTransformedTime(iterationDuration, localTime);
+  num? get transformedTime => _calcTransformedTime(iterationDuration, localTime);
 
   /// Calculate the transformed time with the specified iteration duration
   /// and local time.
-  num _calcTransformedTime(num iterDur, num local) {
+  num? _calcTransformedTime(num? iterDur, num? local) {
     final directed = _calcDirectedTime(iterDur, local);
     if (directed == null) return null;
     final iterFraction = (iterDur == 0) ? 0 : directed / iterDur;
@@ -245,7 +247,7 @@ abstract class TimedItemGroup extends GroupNode {
   num get endTime => startTime + startDelay + activeDuration;
 
   /// Thee time fraction controls the animation.
-  num get timeFraction {
+  num? get timeFraction {
     //TODO store time fraction for frame (keyed to global time or frame number?)
 
     final iterDur = iterationDuration;
@@ -261,8 +263,8 @@ abstract class TimedItemGroup extends GroupNode {
         return _calcTransformedTime(1, normalizedActiveDuration);
       }
     }
-    final transformed = transformedTime;
-    return (transformed == null) ? null : transformed / iterDur;
+    final bool? transformed = transformedTime;
+    return (transformed == null) ? null : transformed! / iterDur;
   }
 
   /// Updates this group and all its children for the specified [timeFraction].
@@ -282,6 +284,6 @@ abstract class TimedItemGroup extends GroupNode {
   /// Finishes an animation by doing a final update with the `finish` flag set to true.
   void finishAnimation({dynamic context = false}) {
     update(1.0, context: context, finish: true);
-    if (player != null) player.deregisterTimedItemGroup(this);
+    if (player != null) player!.deregisterTimedItemGroup(this);
   }
 }

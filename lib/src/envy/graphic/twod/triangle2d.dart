@@ -9,37 +9,27 @@ import 'graphic2d_node.dart';
 /// (0 degrees is straight up, clockwise).  The default anchor point is the center of the base.
 class Triangle2d extends Graphic2dNode {
   /// Constructs a instance, with the triangle pointing up.
-  Triangle2d()
-      : offsetAngle = 0,
-        super(null) {
+  Triangle2d() : offsetAngle = 0 {
     _initProperties();
   }
 
   /// Constructs a instance, with the triangle pointing up.
-  Triangle2d.up()
-      : offsetAngle = 0,
-        super(null) {
+  Triangle2d.up() : offsetAngle = 0 {
     _initProperties();
   }
 
   /// Constructs a instance, with the triangle pointing to the right.
-  Triangle2d.right()
-      : offsetAngle = 90,
-        super(null) {
+  Triangle2d.right() : offsetAngle = 90 {
     _initProperties();
   }
 
   /// Constructs a instance, with the triangle pointing to the left.
-  Triangle2d.left()
-      : offsetAngle = -90,
-        super(null) {
+  Triangle2d.left() : offsetAngle = -90 {
     _initProperties();
   }
 
   /// Constructs a instance, with the triangle pointing down.
-  Triangle2d.down()
-      : offsetAngle = 180,
-        super(null) {
+  Triangle2d.down() : offsetAngle = 180 {
     _initProperties();
   }
 
@@ -66,7 +56,7 @@ class Triangle2d extends Graphic2dNode {
   //NumberProperty get angle => properties['angle'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x, _y, _base, _height;
     _base = base.valueAt(index);
     _height = height.valueAt(index);
@@ -80,11 +70,9 @@ class Triangle2d extends Graphic2dNode {
     final _anchor = anchor.valueAt(index);
     _x = 0;
     _y = 0;
-    if (_anchor != null) {
-      final adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
-      _x += adj[0];
-      _y += adj[1];
-    }
+    final adj = _anchor.calcAdjustments(-_height, halfBase, 0, -halfBase);
+    _x += adj[0];
+    _y += adj[1];
 
     // Rotate for angle ( plus any angle offset)
     ctx
@@ -105,7 +93,7 @@ class Triangle2d extends Graphic2dNode {
 /// A 2-dimensional triangle defined by three arbitrary vertices, to be drawn on an HTML canvas.
 class TriangleVertices2d extends Graphic2dNode {
   /// Constructs a instance.
-  TriangleVertices2d() : super(null) {
+  TriangleVertices2d() {
     _initProperties();
   }
 
@@ -137,7 +125,7 @@ class TriangleVertices2d extends Graphic2dNode {
   NumberProperty get y3 => properties['y3'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x1, _y1, _x2, _y2, _x3, _y3;
     _x1 = x1.valueAt(index);
     _y1 = y1.valueAt(index);

@@ -9,5 +9,5 @@ class DuplicateFirst<T> extends Extrapolation<T> {
   /// regardless of the [index].
   /// If [values] is null or empty, null will be returned.
   @override
-  T valueAt(int index, List<T> values) => values != null && values.isNotEmpty ? values.first : null;
+  T? valueAt(int index, List<T>? values) => values != null && values.isNotEmpty ? values.first : null;
 }

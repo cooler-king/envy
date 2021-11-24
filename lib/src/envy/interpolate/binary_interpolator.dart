@@ -9,7 +9,7 @@ import 'envy_interpolator.dart';
 class BinaryInterpolator<T> extends EnvyInterpolator<T> {
   /// Constructs a binary interpolator that will flip between values `a` and `b` at
   /// specific fraction thresholds.
-  BinaryInterpolator([List<num> thresholds]) {
+  BinaryInterpolator([List<num>? thresholds]) {
     if (thresholds == null) {
       _thresholds.add(0.5);
     } else {
@@ -26,7 +26,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
   static final BinaryInterpolator<dynamic> middle = BinaryInterpolator<dynamic>();
 
   // For efficiency.
-  bool _odd;
+  bool _odd = false;
 
   @override
   T interpolate(T a, T b, num fraction) {
@@ -45,7 +45,7 @@ class BinaryInterpolator<T> extends EnvyInterpolator<T> {
 /// TODO this seems to add nothing
 class BooleanInterpolator extends BinaryInterpolator<bool> {
   /// Constructs a instance.
-  BooleanInterpolator([List<num> thresholds]) : super(thresholds);
+  BooleanInterpolator([List<num>? thresholds]) : super(thresholds);
 
   /// Provides a boolean value for the time [fraction].
   @override

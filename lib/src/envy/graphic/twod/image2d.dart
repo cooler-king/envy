@@ -6,7 +6,7 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional image to be drawn on an HTML canvas.
 class Image2d extends Graphic2dNode {
   /// Constructs a instance.
-  Image2d(this.source) : super(null) {
+  Image2d(this.source) {
     _initProperties();
   }
 
@@ -42,7 +42,7 @@ class Image2d extends Graphic2dNode {
   }
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y, _width, _height;
     _sourceX = sourceX.valueAt(index);
     _sourceY = sourceY.valueAt(index);
@@ -67,11 +67,9 @@ class Image2d extends Graphic2dNode {
       _x = 0;
       _y = 0;
       final _anchor = anchor.valueAt(index);
-      if (_anchor != null) {
-        final adj = _anchor.calcAdjustments(0, _width, _height, 0);
-        _x += adj[0];
-        _y += adj[1];
-      }
+      final adj = _anchor.calcAdjustments(0, _width, _height, 0);
+      _x += adj[0];
+      _y += adj[1];
 
       if (hitTest != null) {
         ctx
@@ -84,13 +82,10 @@ class Image2d extends Graphic2dNode {
         return;
       }
 
-      if ((_sourceX != null && _sourceX > 0) ||
-          (_sourceY != null && _sourceY > 0) ||
-          (_sourceWidth != null && _sourceWidth > 0) ||
-          (_sourceHeight != null && _sourceHeight > 0)) {
+      if ((_sourceX > 0) || (_sourceY > 0) || (_sourceWidth > 0) || (_sourceHeight > 0)) {
         ctx.drawImageScaledFromSource(imgSource, _sourceX, _sourceY, _sourceWidth, _sourceHeight, _x, _y,
             _width > 0 ? _width : _sourceWidth, _height > 0 ? _height : _sourceHeight);
-      } else if ((_width != null && _width > 0) || (_height != null && _height > 0)) {
+      } else if (_width > 0 || _height > 0) {
         ctx.drawImageScaled(source.elementAt(index), _x, _y, _width, _height);
       } else {
         ctx.drawImage(source.elementAt(index), _x, _y);

@@ -6,7 +6,7 @@ import 'graphic2d_node.dart';
 /// A 2-dimensional diamond to be drawn on an HTML canvas.
 class Diamond2d extends Graphic2dNode {
   /// Constructs a instance.
-  Diamond2d() : super(null) {
+  Diamond2d() {
     _initProperties();
   }
 
@@ -22,7 +22,7 @@ class Diamond2d extends Graphic2dNode {
   NumberProperty get height => properties['height'] as NumberProperty;
 
   @override
-  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest hitTest}) {
+  void renderIndex(int index, CanvasRenderingContext2D ctx, {HitTest? hitTest}) {
     num _x, _y, _width, _height;
     Anchor2d _anchor;
     _width = width.valueAt(index);
@@ -37,11 +37,9 @@ class Diamond2d extends Graphic2dNode {
     // Adjust for anchor (default origin is the center)
     _x = 0;
     _y = 0;
-    if (_anchor != null) {
-      final adj = _anchor.calcAdjustments(-halfHeight, halfWidth, halfHeight, -halfWidth);
-      _x += adj[0];
-      _y += adj[1];
-    }
+    final adj = _anchor.calcAdjustments(-halfHeight, halfWidth, halfHeight, -halfWidth);
+    _x += adj[0];
+    _y += adj[1];
 
     ctx
       ..beginPath()

@@ -1,7 +1,5 @@
 import 'dart:html';
 import 'animation/animation_group.dart';
-import 'html/html_node.dart';
-import 'html/population/population_strategy.dart';
 
 /// The root node of an `EnvySceneGraph`.
 /// The root node can hold global data sets and automatically creates an AnimationGroup node

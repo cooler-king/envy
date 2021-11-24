@@ -60,8 +60,8 @@ class GroupNode extends EnvyNode {
   ///
   /// Returns true if the node was successfully added.  Rejects null nodes and
   /// duplicate nodes and returns false.
-  bool attach(EnvyNode node, [int index]) {
-    if (node == null || children.contains(node)) return false;
+  bool attach(EnvyNode node, [int? index]) {
+    if (children.contains(node)) return false;
     if (index == null || (index < 0 || index >= children.length)) {
       children.add(node);
     } else {
@@ -79,7 +79,6 @@ class GroupNode extends EnvyNode {
   /// nodes that are not in the current child list cannot be removed and
   /// return false.
   bool detach(EnvyNode node) {
-    if (node == null) return false;
     final tf = children.remove(node);
     node.parent = null;
     return tf;

@@ -6,12 +6,12 @@ import 'multiplicity.dart';
 /// Implemented as a singleton.
 class LargestSize extends Multiplicity {
   /// Returns the singleton instance.
-  factory LargestSize() => _instance ??= LargestSize._internal();
+  factory LargestSize() => _instance;
 
   LargestSize._internal();
 
   // The singleton instance.
-  static LargestSize _instance;
+  static final LargestSize _instance = LargestSize._internal();
 
   @override
   int sizeOf(Iterable<EnvyProperty<dynamic>> props) {

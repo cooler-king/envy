@@ -17,13 +17,13 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
   }
 
   /// The color interpolator.
-  EnvyInterpolator<Color> colorInterpolator;
+  EnvyInterpolator<Color>? colorInterpolator;
 
   /// The gradient interpolator.
-  EnvyInterpolator<Gradient2d> gradient2dInterpolator;
+  EnvyInterpolator<Gradient2d>? gradient2dInterpolator;
 
   /// the pattern interpolator.
-  EnvyInterpolator<Pattern2d> pattern2dInterpolator;
+  EnvyInterpolator<Pattern2d>? pattern2dInterpolator;
 
   final BinaryInterpolator<DrawingStyle2d> _binaryInterpolator = BinaryInterpolator<DrawingStyle2d>();
 
@@ -40,15 +40,15 @@ class DrawingStyle2dInterpolator extends EnvyInterpolator<DrawingStyle2d> {
     // Handle interpolation between same type (color, gradient or pattern).
     if (obj1 is Color && obj2 is Color) {
       if (identical(obj1, obj2) || obj1.matches(obj2)) return a;
-      return DrawingStyle2d(color: colorInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(color: colorInterpolator!.interpolate(obj1, obj2, fraction));
     }
     if (obj1 is Gradient2d && obj2 is Gradient2d) {
       if (identical(obj1, obj2)) return a;
-      return DrawingStyle2d(gradient: gradient2dInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(gradient: gradient2dInterpolator!.interpolate(obj1, obj2, fraction));
     }
     if (obj1 is Pattern2d && obj2 is Pattern2d) {
       if (identical(obj1, obj2)) return a;
-      return DrawingStyle2d(pattern: pattern2dInterpolator.interpolate(obj1, obj2, fraction));
+      return DrawingStyle2d(pattern: pattern2dInterpolator!.interpolate(obj1, obj2, fraction));
     }
 
     //TODO more elegant?  blend as images?
